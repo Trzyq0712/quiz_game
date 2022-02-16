@@ -13,6 +13,7 @@ Add your own name (do not add the names for others!) to the section below.
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Vian Robotin | V.Robotin@student.tudelft.nl |
 | ![](https://secure.gravatar.com/avatar/6f9749b354d325c57c85b6c97ffb1384?s=800&d=identicon&length=4&size=50) | Reinier Schep | R.J.H.Schep@student.tudelft.nl |
 | ![](https://secure.gravatar.com/avatar/ab806692677aacd979553d1a9142ed4d?s=800&d=identicon&length=4&size=50) | Mana Mahmoudi | M.Mahmoudi-1@student.tudelft.nl |
+| ![](https://secure.gravatar.com/avatar/7a88d88d5709b14830d314f2e4a1565f?s=800&d=identicon&length=4&size=50) | Laimonas Lipinskas | L.Lipinskas@student.tudelft.nl |
 
 
 <!-- Instructions (remove once assignment has been completed -->

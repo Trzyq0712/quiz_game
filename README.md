@@ -20,7 +20,6 @@ Add your own name (do not add the names for others!) to the section below.
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
-<!-- - Preferably add a recognizable photo, otherwise add your GitLab photo -->
 
 ## How to run it
 

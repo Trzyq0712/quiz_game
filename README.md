@@ -18,8 +18,6 @@ Add your own name (do not add the names for others!) to the section below.
 | ![](https://secure.gravatar.com/avatar/6c8d3b8b928dbeb3ffb992135a115c32?s=800&d=identicon&length=4&size=50) | Simona Lupșa | S.C.Lupsa@student.tudelft.nl |
 
 
-<!-- Instructions (remove once assignment has been completed -->
-<!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
 
 ## How to run it
 

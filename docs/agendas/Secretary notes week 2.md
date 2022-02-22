@@ -1,36 +1,12 @@
-﻿
+# Taking minutes
 
-**Role of Secretary**
-
-The secretary is responsible for taking notes during the meeting but also helps the chair with preparing and following up on action items. In addition, the secretary is responsible for communication with team members and the teaching assistants and for organizing documents. This means that the secretary is responsible for submitting documents to Brightspace on time. 
-
-![](Aspose.Words.228d905d-39fd-40e8-b695-0532867c42e2.002.png)
-
-**Tips for taking minutes**
-
-- Prepare the meeting well, so you know the agenda items and objectives. 
-- Limit the minutes to what was discussed and decided in the meeting.
-- Make a clear note of the actions: what the agreement entails, when the action must be carried out, and who is responsible.
-- Elaborate on the notes and share with team members and/or non-team members.
-
-
-
-Take minutes of what was decided and what actions were taken
-
-Record (so write down) what was decided and what actions there are. You are free to take detailed notes of the entire meeting. But it can take a lot of time and is not always necessary. Therefore, it is recommended to limit yourself to the main discussed topics and to list decisions and action points. This is sufficient for keeping track of your project meetings. You can, for example, use one list that is attached at each meeting with the new decisions and/or actions. You can think of tools like Miro or Trello and such to keep track. Each decision must be accompanied by the date (i.e., during which the meeting) the decision was taken. We provide a solution for this in the template below.
-
-
-
-
-Taking minutes
-
-**Agenda for the team meeting [Project].**
+## Meeting details
 
 Location: 		Drebbelweb, TU Delft
 
 Date: 		15/02/2022
 
-Time: 		15:45-16:30
+Time: 15:45-16:30
 
 Attendees: 		
 
@@ -44,11 +20,11 @@ Mana Mahmoudi
 
 Laimonas Lipinskas
 
-TA: 			Damla Ortaç
+TA: Damla Ortaç
 
 
 
-**Agenda items** 
+## Agenda items
 
 **Opening by Chairperson** 
 

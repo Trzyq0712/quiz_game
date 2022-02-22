@@ -1,7 +1,7 @@
-Format agenda
+# Agenda
 
 
-**Agenda second meeting** 
+## Meeting details
 
 Location: 		Drebbelweg, Delft
 
@@ -26,20 +26,18 @@ Laimonas Lipinskas
 
 
 
-**Agenda-items** 
+## Agenda items
 
-15:45				**Opening by chair**
+15:45 - **Opening by chair**
 
-15:50				**Check-in (**where are we at right now?**)**
+15:50 - **Check-in (**where are we at right now?**)**
 
-16:00				**Dividing tasks – so everyone has a task they can work on**
-**
-*(discuss)*
+16:00 - **Dividing tasks – so everyone has a task they can work on** *(discuss)*
 
-16:10				**Summary** **action points** – Who, what, when?
+16:10 - **Summary** **action points** – Who, what, when?
 
-16:15				**Feedback Round**
+16:15 - **Feedback Round**
 
-16:20				**Question Round**
+16:20 - **Question Round**
 
-16:25				**Closure**
+16:25 - **Closure**

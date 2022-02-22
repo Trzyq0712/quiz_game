@@ -1,5 +1,3 @@
-﻿![Voorzittershamer](Aspose.Words.220eac25-e7ca-4454-b6eb-cba3ace12ac7.001.png)
-
 Format agenda
 
 
@@ -36,7 +34,7 @@ Laimonas Lipinskas
 
 16:00				**Dividing tasks – so everyone has a task they can work on**
 **
-`				`*(discuss)*
+*(discuss)*
 
 16:10				**Summary** **action points** – Who, what, when?
 
@@ -45,14 +43,3 @@ Laimonas Lipinskas
 16:20				**Question Round**
 
 16:25				**Closure**
-
-
-
-
-
-
-
-
-
-
-![Zigzag DNA](Aspose.Words.220eac25-e7ca-4454-b6eb-cba3ace12ac7.002.png)©Instituut voor Talen en Academische Vaardigheden 2021

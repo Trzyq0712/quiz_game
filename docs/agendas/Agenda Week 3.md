@@ -1,4 +1,3 @@
-﻿![Voorzittershamer](Aspose.Words.dd2eaddd-8401-498d-a502-60e44234ecb3.001.png)
 
 Format agenda
 
@@ -35,27 +34,27 @@ Laimonas Lipinskas
 
 15:55				**HCI exchange with a whole group or only other group members?**
 
-` `**– To know how to organize**
+**– To know how to organize**
 
 *(Get Information from our TA about question we asked before through Mattermost)*
 
 16:00				**Code of Conduct feedback – TA can give her opinion**
 **
-`				`*(discuss)*
+*(discuss)*
 
 16:05				**Backlog feedback – We can learn from TA how to have a better 					backlog**
 **
-`				`*(discuss)*
+*(discuss)*
 
 16:10				**API endpoints – TA can inform us**
 **
-`				`*(inform)*
+*(inform)*
 
 
 
 16:20				**Good GitLab practices – TA can help us, give tips**
 **
-`				`*(inform)*
+*(inform)*
 
 16:30				**Summary** **action points** – Who, what, when?
 
@@ -65,13 +64,3 @@ Laimonas Lipinskas
 
 16:45				**Closure**
 
-
-
-
-
-
-
-
-
-
-![Zigzag DNA](Aspose.Words.dd2eaddd-8401-498d-a502-60e44234ecb3.002.png)©Instituut voor Talen en Academische Vaardigheden 2021

@@ -29,7 +29,6 @@ public class QuestionController {
 
     @PostMapping(path = { "", "/" })
     public String addQuestion(@RequestBody String question) {
-        System.out.println("q: " + question);
         questions.add(question);
         return "Question added";
     }

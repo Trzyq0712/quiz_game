@@ -6,8 +6,7 @@
 <module name = "Checker">
     <module name="TreeWalker">
         <module name="UnusedImports" />
+        <module name="SimplifyBooleanReturn" />
     </module>
-
-    <module name="SimplifyBooleanReturn" />
 
 </module>

@@ -8,6 +8,6 @@
         <module name="UnusedImports" />
     </module>
 
-    <!-- TODO: decide in your team with other checkers to add! -->
+    <module name="SimplifyBooleanReturn" />
 
 </module>

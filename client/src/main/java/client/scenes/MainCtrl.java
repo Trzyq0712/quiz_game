@@ -24,11 +24,11 @@ public class MainCtrl {
 
     private Stage primaryStage;
 
-    private QuoteOverviewCtrl overviewCtrl;
+    /*private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
 
     private AddQuoteCtrl addCtrl;
-    private Scene add;
+    private Scene add;*/
 
     private HomescreenCtrl homeCtrl;
     private Scene homeScene;
@@ -44,6 +44,8 @@ public class MainCtrl {
         this.homeCtrl = home.getKey();
         this.homeScene = new Scene(home.getValue());
 
+        homeScene.getStylesheets().add("Style.css"); //APPLY CSS SHEET
+
         //showOverview();
         showHome();
         primaryStage.show();
@@ -54,15 +56,15 @@ public class MainCtrl {
         primaryStage.setScene(homeScene);
     }
 
-    public void showOverview() {
+    /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
-    }
+    }*/
 
-    public void showAdd() {
+    /*public void showAdd() {
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
-    }
+    }*/
 }

@@ -29,7 +29,7 @@ import javafx.stage.Modality;
 
 public class AddQuoteCtrl {
 
-    private final ServerUtils server;
+    /*private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
@@ -92,5 +92,5 @@ public class AddQuoteCtrl {
         default:
             break;
         }
-    }
+    }*/
 }

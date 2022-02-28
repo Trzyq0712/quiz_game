@@ -30,9 +30,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class QuoteOverviewCtrl implements Initializable {
+public class QuoteOverviewCtrl /*implements Initializable*/ {
 
-    private final ServerUtils server;
+    /*private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     private ObservableList<Quote> data;
@@ -67,5 +67,5 @@ public class QuoteOverviewCtrl implements Initializable {
         var quotes = server.getQuotes();
         data = FXCollections.observableList(quotes);
         table.setItems(data);
-    }
+    }*/
 }

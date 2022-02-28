@@ -30,17 +30,28 @@ public class MainCtrl {
     private AddQuoteCtrl addCtrl;
     private Scene add;
 
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+    private HomescreenCtrl homeCtrl;
+    private Scene homeScene;
+
+    public void initialize(Stage primaryStage, Pair<HomescreenCtrl, Parent> home) {
         this.primaryStage = primaryStage;
-        this.overviewCtrl = overview.getKey();
+        /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
 
         this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
+        this.add = new Scene(add.getValue());*/
 
-        showOverview();
+        this.homeCtrl = home.getKey();
+        this.homeScene = new Scene(home.getValue());
+
+        //showOverview();
+        showHome();
         primaryStage.show();
+    }
+
+    public void showHome() {
+        primaryStage.setTitle("The Energy Quiz");
+        primaryStage.setScene(homeScene);
     }
 
     public void showOverview() {

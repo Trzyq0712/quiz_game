@@ -41,6 +41,8 @@ Laimonas Lipinskas (?)
 
 16:20 - **upcoming deadlines** what do we need to discuss for upcoming deadlines?
 
+16:25 - **exam week** Next week is an exam week (even though oopp doesn't have one), do we still have a meeting with the TA, are any pushes and commits on GitLab expected from us?...
+
 16:30 - **Summary** **action points** – Who, what, when?
 
 16:37 - **Feedback Round**

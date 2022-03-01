@@ -43,6 +43,8 @@ Laimonas Lipinskas (?)
 
 16:25 - **exam week** Next week is an exam week (even though oopp doesn't have one), do we still have a meeting with the TA, are any pushes and commits on GitLab expected from us?...
 
+16:27   **activity bank** we should start adding activities, when is the deadline?
+
 16:30 - **Summary** **action points** – Who, what, when?
 
 16:37 - **Feedback Round**

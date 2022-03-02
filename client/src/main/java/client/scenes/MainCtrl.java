@@ -24,34 +24,57 @@ public class MainCtrl {
 
     private Stage primaryStage;
 
-    private QuoteOverviewCtrl overviewCtrl;
+    /*private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
 
     private AddQuoteCtrl addCtrl;
-    private Scene add;
+    private Scene add;*/
 
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+    private HomescreenCtrl homeCtrl;
+    private Scene homeScene;
+
+    private NamePromptCtrl nameCtrl;
+    private Scene namePromptScene;
+
+    public void initialize(Stage primaryStage, Pair<HomescreenCtrl, Parent> home, Pair<NamePromptCtrl, Parent> name) {
         this.primaryStage = primaryStage;
-        this.overviewCtrl = overview.getKey();
+        /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
 
         this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
+        this.add = new Scene(add.getValue());*/
 
-        showOverview();
+        this.homeCtrl = home.getKey();
+        this.homeScene = new Scene(home.getValue());
+
+        this.nameCtrl = name.getKey();
+        this.namePromptScene = new Scene(name.getValue());
+
+        //showOverview();
+        showHome();
         primaryStage.show();
     }
 
-    public void showOverview() {
+    public void showHome() {
+        primaryStage.setTitle("The Energy Quiz");
+        homeScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(homeScene);
+    }
+
+    public void showNamePrompt() {
+        namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(namePromptScene);
+    }
+
+    /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");
         primaryStage.setScene(overview);
         overviewCtrl.refresh();
-    }
+    }*/
 
-    public void showAdd() {
+    /*public void showAdd() {
         primaryStage.setTitle("Quotes: Adding Quote");
         primaryStage.setScene(add);
         add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
-    }
+    }*/
 }

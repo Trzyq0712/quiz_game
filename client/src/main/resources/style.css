@@ -6,10 +6,19 @@
     -fx-border-width: 5px;
     -fx-border-color: black;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+
+    -fx-font-size: 40;
+    -fx-text-fill: white;
+}
+
+.label {
+    -fx-font-family: "Times New Roman"; /* we need a better font! */
+    -fx-font-size: 60;
+    -fx-alignment: center;
 }
 
 .root{
-    -fx-background-image: url(clouds.jpg);
+    -fx-background-image: url(images/clouds.png);
 }
 
 

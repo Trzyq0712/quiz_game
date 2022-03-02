@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ExitScreenCtrl">
+   <children>
+      <Label layoutX="217.0" layoutY="111.0" text="Are you sure you want  to quit?" />
+      <Button layoutX="183.0" layoutY="217.0" mnemonicParsing="false" text="Yes" />
+      <Button layoutX="383.0" layoutY="217.0" mnemonicParsing="false" text="No" />
+   </children>
+</AnchorPane>

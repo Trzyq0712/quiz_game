@@ -31,15 +31,7 @@ public class HomescreenCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    public void log(ActionEvent event) throws IOException {
-        //System.out.println(event.getSource());
-        Parent root = FXMLLoader.load(getClass().getResource("WaitingRoom"));
-        /*var home = FXML.load(WaitingRoomCtrl.class, "client", "scenes", "WaitingRoom.fxml");
-        this.waitCtrl = home.getKey();
-        this.waitScene = new Scene(home.getValue());
-        primaryStage.setScene(waitScene);*/
-        System.out.println("PRESS$$");
-    }
+
 
 
 }

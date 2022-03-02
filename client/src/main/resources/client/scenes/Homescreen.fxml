@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomescreenCtrl">
    <children>
-      <Button layoutX="169.0" layoutY="223.0" mnemonicParsing="false" onAction="#log" text="Singeplayer" />
+      <Button layoutX="169.0" layoutY="223.0" mnemonicParsing="false" text="Singleplayer" />
       <Button layoutX="348.0" layoutY="223.0" mnemonicParsing="false" text="Multiplayer" />
       <Label layoutX="252.0" layoutY="122.0" text="The Energy Quiz" />
    </children>

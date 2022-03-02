@@ -47,6 +47,7 @@ public class Main extends Application {
         var home = FXML.load(HomescreenCtrl.class, "client", "scenes", "Homescreen.fxml");
         var name = FXML.load(NamePromptCtrl.class, "client", "scenes", "NamePrompt.fxml");
         var sp = FXML.load(SinglePlayerLeaderboardCtrl.class, "client", "scenes", "SinglePlayerLeaderboard.fxml");
+        var exit = FXML.load(ExitScreenCtrl.class, "client", "scenes", "ExitScreen.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 

@@ -22,9 +22,17 @@
          <font>
             <Font name="Mistral" size="52.0" />
          </font></Label>
-      <ImageView fx:id="leaderboard" fitHeight="144.0" fitWidth="194.0" layoutX="263.0" layoutY="34.0" onMousePressed="#showSPLeaderboard" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="922.3976058959961" AnchorPane.leftAnchor="263.0" AnchorPane.rightAnchor="1463.0" AnchorPane.topAnchor="33.602394104003906">
+      <ImageView fx:id="leaderboard" fitHeight="144.0" fitWidth="194.0" layoutX="200.0" layoutY="80.0" onMousePressed="#showSPLeaderboard" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/leaderboard.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="exit" fitHeight="144.0" fitWidth="194.0" layoutX="1580.0" layoutY="80.0" onMousePressed="#showExitScreen" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/exitdoor.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

@@ -44,6 +44,10 @@ public class HomescreenCtrl {
         mainCtrl.showSPLeaderboard();
     }
 
+    public void showExitScreen(MouseEvent event) {
+        mainCtrl.showExitScreen();
+    }
+
 
 
 }

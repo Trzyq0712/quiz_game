@@ -39,6 +39,9 @@ public class MainCtrl {
     private SinglePlayerLeaderboardCtrl splCtrl;
     private Scene splScene;
 
+    private ExitScreenCtrl exitCtrl;
+    private Scene exitScene;
+
 
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
@@ -80,6 +83,11 @@ public class MainCtrl {
     public void showSPLeaderboard() {
         splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
+    }
+
+    public void showExitScreen() {
+        splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(exitScene);
     }
 
 

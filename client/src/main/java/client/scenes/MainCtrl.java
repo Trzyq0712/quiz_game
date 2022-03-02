@@ -33,7 +33,10 @@ public class MainCtrl {
     private HomescreenCtrl homeCtrl;
     private Scene homeScene;
 
-    public void initialize(Stage primaryStage, Pair<HomescreenCtrl, Parent> home) {
+    private NamePromptCtrl nameCtrl;
+    private Scene namePromptScene;
+
+    public void initialize(Stage primaryStage, Pair<HomescreenCtrl, Parent> home, Pair<NamePromptCtrl, Parent> name) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -44,7 +47,8 @@ public class MainCtrl {
         this.homeCtrl = home.getKey();
         this.homeScene = new Scene(home.getValue());
 
-        homeScene.getStylesheets().add("css/HomeScreen.css"); //APPLY CSS SHEET
+        this.nameCtrl = name.getKey();
+        this.namePromptScene = new Scene(name.getValue());
 
         //showOverview();
         showHome();
@@ -53,7 +57,13 @@ public class MainCtrl {
 
     public void showHome() {
         primaryStage.setTitle("The Energy Quiz");
+        homeScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
+    }
+
+    public void showNamePrompt() {
+        namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(namePromptScene);
     }
 
     /*public void showOverview() {

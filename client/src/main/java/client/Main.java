@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.HomescreenCtrl;
+import client.scenes.NamePromptCtrl;
 import com.google.inject.Injector;
 
 //import client.scenes.AddQuoteCtrl;
@@ -45,9 +46,10 @@ public class Main extends Application {
         //var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
 
         var home = FXML.load(HomescreenCtrl.class, "client", "scenes", "Homescreen.fxml");
+        var name = FXML.load(NamePromptCtrl.class, "client", "scenes", "NamePrompt.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
-        mainCtrl.initialize(primaryStage, home);
+        mainCtrl.initialize(primaryStage, home, name);
     }
 }

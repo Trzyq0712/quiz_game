@@ -7,7 +7,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

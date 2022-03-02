@@ -44,7 +44,7 @@ public class MainCtrl {
         this.homeCtrl = home.getKey();
         this.homeScene = new Scene(home.getValue());
 
-        homeScene.getStylesheets().add("Style.css"); //APPLY CSS SHEET
+        homeScene.getStylesheets().add("css/HomeScreen.css"); //APPLY CSS SHEET
 
         //showOverview();
         showHome();

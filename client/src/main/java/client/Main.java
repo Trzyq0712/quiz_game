@@ -20,8 +20,7 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import client.scenes.HomescreenCtrl;
-import client.scenes.NamePromptCtrl;
+import client.scenes.*;
 import com.google.inject.Injector;
 
 //import client.scenes.AddQuoteCtrl;
@@ -47,9 +46,10 @@ public class Main extends Application {
 
         var home = FXML.load(HomescreenCtrl.class, "client", "scenes", "Homescreen.fxml");
         var name = FXML.load(NamePromptCtrl.class, "client", "scenes", "NamePrompt.fxml");
+        var sp = FXML.load(SinglePlayerLeaderboardCtrl.class, "client", "scenes", "SinglePlayerLeaderboard.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
-        mainCtrl.initialize(primaryStage, home, name);
+        mainCtrl.initialize(primaryStage, home, name, sp);
     }
 }

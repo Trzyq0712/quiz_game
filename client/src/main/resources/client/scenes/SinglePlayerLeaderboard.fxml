@@ -25,7 +25,7 @@
             <Image url="@images/cup.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1725.0" layoutY="49.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1580.0" layoutY="80.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/home.png" />
          </image>
@@ -33,7 +33,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="64.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/music.png" />
          </image>

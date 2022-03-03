@@ -13,7 +13,7 @@
       <Button layoutX="868.0" layoutY="840.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="176.0" text="Enter" />
       <TextField layoutX="849.0" layoutY="657.0" prefHeight="81.0" prefWidth="225.0" promptText="Enter your name..." />
       <Label layoutX="16.0" layoutY="258.0" prefHeight="109.0" prefWidth="1904.0" stylesheets="@../../style.css" text="Pick a name to get started with the quizz!" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1706.0" layoutY="52.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1580.0" layoutY="80.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/home.png" />
          </image>
@@ -21,7 +21,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="52.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="200.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/music.png" />
          </image>

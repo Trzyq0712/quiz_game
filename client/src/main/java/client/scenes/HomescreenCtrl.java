@@ -25,7 +25,7 @@ public class HomescreenCtrl {
     @FXML
     private ImageView leaderboard;
 
-    Image myImage = new Image(getClass().getClassLoader().getResourceAsStream("images/leaderboard.png"));
+    //Image myImage = new Image(getClass().getClassLoader().getResourceAsStream("images/leaderboard.png"));
 
     @Inject
     public HomescreenCtrl(ServerUtils server, MainCtrl mainCtrl) {

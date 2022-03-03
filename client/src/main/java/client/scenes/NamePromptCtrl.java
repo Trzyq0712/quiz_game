@@ -22,7 +22,7 @@ public class NamePromptCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    public void goHome() {
+    public void showHome() {
         mainCtrl.showHome();
     }
 

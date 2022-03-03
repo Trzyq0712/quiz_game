@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomescreenCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomescreenCtrl">
    <children>
-      <Button layoutX="503.0" layoutY="573.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="346.0" text="Singleplayer" />
-      <Button layoutX="1074.0" layoutY="570.0" mnemonicParsing="false" onAction="#showNamePrompt" prefHeight="92.0" prefWidth="340.0" style="-: 21;" text="Multiplayer" />
-      <Label layoutX="-1.0" layoutY="220.0" prefHeight="196.0" prefWidth="1920.0" style="-fx-text-alignment: left;" text="The Energy Quiz">
+      <Button layoutX="503.0" layoutY="574.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="346.0" text="Singleplayer">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button layoutX="1074.0" layoutY="570.0" mnemonicParsing="false" onAction="#showNamePrompt" prefHeight="92.0" prefWidth="340.0" style="-: 21;" text="Multiplayer">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Label layoutY="221.0" prefHeight="196.0" prefWidth="1920.0" style="-fx-text-alignment: left;" text="The Energy Quiz">
          <font>
             <Font name="Mistral" size="52.0" />
          </font></Label>
+      <ImageView fx:id="leaderboard" fitHeight="144.0" fitWidth="194.0" layoutX="200.0" layoutY="80.0" onMousePressed="#showSPLeaderboard" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/leaderboard.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fx:id="exit" fitHeight="144.0" fitWidth="194.0" layoutX="1580.0" layoutY="80.0" onMousePressed="#showExitScreen" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/exitdoor.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
    </children>
 </AnchorPane>

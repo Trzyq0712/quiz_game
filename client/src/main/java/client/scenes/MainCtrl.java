@@ -36,7 +36,17 @@ public class MainCtrl {
     private NamePromptCtrl nameCtrl;
     private Scene namePromptScene;
 
-    public void initialize(Stage primaryStage, Pair<HomescreenCtrl, Parent> home, Pair<NamePromptCtrl, Parent> name) {
+    private SinglePlayerLeaderboardCtrl splCtrl;
+    private Scene splScene;
+
+    private ExitScreenCtrl exitCtrl;
+    private Scene exitScene;
+
+
+    public void initialize(Stage primaryStage,
+                           Pair<HomescreenCtrl, Parent> home,
+                           Pair<NamePromptCtrl, Parent> name,
+                           Pair<SinglePlayerLeaderboardCtrl, Parent> sp) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -49,6 +59,10 @@ public class MainCtrl {
 
         this.nameCtrl = name.getKey();
         this.namePromptScene = new Scene(name.getValue());
+
+        this.splCtrl = sp.getKey();
+        this.splScene = new Scene(sp.getValue());
+
 
         //showOverview();
         showHome();
@@ -65,6 +79,17 @@ public class MainCtrl {
         namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(namePromptScene);
     }
+
+    public void showSPLeaderboard() {
+        splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(splScene);
+    }
+
+    public void showExitScreen() {
+        splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(exitScene);
+    }
+
 
     /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");

@@ -17,6 +17,10 @@
     -fx-wrap-text: true;
 }
 
+.clickable { 
+    -fx-cursor: "HAND"; //applied this style to all clickable things
+}
+
 .label {
     -fx-font-size: 60;
     -fx-text-fill: white;

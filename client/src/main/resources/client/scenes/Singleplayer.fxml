@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SinglePlayerCtrl">
    <children>
       <Pane id="questionBox" layoutY="150.0" prefHeight="100.0" prefWidth="1920.0">
          <children>
@@ -24,27 +23,33 @@
             </Label>
          </children>
       </Pane>
-      <Button id="firstButton" layoutX="470.0" layoutY="800.0" mnemonicParsing="false" styleClass="answer-button" text="Answer A" />
-      <Button id="secondButton" layoutX="810.0" layoutY="800.0" mnemonicParsing="false" styleClass="answer-button" text="Answer B" />
-      <Button id="thirdButton" layoutX="1150.0" layoutY="800.0" mnemonicParsing="false" styleClass="answer-button" text="answer c" />
-      <ImageView id="exit" fx:id="exit" fitHeight="144.0" fitWidth="194.0" layoutX="1780.0" layoutY="10.0" onMousePressed="#showExitScreen" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../../images/exitdoor.png" />
-      </image>
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor>
+      <Button id="firstButton" fx:id="firstButton" layoutX="470.0" layoutY="800.0" mnemonicParsing="false" onMouseClicked="#answerClick" text="Answer A">
+         <styleClass>
+            <String fx:value="answer-button" />
+            <String fx:value="clickable" />
+         </styleClass></Button>
+      <Button id="secondButton" fx:id="secondButton" layoutX="810.0" layoutY="800.0" mnemonicParsing="false" onMouseClicked="#answerClick" text="Answer B">
+         <styleClass>
+            <String fx:value="answer-button" />
+            <String fx:value="clickable" />
+         </styleClass></Button>
+      <Button id="thirdButton" fx:id="thirdButton" layoutX="1150.0" layoutY="800.0" mnemonicParsing="false" onMouseClicked="#answerClick" text="answer c">
+         <styleClass>
+            <String fx:value="answer-button" />
+            <String fx:value="clickable" />
+         </styleClass></Button>
+      <ImageView id="home" fx:id="home" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+         <image>
+            <Image url="@images/home.png" />
+         </image>
          <viewport>
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <ImageView id="sound" fx:id="sound" fitHeight="120.0" fitWidth="150.0" layoutX="5.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="sound" fx:id="sound" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
       <image>
-         <Image url="@../../images/music.png" />
+         <Image url="@images/music.png" />
       </image>
-      <cursor>
-         <Cursor fx:constant="HAND" />
-      </cursor>
       </ImageView>
       <ImageView id="questionImage" fitHeight="439.0" fitWidth="648.0" layoutX="633.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="793.0" layoutY="10.0" prefHeight="82.0" prefWidth="334.0" text="Time Left" textFill="WHITE">
@@ -57,23 +62,22 @@
             <ColorAdjust />
          </effect>
       </ProgressBar>
-      <ImageView id="hintJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="hintJoker" fx:id="hintJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="300.0" onMouseClicked="#hintClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@../../images/hint.png" />
+            <Image url="@images/hint.png" />
          </image>
       </ImageView>
-      <ImageView id="pointsJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="500.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="pointsJoker" fx:id="pointsJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="500.0" onMouseClicked="#pointsClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@../../images/2xpoints.png" />
+            <Image url="@images/2xpoints.png" />
          </image>
       </ImageView>
-      <ImageView id="timeJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="700.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="timeJoker" fx:id="timeJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="700.0" onMouseClicked="#timeClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@../../images/hourglass.png" />
+            <Image url="@images/hourglass.png" />
          </image>
       </ImageView>
       <Label id="questionCountLabel" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
       <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
-
          </children>
 </AnchorPane>

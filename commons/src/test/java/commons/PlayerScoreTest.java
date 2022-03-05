@@ -3,8 +3,6 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Timestamp;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerScoreTest {
@@ -14,16 +12,15 @@ class PlayerScoreTest {
 
     @BeforeEach
     void init() {
-        ps1 = new PlayerScore("John", 2137, new Timestamp(21372137));
-        ps2 = new PlayerScore("Joanna", 3214, new Timestamp(11223344));
+        ps1 = new PlayerScore("John", 2137);
+        ps2 = new PlayerScore("Joanna", 3214);
     }
 
     @Test
     void testConstructor() {
-        var ps = new PlayerScore("Josh", 123, new Timestamp(321321));
+        var ps = new PlayerScore("Josh", 123);
         assertEquals("Josh", ps.playerName);
         assertEquals(123, ps.score);
-        assertEquals(new Timestamp(321321), ps.time);
     }
 
     @Test
@@ -38,7 +35,7 @@ class PlayerScoreTest {
         assertEquals(ps1.hashCode(), ps1.hashCode());
         assertEquals(ps2.hashCode(), ps2.hashCode());
         assertNotEquals(ps1.hashCode(), ps2.hashCode());
-        var ps = new PlayerScore("Josh", 123, new Timestamp(124));
+        var ps = new PlayerScore("Josh", 123);
         assertNotEquals(ps.hashCode(), ps1.hashCode());
     }
 

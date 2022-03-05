@@ -9,16 +9,36 @@
 
     -fx-font-size: 40;
     -fx-text-fill: white;
+    -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+}
+
+.answer-button {
+    -fx-pref-width: 300px;
+    -fx-wrap-text: true;
+}
+
+.clickable { 
+    -fx-cursor: "HAND"; //applied this style to all clickable things
 }
 
 .label {
-    -fx-font-family: "Times New Roman"; /* we need a better font! */
     -fx-font-size: 60;
+    -fx-text-fill: white;
+    -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+}
+
+#questionBox {
+    -fx-background-color: #7fcdf4;
+    -fx-effect: dropshadow(gaussian, rgba(1, 1, 1, 1), 30, 0.2, 0.0, 0.0);
+}
+
+#questionLabel {
+    -fx-font-family: "Script MT Bold"; /* feel free to change it to watever you like */
+    -fx-font-size: 80;
     -fx-alignment: center;
+    -fx-text-fill: white;
 }
 
 .root{
     -fx-background-image: url(images/clouds.png);
 }
-
-

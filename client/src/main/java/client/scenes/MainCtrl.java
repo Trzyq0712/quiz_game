@@ -42,11 +42,14 @@ public class MainCtrl {
     private ExitScreenCtrl exitCtrl;
     private Scene exitScene;
 
+    private SinglePlayerCtrl singleCtrl;
+    private Scene singleScene;
 
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<NamePromptCtrl, Parent> name,
-                           Pair<SinglePlayerLeaderboardCtrl, Parent> sp) {
+                           Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
+                           Pair<SinglePlayerCtrl, Parent> single) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -63,6 +66,8 @@ public class MainCtrl {
         this.splCtrl = sp.getKey();
         this.splScene = new Scene(sp.getValue());
 
+        this.singleCtrl = single.getKey();
+        this.singleScene = new Scene(single.getValue());
 
         //showOverview();
         showHome();
@@ -86,10 +91,20 @@ public class MainCtrl {
     }
 
     public void showExitScreen() {
-        splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        exitScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(exitScene);
     }
 
+    public void showGame() {
+        singleScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        if(true) {
+            primaryStage.setScene(singleScene);
+            //show singleplayer
+        } else{
+            primaryStage.setScene(singleScene);
+            //show multiplayer not yet implemented
+        }
+    }
 
     /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");

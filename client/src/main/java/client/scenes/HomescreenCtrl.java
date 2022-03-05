@@ -47,6 +47,7 @@ public class HomescreenCtrl {
         mainCtrl.showExitScreen();
     }
 
+    public void toggleSound(ActionEvent event){
 
-
+    }
 }

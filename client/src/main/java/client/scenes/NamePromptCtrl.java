@@ -5,7 +5,6 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import javafx.event.ActionEvent;
 
 import static com.google.inject.Guice.createInjector;
 

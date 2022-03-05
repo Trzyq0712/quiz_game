@@ -15,20 +15,13 @@
  */
 package client.scenes;
 
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.util.Pair;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
+
 
 
 public class MainCtrl  {

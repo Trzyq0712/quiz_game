@@ -5,13 +5,11 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

@@ -15,15 +15,28 @@
  */
 package client.scenes;
 
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.Pair;
 
-public class MainCtrl {
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+
+public class MainCtrl  {
 
     private Stage primaryStage;
     private Stage quitStage;
+
+
 
     /*private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
@@ -59,6 +72,7 @@ public class MainCtrl {
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());*/
 
+
         this.homeCtrl = home.getKey();
         this.homeScene = new Scene(home.getValue());
 
@@ -78,6 +92,7 @@ public class MainCtrl {
         showHome();
         primaryStage.show();
     }
+
 
     public void showHome() {
         primaryStage.setTitle("The Energy Quiz");
@@ -118,6 +133,8 @@ public class MainCtrl {
             //show multiplayer not yet implemented
         }
     }
+
+
 
     /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");

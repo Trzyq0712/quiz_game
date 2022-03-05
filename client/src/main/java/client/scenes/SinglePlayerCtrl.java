@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
@@ -59,9 +60,7 @@ public class SinglePlayerCtrl {
         pointsJoker.setVisible(true);
     }
 
-    public void answerClick(ActionEvent event) {/*the fact that this function uses the ActionEvent parameter causes a lot of errors in the console,
-    no clue why. functionality works as expected tho.... i tried 2 scenario's, A: have empty function with the ActionEvent parameter, B: have an empty function without the
-    ActionEvent parameter. A gives errors, B doesn't*/
+    public void answerClick(Event event) {
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         for (Button b : listOfButtons) {

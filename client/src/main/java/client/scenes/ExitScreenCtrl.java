@@ -32,10 +32,12 @@ public class ExitScreenCtrl {
     }
 
     public void quit() {
+        mainCtrl.buttonSound();
         Platform.exit();
     }
 
     public void closeButtonAction(){
+        mainCtrl.buttonSound();
         // get a handle to the stage
         Stage stage = (Stage) closeButton.getScene().getWindow();
         // do what you have to do

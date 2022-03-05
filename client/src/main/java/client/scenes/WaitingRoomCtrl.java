@@ -13,4 +13,7 @@ public class WaitingRoomCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
+
+    public void startGame() {
+    }
 }

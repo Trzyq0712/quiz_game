@@ -18,10 +18,11 @@ package client.scenes;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-
+import java.io.File;
 
 
 public class MainCtrl  {
@@ -52,6 +53,8 @@ public class MainCtrl  {
     private SinglePlayerCtrl singleCtrl;
     private Scene singleScene;
 
+    private AudioClip clip = new AudioClip(new File("src/main/resources/button2.mp3").toURI().toString());
+
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<NamePromptCtrl, Parent> name,
@@ -81,9 +84,18 @@ public class MainCtrl  {
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
 
+
+
+
+        //homeScene.setOnMouseClicked(e -> clip.play());
+
         //showOverview();
         showHome();
         primaryStage.show();
+    }
+
+    public void buttonSound() {
+        clip.play();
     }
 
 
@@ -91,16 +103,19 @@ public class MainCtrl  {
         primaryStage.setTitle("The Energy Quiz");
         homeScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
+        buttonSound();
     }
 
     public void showNamePrompt() {
         namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(namePromptScene);
+        buttonSound();
     }
 
     public void showSPLeaderboard() {
         splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
+        buttonSound();
     }
 
     public void showExitScreen() {
@@ -114,6 +129,7 @@ public class MainCtrl  {
         quitStage.setMinWidth(quitStage.getMinWidth());*/
         quitStage.show();
         //primaryStage.setScene(exitScene);
+        buttonSound();
     }
 
     public void showGame() {
@@ -125,6 +141,7 @@ public class MainCtrl  {
             primaryStage.setScene(singleScene);
             //show multiplayer not yet implemented
         }
+        buttonSound();
     }
 
 

@@ -67,6 +67,7 @@ public class HomescreenCtrl {
     }
 
     public void toggleSound(Event event){
+        mainCtrl.buttonSound();
     }
 
     public void repeatSound(){

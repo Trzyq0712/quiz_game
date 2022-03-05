@@ -59,6 +59,7 @@ public class SinglePlayerCtrl {
     }
 
     public void answerClick(Event event) {
+        mainCtrl.buttonSound();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         for (Button b : listOfButtons) {
@@ -69,18 +70,20 @@ public class SinglePlayerCtrl {
     }
 
     public void toggleSound() {
-
     }
 
     public void hintClick() {
+        mainCtrl.buttonSound();
         hintJoker.setVisible(false);
     }
 
     public void pointsClick() {
+        mainCtrl.buttonSound();
         pointsJoker.setVisible(false);
     }
 
     public void timeClick() {
+        mainCtrl.buttonSound();
         timeJoker.setVisible(false);
 
     }

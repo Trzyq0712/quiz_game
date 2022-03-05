@@ -30,6 +30,5 @@ public class NamePromptCtrl {
     }
 
     public void toggleSound() {
-
     }
 }

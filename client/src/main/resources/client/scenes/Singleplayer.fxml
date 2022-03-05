@@ -23,17 +23,17 @@
             </Label>
          </children>
       </Pane>
-      <Button id="firstButton" fx:id="firstButton" layoutX="470.0" layoutY="800.0" mnemonicParsing="false" onMouseClicked="#answerClick" text="Answer A">
+      <Button id="firstButton" fx:id="firstButton" layoutX="470.0" layoutY="800.0" mnemonicParsing="false" onAction="#answerClick" onMouseClicked="#answerClick" text="Answer A">
          <styleClass>
             <String fx:value="answer-button" />
             <String fx:value="clickable" />
          </styleClass></Button>
-      <Button id="secondButton" fx:id="secondButton" layoutX="810.0" layoutY="800.0" mnemonicParsing="false" onMouseClicked="#answerClick" text="Answer B">
+      <Button id="secondButton" fx:id="secondButton" layoutX="810.0" layoutY="800.0" mnemonicParsing="false" onAction="#answerClick" onMouseClicked="#answerClick" text="Answer B">
          <styleClass>
             <String fx:value="answer-button" />
             <String fx:value="clickable" />
          </styleClass></Button>
-      <Button id="thirdButton" fx:id="thirdButton" layoutX="1150.0" layoutY="800.0" mnemonicParsing="false" onMouseClicked="#answerClick" text="answer c">
+      <Button id="thirdButton" fx:id="thirdButton" layoutX="1150.0" layoutY="800.0" mnemonicParsing="false" onAction="#answerClick" onMouseClicked="#answerClick" text="answer c">
          <styleClass>
             <String fx:value="answer-button" />
             <String fx:value="clickable" />

@@ -23,6 +23,7 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private Stage quitStage;
 
     /*private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
@@ -49,7 +50,8 @@ public class MainCtrl {
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<NamePromptCtrl, Parent> name,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
-                           Pair<SinglePlayerCtrl, Parent> single) {
+                           Pair<SinglePlayerCtrl, Parent> single,
+                           Pair<ExitScreenCtrl, Parent> exit) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -68,6 +70,9 @@ public class MainCtrl {
 
         this.singleCtrl = single.getKey();
         this.singleScene = new Scene(single.getValue());
+
+        this.exitCtrl = exit.getKey();
+        this.exitScene = new Scene(exit.getValue());
 
         //showOverview();
         showHome();
@@ -92,7 +97,15 @@ public class MainCtrl {
 
     public void showExitScreen() {
         exitScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
-        primaryStage.setScene(exitScene);
+        quitStage = new Stage();
+        quitStage.setScene(exitScene);
+        quitStage.setTitle("Sure you want to quit?");
+        quitStage.centerOnScreen();
+        quitStage.sizeToScene();
+        /*quitStage.setMinHeight(quitStage.getMinHeight());
+        quitStage.setMinWidth(quitStage.getMinWidth());*/
+        quitStage.show();
+        //primaryStage.setScene(exitScene);
     }
 
     public void showGame() {

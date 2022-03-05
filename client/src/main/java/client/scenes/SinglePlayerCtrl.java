@@ -5,6 +5,8 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import javafx.scene.image.ImageView;
+import javafx.fxml.FXML;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -14,6 +16,13 @@ public class SinglePlayerCtrl {
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
+
+    @FXML
+    ImageView hintJoker;
+    @FXML
+    ImageView pointsJoker;
+    @FXML
+    ImageView timeJoker;
 
     @Inject
     public SinglePlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -34,14 +43,15 @@ public class SinglePlayerCtrl {
     }
 
     public void hintClick() {
-
+        hintJoker.setVisible(false);
     }
 
     public void pointsClick() {
-
+        pointsJoker.setVisible(false);
     }
 
     public void timeClick() {
+        timeJoker.setVisible(false);
 
     }
 }

@@ -10,6 +10,9 @@
     -fx-font-size: 40;
     -fx-text-fill: white;
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+
+    -fx-alignment: center;
+    -fx-cursor: "HAND"; /*applied this style to all clickable things*/
 }
 
 .answer-button {
@@ -18,14 +21,23 @@
 }
 
 .clickable { 
-    -fx-cursor: "HAND"; //applied this style to all clickable things
+    -fx-cursor: "HAND"; /*applied this style to all clickable things*/
 }
 
 .label {
-    -fx-font-size: 60;
+    -fx-alignment: center;
+    -fx-font-size: 30;
     -fx-text-fill: white;
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+
+
 }
+
+/*.label.text {
+    !*this is also in .button class so maybe avoid this duplicate way of coding?*!
+    -fx-stroke: black;
+    -fx-stroke-width: 5px;
+}*/
 
 #questionBox {
     -fx-background-color: #7fcdf4;
@@ -41,4 +53,17 @@
 
 .root{
     -fx-background-image: url(images/clouds.png);
+}
+
+.VBox {
+    -fx-alignment: center;
+}
+
+#mainTitle {
+    -fx-font-size: 60;
+}
+
+.label .text, .button .text{
+    -fx-stroke: black;
+    -fx-stroke-width: 2px;
 }

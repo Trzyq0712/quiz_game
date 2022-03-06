@@ -9,8 +9,8 @@ import com.google.inject.Injector;
 import static com.google.inject.Guice.createInjector;
 
 public class NamePromptCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    protected final ServerUtils server;
+    protected final MainCtrl mainCtrl;
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
@@ -23,10 +23,6 @@ public class NamePromptCtrl {
 
     public void showHome() {
         mainCtrl.showHome();
-    }
-
-    public void showGame() {
-        mainCtrl.showGame();
     }
 
     public void toggleSound() {

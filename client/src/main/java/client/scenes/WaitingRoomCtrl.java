@@ -22,6 +22,7 @@ public class WaitingRoomCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+
     public void showHome() {
         mainCtrl.showHome();
     }

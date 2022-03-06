@@ -15,18 +15,23 @@
  */
 package client.scenes;
 
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import static client.Config.*;
 
 
 
-public class MainCtrl {
+public class MainCtrl  {
 
     private Stage primaryStage;
     private Stage quitStage;
+
+
 
     /*private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
@@ -52,6 +57,7 @@ public class MainCtrl {
     private SinglePlayerCtrl singleCtrl;
     private Scene singleScene;
 
+    /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
     private WaitingRoomCtrl waitingCtrl;
     private Scene waitingScene;
 
@@ -69,6 +75,7 @@ public class MainCtrl {
 
         this.addCtrl = add.getKey();
         this.add = new Scene(add.getValue());*/
+
 
         this.homeCtrl = home.getKey();
         this.homeScene = new Scene(home.getValue());
@@ -88,6 +95,8 @@ public class MainCtrl {
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
 
+        //homeScene.setOnMouseClicked(e -> clip.play());
+
         this.waitingCtrl = waiting.getKey();
         this.waitingScene = new Scene(waiting.getValue());
 
@@ -96,15 +105,25 @@ public class MainCtrl {
         primaryStage.show();
     }
 
+    public void buttonSound() {
+        //clip.play();
+        Media media = new Media(buttonClickSound.toURI().toString());
+        MediaPlayer player = new MediaPlayer(media);
+        player.play();
+    }
+
+
     public void showHome() {
         primaryStage.setTitle(title);
         homeScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
+        buttonSound();
     }
 
     public void showNamePrompt() {
         namePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(namePromptScene);
+        buttonSound();
     }
 
     public void showMPNamePrompt() {
@@ -115,6 +134,7 @@ public class MainCtrl {
     public void showSPLeaderboard() {
         splScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
+        buttonSound();
     }
 
     public void showExitScreen() {
@@ -128,6 +148,7 @@ public class MainCtrl {
         quitStage.setMinWidth(quitStage.getMinWidth());*/
         quitStage.show();
         //primaryStage.setScene(exitScene);
+        buttonSound();
     }
 
     public void startGame() {
@@ -139,6 +160,7 @@ public class MainCtrl {
             primaryStage.setScene(singleScene);
             //show multiplayer not yet implemented
         }
+        buttonSound();
     }
 
     public void enterWaitingRoom() {
@@ -146,6 +168,7 @@ public class MainCtrl {
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(waitingScene);
     }
+
 
     /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");

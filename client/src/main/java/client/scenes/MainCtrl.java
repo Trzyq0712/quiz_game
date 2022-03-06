@@ -19,6 +19,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import static client.Config.*;
+
+
 
 public class MainCtrl {
 
@@ -94,31 +97,31 @@ public class MainCtrl {
     }
 
     public void showHome() {
-        primaryStage.setTitle("The Energy Quiz");
-        homeScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setTitle(title);
+        homeScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
     }
 
     public void showNamePrompt() {
-        namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        namePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(namePromptScene);
     }
 
     public void showMPNamePrompt() {
-        mpnamePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        mpnamePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(mpnamePromptScene);
     }
 
     public void showSPLeaderboard() {
-        splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        splScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
     }
 
     public void showExitScreen() {
-        exitScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        exitScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         quitStage = new Stage();
         quitStage.setScene(exitScene);
-        quitStage.setTitle("Sure you want to quit?");
+        quitStage.setTitle(quit);
         quitStage.centerOnScreen();
         quitStage.sizeToScene();
         /*quitStage.setMinHeight(quitStage.getMinHeight());
@@ -128,7 +131,7 @@ public class MainCtrl {
     }
 
     public void startGame() {
-        singleScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        singleScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         if(true) {
             primaryStage.setScene(singleScene);
             //show singleplayer
@@ -139,8 +142,8 @@ public class MainCtrl {
     }
 
     public void enterWaitingRoom() {
-        primaryStage.setTitle("The Waiting Room");
-        waitingScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setTitle(titleWaitingRoom);
+        waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(waitingScene);
     }
 

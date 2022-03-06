@@ -11,7 +11,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomescreenCtrl">
    <children>
       <Button layoutX="503.0" layoutY="574.0" mnemonicParsing="false" onAction="#showNamePrompt" prefHeight="84.0" prefWidth="346.0" styleClass="clickable" text="Singleplayer" />
-      <Button layoutX="1074.0" layoutY="570.0" mnemonicParsing="false" onAction="#showNamePrompt" prefHeight="92.0" prefWidth="340.0" style="-: 21;" styleClass="clickable" text="Multiplayer" />
+      <Button layoutX="1074.0" layoutY="570.0" mnemonicParsing="false" onAction="#showMPNamePrompt" prefHeight="92.0" prefWidth="340.0" style="-: 21;" styleClass="clickable" text="Multiplayer" />
       <Label fx:id="mainTitle" alignment="CENTER" layoutY="221.0" prefHeight="196.0" prefWidth="1920.0" style="-fx-text-alignment: left;" text="The Energy Quiz">
          <font>
             <Font name="Mistral" size="52.0" />

@@ -45,6 +45,9 @@ public class MainCtrl  {
     private NamePromptCtrl nameCtrl;
     private Scene namePromptScene;
 
+    private NamePromptCtrl mpnameCtrl;
+    private Scene mpnamePromptScene;
+
     private SinglePlayerLeaderboardCtrl splCtrl;
     private Scene splScene;
 
@@ -55,13 +58,17 @@ public class MainCtrl  {
     private Scene singleScene;
 
     /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
+    private WaitingRoomCtrl waitingCtrl;
+    private Scene waitingScene;
 
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
-                           Pair<NamePromptCtrl, Parent> name,
+                           Pair<SPNamePromptCtrl, Parent> name,
+                           Pair<MPNamePromptCtrl, Parent> mpname,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<SinglePlayerCtrl, Parent> single,
-                           Pair<ExitScreenCtrl, Parent> exit) {
+                           Pair<ExitScreenCtrl, Parent> exit,
+                           Pair<WaitingRoomCtrl, Parent> waiting) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -76,6 +83,9 @@ public class MainCtrl  {
         this.nameCtrl = name.getKey();
         this.namePromptScene = new Scene(name.getValue());
 
+        this.mpnameCtrl = mpname.getKey();
+        this.mpnamePromptScene = new Scene(mpname.getValue());
+
         this.splCtrl = sp.getKey();
         this.splScene = new Scene(sp.getValue());
 
@@ -85,10 +95,10 @@ public class MainCtrl  {
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
 
-
-
-
         //homeScene.setOnMouseClicked(e -> clip.play());
+
+        this.waitingCtrl = waiting.getKey();
+        this.waitingScene = new Scene(waiting.getValue());
 
         //showOverview();
         showHome();
@@ -114,6 +124,11 @@ public class MainCtrl  {
         namePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(namePromptScene);
         buttonSound();
+    }
+
+    public void showMPNamePrompt() {
+        mpnamePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setScene(mpnamePromptScene);
     }
 
     public void showSPLeaderboard() {
@@ -148,6 +163,11 @@ public class MainCtrl  {
         buttonSound();
     }
 
+    public void enterWaitingRoom() {
+        primaryStage.setTitle(titleWaitingRoom);
+        waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setScene(waitingScene);
+    }
 
 
     /*public void showOverview() {

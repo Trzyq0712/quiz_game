@@ -57,6 +57,10 @@ public class HomescreenCtrl {
         mainCtrl.showNamePrompt();
     }
 
+    public void showMPNamePrompt(ActionEvent event) {
+        mainCtrl.showMPNamePrompt();
+    }
+
     public void showSPLeaderboard(MouseEvent event) {
         mainCtrl.showSPLeaderboard();
     }

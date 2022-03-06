@@ -7,8 +7,10 @@
 <?import javafx.scene.Cursor?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.WaitingRoom">
+<?import javafx.scene.control.Button?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.WaitingRoomCtrl">
    <children>
+      <Button layoutX="810.0" layoutY="840.0" mnemonicParsing="false" onAction="#startGame" onMouseClicked="#startGame" prefHeight="67.0" prefWidth="300.0" styleClass="clickable" text="Start the game" />
       <Label layoutX="260.0" layoutY="98.0" text="Waiting room..." />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1580.0" layoutY="80.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true">
          <image>

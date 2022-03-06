@@ -46,12 +46,16 @@ public class MainCtrl {
     private SinglePlayerCtrl singleCtrl;
     private Scene singleScene;
 
+    private WaitingRoomCtrl waitingCtrl;
+    private Scene waitingScene;
+
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<NamePromptCtrl, Parent> name,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<SinglePlayerCtrl, Parent> single,
-                           Pair<ExitScreenCtrl, Parent> exit) {
+                           Pair<ExitScreenCtrl, Parent> exit,
+                           Pair<WaitingRoomCtrl, Parent> waiting) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -73,6 +77,9 @@ public class MainCtrl {
 
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
+
+        this.waitingCtrl = waiting.getKey();
+        this.waitingScene = new Scene(waiting.getValue());
 
         //showOverview();
         showHome();
@@ -108,7 +115,7 @@ public class MainCtrl {
         //primaryStage.setScene(exitScene);
     }
 
-    public void showGame() {
+    public void startGame() {
         singleScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         if(true) {
             primaryStage.setScene(singleScene);
@@ -117,6 +124,11 @@ public class MainCtrl {
             primaryStage.setScene(singleScene);
             //show multiplayer not yet implemented
         }
+    }
+
+    public void enterWaitingRoom() {
+        waitingScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(waitingScene);
     }
 
     /*public void showOverview() {

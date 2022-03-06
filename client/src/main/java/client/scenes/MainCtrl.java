@@ -54,8 +54,8 @@ public class MainCtrl {
 
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
-                           Pair<NamePromptCtrl, Parent> name,
-                           Pair<NamePromptCtrl, Parent> mpname,
+                           Pair<SPNamePromptCtrl, Parent> name,
+                           Pair<MPNamePromptCtrl, Parent> mpname,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<SinglePlayerCtrl, Parent> single,
                            Pair<ExitScreenCtrl, Parent> exit,
@@ -105,7 +105,7 @@ public class MainCtrl {
     }
 
     public void showMPNamePrompt() {
-        namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        mpnamePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(mpnamePromptScene);
     }
 
@@ -139,6 +139,7 @@ public class MainCtrl {
     }
 
     public void enterWaitingRoom() {
+        primaryStage.setTitle("The Waiting Room");
         waitingScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(waitingScene);
     }

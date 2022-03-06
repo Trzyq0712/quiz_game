@@ -5,8 +5,23 @@
 
 <module name = "Checker">
     <module name="TreeWalker">
-        <module name="UnusedImports" />
-        <module name="SimplifyBooleanReturn" />
+        <module name="AvoidNestedBlocks"/>
+        <module name="EmptyBlock"/>
+        <module name="UnusedImports"/>
+        <module name="DefaultComesLast"/>
+        <module name="OneStatementPerLine"/>
+        <module name="RequireThis"/>
+        <module name="LeftCurly"/>
+        <module name="RightCurly"/>
+        <module name="InterfaceIsType"/>
+        <module name="ArrayTrailingComma"/>
+        <module name="AvoidDoubleBraceInitialization"/>
+        <module name="ParameterNumber">
+            <property name="max" value="20"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
     </module>
-
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
 </module>

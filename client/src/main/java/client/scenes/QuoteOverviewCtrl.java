@@ -15,7 +15,7 @@
  */
 package client.scenes;
 
-import java.net.URL;
+/*import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.google.inject.Inject;
@@ -28,11 +28,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TableView;*/
 
-public class QuoteOverviewCtrl implements Initializable {
+public class QuoteOverviewCtrl /*implements Initializable*/ {
 
-    private final ServerUtils server;
+    /*private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     private ObservableList<Quote> data;
@@ -67,5 +67,5 @@ public class QuoteOverviewCtrl implements Initializable {
         var quotes = server.getQuotes();
         data = FXCollections.observableList(quotes);
         table.setItems(data);
-    }
+    }*/
 }

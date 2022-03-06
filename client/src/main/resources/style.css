@@ -1,0 +1,69 @@
+.button {
+    -fx-background-color: #3d8af7;
+    -fx-background-radius: 50;
+
+    -fx-border-radius: 50px;
+    -fx-border-width: 5px;
+    -fx-border-color: black;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+
+    -fx-font-size: 40;
+    -fx-text-fill: white;
+    -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+
+    -fx-alignment: center;
+    -fx-cursor: "HAND"; /*applied this style to all clickable things*/
+}
+
+.answer-button {
+    -fx-pref-width: 300px;
+    -fx-wrap-text: true;
+}
+
+.clickable { 
+    -fx-cursor: "HAND"; /*applied this style to all clickable things*/
+}
+
+.label {
+    -fx-alignment: center;
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+    -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+
+
+}
+
+/*.label.text {
+    !*this is also in .button class so maybe avoid this duplicate way of coding?*!
+    -fx-stroke: black;
+    -fx-stroke-width: 5px;
+}*/
+
+#questionBox {
+    -fx-background-color: #7fcdf4;
+    -fx-effect: dropshadow(gaussian, rgba(1, 1, 1, 1), 30, 0.2, 0.0, 0.0);
+}
+
+#questionLabel {
+    -fx-font-family: "Script MT Bold"; /* feel free to change it to watever you like */
+    -fx-font-size: 80;
+    -fx-alignment: center;
+    -fx-text-fill: white;
+}
+
+.root{
+    -fx-background-image: url(images/clouds.png);
+}
+
+.VBox {
+    -fx-alignment: center;
+}
+
+#mainTitle {
+    -fx-font-size: 60;
+}
+
+.label .text, .button .text{
+    -fx-stroke: black;
+    -fx-stroke-width: 2px;
+}

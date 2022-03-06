@@ -22,7 +22,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import static client.Config.buttonClickSound;
+import static client.Config.*;
 
 
 
@@ -104,29 +104,29 @@ public class MainCtrl  {
 
 
     public void showHome() {
-        primaryStage.setTitle("The Energy Quiz");
-        homeScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setTitle(title);
+        homeScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
         buttonSound();
     }
 
     public void showNamePrompt() {
-        namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        namePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(namePromptScene);
         buttonSound();
     }
 
     public void showSPLeaderboard() {
-        splScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        splScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
         buttonSound();
     }
 
     public void showExitScreen() {
-        exitScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        exitScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         quitStage = new Stage();
         quitStage.setScene(exitScene);
-        quitStage.setTitle("Sure you want to quit?");
+        quitStage.setTitle(quit);
         quitStage.centerOnScreen();
         quitStage.sizeToScene();
         /*quitStage.setMinHeight(quitStage.getMinHeight());
@@ -137,7 +137,7 @@ public class MainCtrl  {
     }
 
     public void showGame() {
-        singleScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        singleScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         if(true) {
             primaryStage.setScene(singleScene);
             //show singleplayer

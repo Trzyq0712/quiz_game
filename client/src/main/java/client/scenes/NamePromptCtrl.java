@@ -25,8 +25,8 @@ public class NamePromptCtrl {
         mainCtrl.showHome();
     }
 
-    public void showGame() {
-        mainCtrl.showGame();
+    public void startGame() {
+        mainCtrl.startGame();
     }
 
     public void toggleSound() {

@@ -136,7 +136,7 @@ public class MainCtrl  {
         buttonSound();
     }
 
-    public void showGame() {
+    public void startGame() {
         singleScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         if(true) {
             primaryStage.setScene(singleScene);

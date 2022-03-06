@@ -23,9 +23,6 @@ public class WaitingRoomCtrl {
     }
 
 
-    public void startGame() {
-    }
-
     public void showHome() {
         mainCtrl.showHome();
     }

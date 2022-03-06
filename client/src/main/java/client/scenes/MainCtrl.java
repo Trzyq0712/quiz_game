@@ -18,13 +18,13 @@ package client.scenes;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.io.File;
 
-/*import java.io.File;*/
 
 
 public class MainCtrl  {
@@ -56,10 +56,7 @@ public class MainCtrl  {
     private Scene singleScene;
 
     private File f = new File("src/main/resources/button2.mp3");
-
-    private AudioClip clip = new AudioClip(f.toURI().toString());
-    //private MediaPlayer mp =
-    // new MediaPlayer(new Media(new File("src/main/resources/button2.mp3").toURI().toString()));
+    /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
 
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
@@ -102,8 +99,9 @@ public class MainCtrl  {
 
     public void buttonSound() {
         //clip.play();
-        /*mp.setVolume(1);
-        mp.play();*/
+        Media media = new Media(this.f.toURI().toString());
+        MediaPlayer player = new MediaPlayer(media);
+        player.play();
     }
 
 

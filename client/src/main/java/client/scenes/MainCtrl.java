@@ -22,7 +22,7 @@ import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.io.File;
+/*import java.io.File;*/
 
 
 public class MainCtrl  {
@@ -53,7 +53,7 @@ public class MainCtrl  {
     private SinglePlayerCtrl singleCtrl;
     private Scene singleScene;
 
-    private AudioClip clip = new AudioClip(new File("src/main/resources/button2.mp3").toURI().toString());
+    private AudioClip clip; //= new AudioClip(new File("src/main/resources/button2.mp3").toURI().toString());
     //private MediaPlayer mp =
     // new MediaPlayer(new Media(new File("src/main/resources/button2.mp3").toURI().toString()));
 
@@ -97,7 +97,7 @@ public class MainCtrl  {
     }
 
     public void buttonSound() {
-        clip.play();
+        //clip.play();
         /*mp.setVolume(1);
         mp.play();*/
     }

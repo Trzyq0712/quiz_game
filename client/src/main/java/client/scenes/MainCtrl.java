@@ -57,7 +57,7 @@ public class MainCtrl  {
 
     private File f = new File("src/main/resources/button2.mp3");
 
-    private AudioClip clip; //= new AudioClip().toURI().toString());
+    private AudioClip clip = new AudioClip(f.toURI().toString());
     //private MediaPlayer mp =
     // new MediaPlayer(new Media(new File("src/main/resources/button2.mp3").toURI().toString()));
 

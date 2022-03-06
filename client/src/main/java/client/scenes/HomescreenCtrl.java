@@ -16,8 +16,7 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 
 
-import java.io.File;
-
+import static client.Config.backgroundMusic;
 import static com.google.inject.Guice.createInjector;
 
 public class HomescreenCtrl {
@@ -71,8 +70,7 @@ public class HomescreenCtrl {
     }
 
     public void repeatSound(){
-        File f = new File("src/main/resources/music.mp3");
-        Media media = new Media(f.toURI().toString()); //replace /Movies/test.mp3 with your file
+        Media media = new Media(backgroundMusic.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         mvv.setMediaPlayer(player);
         player.setOnEndOfMedia(new Runnable() {

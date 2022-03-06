@@ -22,8 +22,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
-import java.io.File;
+import static client.Config.buttonClickSound;
 
 
 
@@ -55,7 +54,6 @@ public class MainCtrl  {
     private SinglePlayerCtrl singleCtrl;
     private Scene singleScene;
 
-    private File f = new File("src/main/resources/button2.mp3");
     /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
 
     public void initialize(Stage primaryStage,
@@ -99,7 +97,7 @@ public class MainCtrl  {
 
     public void buttonSound() {
         //clip.play();
-        Media media = new Media(this.f.toURI().toString());
+        Media media = new Media(buttonClickSound.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.play();
     }

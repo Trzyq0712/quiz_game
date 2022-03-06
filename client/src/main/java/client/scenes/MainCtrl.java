@@ -37,6 +37,9 @@ public class MainCtrl {
     private NamePromptCtrl nameCtrl;
     private Scene namePromptScene;
 
+    private NamePromptCtrl mpnameCtrl;
+    private Scene mpnamePromptScene;
+
     private SinglePlayerLeaderboardCtrl splCtrl;
     private Scene splScene;
 
@@ -52,6 +55,7 @@ public class MainCtrl {
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<NamePromptCtrl, Parent> name,
+                           Pair<NamePromptCtrl, Parent> mpname,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<SinglePlayerCtrl, Parent> single,
                            Pair<ExitScreenCtrl, Parent> exit,
@@ -68,6 +72,9 @@ public class MainCtrl {
 
         this.nameCtrl = name.getKey();
         this.namePromptScene = new Scene(name.getValue());
+
+        this.mpnameCtrl = mpname.getKey();
+        this.mpnamePromptScene = new Scene(mpname.getValue());
 
         this.splCtrl = sp.getKey();
         this.splScene = new Scene(sp.getValue());
@@ -95,6 +102,11 @@ public class MainCtrl {
     public void showNamePrompt() {
         namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
         primaryStage.setScene(namePromptScene);
+    }
+
+    public void showMPNamePrompt() {
+        namePromptScene.getStylesheets().add("style.css"); //APPLY CSS SHEET
+        primaryStage.setScene(mpnamePromptScene);
     }
 
     public void showSPLeaderboard() {

@@ -1,10 +1,10 @@
 package client.scenes;
 
-public abstract class ReusedButttonCtrl {
+public abstract class ReusedButtonCtrl {
 
     private final MainCtrl mainCtrl;
 
-    public ReusedButttonCtrl(MainCtrl mainCtrl) {
+    public ReusedButtonCtrl(MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
     }
 

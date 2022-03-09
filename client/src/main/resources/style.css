@@ -51,6 +51,10 @@
     -fx-text-fill: white;
 }
 
+#errorLabel {
+    -fx-text-fill: red;
+}
+
 .root{
     -fx-background-image: url(images/clouds.png);
 }

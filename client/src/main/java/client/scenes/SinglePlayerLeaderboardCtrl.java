@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
-public class SinglePlayerLeaderboardCtrl extends ReusedButttonCtrl{
+public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 

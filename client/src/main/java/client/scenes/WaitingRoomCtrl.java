@@ -8,7 +8,7 @@ import com.google.inject.Injector;
 
 import static com.google.inject.Guice.createInjector;
 
-public class WaitingRoomCtrl extends ReusedButttonCtrl{
+public class WaitingRoomCtrl extends ReusedButtonCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;

@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import static com.google.inject.Guice.createInjector;
@@ -16,8 +17,10 @@ public class SPNamePromptCtrl extends NamePromptCtrl{
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
-    @javafx.fxml.FXML
+    @FXML
     private TextField nameField;
+    @FXML
+    private Label errorLabel;
 
     @Inject
     public SPNamePromptCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -30,16 +33,17 @@ public class SPNamePromptCtrl extends NamePromptCtrl{
      * to start a singleplayer game
      */
     public void startGame() {
-        if(checkName(nameField) && server.startSingle(nameField.getText())){
+        if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
             mainCtrl.startGame();
         }
-        nameField.clear();
     }
 
     /**
      * mane the nameField prompt display this
      */
     public void setUp(){
+        nameField.clear();
         nameField.setPromptText("Enter your name...");
+        errorLabel.setVisible(false);
     }
 }

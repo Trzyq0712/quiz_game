@@ -22,5 +22,6 @@
                 <Image url="@images/music.png" />
             </image>
         </ImageView>
+        <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="562.0" layoutY="761.0" prefWidth="800.0" text="Error label" visible="false" />
     </children>
 </AnchorPane>

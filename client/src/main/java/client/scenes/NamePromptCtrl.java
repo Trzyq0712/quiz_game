@@ -5,12 +5,12 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import static com.google.inject.Guice.createInjector;
 
-public abstract class NamePromptCtrl extends ReusedButttonCtrl{
+public abstract class NamePromptCtrl extends ReusedButtonCtrl {
     protected final ServerUtils server;
     protected final MainCtrl mainCtrl;
 
@@ -30,13 +30,15 @@ public abstract class NamePromptCtrl extends ReusedButttonCtrl{
      * (rules for now are now whitespaces and that something must be entered)
      * (we can ignore no whitespaces if we convert the text to base64 because then the url request doesn't mess up)
      */
-    public boolean checkName(TextField nameField){
+    public boolean checkName(TextField nameField, Label errorLabel){
         String name = nameField.getText();
         if(name.contains(" ")){
-            nameField.setPromptText("No whitespaces allowed!");
+            errorLabel.setText("No whitespaces allowed!");
+            errorLabel.setVisible(true);
             return false;
         } else if(name.equals("")){
-            nameField.setPromptText("You have to enter something!");
+            errorLabel.setText("You have to enter something!");
+            errorLabel.setVisible(true);
             return false;
         }
         return true;

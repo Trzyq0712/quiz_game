@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import static com.google.inject.Guice.createInjector;
@@ -18,6 +19,8 @@ public class MPNamePromptCtrl extends NamePromptCtrl{
 
     @FXML
     private TextField nameField;
+    @FXML
+    private Label errorLabel;
 
     @Inject
     public MPNamePromptCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -31,19 +34,22 @@ public class MPNamePromptCtrl extends NamePromptCtrl{
      * name is taken but that may not be the case if the connection doesn't go through and so on.
      */
     public void enterWaitingRoom(){
-        if(checkName(nameField)){
+        if(checkName(nameField, errorLabel)){
             if(server.enterWaitingRoom(nameField.getText()))
                 mainCtrl.enterWaitingRoom();
-            else
-                nameField.setPromptText("Name is taken!");
+            else{
+                errorLabel.setText("Name is taken!");
+                errorLabel.setVisible(true);
+            }
         }
-        nameField.clear();
     }
 
     /**
-     * mane the nameField prompt display this
+     * make the nameField prompt display this
      */
     public void setUp(){
+        nameField.clear();
         nameField.setPromptText("Enter your name...");
+        errorLabel.setVisible(false);
     }
 }

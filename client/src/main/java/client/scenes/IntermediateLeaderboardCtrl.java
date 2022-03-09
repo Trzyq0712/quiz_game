@@ -32,7 +32,7 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     }
 
     public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBarIntermediate, timeForIntermediate, 1);
+        mainCtrl.activateGenericProgressBar(pgBarIntermediate, timeForIntermediate, 2);
     }
 
 }

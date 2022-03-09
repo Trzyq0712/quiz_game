@@ -31,7 +31,7 @@ public class answerRevealCtrl extends ReusedButtonCtrl {
     }
 
     public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 2);
+        mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 1);
     }
 
 }

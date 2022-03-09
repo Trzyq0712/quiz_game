@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.Pair;
 import static client.Config.*;
 
@@ -162,6 +163,7 @@ public class MainCtrl  {
             primaryStage.setScene(singleScene);
             //show multiplayer not yet implemented
         }
+        new Thread(() -> singleCtrl.activateProgressBar()).start();
         buttonSound();
     }
 

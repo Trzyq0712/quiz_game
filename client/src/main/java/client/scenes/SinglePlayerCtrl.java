@@ -7,8 +7,10 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.Event;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
+import static client.Config.timePerQuestion;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +38,10 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
     @FXML
     Button thirdButton;
 
+    @FXML
+    ProgressBar pgBar;
+
+    Long startTime;
 
 
     @Inject
@@ -87,5 +93,43 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
         mainCtrl.buttonSound();
         timeJoker.setVisible(false);
 
+    }
+
+
+    public void activateProgressBar() {
+        if (startTime == null) startTime = System.currentTimeMillis();
+        /*while (getDelta() < timePerQuestion) {
+
+        }*/
+        double delta = getDelta();
+        double progress = (timePerQuestion - delta) / timePerQuestion;
+        System.out.println("delta: " + delta + "progress: " + progress) ;
+        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
+        if (progress > 0.7) {
+            pgBar.setStyle("-fx-accent: green");
+        }
+        else if (progress > 0.4) {
+            pgBar.setStyle("-fx-accent: yellow");
+        }
+        else {
+            pgBar.setStyle("-fx-accent: red");
+        }
+        if (delta < timePerQuestion) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            // your code here
+                            activateProgressBar();
+                        }
+                    },
+                    100
+            );
+        }
+
+    }
+
+    public long getDelta() {
+        return System.currentTimeMillis() - startTime;
     }
 }

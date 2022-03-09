@@ -73,9 +73,14 @@
 }
 
 .scroll-pane{
-    -fx-background-color:transparent;
+    -fx-border-radius: 50px;
+    -fx-border-width: 10px;
+    -fx-background-color: #263f4b;
+    -fx-background-radius: 60px;
+    -fx-border-color: white;
 }
 
-.scroll-pane .viewport {
-    -fx-background-color: transparent;
+.scroll-pane .viewport{
+    -fx-background-radius: 50px;
+    -fx-background-color: #263f4b;
 }

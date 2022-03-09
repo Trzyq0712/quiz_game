@@ -123,7 +123,7 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
                             activateProgressBar();
                         }
                     },
-                    100
+                    10
             );
         }
 

@@ -41,7 +41,7 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
     @FXML
     ProgressBar pgBar;
 
-    Long startTime;
+    //Long startTime;
 
 
     @Inject
@@ -98,31 +98,11 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
 
     }
 
-
     public void activateProgressBar() {
-        if (startTime == null) startTime = System.currentTimeMillis();
-        double delta = getDelta();
-        double progress = (timePerQuestion - delta) / timePerQuestion;
-        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
-        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
-        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
-        else pgBar.setStyle("-fx-accent: red");
-        if (delta < timePerQuestion) {
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            // your code here
-                            activateProgressBar();
-                        }
-                    },
-                    5
-            );
-        }
-        else startTime = null;
+        mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
     }
 
-    public long getDelta() {
-        return System.currentTimeMillis() - startTime;
-    }
+
+
+
 }

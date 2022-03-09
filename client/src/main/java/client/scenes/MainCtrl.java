@@ -18,6 +18,7 @@ package client.scenes;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -62,6 +63,14 @@ public class MainCtrl  {
     private WaitingRoomCtrl waitingCtrl;
     private Scene waitingScene;
 
+    private IntermediateLeaderboardCtrl intermediateCtrl;
+    private Scene intermediateScene;
+
+    private answerRevealCtrl answerRevealCtrl;
+    private Scene answerRevealScene;
+
+    Long startTime;
+
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<SPNamePromptCtrl, Parent> name,
@@ -69,7 +78,9 @@ public class MainCtrl  {
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<SinglePlayerCtrl, Parent> single,
                            Pair<ExitScreenCtrl, Parent> exit,
-                           Pair<WaitingRoomCtrl, Parent> waiting) {
+                           Pair<WaitingRoomCtrl, Parent> waiting,
+                           Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
+                           Pair<answerRevealCtrl, Parent> answerReveal) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -100,6 +111,12 @@ public class MainCtrl  {
 
         this.waitingCtrl = waiting.getKey();
         this.waitingScene = new Scene(waiting.getValue());
+
+        this.intermediateCtrl = intermediate.getKey();
+        this.intermediateScene = new Scene(intermediate.getValue());
+
+        this.answerRevealCtrl = answerReveal.getKey();
+        this.answerRevealScene = new Scene(answerReveal.getValue());
 
         //showOverview();
         showHome();
@@ -171,6 +188,50 @@ public class MainCtrl  {
         primaryStage.setTitle(titleWaitingRoom);
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(waitingScene);
+    }
+
+    public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
+        if (startTime == null) startTime = System.currentTimeMillis();
+        double delta = getDelta();
+        double progress = (totalTime - delta) / totalTime;
+        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
+        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
+        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
+        else pgBar.setStyle("-fx-accent: red");
+        if (delta < totalTime) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            // your code here
+                            activateGenericProgressBar(pgBar, totalTime, call);
+                        }
+                    },
+                    5
+            );
+        }
+        else {
+            startTime = null;
+            if (call == 0) this.showAnswerReveal();
+            else if (call == 1) this.showIntermediateLeaderboard();
+            else if (call == 2) this.startGame();
+        }
+    }
+
+    public long getDelta() {
+        return System.currentTimeMillis() - startTime;
+    }
+
+    public void showAnswerReveal() {
+        answerRevealScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setScene(answerRevealScene);
+        new Thread(() -> answerRevealCtrl.activateProgressBar()).start();
+    }
+
+    public void showIntermediateLeaderboard() {
+        intermediateScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setScene(intermediateScene);
+        new Thread(() -> intermediateCtrl.activateProgressBar()).start();
     }
 
 

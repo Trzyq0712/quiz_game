@@ -24,6 +24,12 @@ public abstract class NamePromptCtrl extends ReusedButttonCtrl{
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * @param nameField The text field in the scene
+     * @return true if the text in nameField adheres to certain rules
+     * (rules for now are now whitespaces and that something must be entered)
+     * (we can ignore no whitespaces if we convert the text to base64 because then the url request doesn't mess up)
+     */
     public boolean checkName(TextField nameField){
         String name = nameField.getText();
         if(name.contains(" ")){

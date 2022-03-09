@@ -24,12 +24,26 @@ public class MPNamePromptCtrl extends NamePromptCtrl{
         super(server, mainCtrl);
     }
 
+    /**
+     * When the start button is clicked this fires off.
+     * It checks whether the provided name abides by certain rules and whether it has permission
+     * to enter the waiting room. If it doesn't then for now I've just written it off that the
+     * name is taken but that may not be the case if the connection doesn't go through and so on.
+     */
     public void enterWaitingRoom(){
-        if(checkName(nameField) && server.enterWaitingRoom(nameField.getText())){
-            mainCtrl.enterWaitingRoom();
-            nameField.setPromptText("Enter your name...");
-        } else
-            nameField.setPromptText("Name is taken!");
+        if(checkName(nameField)){
+            if(server.enterWaitingRoom(nameField.getText()))
+                mainCtrl.enterWaitingRoom();
+            else
+                nameField.setPromptText("Name is taken!");
+        }
         nameField.clear();
+    }
+
+    /**
+     * mane the nameField prompt display this
+     */
+    public void setUp(){
+        nameField.setPromptText("Enter your name...");
     }
 }

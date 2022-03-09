@@ -62,14 +62,26 @@ public class ServerUtils {
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
     }
 
+    /**
+     * @param name the name with which the player wants to play singleplayer
+     * @return true if the server accepts
+     */
     public boolean startSingle(String name) {
         return sendGet("api/play/single?name=" + name);
     }
 
+    /**
+     * @param name the name with which the player wants to join the waiting room
+     * @return true if the server accepts
+     */
     public boolean enterWaitingRoom(String name) {
-        return sendGet("api/play/multi?name=" + name);
+        return sendGet("api/play/join?name=" + name);
     }
 
+    /**
+     * @param path where to send the request
+     * @return true if request is ok
+     */
     public boolean sendGet(String path){
         try{
             URL url = new URL(SERVER + path);
@@ -82,6 +94,9 @@ public class ServerUtils {
         }
     }
 
+    /**
+     * @return the list of waiting players
+     */
     public List<Player> getWaitingPlayers() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/play/waitingroom") //

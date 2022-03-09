@@ -25,12 +25,21 @@ public class PreGameController {
         waitingPlayers = new ArrayList<>();
     }
 
+    /**
+     * @param name the name with which the player wants to enter the singleplayer game
+     * @return random confirmation for now
+     */
     @GetMapping(path = "/single")
     public ResponseEntity<String> playSingle(@RequestParam("name") String name) {
         return ResponseEntity.ok("Hello "  + name);
     }
 
-    @GetMapping(path = "/multi")
+    /**
+     * @param name the name with which the player wants to join the waiting room
+     * @return Bad response if name is already taken
+     *         Ok response if name is not taken
+     */
+    @GetMapping(path = "/join")
     public ResponseEntity<String> playMulti(@RequestParam("name") String name) {
         Player player = new Player(name);
         if(waitingPlayers.contains(player))
@@ -40,6 +49,9 @@ public class PreGameController {
         return ResponseEntity.ok("Hello " + name);
     }
 
+    /**
+     * @return players that are currently in the waiting room
+     */
     @GetMapping(path = "/waitingroom")
     public ResponseEntity<List<Player>> playSingle() {
         return ResponseEntity.ok(waitingPlayers);

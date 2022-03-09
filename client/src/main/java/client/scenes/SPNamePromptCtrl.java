@@ -24,11 +24,22 @@ public class SPNamePromptCtrl extends NamePromptCtrl{
         super(server, mainCtrl);
     }
 
+    /**
+     * When the start button is clicked this fires off.
+     * It checks whether the provided name abides by certain rules and whether it has permission
+     * to start a singleplayer game
+     */
     public void startGame() {
         if(checkName(nameField) && server.startSingle(nameField.getText())){
             mainCtrl.startGame();
-            nameField.setPromptText("Enter your name...");
         }
         nameField.clear();
+    }
+
+    /**
+     * mane the nameField prompt display this
+     */
+    public void setUp(){
+        nameField.setPromptText("Enter your name...");
     }
 }

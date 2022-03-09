@@ -9,5 +9,5 @@ public class Config {
     public static String title = "The Energy Quiz";
     public static String quit = "Sure you want to quit?";
     public static String titleWaitingRoom = "The Waiting Room";
-    public static double timePerQuestion = 10000; //milliseconds
+    public static double timePerQuestion = 1000; //milliseconds
 }

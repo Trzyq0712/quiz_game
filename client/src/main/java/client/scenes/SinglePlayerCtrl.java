@@ -63,6 +63,9 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
         hintJoker.setVisible(true);
         timeJoker.setVisible(true);
         pointsJoker.setVisible(true);
+        /*pgBar.setStyle("-fx-accent: green");
+        pgBar.setProgress(.5);*/
+
     }
 
     public void answerClick(Event event) {
@@ -98,22 +101,12 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
 
     public void activateProgressBar() {
         if (startTime == null) startTime = System.currentTimeMillis();
-        /*while (getDelta() < timePerQuestion) {
-
-        }*/
         double delta = getDelta();
         double progress = (timePerQuestion - delta) / timePerQuestion;
-        System.out.println("delta: " + delta + "progress: " + progress) ;
         if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
-        if (progress > 0.7) {
-            pgBar.setStyle("-fx-accent: green");
-        }
-        else if (progress > 0.4) {
-            pgBar.setStyle("-fx-accent: yellow");
-        }
-        else {
-            pgBar.setStyle("-fx-accent: red");
-        }
+        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
+        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
+        else pgBar.setStyle("-fx-accent: red");
         if (delta < timePerQuestion) {
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
@@ -123,10 +116,10 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
                             activateProgressBar();
                         }
                     },
-                    10
+                    5
             );
         }
-
+        else startTime = null;
     }
 
     public long getDelta() {

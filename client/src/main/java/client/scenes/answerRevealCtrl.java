@@ -8,7 +8,7 @@ import com.google.inject.Injector;
 import javafx.fxml.FXML;
 import javafx.scene.control.ProgressBar;
 
-import static client.Config.timeForIntermediate;
+import static client.Config.timeAnswerReveal;
 import static com.google.inject.Guice.createInjector;
 
 public class answerRevealCtrl extends ReusedButtonCtrl {
@@ -31,7 +31,7 @@ public class answerRevealCtrl extends ReusedButtonCtrl {
     }
 
     public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBarReveal, timeForIntermediate, 2);
+        mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 2);
     }
 
 }

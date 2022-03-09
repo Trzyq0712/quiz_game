@@ -16,6 +16,7 @@
 package client.scenes;
 
 
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
@@ -212,9 +213,12 @@ public class MainCtrl  {
         }
         else {
             startTime = null;
-            if (call == 0) this.showAnswerReveal();
-            else if (call == 1) this.showIntermediateLeaderboard();
-            else if (call == 2) this.startGame();
+            if (call == 0) Platform.runLater(() -> showAnswerReveal());
+            else if (call == 1) Platform.runLater(() -> showIntermediateLeaderboard());
+            else if (call == 2) Platform.runLater(() -> startGame());
+            /*else {
+                Platform.runLater(() -> showAnswerReveal());
+            }*/
         }
     }
 

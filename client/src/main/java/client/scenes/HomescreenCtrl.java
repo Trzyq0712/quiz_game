@@ -83,6 +83,7 @@ public class HomescreenCtrl {
                 player.seek(Duration.ZERO);
             }
         });
+        player.setVolume(0.08);
         player.play();
     }
 }

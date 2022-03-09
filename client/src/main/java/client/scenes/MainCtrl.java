@@ -131,6 +131,7 @@ public class MainCtrl  {
         mpnamePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         mpnameCtrl.setUp();
         primaryStage.setScene(mpnamePromptScene);
+        buttonSound();
     }
 
     public void showSPLeaderboard() {
@@ -169,6 +170,7 @@ public class MainCtrl  {
         primaryStage.setTitle(titleWaitingRoom);
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(waitingScene);
+        buttonSound();
     }
 
 

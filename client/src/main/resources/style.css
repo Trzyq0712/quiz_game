@@ -51,6 +51,10 @@
     -fx-text-fill: white;
 }
 
+#errorLabel {
+    -fx-text-fill: red;
+}
+
 .root{
     -fx-background-image: url(images/clouds.png);
 }
@@ -66,4 +70,12 @@
 .label .text, .button .text{
     -fx-stroke: black;
     -fx-stroke-width: 2px;
+}
+
+.scroll-pane{
+    -fx-background-color:transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
 }

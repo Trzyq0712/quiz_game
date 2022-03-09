@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
-public class SinglePlayerLeaderboardCtrl {
+public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -24,12 +24,9 @@ public class SinglePlayerLeaderboardCtrl {
 
     @Inject
     public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
-    }
-
-    public void showHome() {
-        mainCtrl.showHome();
     }
 
 }

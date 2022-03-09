@@ -9,8 +9,8 @@
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.MPNamePromptCtrl">
     <children>
-        <Button layoutX="710.0" layoutY="840.0" mnemonicParsing="false" onAction="#enterWaitingRoom" onMouseClicked="#enterWaitingRoom" prefHeight="67.0" prefWidth="500.0" styleClass="clickable" text="Enter waiting room" />
-        <TextField layoutX="849.0" layoutY="657.0" prefHeight="81.0" prefWidth="225.0" promptText="Enter your name..." />
+        <Button fx:id="startButton" layoutX="710.0" layoutY="840.0" mnemonicParsing="false" onMouseClicked="#enterWaitingRoom" prefHeight="67.0" prefWidth="500.0" styleClass="clickable" text="Enter waiting room" />
+        <TextField fx:id="nameField" layoutX="849.0" layoutY="657.0" prefHeight="81.0" prefWidth="225.0" promptText="Enter your name..." />
         <Label alignment="CENTER" layoutX="16.0" layoutY="258.0" prefHeight="109.0" prefWidth="1904.0" stylesheets="@../../style.css" text="Pick a name to get started with the quizz!" />
         <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
             <image>
@@ -22,5 +22,6 @@
                 <Image url="@images/music.png" />
             </image>
         </ImageView>
+        <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="562.0" layoutY="761.0" prefWidth="800.0" text="Error label" visible="false" />
     </children>
 </AnchorPane>

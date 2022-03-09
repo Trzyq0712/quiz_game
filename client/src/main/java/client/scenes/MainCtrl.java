@@ -42,10 +42,10 @@ public class MainCtrl  {
     private HomescreenCtrl homeCtrl;
     private Scene homeScene;
 
-    private NamePromptCtrl nameCtrl;
+    private SPNamePromptCtrl nameCtrl;
     private Scene namePromptScene;
 
-    private NamePromptCtrl mpnameCtrl;
+    private MPNamePromptCtrl mpnameCtrl;
     private Scene mpnamePromptScene;
 
     private SinglePlayerLeaderboardCtrl splCtrl;
@@ -122,12 +122,14 @@ public class MainCtrl  {
 
     public void showNamePrompt() {
         namePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        nameCtrl.setUp();
         primaryStage.setScene(namePromptScene);
         buttonSound();
     }
 
     public void showMPNamePrompt() {
         mpnamePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        mpnameCtrl.setUp();
         primaryStage.setScene(mpnamePromptScene);
     }
 

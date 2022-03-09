@@ -21,12 +21,12 @@
             <Image url="@images/leaderboard.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="exit" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMousePressed="#showExitScreen" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView fx:id="exit" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showExitScreen" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
             <Image url="@images/exitdoor.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseDragged="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
             <Image url="@images/music.png" />
          </image>

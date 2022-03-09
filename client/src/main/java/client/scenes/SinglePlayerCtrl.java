@@ -15,7 +15,7 @@ import java.util.List;
 
 import static com.google.inject.Guice.createInjector;
 
-public class SinglePlayerCtrl {
+public class SinglePlayerCtrl extends ReusedButttonCtrl{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -40,6 +40,7 @@ public class SinglePlayerCtrl {
 
     @Inject
     public SinglePlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

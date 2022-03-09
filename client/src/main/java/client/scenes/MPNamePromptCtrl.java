@@ -8,13 +8,11 @@ import com.google.inject.Injector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import static com.google.inject.Guice.createInjector;
 
 public class MPNamePromptCtrl extends NamePromptCtrl{
 
+    //I think we can remove these 2 lines since they are in NamePromptCtrl but not sure tho
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
@@ -27,24 +25,11 @@ public class MPNamePromptCtrl extends NamePromptCtrl{
     }
 
     public void enterWaitingRoom(){
-        try {
-            if(nameField.getText().contains(" ")){
-                nameField.setText("No whitespaces allowed!");
-            } else if(nameField.getText().equals("")){
-                nameField.setText("You have to enter something!");
-            } else {
-                URL url = new URL("http://localhost:8080/api/play/multi?fname="
-                        + nameField.getText() + "&lname=" + nameField.getText());
-                HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-                int responseCode = con.getResponseCode();
-                if(responseCode == 200)
-                    mainCtrl.enterWaitingRoom();
-                else
-                    nameField.setText("Name is taken!");
-            }
-        } catch (Exception exception){
-            System.out.println(exception);
-        }
+        if(checkName(nameField) && server.enterWaitingRoom(nameField.getText())){
+            mainCtrl.enterWaitingRoom();
+            nameField.setPromptText("Enter your name...");
+        } else
+            nameField.setPromptText("Name is taken!");
+        nameField.clear();
     }
 }

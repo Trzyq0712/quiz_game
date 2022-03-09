@@ -5,10 +5,12 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 import static com.google.inject.Guice.createInjector;
 
-public class NamePromptCtrl {
+public abstract class NamePromptCtrl extends ReusedButttonCtrl{
     protected final ServerUtils server;
     protected final MainCtrl mainCtrl;
 
@@ -17,19 +19,20 @@ public class NamePromptCtrl {
 
     @Inject
     public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    public void showHome() {
-        mainCtrl.showHome();
-    }
-
-    public void startGame() {
-        mainCtrl.startGame();
-    }
-
-
-    public void toggleSound() {
+    public boolean checkName(TextField nameField){
+        String name = nameField.getText();
+        if(name.contains(" ")){
+            nameField.setPromptText("No whitespaces allowed!");
+            return false;
+        } else if(name.equals("")){
+            nameField.setPromptText("You have to enter something!");
+            return false;
+        }
+        return true;
     }
 }

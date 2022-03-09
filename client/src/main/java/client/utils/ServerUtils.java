@@ -20,9 +20,11 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import commons.Player;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -58,5 +60,33 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+    }
+
+    public boolean startSingle(String name) {
+        return sendGet("api/play/single?name=" + name);
+    }
+
+    public boolean enterWaitingRoom(String name) {
+        return sendGet("api/play/multi?name=" + name);
+    }
+
+    public boolean sendGet(String path){
+        try{
+            URL url = new URL(SERVER + path);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            return con.getResponseCode() == HttpURLConnection.HTTP_OK;
+        } catch (Exception exception) {
+            System.out.println(exception);
+            return false;
+        }
+    }
+
+    public List<Player> getWaitingPlayers() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/waitingroom") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Player>>() {});
     }
 }

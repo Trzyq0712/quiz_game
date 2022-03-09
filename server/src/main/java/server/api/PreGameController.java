@@ -1,6 +1,6 @@
 package server.api;
 
-import commons.Person;
+import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,32 +17,31 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/play")
-public class PlayerController {
-    List<Person> waitingPlayers;
-
+public class PreGameController {
+    List<Player> waitingPlayers;
 
     @Autowired
-    public PlayerController(PlayerScoreRepository repo) {
+    public PreGameController(PlayerScoreRepository repo) {
         waitingPlayers = new ArrayList<>();
     }
 
     @GetMapping(path = "/single")
-    public ResponseEntity<String> playSingle(@RequestParam("fname") String fName, @RequestParam("lname") String lName) {
-        return ResponseEntity.ok("Hello " + fName + " " + lName);
+    public ResponseEntity<String> playSingle(@RequestParam("name") String name) {
+        return ResponseEntity.ok("Hello "  + name);
     }
 
     @GetMapping(path = "/multi")
-    public ResponseEntity<String> playMulti(@RequestParam("fname") String fName, @RequestParam("lname") String lName) {
-        Person player = new Person(fName, lName);
+    public ResponseEntity<String> playMulti(@RequestParam("name") String name) {
+        Player player = new Player(name);
         if(waitingPlayers.contains(player))
-            return ResponseEntity.badRequest().body("Name is taken");
+            return ResponseEntity.badRequest().body("Name is taken!");
 
         waitingPlayers.add(player);
-        return ResponseEntity.ok("Hello " + fName + " " + lName);
+        return ResponseEntity.ok("Hello " + name);
     }
 
     @GetMapping(path = "/waitingroom")
-    public ResponseEntity<List<Person>> playSingle() {
+    public ResponseEntity<List<Player>> playSingle() {
         return ResponseEntity.ok(waitingPlayers);
     }
 }

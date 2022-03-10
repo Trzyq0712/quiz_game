@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import static client.Config.*;
 
-import static client.Config.timePerQuestion;
 import static com.google.inject.Guice.createInjector;
 
 public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {

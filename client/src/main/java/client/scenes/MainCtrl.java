@@ -24,7 +24,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import javafx.util.Pair;
 import static client.Config.*;
 
@@ -234,21 +233,18 @@ public class MainCtrl  {
                     },
                     5
             );
-        }
-        else {
+        } else {
             startTime = null;
             if (call == 0) Platform.runLater(() -> showAnswerReveal());
             else if (call == 1 && currentQuestion < totalQuestions) {
                 singleCtrl.restoreAnswers();
                 Platform.runLater(() -> showIntermediateLeaderboard());
-            }
-            else if (call == 1 && currentQuestion >= totalQuestions) {
+            } else if (call == 1 && currentQuestion >= totalQuestions) {
                 Platform.runLater(() -> showMPFinalLeaderboard());
                 currentQuestion = 0;
                 singleCtrl.restoreJokers();
                 singleCtrl.restoreAnswers();
-            }
-            else if (call == 2 ) Platform.runLater(() -> startGame());
+            } else if (call == 2 ) Platform.runLater(() -> startGame());
         }
     }
 

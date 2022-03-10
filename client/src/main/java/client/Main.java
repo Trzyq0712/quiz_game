@@ -64,11 +64,11 @@ public class Main extends Application {
         var intermediate =
                 FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "intermediateLeaderboard.fxml");
         var answerReveal =
-                FXML.load(AnswerRevealCtrl.class, "client", "scenes", "answerReveal.fxml");
+                FXML.load(AnswerRevealCtrl.class, "client", "scenes", "AnswerReveal.fxml");
         var MPFinal =
                 FXML.load(MPFinalLeaderboardCtrl.class, "client", "scenes", "MPFinalLeaderboard.fxml");
         var info =
-                FXML.load(InfoCtrl.class, "client", "scenes", "info.fxml");
+                FXML.load(InfoCtrl.class, "client", "scenes", "Info.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);

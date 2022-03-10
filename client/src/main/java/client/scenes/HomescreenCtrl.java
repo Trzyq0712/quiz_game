@@ -61,6 +61,10 @@ public class HomescreenCtrl {
         mainCtrl.showMPNamePrompt();
     }
 
+    public void showEditScreen(ActionEvent event) {
+        mainCtrl.showEditScreen();
+    }
+
     public void showSPLeaderboard(MouseEvent event) {
         mainCtrl.showSPLeaderboard();
     }
@@ -84,6 +88,7 @@ public class HomescreenCtrl {
                 player.seek(Duration.ZERO);
             }
         });
+        player.setVolume(0.08);
         player.play();
     }
 

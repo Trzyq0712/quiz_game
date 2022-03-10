@@ -79,6 +79,9 @@ public class MainCtrl  {
     Long startTime;
     int currentQuestion = 0;
 
+    private EditScreenCtrl editCtrl;
+    private Scene editScene;
+
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<SPNamePromptCtrl, Parent> name,
@@ -90,7 +93,8 @@ public class MainCtrl  {
                            Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
                            Pair<answerRevealCtrl, Parent> answerReveal,
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
-                           Pair<infoCtrl, Parent> info) {
+                           Pair<infoCtrl, Parent> info,
+                           Pair<EditScreenCtrl, Parent> edit) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -134,6 +138,9 @@ public class MainCtrl  {
         this.infoCtrl = info.getKey();
         this.infoScene = new Scene(info.getValue());
 
+        this.editCtrl = edit.getKey();
+        this.editScene = new Scene(edit.getValue());
+
         //showOverview();
         showHome();
         primaryStage.show();
@@ -165,6 +172,7 @@ public class MainCtrl  {
         mpnamePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         mpnameCtrl.setUp();
         primaryStage.setScene(mpnamePromptScene);
+        buttonSound();
     }
 
     public void showSPLeaderboard() {
@@ -206,6 +214,13 @@ public class MainCtrl  {
         primaryStage.setTitle(titleWaitingRoom);
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(waitingScene);
+        buttonSound();
+    }
+
+    public void showEditScreen() {
+        primaryStage.setTitle(edit);
+        editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
+        primaryStage.setScene(editScene);
     }
 
     /**

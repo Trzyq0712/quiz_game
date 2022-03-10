@@ -15,4 +15,5 @@ public class Config {
     public static int totalQuestions = 2; //total amount of questions in the quiz, set to 2 for testing purposes
     public static int timeReductionPercentage = 20; //percentage by which opponents time will decrease if the time
     //joker is played
+    public static String edit = "Edit activities";
 }

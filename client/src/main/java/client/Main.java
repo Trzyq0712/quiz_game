@@ -44,6 +44,7 @@ public class Main extends Application {
         //var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
         //var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
 
+
         var home =
                 FXML.load(HomescreenCtrl.class, "client", "scenes", "Homescreen.fxml");
         var name =
@@ -58,6 +59,8 @@ public class Main extends Application {
                 FXML.load(SinglePlayerCtrl.class, "client", "scenes", "Singleplayer.fxml");
         var waiting =
                 FXML.load(WaitingRoomCtrl.class, "client", "scenes", "WaitingRoom.fxml");
+        var edit = 
+                FXML.load(EditScreenCtrl.class, "client", "scenes", "EditScreen.fxml");
         var intermediate =
                 FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "intermediateLeaderboard.fxml");
         var answerReveal =
@@ -78,6 +81,7 @@ public class Main extends Application {
                 single,
                 exit,
                 waiting,
+                edit,
                 intermediate,
                 answerReveal,
                 MPFinal,

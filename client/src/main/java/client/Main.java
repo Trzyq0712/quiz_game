@@ -68,7 +68,7 @@ public class Main extends Application {
         var MPFinal =
                 FXML.load(MPFinalLeaderboardCtrl.class, "client", "scenes", "MPFinalLeaderboard.fxml");
         var info =
-                FXML.load(infoCtrl.class, "client", "scenes", "info.fxml");
+                FXML.load(InfoCtrl.class, "client", "scenes", "info.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);

@@ -33,6 +33,9 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * starts the countdown of the progressbar for the answer reveal
+     */
     public void activateProgressBar() {
         mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 1);
     }

@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import static com.google.inject.Guice.createInjector;
 import static client.Config.*;
 
-public class infoCtrl extends ReusedButtonCtrl {
+public class InfoCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -26,7 +26,7 @@ public class infoCtrl extends ReusedButtonCtrl {
 
 
     @Inject
-    public infoCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public InfoCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;

@@ -73,7 +73,7 @@ public class MainCtrl  {
     private MPFinalLeaderboardCtrl MPFinal;
     private Scene MPFinalScene;
 
-    private infoCtrl infoCtrl;
+    private InfoCtrl infoCtrl;
     private Scene infoScene;
 
     Long startTime;
@@ -94,7 +94,7 @@ public class MainCtrl  {
                            Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
                            Pair<AnswerRevealCtrl, Parent> answerReveal,
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
-                           Pair<infoCtrl, Parent> info) {
+                           Pair<InfoCtrl, Parent> info) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());

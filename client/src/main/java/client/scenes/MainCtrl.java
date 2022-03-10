@@ -90,11 +90,11 @@ public class MainCtrl  {
                            Pair<SinglePlayerCtrl, Parent> single,
                            Pair<ExitScreenCtrl, Parent> exit,
                            Pair<WaitingRoomCtrl, Parent> waiting,
+                           Pair<EditScreenCtrl, Parent> edit,
                            Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
                            Pair<answerRevealCtrl, Parent> answerReveal,
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
-                           Pair<infoCtrl, Parent> info,
-                           Pair<EditScreenCtrl, Parent> edit) {
+                           Pair<infoCtrl, Parent> info) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());

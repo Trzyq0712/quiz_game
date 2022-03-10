@@ -21,7 +21,7 @@
             <Image url="@images/leaderboard.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="exit" fitHeight="140.0" fitWidth="140.0" layoutX="376.0" layoutY="28.0" onMouseClicked="#showInfo" pickOnBounds="true" preserveRatio="true" styleClass="clickable" AnchorPane.rightAnchor="1404.0">
+      <ImageView fx:id="question" fitHeight="140.0" fitWidth="140.0" layoutX="376.0" layoutY="28.0" onMouseClicked="#showInfo" pickOnBounds="true" preserveRatio="true" styleClass="clickable" AnchorPane.rightAnchor="1404.0">
          <image>
             <Image url="@images/questionMark.png" />
          </image>

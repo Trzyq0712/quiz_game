@@ -213,6 +213,7 @@ public class MainCtrl  {
     public void enterWaitingRoom() {
         primaryStage.setTitle(titleWaitingRoom);
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        waitingCtrl.loadPlayerGrid();
         primaryStage.setScene(waitingScene);
         buttonSound();
     }

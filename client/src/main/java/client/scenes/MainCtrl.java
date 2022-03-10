@@ -61,6 +61,9 @@ public class MainCtrl  {
     private WaitingRoomCtrl waitingCtrl;
     private Scene waitingScene;
 
+    private EditScreenCtrl editCtrl;
+    private Scene editScene;
+
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
                            Pair<SPNamePromptCtrl, Parent> name,
@@ -68,7 +71,8 @@ public class MainCtrl  {
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<SinglePlayerCtrl, Parent> single,
                            Pair<ExitScreenCtrl, Parent> exit,
-                           Pair<WaitingRoomCtrl, Parent> waiting) {
+                           Pair<WaitingRoomCtrl, Parent> waiting,
+                           Pair<EditScreenCtrl, Parent> edit) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -99,6 +103,9 @@ public class MainCtrl  {
 
         this.waitingCtrl = waiting.getKey();
         this.waitingScene = new Scene(waiting.getValue());
+
+        this.editCtrl = edit.getKey();
+        this.editScene = new Scene(edit.getValue());
 
         //showOverview();
         showHome();
@@ -171,6 +178,12 @@ public class MainCtrl  {
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(waitingScene);
         buttonSound();
+    }
+
+    public void showEditScreen() {
+        primaryStage.setTitle(edit);
+        editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
+        primaryStage.setScene(editScene);
     }
 
 

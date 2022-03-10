@@ -51,9 +51,10 @@ public class Main extends Application {
         var exit = FXML.load(ExitScreenCtrl.class, "client", "scenes", "ExitScreen.fxml");
         var single = FXML.load(SinglePlayerCtrl.class, "client", "scenes", "Singleplayer.fxml");
         var waiting = FXML.load(WaitingRoomCtrl.class, "client", "scenes", "WaitingRoom.fxml");
+        var edit = FXML.load(EditScreenCtrl.class, "client", "scenes", "EditScreen.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
-        mainCtrl.initialize(primaryStage, home, name, mpname, sp, single, exit, waiting);
+        mainCtrl.initialize(primaryStage, home, name, mpname, sp, single, exit, waiting, edit);
     }
 }

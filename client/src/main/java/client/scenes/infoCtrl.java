@@ -32,10 +32,6 @@ public class infoCtrl extends ReusedButtonCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    public void showHome() {
-        mainCtrl.showHome();
-    }
-
     public void setHintExplainer() {
         hintExplainer.setText("Eliminates an incorrect\nanswer from multiple\nchoice questions");
     }

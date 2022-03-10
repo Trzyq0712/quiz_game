@@ -12,7 +12,7 @@ import javafx.scene.control.ProgressBar;
 import static client.Config.timeAnswerReveal;
 import static com.google.inject.Guice.createInjector;
 
-public class answerRevealCtrl extends ReusedButtonCtrl {
+public class AnswerRevealCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -27,7 +27,7 @@ public class answerRevealCtrl extends ReusedButtonCtrl {
 
 
     @Inject
-    public answerRevealCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -41,8 +41,5 @@ public class answerRevealCtrl extends ReusedButtonCtrl {
         mainCtrl.updateQuestionTracker(questionTracker, false);
     }
 
-    public void showHome() {
-        mainCtrl.showHome();
-    }
 
 }

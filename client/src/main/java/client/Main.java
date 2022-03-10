@@ -64,7 +64,7 @@ public class Main extends Application {
         var intermediate =
                 FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "intermediateLeaderboard.fxml");
         var answerReveal =
-                FXML.load(answerRevealCtrl.class, "client", "scenes", "answerReveal.fxml");
+                FXML.load(AnswerRevealCtrl.class, "client", "scenes", "answerReveal.fxml");
         var MPFinal =
                 FXML.load(MPFinalLeaderboardCtrl.class, "client", "scenes", "MPFinalLeaderboard.fxml");
         var info =

@@ -67,7 +67,7 @@ public class MainCtrl  {
     private IntermediateLeaderboardCtrl intermediateCtrl;
     private Scene intermediateScene;
 
-    private answerRevealCtrl answerRevealCtrl;
+    private AnswerRevealCtrl answerRevealCtrl;
     private Scene answerRevealScene;
 
     private MPFinalLeaderboardCtrl MPFinal;
@@ -92,7 +92,7 @@ public class MainCtrl  {
                            Pair<WaitingRoomCtrl, Parent> waiting,
                            Pair<EditScreenCtrl, Parent> edit,
                            Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
-                           Pair<answerRevealCtrl, Parent> answerReveal,
+                           Pair<AnswerRevealCtrl, Parent> answerReveal,
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
                            Pair<infoCtrl, Parent> info) {
         this.primaryStage = primaryStage;

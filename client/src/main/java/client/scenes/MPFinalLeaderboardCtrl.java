@@ -29,8 +29,5 @@ public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
         mainCtrl.enterWaitingRoom();
     }
 
-    public void showHome() {
-        mainCtrl.showHome();
-    }
 
 }

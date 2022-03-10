@@ -79,7 +79,3 @@
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
-
-#save{
-    -fx-background-color: green;
-}

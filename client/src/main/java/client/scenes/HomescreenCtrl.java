@@ -77,6 +77,7 @@ public class HomescreenCtrl {
         mainCtrl.buttonSound();
     }
 
+
     public void repeatSound(){
         Media media = new Media(backgroundMusic.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
@@ -89,5 +90,10 @@ public class HomescreenCtrl {
         });
         player.setVolume(0.08);
         player.play();
+    }
+
+
+    public void showInfo() {
+        mainCtrl.showInfo();
     }
 }

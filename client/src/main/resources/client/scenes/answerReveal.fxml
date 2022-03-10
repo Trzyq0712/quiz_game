@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Rectangle2D?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AnswerRevealCtrl">
+   <children>
+      <ImageView id="home" fx:id="home" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+         <image>
+            <Image url="@images/home.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <ImageView id="sound" fx:id="sound" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+         <image>
+            <Image url="@images/music.png" />
+         </image>
+      </ImageView>
+      <Pane id="questionBox" layoutY="150.0" prefHeight="100.0" prefWidth="1920.0">
+         <children>
+            <Label id="questionLabel" prefHeight="100.0" prefWidth="1920.0" text="Correct answer!" wrapText="true">
+               <font>
+                  <Font name="Script MT Bold" size="64.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Button id="firstButton" fx:id="firstButton" layoutX="810.0" layoutY="350.0" mnemonicParsing="false" text="Answer A">
+         <styleClass>
+            <String fx:value="answer-button" />
+            <String fx:value="clickable" />
+         </styleClass></Button>
+      <Button id="secondButton" fx:id="secondButton" layoutX="810.0" layoutY="529.0" mnemonicParsing="false" text="Answer B">
+         <styleClass>
+            <String fx:value="answer-button" />
+            <String fx:value="clickable" />
+         </styleClass></Button>
+      <Button id="thirdButton" fx:id="thirdButton" layoutX="810.0" layoutY="718.0" mnemonicParsing="false" text="answer c">
+         <styleClass>
+            <String fx:value="answer-button" />
+            <String fx:value="clickable" />
+         </styleClass></Button>
+      <Label layoutX="793.0" layoutY="10.0" prefHeight="82.0" prefWidth="334.0" text="continuing in..." textFill="WHITE">
+         <font>
+            <Font name="Showcard Gothic" size="64.0" />
+         </font>
+      </Label>
+      <ProgressBar id="timeBar" fx:id="pgBarReveal" layoutX="360.0" layoutY="90.0" prefHeight="30.0" prefWidth="1200.0" progress="0.78">
+         <effect>
+            <ColorAdjust />
+         </effect>
+      </ProgressBar>
+      <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
+      <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
+         </children>
+</AnchorPane>

@@ -40,7 +40,7 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
          </content>
       </ScrollPane>
-      <Label id="questionCountLabel" layoutX="1450.0" layoutY="910.0" text="Question x/y" />
+      <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="910.0" text="Question x/y" />
       <Label id="scoreLabel" layoutX="1450.0" layoutY="970.0" text="Score x/y" />
          </children>
 </AnchorPane>

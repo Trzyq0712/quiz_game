@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import static client.Config.*;
 
@@ -22,7 +23,8 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     @FXML
     ProgressBar pgBarIntermediate;
 
-
+    @FXML
+    Label questionTracker;
 
     @Inject
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -33,6 +35,10 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
 
     public void activateProgressBar() {
         mainCtrl.activateGenericProgressBar(pgBarIntermediate, timeForIntermediate, 2);
+    }
+
+    public void updateQuestionTracker() {
+        mainCtrl.updateQuestionTracker(questionTracker, false);
     }
 
 }

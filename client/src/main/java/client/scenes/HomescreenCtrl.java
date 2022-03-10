@@ -86,4 +86,9 @@ public class HomescreenCtrl {
         });
         player.play();
     }
+
+
+    public void showInfo() {
+        mainCtrl.showInfo();
+    }
 }

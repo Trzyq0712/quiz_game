@@ -6,39 +6,29 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 
-import static client.Config.timeAnswerReveal;
 import static com.google.inject.Guice.createInjector;
 
-public class answerRevealCtrl extends ReusedButtonCtrl {
+public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
-    @FXML
-    ProgressBar pgBarReveal;
 
-    @FXML
-    Label questionTracker;
 
 
     @Inject
-    public answerRevealCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 1);
-    }
-
-    public void updateQuestionTracker() {
-        mainCtrl.updateQuestionTracker(questionTracker, false);
+    public void playAgain() {
+        mainCtrl.enterWaitingRoom();
     }
 
     public void showHome() {

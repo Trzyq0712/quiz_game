@@ -79,3 +79,9 @@
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
+
+#explain {
+    -fx-font-size: 25;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}

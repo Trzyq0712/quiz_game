@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.Event;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
@@ -41,6 +42,9 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
     @FXML
     ProgressBar pgBar;
 
+    @FXML
+    Label questionTracker;
+
     //Long startTime;
 
 
@@ -53,19 +57,20 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
 
     public void showHome() {
         mainCtrl.showHome();
-        restore();
+        restoreAnswers();
+        restoreJokers();
     }
 
-    public void restore() {
+    public void restoreAnswers() {
         firstButton.setVisible(true);
         secondButton.setVisible(true);
         thirdButton.setVisible(true);
+    }
+
+    public void restoreJokers() {
         hintJoker.setVisible(true);
         timeJoker.setVisible(true);
         pointsJoker.setVisible(true);
-        /*pgBar.setStyle("-fx-accent: green");
-        pgBar.setProgress(.5);*/
-
     }
 
     public void answerClick(Event event) {
@@ -100,6 +105,10 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
 
     public void activateProgressBar() {
         mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
+    }
+
+    public void updateQuestionTracker() {
+        mainCtrl.updateQuestionTracker(questionTracker, true);
     }
 
 

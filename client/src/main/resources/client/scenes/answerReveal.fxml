@@ -9,8 +9,24 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Rectangle2D?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.answerRevealCtrl">
    <children>
+      <ImageView id="home" fx:id="home" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+         <image>
+            <Image url="@images/home.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <ImageView id="sound" fx:id="sound" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+         <image>
+            <Image url="@images/music.png" />
+         </image>
+      </ImageView>
       <Pane id="questionBox" layoutY="150.0" prefHeight="100.0" prefWidth="1920.0">
          <children>
             <Label id="questionLabel" prefHeight="100.0" prefWidth="1920.0" text="Correct answer!" wrapText="true">
@@ -45,7 +61,7 @@
             <ColorAdjust />
          </effect>
       </ProgressBar>
-      <Label id="questionCountLabel" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
+      <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
       <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
          </children>
 </AnchorPane>

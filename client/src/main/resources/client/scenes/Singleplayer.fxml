@@ -77,7 +77,7 @@
             <Image url="@images/hourglass.png" />
          </image>
       </ImageView>
-      <Label id="questionCountLabel" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
+      <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
       <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
          </children>
 </AnchorPane>

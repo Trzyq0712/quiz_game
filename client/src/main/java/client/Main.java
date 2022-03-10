@@ -53,10 +53,12 @@ public class Main extends Application {
         var waiting = FXML.load(WaitingRoomCtrl.class, "client", "scenes", "WaitingRoom.fxml");
         var intermediate = FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "intermediateLeaderboard.fxml");
         var answerReveal = FXML.load(answerRevealCtrl.class, "client", "scenes", "answerReveal.fxml");
+        var MPFinal = FXML.load(MPFinalLeaderboardCtrl.class, "client", "scenes", "MPFinalLeaderboard.fxml");
+        var info = FXML.load(infoCtrl.class, "client", "scenes", "info.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
-        mainCtrl.initialize(primaryStage, home, name, mpname, sp, single, exit, waiting, intermediate, answerReveal);
+        mainCtrl.initialize(primaryStage, home, name, mpname, sp, single, exit, waiting, intermediate, answerReveal, MPFinal, info);
     }
 }

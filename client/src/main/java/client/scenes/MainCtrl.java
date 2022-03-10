@@ -16,6 +16,7 @@
 package client.scenes;
 
 
+import commons.Player;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.media.Media;
@@ -165,10 +166,10 @@ public class MainCtrl  {
         buttonSound();
     }
 
-    public void enterWaitingRoom() {
+    public void enterWaitingRoom(Player player) {
         primaryStage.setTitle(titleWaitingRoom);
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        waitingCtrl.loadPlayerGrid();
+        waitingCtrl.setUp(player);
         primaryStage.setScene(waitingScene);
     }
 

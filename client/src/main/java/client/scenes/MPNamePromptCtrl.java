@@ -5,6 +5,7 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import commons.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -35,8 +36,9 @@ public class MPNamePromptCtrl extends NamePromptCtrl{
      */
     public void enterWaitingRoom(){
         if(checkName(nameField, errorLabel)){
+            Player player = new Player(nameField.getText());
             if(server.enterWaitingRoom(nameField.getText()))
-                mainCtrl.enterWaitingRoom();
+                mainCtrl.enterWaitingRoom(new Player(nameField.getText()));
             else{
                 errorLabel.setText("Name is taken!");
                 errorLabel.setVisible(true);

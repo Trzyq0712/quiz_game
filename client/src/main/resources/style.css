@@ -15,10 +15,6 @@
     -fx-cursor: "HAND"; /*applied this style to all clickable things*/
 }
 
-#edit-button{
-    -fx-background-color: grey;
-}
-
 .answer-button {
     -fx-pref-width: 300px;
     -fx-wrap-text: true;
@@ -30,7 +26,7 @@
 
 .label {
     -fx-alignment: center;
-    -fx-font-size: 52;
+    -fx-font-size: 30;
     -fx-text-fill: white;
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
 

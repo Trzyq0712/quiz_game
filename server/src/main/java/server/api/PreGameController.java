@@ -4,7 +4,6 @@ import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import server.database.PlayerScoreRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/play")
 public class PreGameController {
-    List<Player> waitingPlayers;
+    private List<Player> waitingPlayers;
 
     @Autowired
-    public PreGameController(PlayerScoreRepository repo) {
+    public PreGameController() {
         waitingPlayers = new ArrayList<>();
     }
 
@@ -50,7 +49,7 @@ public class PreGameController {
      * @return players that are currently in the waiting room
      */
     @GetMapping(path = "/waitingroom")
-    public ResponseEntity<List<Player>> playSingle() {
+    public ResponseEntity<List<Player>> getWaitingroom() {
         return ResponseEntity.ok(waitingPlayers);
     }
 }

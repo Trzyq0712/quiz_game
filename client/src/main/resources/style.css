@@ -84,7 +84,6 @@
     -fx-border-color: white;
 }
 
-<<<<<<< client/src/main/resources/style.css
 .scroll-pane .viewport{
     -fx-background-radius: 50px;
     -fx-background-color: #263f4b;
@@ -93,4 +92,3 @@
 #save{
     -fx-background-color: green;
 }
->>>>>>> client/src/main/resources/style.css

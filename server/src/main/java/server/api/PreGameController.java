@@ -3,10 +3,7 @@ package server.api;
 import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import server.database.PlayerScoreRepository;
 
 import java.util.ArrayList;
@@ -29,9 +26,9 @@ public class PreGameController {
      * @param name the name with which the player wants to enter the singleplayer game
      * @return random confirmation for now
      */
-    @GetMapping(path = "/single")
-    public ResponseEntity<String> playSingle(@RequestParam("name") String name) {
-        return ResponseEntity.ok("Hello "  + name);
+    @PostMapping(path = "/single")
+    public ResponseEntity<Boolean> playSingle(@RequestBody String name) {
+        return ResponseEntity.ok(true);
     }
 
     /**
@@ -39,14 +36,14 @@ public class PreGameController {
      * @return Bad response if name is already taken
      *         Ok response if name is not taken
      */
-    @GetMapping(path = "/join")
-    public ResponseEntity<String> playMulti(@RequestParam("name") String name) {
+    @PostMapping(path = "/join")
+    public ResponseEntity<Boolean> playMulti(@RequestBody String name) {
         Player player = new Player(name);
         if(waitingPlayers.contains(player))
-            return ResponseEntity.badRequest().body("Name is taken!");
+            return ResponseEntity.ok(false);
 
         waitingPlayers.add(player);
-        return ResponseEntity.ok("Hello " + name);
+        return ResponseEntity.ok(true);
     }
 
     /**

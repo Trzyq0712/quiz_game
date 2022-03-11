@@ -99,4 +99,27 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Player>>() {});
     }
+
+    /**
+     * @param player that is going to leave
+     */
+    public void leaveWaitingroom(Player player) {
+         ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/waitingroom/leave") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(player, APPLICATION_JSON), Boolean.class);
+    }
+
+    /**
+     * @param players is the list of the visible players for the client
+     * @return the updated list of the players when something has changed
+     */
+    public List<Player> pollWaitingroom(List<Player> players) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/waitingroom/poll") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(players, APPLICATION_JSON), List.class);
+    }
 }

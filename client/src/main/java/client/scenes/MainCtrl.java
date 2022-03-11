@@ -17,6 +17,7 @@ package client.scenes;
 
 
 import javafx.application.Platform;
+import commons.Player;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -34,7 +35,7 @@ public class MainCtrl  {
     private Stage primaryStage;
     private Stage quitStage;
 
-
+    private Player player;
 
     /*private QuoteOverviewCtrl overviewCtrl;
     private Scene overview;
@@ -142,6 +143,12 @@ public class MainCtrl  {
         this.editScene = new Scene(edit.getValue());
 
         //showOverview();
+        primaryStage.setOnCloseRequest(e -> {
+            e.consume();
+            if(player != null)
+                waitingCtrl.leaveWaitingroom(player);
+            primaryStage.close();
+        });
         showHome();
         primaryStage.show();
     }
@@ -155,6 +162,7 @@ public class MainCtrl  {
 
 
     public void showHome() {
+        player = null;
         primaryStage.setTitle(title);
         homeScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
@@ -209,11 +217,21 @@ public class MainCtrl  {
         buttonSound();
     }
 
-    public void enterWaitingRoom() {
+    public void enterWaitingRoom(Player player) {
+        this.player = player;
         primaryStage.setTitle(titleWaitingRoom);
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        waitingCtrl.loadPlayerGrid();
+        waitingCtrl.setUp(player);
         primaryStage.setScene(waitingScene);
+    }
+
+    /**
+     * This is here for reentering a multi game to work without changing a lot of stuff.
+     * When we add a multiplayer controller going to remake it.
+     * Don't want to do it know not to mess up controllers for the future.
+     */
+    public void enterWaitingRoom() {
+        enterWaitingRoom(player);
     }
 
 
@@ -298,7 +316,6 @@ public class MainCtrl  {
         editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
     }
-
 
     /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");

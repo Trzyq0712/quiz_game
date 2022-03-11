@@ -18,6 +18,8 @@ class PreGameControllerTest {
     Player p1;
     Player p2;
     List<Player> playerList;
+    DeferredResult<List<Player>> updatedList;
+    ObjectMapper mapper;
 
     @BeforeEach
     public void setup() {
@@ -25,6 +27,8 @@ class PreGameControllerTest {
         p1 = new Player("Reinier");
         p2 = new Player("Mana");
         playerList = new ArrayList<>();
+        updatedList = sut.updates(playerList);
+        mapper = new ObjectMapper();
     }
     @Test
     void playSingleTest() {
@@ -63,35 +67,29 @@ class PreGameControllerTest {
     }
 
     @Test
-    void updatesJoinTest() {
+    void updatesJoinTest() throws InterruptedException {
         sut.playMulti(p1.name);
+        Thread.sleep(6000);
         playerList.add(p1);
-        DeferredResult<List<Player>> updatedList = sut.updates(playerList);
         sut.playMulti(p2.name);
+        Thread.sleep(6000);
         playerList.add(0, p2);
-        ObjectMapper mapper = new ObjectMapper();
-        assertEquals(playerList, mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { }));
+        List<Player> result = mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { });
+        assertEquals(playerList, result);
     }
 
     @Test
-    void updatesLeaveTest() {
+    void updatesLeaveTest() throws InterruptedException {
         sut.playMulti(p1.name);
+        Thread.sleep(6000);
         playerList.add(p1);
         sut.playMulti(p2.name);
+        Thread.sleep(6000);
         playerList.add(0, p2);
-        DeferredResult<List<Player>> updatedList = sut.updates(playerList);
         sut.leaveWaitingroom(p2);
+        Thread.sleep(6000);
         playerList.remove(p2);
-        ObjectMapper mapper = new ObjectMapper();
-        assertEquals(playerList, mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { }));
-    }
-
-    @Test
-    void updatesNothingNewTest() {
-        sut.playMulti(p1.name);
-        playerList.add(p1);
-        DeferredResult<List<Player>> updatedList = sut.updates(playerList);
-        ObjectMapper mapper = new ObjectMapper();
-        assertEquals(null, mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { }));
+        List<Player> result = mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { });
+        assertEquals(playerList, result);
     }
 }

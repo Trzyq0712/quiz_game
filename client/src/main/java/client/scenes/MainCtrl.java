@@ -293,6 +293,12 @@ public class MainCtrl  {
         primaryStage.setScene(infoScene);
     }
 
+    public void showEditScreen() {
+        primaryStage.setTitle(edit);
+        editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
+        primaryStage.setScene(editScene);
+    }
+
 
     /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");

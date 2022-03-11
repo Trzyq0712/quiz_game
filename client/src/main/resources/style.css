@@ -95,3 +95,7 @@
 #save{
     -fx-background-color: green;
 }
+
+#edit-button{
+    -fx-background-color: grey;
+}

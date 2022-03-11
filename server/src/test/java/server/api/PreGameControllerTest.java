@@ -51,7 +51,7 @@ class PreGameControllerTest {
         playerList.add(p1);
         assertEquals(playerList, sut.getWaitingroom().getBody());
         sut.playMulti(p2.name);
-        playerList.add(p2);
+        playerList.add(0, p2);
         assertEquals(playerList, sut.getWaitingroom().getBody());
     }
 
@@ -68,7 +68,7 @@ class PreGameControllerTest {
         playerList.add(p1);
         DeferredResult<List<Player>> updatedList = sut.updates(playerList);
         sut.playMulti(p2.name);
-        playerList.add(p2);
+        playerList.add(0, p2);
         ObjectMapper mapper = new ObjectMapper();
         assertEquals(playerList, mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { }));
     }
@@ -78,7 +78,7 @@ class PreGameControllerTest {
         sut.playMulti(p1.name);
         playerList.add(p1);
         sut.playMulti(p2.name);
-        playerList.add(p2);
+        playerList.add(0, p2);
         DeferredResult<List<Player>> updatedList = sut.updates(playerList);
         sut.leaveWaitingroom(p2);
         playerList.remove(p2);

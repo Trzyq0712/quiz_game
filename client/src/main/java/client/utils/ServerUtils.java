@@ -20,7 +20,6 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class ServerUtils {
      * @return true if the server accepts
      */
     public boolean startSingle(String name) {
-        return sendGet("api/play/single?name=" + name);
+        return askConfirmation("api/play/single", name);
     }
 
     /**
@@ -75,23 +74,19 @@ public class ServerUtils {
      * @return true if the server accepts
      */
     public boolean enterWaitingRoom(String name) {
-        return sendGet("api/play/join?name=" + name);
+        return askConfirmation("api/play/join", name);
     }
 
     /**
      * @param path where to send the request
      * @return true if request is ok
      */
-    public boolean sendGet(String path){
-        try{
-            URL url = new URL(SERVER + path);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            return con.getResponseCode() == HttpURLConnection.HTTP_OK;
-        } catch (Exception exception) {
-            System.out.println(exception);
-            return false;
-        }
+    public boolean askConfirmation(String path, String name){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path(path) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(name, APPLICATION_JSON), Boolean.class);
     }
 
     /**

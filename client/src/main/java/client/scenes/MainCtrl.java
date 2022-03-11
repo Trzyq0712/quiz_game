@@ -78,7 +78,8 @@ public class MainCtrl  {
 
     Long startTime;
     int currentQuestion = 0;
-    boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has clicked the homebutton. So he exited the game
+    boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has
+    clicked the homebutton. So he exited the game
     at which point the next scene shouldnt be loaded anymore*/
 
     private EditScreenCtrl editCtrl;

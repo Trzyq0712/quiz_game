@@ -43,6 +43,14 @@ public class PlayerScore {
     }
 
     /**
+     * Updating the score by adding points to it
+     * @param points - points we wish to add to the player's score
+     */
+    public void addPoints(int points){
+        score+=points;
+    }
+
+    /**
      * Compare whether two instances of a PlayerScore are equal
      * All fields have to be equal for equality
      * @param obj - to be compared with

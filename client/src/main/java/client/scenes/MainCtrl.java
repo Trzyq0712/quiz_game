@@ -78,6 +78,8 @@ public class MainCtrl  {
 
     Long startTime;
     int currentQuestion = 0;
+    boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has clicked the homebutton. So he exited the game
+    at which point the next scene shouldnt be loaded anymore*/
 
     private EditScreenCtrl editCtrl;
     private Scene editScene;
@@ -158,6 +160,8 @@ public class MainCtrl  {
         primaryStage.setTitle(title);
         homeScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
+        active = false;
+        restore();
         buttonSound();
     }
 
@@ -195,6 +199,7 @@ public class MainCtrl  {
     }
 
     public void startGame() {
+        active = true;
         singleScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         if(true) {
             singleCtrl.updateQuestionTracker();
@@ -244,17 +249,23 @@ public class MainCtrl  {
             );
         } else {
             startTime = null;
-            if (call == 0) Platform.runLater(() -> showAnswerReveal());
-            else if (call == 1 && currentQuestion < totalQuestions) {
-                singleCtrl.restoreAnswers();
-                Platform.runLater(() -> showIntermediateLeaderboard());
-            } else if (call == 1 && currentQuestion >= totalQuestions) {
-                Platform.runLater(() -> showMPFinalLeaderboard());
-                currentQuestion = 0;
-                singleCtrl.restoreJokers();
-                singleCtrl.restoreAnswers();
-            } else if (call == 2 ) Platform.runLater(() -> startGame());
+            if (active) {
+                if (call == 0) Platform.runLater(() -> showAnswerReveal());
+                else if (call == 1 && currentQuestion < totalQuestions) {
+                    singleCtrl.restoreAnswers();
+                    Platform.runLater(() -> showIntermediateLeaderboard());
+                } else if (call == 1 && currentQuestion >= totalQuestions) {
+                    Platform.runLater(() -> showMPFinalLeaderboard());
+                    restore();
+                } else if (call == 2) Platform.runLater(() -> startGame());
+            }
         }
+    }
+
+    public void restore() {
+        currentQuestion = 0;
+        singleCtrl.restoreJokers();
+        singleCtrl.restoreAnswers();
     }
 
     public long getDelta() {

@@ -84,3 +84,18 @@
     -fx-background-radius: 50px;
     -fx-background-color: #263f4b;
 }
+
+
+#explain {
+    -fx-font-size: 25;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+#save{
+    -fx-background-color: green;
+}
+
+#edit-button{
+    -fx-background-color: grey;
+}

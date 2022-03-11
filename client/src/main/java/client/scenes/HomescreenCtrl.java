@@ -73,6 +73,7 @@ public class HomescreenCtrl {
         mainCtrl.buttonSound();
     }
 
+
     public void repeatSound(){
         Media media = new Media(backgroundMusic.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
@@ -84,5 +85,15 @@ public class HomescreenCtrl {
             }
         });
         player.play();
+    }
+
+
+    public void showEditScreen(ActionEvent event) {
+        mainCtrl.showEditScreen();
+    }
+
+
+    public void showInfo() {
+        mainCtrl.showInfo();
     }
 }

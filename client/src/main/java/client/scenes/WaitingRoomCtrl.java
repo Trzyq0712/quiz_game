@@ -95,14 +95,9 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
         playerGrid.getRowConstraints().clear();
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(149);
-        for(int i=0; i < loadPlayers.size(); i++){
-            if(i%4==0)
-                playerGrid.getRowConstraints().add(con);
-            try{
-                playerGrid.add(new Label(loadPlayers.get(i).name), i%4, i/4);
-            } catch (Exception ex){
-                System.out.println(ex);
-            }
+        for(int i=0; i < players.size(); i++){
+            if(i%4==0) playerGrid.getRowConstraints().add(con);
+            playerGrid.add(new Label(players.get(i).name), i%4, i/4);
         }
     }
 

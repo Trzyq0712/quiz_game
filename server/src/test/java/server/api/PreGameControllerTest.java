@@ -1,8 +1,11 @@
 package server.api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,5 +53,45 @@ class PreGameControllerTest {
         sut.playMulti(p2.name);
         playerList.add(p2);
         assertEquals(playerList, sut.getWaitingroom().getBody());
+    }
+
+    @Test
+    void leaveWaitingroomTest() {
+        assertTrue(sut.playMulti(p1.name).getBody());
+        sut.leaveWaitingroom(p1);
+        assertEquals(playerList, sut.getWaitingroom().getBody());
+    }
+
+    @Test
+    void updatesJoinTest() {
+        sut.playMulti(p1.name);
+        playerList.add(p1);
+        DeferredResult<List<Player>> updatedList = sut.updates(playerList);
+        sut.playMulti(p2.name);
+        playerList.add(p2);
+        ObjectMapper mapper = new ObjectMapper();
+        assertEquals(playerList, mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { }));
+    }
+
+    @Test
+    void updatesLeaveTest() {
+        sut.playMulti(p1.name);
+        playerList.add(p1);
+        sut.playMulti(p2.name);
+        playerList.add(p2);
+        DeferredResult<List<Player>> updatedList = sut.updates(playerList);
+        sut.leaveWaitingroom(p2);
+        playerList.remove(p2);
+        ObjectMapper mapper = new ObjectMapper();
+        assertEquals(playerList, mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { }));
+    }
+
+    @Test
+    void updatesNothingNewTest() {
+        sut.playMulti(p1.name);
+        playerList.add(p1);
+        DeferredResult<List<Player>> updatedList = sut.updates(playerList);
+        ObjectMapper mapper = new ObjectMapper();
+        assertEquals(null, mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { }));
     }
 }

@@ -44,6 +44,7 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
 
     public void startGame() {
         threadRun = false;
+        leaveWaitingroom(player);
         mainCtrl.startGame();
     }
 
@@ -95,16 +96,20 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
         playerGrid.getRowConstraints().clear();
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(149);
-        for(int i=0; i < players.size(); i++){
+        for(int i=0; i < loadPlayers.size(); i++){
             if(i%4==0) playerGrid.getRowConstraints().add(con);
-            playerGrid.add(new Label(players.get(i).name), i%4, i/4);
+            playerGrid.add(new Label(loadPlayers.get(i).name), i%4, i/4);
         }
     }
 
     @Override
     public void showHome(){
         threadRun = false;
-        server.leaveWaitingroom(player);
+        leaveWaitingroom(player);
         mainCtrl.showHome();
+    }
+
+    public void leaveWaitingroom(Player player){
+        server.leaveWaitingroom(player);
     }
 }

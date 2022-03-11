@@ -261,6 +261,12 @@ public class MainCtrl  {
         return System.currentTimeMillis() - startTime;
     }
 
+    public double getRemainingTime(double totalTime){
+        double delta = getDelta();
+        double remainingTime = totalTime-delta;
+        return remainingTime;
+    }
+
     public void showAnswerReveal() {
         answerRevealCtrl.updateQuestionTracker();
         answerRevealScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
@@ -298,6 +304,7 @@ public class MainCtrl  {
         editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
     }
+
 
 
     /*public void showOverview() {

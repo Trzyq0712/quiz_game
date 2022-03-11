@@ -88,6 +88,11 @@ public class HomescreenCtrl {
     }
 
 
+    public void showEditScreen(ActionEvent event) {
+        mainCtrl.showEditScreen();
+    }
+
+
     public void showInfo() {
         mainCtrl.showInfo();
     }

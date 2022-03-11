@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
@@ -20,6 +21,9 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
     @FXML
     ImageView imageView;
 
+    @FXML
+    ImageView music;
+
 
 
     @Inject
@@ -27,6 +31,10 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
 }

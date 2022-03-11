@@ -8,6 +8,7 @@ import com.google.inject.Injector;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -21,6 +22,8 @@ public class SPNamePromptCtrl extends NamePromptCtrl{
     private TextField nameField;
     @FXML
     private Label errorLabel;
+    @FXML
+    ImageView music;
 
     @Inject
     public SPNamePromptCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -45,5 +48,9 @@ public class SPNamePromptCtrl extends NamePromptCtrl{
         nameField.clear();
         nameField.setPromptText("Enter your name...");
         errorLabel.setVisible(false);
+    }
+
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 }

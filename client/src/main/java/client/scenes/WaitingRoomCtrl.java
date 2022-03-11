@@ -12,6 +12,7 @@ import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
@@ -29,6 +30,8 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
 
     @FXML
     private GridPane playerGrid;
+    @FXML
+    ImageView music;
 
     private Player player;
     private List<Player> playerList;
@@ -46,6 +49,10 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
         threadRun = false;
         leaveWaitingroom(player);
         mainCtrl.startGame();
+    }
+
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
     /**

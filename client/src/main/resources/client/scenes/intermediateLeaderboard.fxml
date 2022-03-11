@@ -20,7 +20,7 @@
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <ImageView id="sound" fx:id="sound" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
       <image>
          <Image url="@images/music.png" />
       </image>

@@ -5,6 +5,8 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -15,10 +17,17 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+    @FXML
+    ImageView music;
+
     @Inject
     public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 }

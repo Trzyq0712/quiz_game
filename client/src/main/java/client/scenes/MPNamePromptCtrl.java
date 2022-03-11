@@ -9,6 +9,7 @@ import commons.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -22,6 +23,8 @@ public class MPNamePromptCtrl extends NamePromptCtrl{
     private TextField nameField;
     @FXML
     private Label errorLabel;
+    @FXML
+    ImageView music;
 
     @Inject
     public MPNamePromptCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -44,6 +47,10 @@ public class MPNamePromptCtrl extends NamePromptCtrl{
                 errorLabel.setVisible(true);
             }
         }
+    }
+
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
     /**

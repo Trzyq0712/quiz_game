@@ -30,7 +30,9 @@ public class HomescreenCtrl {
     @FXML
     private ImageView leaderboard;
     @FXML
-    MediaView mvv;
+    public MediaView mvv;
+    @FXML
+    public ImageView music;
 
     //Image myImage = new Image(getClass().getClassLoader().getResourceAsStream("images/leaderboard.png"));
 
@@ -69,8 +71,8 @@ public class HomescreenCtrl {
         mainCtrl.showExitScreen();
     }
 
-    public void toggleSound(Event event){
-        mainCtrl.buttonSound();
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
 

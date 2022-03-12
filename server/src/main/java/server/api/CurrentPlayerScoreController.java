@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import commons.PlayerScore;
 import server.Game;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,9 +56,9 @@ public class CurrentPlayerScoreController {
         if (amount < 0) {
             return ResponseEntity.badRequest().build();
         }
-        List<PlayerScore> topScores = game.getPlayers().stream()
-                .sorted(PlayerScore::getScore);
-        topScores = topScores.stream()
+        List<PlayerScore> topScores = game.getPlayers()
+                .stream()
+                .sorted(Comparator.comparingInt(ps -> -ps.getScore()))
                 .limit(amount)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(topScores);

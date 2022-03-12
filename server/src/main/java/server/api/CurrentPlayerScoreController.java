@@ -90,7 +90,7 @@ public class CurrentPlayerScoreController {
      * @param name is the id of the player
      */
     @PostMapping(path = { "", "/{name}" })
-    public ResponseEntity<Boolean> deleteByID(@PathVariable("name") String name) {
+    public ResponseEntity<Boolean> deleteByName(@PathVariable("name") String name) {
         if (game.getByName(name)==null) {
             return ResponseEntity.badRequest().build();
         }

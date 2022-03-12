@@ -33,7 +33,8 @@ class GameTest {
     @Test
     void addPointsToAPlayer(){
         g.addAPlayer(p1);
-        PlayerScore ptest= new PlayerScore("Vian", 100);
+        PlayerScore ptest= p1;
+        p1.addPoints(50);
         assertEquals(ptest,g.addPointsToAPlayer("Vian",50));
     }
 

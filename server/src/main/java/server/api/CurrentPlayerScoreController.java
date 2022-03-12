@@ -35,15 +35,15 @@ public class CurrentPlayerScoreController {
 
     /**
      * Get a player current score from the database by id
-     * @param id - id of the requested player score
+     * @param name - id of the requested player score
      * @return - the requested player
      */
-    @GetMapping(path = "{id}")
-    public ResponseEntity<PlayerScore> getByPlayer(@PathVariable("id") long id) {
-        if (id < 0 || game.getById(id)==null) {
+    @GetMapping(path = "{name}")
+    public ResponseEntity<PlayerScore> getByPlayer(@PathVariable("name") String name) {
+        if (game.getByName(name)==null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(game.getById(id));
+        return ResponseEntity.ok(game.getByName(name));
     }
 
     /**
@@ -87,14 +87,14 @@ public class CurrentPlayerScoreController {
     /**
      * If a player quits the game in the middle of it,
      * then they can be deleted from Game
-     * @param id is the id of the player
+     * @param name is the id of the player
      */
-    @PostMapping(path = { "", "/{id}" })
-    public ResponseEntity<Boolean> deleteByID(@PathVariable("id") long id) {
-        if (id < 0 || game.getById(id)==null) {
+    @PostMapping(path = { "", "/{name}" })
+    public ResponseEntity<Boolean> deleteByID(@PathVariable("name") String name) {
+        if (game.getByName(name)==null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(game.removeAPlayerWithId(id));
+        return ResponseEntity.ok(game.removeAPlayerWithName(name));
     }
 
 }

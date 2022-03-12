@@ -9,12 +9,15 @@ import java.util.Objects;
 public class Game {
 
     private List<PlayerScore> players;
+    private int gameId;
 
     /**
-     * Initializes the player's list
+     * Constructor of Game
+     * @param gameId - id of the game we are in
      */
-    public Game() {
+    public Game(int gameId) {
         this.players = new ArrayList<>();
+        this.gameId=gameId;
     }
 
     /**
@@ -28,13 +31,13 @@ public class Game {
 
     /**
      * Removes a player from the game
-     * @param player - player we want to remove
+     * @param name - player we want to remove
      * @return true if player has been removed,
      *          false if the player is not in Game
      */
-    public boolean removeAPlayerWithId(long id){
-        if(getById(id)!=null){
-            players.remove(getById(id));
+    public boolean removeAPlayerWithName(String name){
+        if(name!=null){
+            players.remove(getByName(name));
             return true;
         }
         return false;
@@ -66,16 +69,16 @@ public class Game {
 
     /**
      * Gets the PlayerScore according to the id
-     * @param id - id of the PlayerScore
+     * @param name - id of the PlayerScore
      * @return the PlayerScore associated with that id
      *          null if id doesn't exist.
      */
-    public PlayerScore getById(long id){
-        if(id<0){
+    public PlayerScore getByName(String name){
+        if(name==null){
             return null;
         }
         for(PlayerScore p : players){
-            if(p.getId()==id){
+            if(p.getPlayerName().equals(name)){
                 return p;
             }
         }
@@ -88,6 +91,14 @@ public class Game {
      */
     public void setPlayers(List<PlayerScore> players) {
         this.players = players;
+    }
+
+    /**
+     * Getter for game id
+     * @return the game id
+     */
+    public int getGameId() {
+        return gameId;
     }
 
     /**
@@ -120,8 +131,9 @@ public class Game {
      */
     @Override
     public String toString() {
-        return "Game{" +
-                "players=" + players +
-                '}';
+        return "Game " + getGameId()
+                + "{" +
+                "players=" + players
+                + '}';
     }
 }

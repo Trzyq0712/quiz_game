@@ -50,18 +50,23 @@ public class PlayerScore {
         score+=points;
     }
 
-    public long getId() {
-        return id;
-    }
-
+    /**
+     * @return the name of the player
+     */
     public String getPlayerName() {
         return playerName;
     }
 
+    /**
+     * @return the score of the player
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * @return the time the game was played
+     */
     public Timestamp getTime() {
         return time;
     }

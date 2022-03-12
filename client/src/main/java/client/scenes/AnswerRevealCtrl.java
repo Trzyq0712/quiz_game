@@ -8,6 +8,7 @@ import com.google.inject.Injector;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 
 import static client.Config.timeAnswerReveal;
 import static com.google.inject.Guice.createInjector;
@@ -24,6 +25,9 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
 
     @FXML
     Label questionTracker;
+
+    @FXML
+    ImageView music;
 
 
     @Inject
@@ -44,5 +48,7 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
         mainCtrl.updateQuestionTracker(questionTracker, false);
     }
 
-
+    public void toggleSound(){
+        mainCtrl.toggleSound();
+    }
 }

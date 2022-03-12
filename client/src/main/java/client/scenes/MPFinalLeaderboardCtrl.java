@@ -5,6 +5,8 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -16,7 +18,8 @@ public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
 
-
+    @FXML
+    ImageView music;
 
     @Inject
     public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -29,5 +32,8 @@ public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
         mainCtrl.enterWaitingRoom();
     }
 
+    public void toggleSound(){
+        mainCtrl.toggleSound();
+    }
 
 }

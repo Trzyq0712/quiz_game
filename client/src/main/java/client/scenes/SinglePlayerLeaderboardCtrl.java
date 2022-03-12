@@ -20,6 +20,9 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
     @FXML
     ImageView imageView;
 
+    @FXML
+    ImageView music;
+
 
 
     @Inject
@@ -27,6 +30,10 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
 }

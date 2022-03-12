@@ -44,6 +44,8 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
 
     @FXML
     Label questionTracker;
+    @FXML
+    ImageView music;
 
     //Long startTime;
 
@@ -84,7 +86,8 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
         }
     }
 
-    public void toggleSound() {
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
     public void hintClick() {

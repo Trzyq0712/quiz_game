@@ -8,6 +8,8 @@ import com.google.inject.Injector;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
+
 import static client.Config.*;
 
 import static com.google.inject.Guice.createInjector;
@@ -25,11 +27,18 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     @FXML
     Label questionTracker;
 
+    @FXML
+    ImageView music;
+
     @Inject
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
     public void activateProgressBar() {

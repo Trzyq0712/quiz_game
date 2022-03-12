@@ -22,10 +22,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static client.Config.*;
 
 
@@ -79,6 +85,9 @@ public class MainCtrl  {
 
     Long startTime;
     int currentQuestion = 0;
+    List<ImageView> listOfMusicIcons;
+    Image musicOn = new Image(getClass().getClassLoader().getResourceAsStream("images/music.png"));
+    Image musicOff = new Image(getClass().getClassLoader().getResourceAsStream("images/musicOff.png"));
     boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
     at which point the next scene shouldnt be loaded anymore*/
@@ -153,11 +162,32 @@ public class MainCtrl  {
             primaryStage.close();
         });
         showHome();
+        initializeMusicIcons();
         primaryStage.show();
     }
 
+    public void toggleSound() {
+        if (homeCtrl.mvv.getMediaPlayer().isMute()) {
+            homeCtrl.mvv.getMediaPlayer().setMute(false);
+            for (ImageView i : listOfMusicIcons) {
+                i.setImage(musicOn);
+            }
+        } else {
+            homeCtrl.mvv.getMediaPlayer().setMute(true);
+            for (ImageView i : listOfMusicIcons) {
+                i.setImage(musicOff);
+            }
+        }
+        buttonSound();
+    }
+
+    public void initializeMusicIcons() {
+        listOfMusicIcons = Arrays.asList(homeCtrl.music, infoCtrl.music, answerRevealCtrl.music, editCtrl.music,
+                intermediateCtrl.music, MPFinal.music, mpnameCtrl.music, singleCtrl.music, splCtrl.music,
+                nameCtrl.music, waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
+    }
+
     public void buttonSound() {
-        //clip.play();
         Media media = new Media(buttonClickSound.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.play();

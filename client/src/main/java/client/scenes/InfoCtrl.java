@@ -7,6 +7,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+
 import static com.google.inject.Guice.createInjector;
 import static client.Config.*;
 
@@ -23,6 +25,8 @@ public class InfoCtrl extends ReusedButtonCtrl {
     Label timeExplainer;
     @FXML
     Label doublePointsExplainer;
+    @FXML
+    ImageView music;
 
 
     @Inject
@@ -45,6 +49,7 @@ public class InfoCtrl extends ReusedButtonCtrl {
     }
 
 
-    public void toggleSound() {
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 }

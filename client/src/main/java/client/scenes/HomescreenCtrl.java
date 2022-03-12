@@ -6,7 +6,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -30,7 +29,9 @@ public class HomescreenCtrl {
     @FXML
     private ImageView leaderboard;
     @FXML
-    MediaView mvv;
+    public MediaView mvv;
+    @FXML
+    public ImageView music;
 
     //Image myImage = new Image(getClass().getClassLoader().getResourceAsStream("images/leaderboard.png"));
 
@@ -69,8 +70,8 @@ public class HomescreenCtrl {
         mainCtrl.showExitScreen();
     }
 
-    public void toggleSound(Event event){
-        mainCtrl.buttonSound();
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Controller for accessing scores of players
+ * Controller for accessing scores of players during a game
  */
 @RestController
 @RequestMapping("/api/currentplayerscore")
@@ -74,6 +74,20 @@ public class CurrentPlayerScoreController {
     @PostMapping(path = "")
     public ResponseEntity<PlayerScore> add(@RequestBody PlayerScore playerScore) {
         return ResponseEntity.ok(game.addAPlayer(playerScore));
+    }
+
+    /**
+     * Awarding points to a player
+     * @param name - name of the player
+     * @param amount - amount of points awarded
+     * @return the PlayerScore for confirmation
+     */
+    @PostMapping(path={"", "/{name}/{amount}"})
+    public ResponseEntity<PlayerScore> addPointsToAPlayer(@PathVariable String name, @PathVariable int amount){
+        if (game.getByName(name)==null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(game.addPointsToAPlayer(name, amount));
     }
 
     /**

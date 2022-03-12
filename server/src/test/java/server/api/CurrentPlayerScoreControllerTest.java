@@ -44,20 +44,32 @@ class CurrentPlayerScoreControllerTest {
     void getTop() {
         g.addAPlayer(p2);
         g.addAPlayer(p1);
-        g.addAPlayer(new PlayerScore("b",300));
+        PlayerScore a = new PlayerScore("a",400);
+        PlayerScore b =new PlayerScore("b",300);
+        PlayerScore c = new PlayerScore("c",200);
+        g.addAPlayer(b);
         g.addAPlayer(new PlayerScore("d",100));
         g.addAPlayer(new PlayerScore("c",200));
-        g.addAPlayer(new PlayerScore("a",400));
+        g.addAPlayer(a);
         List<PlayerScore> playerScoreList = new ArrayList<>();
-        playerScoreList.add(new PlayerScore("a",400));
-        playerScoreList.add(new PlayerScore("b",300));
-        playerScoreList.add(new PlayerScore("c",200));
+        playerScoreList.add(a);
+        playerScoreList.add(b);
+        playerScoreList.add(c);
         assertEquals(playerScoreList, cp.getTop(3).getBody());
     }
 
     @Test
     void add() {
         assertEquals(p1,cp.add(p1).getBody());
+    }
+
+    @Test
+    void addPointsToAPlayer(){
+        g.addAPlayer(p1);
+        PlayerScore ptest = p1;
+        ptest.addPoints(100);
+        assertEquals(ptest,cp.addPointsToAPlayer("Reinier",100).getBody());
+
     }
 
     @Test

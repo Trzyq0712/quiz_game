@@ -31,6 +31,13 @@ class GameTest {
     }
 
     @Test
+    void addPointsToAPlayer(){
+        g.addAPlayer(p1);
+        PlayerScore ptest= new PlayerScore("Vian", 100);
+        assertEquals(ptest,g.addPointsToAPlayer("Vian",50));
+    }
+
+    @Test
     void removeAPlayerWithId() {
         g.addAPlayer(p2);
         g.addAPlayer(p1);

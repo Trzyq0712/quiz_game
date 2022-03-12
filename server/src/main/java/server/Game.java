@@ -30,6 +30,23 @@ public class Game {
     }
 
     /**
+     * Awards points to a player
+     * @param name - name of the player
+     * @param amount - amount of points awarded
+     * @return the PlayerScore for confirmation
+     */
+    public PlayerScore addPointsToAPlayer(String name, int amount){
+        if(name!=null){
+            PlayerScore p = getByName(name);
+            if(p!=null){
+                p.addPoints(amount);
+            }
+            return p;
+        }
+        return null;
+    }
+
+    /**
      * Removes a player from the game
      * @param name - player we want to remove
      * @return true if player has been removed,

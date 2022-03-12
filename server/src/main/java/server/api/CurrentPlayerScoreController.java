@@ -17,24 +17,19 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/currentplayerscore")
 public class CurrentPlayerScoreController {
 
-    private final Game repo;
+    private final Game game;
 
-    public CurrentPlayerScoreController(Game repo) {
-        this.repo = repo;
+    public CurrentPlayerScoreController(Game game) {
+        this.game = game;
     }
-
-//    @Autowired
-//    public CurrentPlayerScoreController(PlayerTempScoreRepository repo) {
-//        this.repo = repo;
-//    }
 
     /**
      * Returns all player scores currently stored in the database
      * @return - list of all scores
      */
     @GetMapping(path = "")
-    public List<PlayerScore> getAll() {
-        return repo.getPlayers();
+    public ResponseEntity<List<PlayerScore>> getAll() {
+        return ResponseEntity.ok(game.getPlayers());
     }
 
     /**
@@ -44,10 +39,10 @@ public class CurrentPlayerScoreController {
      */
     @GetMapping(path = "{id}")
     public ResponseEntity<PlayerScore> getByPlayer(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
+        if (id < 0 || game.getById(id)==null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(repo.getById(id));
+        return ResponseEntity.ok(game.getById(id));
     }
 
     /**
@@ -60,8 +55,8 @@ public class CurrentPlayerScoreController {
         if (amount < 0) {
             return ResponseEntity.badRequest().build();
         }
-        List<PlayerScore> topScores = repo.findAll(
-                Sort.by(Sort.Direction.DESC, "score"));
+        List<PlayerScore> topScores = game.getPlayers().stream()
+                .sorted(PlayerScore::getScore);
         topScores = topScores.stream()
                 .limit(amount)
                 .collect(Collectors.toList());
@@ -73,32 +68,32 @@ public class CurrentPlayerScoreController {
     /**
      * Add a player score to the database
      * @param playerScore - result to be added to the database
-     * @return - the score that was created
+     * @return - the PlayerScore that was added
      */
     @PostMapping(path = "")
     public ResponseEntity<PlayerScore> add(@RequestBody PlayerScore playerScore) {
-        repo.save(playerScore);
-        return ResponseEntity.ok(playerScore);
+        return ResponseEntity.ok(game.addAPlayer(playerScore));
     }
 
     /**
-     * Deletes every temporary scores in the repository
+     * Deletes every temporary PlayerScores in Game
      */
     @PostMapping(path = { "", "/" })
-    public ResponseEntity<List<PlayerScore>> deleteAll() {
-        repo.deleteAll();
-        return ResponseEntity.ok(repo.findAll());
+    public ResponseEntity<Boolean> deleteAll() {
+        return ResponseEntity.ok(game.removeAll());
     }
 
     /**
      * If a player quits the game in the middle of it,
-     * then they can be deleted from the repository
+     * then they can be deleted from Game
      * @param id is the id of the player
      */
     @PostMapping(path = { "", "/{id}" })
-    public ResponseEntity<PlayerScore> deleteByID(@PathVariable("id") long id) {
-        repo.deleteById(id);
-        return ResponseEntity.ok(repo.getById(id));
+    public ResponseEntity<Boolean> deleteByID(@PathVariable("id") long id) {
+        if (id < 0 || game.getById(id)==null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(game.removeAPlayerWithId(id));
     }
 
 }

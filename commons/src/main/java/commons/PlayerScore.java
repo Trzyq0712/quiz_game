@@ -50,6 +50,22 @@ public class PlayerScore {
         score+=points;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
     /**
      * Compare whether two instances of a PlayerScore are equal
      * All fields have to be equal for equality

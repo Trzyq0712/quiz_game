@@ -21,8 +21,9 @@ public class Game {
      * Adds a player to the ones currently in the Game
      * @param player - player that is added
      */
-    public void addAPlayer(PlayerScore player){
+    public PlayerScore addAPlayer(PlayerScore player){
         players.add(player);
+        return player;
     }
 
     /**
@@ -31,13 +32,28 @@ public class Game {
      * @return true if player has been removed,
      *          false if the player is not in Game
      */
-    public boolean removeAPlayer(PlayerScore player){
-        if(players.contains(player)){
-            players.remove(player);
+    public boolean removeAPlayerWithId(long id){
+        if(getById(id)!=null){
+            players.remove(getById(id));
             return true;
-        } else{
-            return false;
         }
+        return false;
+    }
+
+    public boolean removeAll(){
+        int size = players.size();
+        for (int index = size-1; index >= 0; index--) {
+            players.remove(index);
+        }
+        return true;
+    }
+
+    /**
+     * Gets the size
+     * @return the size of the list in Game
+     */
+    public int getSize(){
+        return players.size();
     }
 
     /**
@@ -46,6 +62,24 @@ public class Game {
      */
     public List<PlayerScore> getPlayers() {
         return players;
+    }
+
+    /**
+     * Gets the PlayerScore according to the id
+     * @param id - id of the PlayerScore
+     * @return the PlayerScore associated with that id
+     *          null if id doesn't exist.
+     */
+    public PlayerScore getById(long id){
+        if(id<0){
+            return null;
+        }
+        for(PlayerScore p : players){
+            if(p.getId()==id){
+                return p;
+            }
+        }
+        return null;
     }
 
     /**

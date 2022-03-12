@@ -29,8 +29,13 @@
     -fx-font-size: 30;
     -fx-text-fill: white;
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+}
 
-
+#ActivityDescription {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
 }
 
 /*.label.text {
@@ -98,4 +103,9 @@
 
 #edit-button{
     -fx-background-color: grey;
+}
+
+.text-area {
+    -fx-alignment: center;
+    -fx-font-size: 30;
 }

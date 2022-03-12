@@ -1,23 +1,27 @@
 package server;
 
 import commons.PlayerScore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Component
 public class Game {
 
     private List<PlayerScore> players;
-    private int gameId;
+    private final int gameId;
 
     /**
      * Constructor of Game
-     * @param gameId - id of the game we are in
+     *  gameId - id of the game we are in
      */
-    public Game(int gameId) {
+    @Autowired
+    public Game() {
         this.players = new ArrayList<>();
-        this.gameId=gameId;
+        this.gameId=0;
     }
 
     /**

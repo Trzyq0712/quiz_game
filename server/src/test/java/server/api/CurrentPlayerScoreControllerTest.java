@@ -19,7 +19,7 @@ class CurrentPlayerScoreControllerTest {
 
     @BeforeEach
     public void setup(){
-        g = new Game(1);
+        g = new Game();
         cp = new CurrentPlayerScoreController(g);
         p1 = new PlayerScore("Reinier", 50);
         p2 = new PlayerScore("Laimonas",80);

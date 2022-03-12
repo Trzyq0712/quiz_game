@@ -18,7 +18,7 @@ class GameTest {
 
     @BeforeEach
     public void setup() {
-        g = new Game(1);
+        g = new Game();
         p1 = new PlayerScore("Vian",50);
         p2 = new PlayerScore("Kuba", 70);
     }
@@ -102,7 +102,7 @@ class GameTest {
     void testEquals() {
         g.addAPlayer(p2);
         g.addAPlayer(p1);
-        Game g1 = new Game(1);
+        Game g1 = new Game();
         g1.addAPlayer(p2);
         g1.addAPlayer(p1);
         assertTrue(g.equals(g1));
@@ -112,11 +112,11 @@ class GameTest {
     void testHashCode() {
         g.addAPlayer(p2);
         g.addAPlayer(p1);
-        Game g1 = new Game(1);
+        Game g1 = new Game();
         g1.addAPlayer(p2);
         g1.addAPlayer(p1);
         assertEquals(g.hashCode(),g1.hashCode());
-        Game g2 = new Game(1);
+        Game g2 = new Game();
         g1.addAPlayer(p2);
         g1.addAPlayer(p1);
         assertNotEquals(g.hashCode(), g2.hashCode());

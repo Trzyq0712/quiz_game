@@ -50,6 +50,7 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
         threadRun = false;
         leaveWaitingroom(player);
         mainCtrl.showQuestion();
+        mainCtrl.buttonSound();
         restoreChat1();
     }
 

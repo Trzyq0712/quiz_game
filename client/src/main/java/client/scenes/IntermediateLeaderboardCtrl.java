@@ -36,11 +36,7 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     @FXML
     VBox chatbox;
     @FXML
-    StackPane emotePane;
-    @FXML
-    Label chatboxTitle;
-    @FXML
-    Label emoteTitle;
+    StackPane chatAndEmoteHolder;
 
     @Inject
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {

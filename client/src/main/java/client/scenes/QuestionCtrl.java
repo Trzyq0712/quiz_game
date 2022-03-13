@@ -52,11 +52,7 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     @FXML
     VBox chatbox;
     @FXML
-    StackPane emotePane;
-    @FXML
-    Label chatboxTitle;
-    @FXML
-    Label emoteTitle;
+    StackPane chatAndEmoteHolder;
 
     //Long startTime;
     int amountOfMessages = 0;
@@ -131,19 +127,16 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     }
 
     public void activateSingleplayer() {
-        chatboxTitle.setVisible(false);
-        chatbox.setVisible(false);
-        emotePane.setVisible(false);
-        emoteTitle.setVisible(false);
-        timeJoker.setVisible(false);
+        chatAndEmoteHolder.setVisible(false);
     }
 
     public void activateMultiplayer() {
-        chatboxTitle.setVisible(true);
+        /*chatboxTitle.setVisible(true);
         chatbox.setVisible(true);
         emotePane.setVisible(true);
         emoteTitle.setVisible(true);
-        timeJoker.setVisible(true);
+        timeJoker.setVisible(true);*/
+        chatAndEmoteHolder.setVisible(true);
     }
 
 

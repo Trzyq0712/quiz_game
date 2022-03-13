@@ -7,7 +7,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -27,15 +26,8 @@ public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
 
     @FXML
     VBox chatbox;
-
     @FXML
-    StackPane emotePane;
-
-    @FXML
-    Label chatboxTitle;
-
-    @FXML
-    Label emoteTitle;
+    StackPane chatAndEmoteHolder;
 
     @Inject
     public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {

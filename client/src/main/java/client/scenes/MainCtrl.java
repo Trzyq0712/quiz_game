@@ -28,6 +28,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -97,6 +98,7 @@ public class MainCtrl  {
      */
     int amountOfMessages = 0;
     List<VBox> listOfChatBoxes;
+    List<StackPane> listOfHolders;
 
     private EditScreenCtrl editCtrl;
     private Scene editScene;
@@ -170,16 +172,20 @@ public class MainCtrl  {
             primaryStage.close();
         });
         showHome();
-        new java.util.Timer().schedule(
+        initializeMusicIcons();
+        initializeChatBoxes();
+        initializeHolders();
+        /*new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         initializeMusicIcons();
                         initializeChatBoxes();
+                        initializeHolders();
                     }
                 },
-                1000
-        );
+                500
+        );*/
         primaryStage.show();
     }
 
@@ -209,6 +215,25 @@ public class MainCtrl  {
                 MPFinal.chatbox);
     }
 
+    public void initializeHolders() {
+        listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
+                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder);
+    }
+
+    public void activateSingleplayer() {
+        questionCtrl.timeJoker.setVisible(false);
+        for (StackPane s : listOfHolders) {
+            s.setVisible(false);
+        }
+    }
+
+    public void activateMultiplayer() {
+        questionCtrl.timeJoker.setVisible(true);
+        for (StackPane s : listOfHolders) {
+            s.setVisible(true);
+        }
+    }
+
     public void buttonSound() {
         Media media = new Media(buttonClickSound.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
@@ -233,7 +258,6 @@ public class MainCtrl  {
             singlePlayerModeActive = true;
             promptCtrl.startButton.setPrefWidth(200);
             promptCtrl.startButton.setText("Enter game");
-            //promptCtrl.startButton.setTextAlignment(Pos.CENTER);
         } else {
             singlePlayerModeActive = false;
             promptCtrl.startButton.setPrefWidth(500);
@@ -270,18 +294,17 @@ public class MainCtrl  {
         active = true;
         questionScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         if(singlePlayerModeActive) {
-            questionCtrl.activateSingleplayer();
+            activateSingleplayer();
             questionCtrl.updateQuestionTracker();
             primaryStage.setScene(questionScene);
             //show singleplayer
         } else {
-            questionCtrl.activateMultiplayer();
+            activateMultiplayer();
             questionCtrl.updateQuestionTracker();
             primaryStage.setScene(questionScene);
             //show multiplayer, partly implemented
         }
         new Thread(() -> questionCtrl.activateProgressBar()).start();
-        buttonSound();
     }
 
     public void enterWaitingRoom(Player player) {

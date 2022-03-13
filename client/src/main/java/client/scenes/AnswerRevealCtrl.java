@@ -35,11 +35,7 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
     @FXML
     VBox chatbox;
     @FXML
-    StackPane emotePane;
-    @FXML
-    Label chatboxTitle;
-    @FXML
-    Label emoteTitle;
+    StackPane chatAndEmoteHolder;
 
     @Inject
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl) {

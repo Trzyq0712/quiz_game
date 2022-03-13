@@ -32,6 +32,13 @@
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
 }
 
+#mediumTitle {
+    -fx-alignment: center;
+    -fx-font-size: 50;
+    -fx-text-fill: white;
+    -fx-font-family: "Showcard Gothic";
+}
+
 #ActivityDescription {
     -fx-alignment: center;
     -fx-font-size: 20;

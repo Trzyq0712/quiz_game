@@ -63,31 +63,50 @@
          </children>
       </StackPane>
       <Button layoutX="886.0" layoutY="926.0" mnemonicParsing="false" onAction="#playAgain" text="play again" />
-      <VBox id="chatbox4" fx:id="chatbox" layoutX="41.0" layoutY="339.0" prefHeight="382.0" prefWidth="290.0" />
-      <Label fx:id="chatboxTitle" layoutX="115.0" layoutY="301.0" text="chatbox" />
-      <Label fx:id="emoteTitle" layoutX="77.0" layoutY="740.0" text="pick an emote" />
-      <StackPane fx:id="emotePane" layoutX="75.0" layoutY="800.0" prefHeight="220.0" prefWidth="224.0">
+      <StackPane fx:id="chatAndEmoteHolder" layoutX="56.0" layoutY="277.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="288.0">
          <children>
-            <ImageView fitHeight="100.0" fitWidth="100.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
-               <image>
-                  <Image url="@images/angry.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
-               <image>
-                  <Image url="@images/happy.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-               <image>
-                  <Image url="@images/sunglasses.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
-               <image>
-                  <Image url="@images/tears.png" />
-               </image>
-            </ImageView>
+            <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="382.0" prefWidth="290.0">
+               <StackPane.margin>
+                  <Insets bottom="250.0" />
+               </StackPane.margin>
+            </VBox>
+            <Label fx:id="chatboxTitle" text="chatbox">
+               <StackPane.margin>
+                  <Insets bottom="700.0" />
+               </StackPane.margin>
+            </Label>
+            <Label fx:id="emoteTitle" text="pick an emote">
+               <StackPane.margin>
+                  <Insets top="250.0" />
+               </StackPane.margin>
+            </Label>
+            <StackPane fx:id="emotePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
+                     <image>
+                        <Image url="@images/angry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                     <image>
+                        <Image url="@images/happy.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                     <image>
+                        <Image url="@images/sunglasses.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                     <image>
+                        <Image url="@images/tears.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <StackPane.margin>
+                  <Insets top="500.0" />
+               </StackPane.margin>
+            </StackPane>
          </children>
       </StackPane>
    </children>

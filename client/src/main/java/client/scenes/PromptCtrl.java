@@ -45,6 +45,7 @@ public class PromptCtrl extends ReusedButtonCtrl{
     public void startGame() {
         if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
             mainCtrl.showQuestion();
+            mainCtrl.buttonSound();
         }
     }
 

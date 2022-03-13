@@ -66,7 +66,7 @@ class PreGameControllerTest {
         assertEquals(playerList, sut.getWaitingroom().getBody());
     }
 
-    @Test
+    /*@Test
     void updatesJoinTest() throws InterruptedException {
         sut.playMulti(p1.name);
         Thread.sleep(6000);
@@ -91,5 +91,5 @@ class PreGameControllerTest {
         playerList.remove(p2);
         List<Player> result = mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { });
         assertEquals(playerList, result);
-    }
+    }*/
 }

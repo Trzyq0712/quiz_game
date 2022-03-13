@@ -3,10 +3,6 @@ package server;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.net.URI;
-import java.nio.file.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActivityTest {

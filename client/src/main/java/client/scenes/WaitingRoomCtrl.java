@@ -48,7 +48,7 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
     public void startGame() {
         threadRun = false;
         leaveWaitingroom(player);
-        mainCtrl.startGame();
+        mainCtrl.showQuestion();
     }
 
     public void toggleSound(){

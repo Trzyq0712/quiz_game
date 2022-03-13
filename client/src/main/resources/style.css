@@ -12,6 +12,7 @@
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
 
     -fx-alignment: center;
+    -fx-text-alignment: center;
     -fx-cursor: "HAND"; /*applied this style to all clickable things*/
 }
 
@@ -64,9 +65,6 @@
     -fx-background-image: url(images/clouds.png);
 }
 
-.VBox {
-    -fx-alignment: center;
-}
 
 #mainTitle {
     -fx-font-size: 60;
@@ -109,3 +107,16 @@
     -fx-alignment: center;
     -fx-font-size: 30;
 }
+
+VBox {/*this is the chatbox*/
+    -fx-border-radius: 20px;
+    -fx-border-width: 5px;
+    -fx-border-color: black;
+}
+
+VBox Label {/*text within the chatbox*/
+    -fx-alignment: left;
+    -fx-text-alignment: left;
+    -fx-tile-alignment: left;
+}
+

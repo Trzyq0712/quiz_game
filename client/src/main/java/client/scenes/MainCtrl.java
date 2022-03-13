@@ -18,12 +18,18 @@ package client.scenes;
 
 import javafx.application.Platform;
 import commons.Player;
+import javafx.event.Event;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -52,20 +58,11 @@ public class MainCtrl  {
     private HomescreenCtrl homeCtrl;
     private Scene homeScene;
 
-    private SPNamePromptCtrl nameCtrl;
-    private Scene namePromptScene;
-
-    private MPNamePromptCtrl mpnameCtrl;
-    private Scene mpnamePromptScene;
-
     private SinglePlayerLeaderboardCtrl splCtrl;
     private Scene splScene;
 
     private ExitScreenCtrl exitCtrl;
     private Scene exitScene;
-
-    private SinglePlayerCtrl singleCtrl;
-    private Scene singleScene;
 
     /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
     private WaitingRoomCtrl waitingCtrl;
@@ -91,23 +88,38 @@ public class MainCtrl  {
     boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
     at which point the next scene shouldnt be loaded anymore*/
+    /**
+     * if true, game knows the player is in singleplayer, if false, the game knows
+     *     that the player is in multiplayer
+     */
+    boolean singlePlayerModeActive;
+    /**
+     * amount of messages currently displaying in the chat
+     */
+    int amountOfMessages = 0;
+    List<VBox> listOfChatBoxes;
 
     private EditScreenCtrl editCtrl;
     private Scene editScene;
 
+    private PromptCtrl promptCtrl;
+    private Scene promptScene;
+
+    private QuestionCtrl questionCtrl;
+    private Scene questionScene;
+
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
-                           Pair<SPNamePromptCtrl, Parent> name,
-                           Pair<MPNamePromptCtrl, Parent> mpname,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
-                           Pair<SinglePlayerCtrl, Parent> single,
                            Pair<ExitScreenCtrl, Parent> exit,
                            Pair<WaitingRoomCtrl, Parent> waiting,
                            Pair<EditScreenCtrl, Parent> edit,
                            Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
                            Pair<AnswerRevealCtrl, Parent> answerReveal,
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
-                           Pair<InfoCtrl, Parent> info) {
+                           Pair<InfoCtrl, Parent> info,
+                           Pair<PromptCtrl, Parent> prompt,
+                           Pair<QuestionCtrl, Parent> question) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -119,17 +131,8 @@ public class MainCtrl  {
         this.homeCtrl = home.getKey();
         this.homeScene = new Scene(home.getValue());
 
-        this.nameCtrl = name.getKey();
-        this.namePromptScene = new Scene(name.getValue());
-
-        this.mpnameCtrl = mpname.getKey();
-        this.mpnamePromptScene = new Scene(mpname.getValue());
-
         this.splCtrl = sp.getKey();
         this.splScene = new Scene(sp.getValue());
-
-        this.singleCtrl = single.getKey();
-        this.singleScene = new Scene(single.getValue());
 
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
@@ -154,6 +157,12 @@ public class MainCtrl  {
         this.editCtrl = edit.getKey();
         this.editScene = new Scene(edit.getValue());
 
+        this.promptCtrl = prompt.getKey();
+        this.promptScene = new Scene(prompt.getValue());
+
+        this.questionCtrl = question.getKey();
+        this.questionScene = new Scene(question.getValue());
+
         //showOverview();
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
@@ -163,6 +172,7 @@ public class MainCtrl  {
         });
         showHome();
         initializeMusicIcons();
+        initializeChatBoxes();
         primaryStage.show();
     }
 
@@ -183,8 +193,12 @@ public class MainCtrl  {
 
     public void initializeMusicIcons() {
         listOfMusicIcons = Arrays.asList(homeCtrl.music, infoCtrl.music, answerRevealCtrl.music, editCtrl.music,
-                intermediateCtrl.music, MPFinal.music, mpnameCtrl.music, singleCtrl.music, splCtrl.music,
-                nameCtrl.music, waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
+                intermediateCtrl.music, MPFinal.music, promptCtrl.music, questionCtrl.music, splCtrl.music,
+                waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
+    }
+
+    public void initializeChatBoxes() {
+        listOfChatBoxes = Arrays.asList(questionCtrl.chatbox, answerRevealCtrl.chatbox, MPFinal.chatbox); //if new scenes are added, make sure to add their music icons here!
     }
 
     public void buttonSound() {
@@ -204,17 +218,23 @@ public class MainCtrl  {
         buttonSound();
     }
 
-    public void showNamePrompt() {
-        namePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        nameCtrl.setUp();
-        primaryStage.setScene(namePromptScene);
-        buttonSound();
-    }
 
-    public void showMPNamePrompt() {
-        mpnamePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        mpnameCtrl.setUp();
-        primaryStage.setScene(mpnamePromptScene);
+    public void showNewPrompt(Event e) {
+        String mode = ((Button) e.getSource()).getText();
+        if (mode.equals("Singleplayer")) {
+            singlePlayerModeActive = true;
+            promptCtrl.startButton.setPrefWidth(200);
+            promptCtrl.startButton.setText("Enter game");
+            //promptCtrl.startButton.setTextAlignment(Pos.CENTER);
+        } else {
+            singlePlayerModeActive = false;
+            promptCtrl.startButton.setPrefWidth(500);
+            promptCtrl.startButton.setText("Enter waiting room");
+        }
+        promptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        promptCtrl.setUp();
+        primaryStage.setScene(promptScene);
+
     }
 
     public void showSPLeaderboard() {
@@ -237,19 +257,22 @@ public class MainCtrl  {
         buttonSound();
     }
 
-    public void startGame() {
+
+    public void showQuestion() {
         active = true;
-        singleScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        if(true) {
-            singleCtrl.updateQuestionTracker();
-            primaryStage.setScene(singleScene);
+        questionScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        if(singlePlayerModeActive) {
+            questionCtrl.activateSingleplayer();
+            questionCtrl.updateQuestionTracker();
+            primaryStage.setScene(questionScene);
             //show singleplayer
-        } else{
-            singleCtrl.updateQuestionTracker();
-            primaryStage.setScene(singleScene);
-            //show multiplayer not yet implemented
+        } else {
+            questionCtrl.activateMultiplayer();
+            questionCtrl.updateQuestionTracker();
+            primaryStage.setScene(questionScene);
+            //show multiplayer, partly implemented
         }
-        new Thread(() -> singleCtrl.activateProgressBar()).start();
+        new Thread(() -> questionCtrl.activateProgressBar()).start();
         buttonSound();
     }
 
@@ -301,20 +324,42 @@ public class MainCtrl  {
             if (active) {
                 if (call == 0) Platform.runLater(() -> showAnswerReveal());
                 else if (call == 1 && currentQuestion < totalQuestions) {
-                    singleCtrl.restoreAnswers();
-                    Platform.runLater(() -> showIntermediateLeaderboard());
+                    questionCtrl.restoreAnswers();
+                    if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
+                    else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= totalQuestions) {
-                    Platform.runLater(() -> showMPFinalLeaderboard());
                     restore();
-                } else if (call == 2) Platform.runLater(() -> startGame());
+                    if (singlePlayerModeActive) Platform.runLater(() -> showSPLeaderboard());
+                    else Platform.runLater(() -> showMPFinalLeaderboard());
+                } else if (call == 2) Platform.runLater(() -> showQuestion());
             }
         }
     }
 
     public void restore() {
         currentQuestion = 0;
-        singleCtrl.restoreJokers();
-        singleCtrl.restoreAnswers();
+        questionCtrl.restoreJokers();
+        questionCtrl.restoreAnswers();
+    }
+
+    public void emote(Event e) {
+        HBox hbox = new HBox();
+        Image arg = ((ImageView) e.getSource()).getImage();
+        Label user = new Label(" user01:  ");
+        ImageView emote = new ImageView(arg);
+        emote.setFitHeight(50);
+        emote.setFitWidth(50);
+        hbox.getChildren().addAll(user, emote);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        for (VBox chatbox : listOfChatBoxes) {
+            if (amountOfMessages == maxChatMessages) {
+                chatbox.getChildren().remove(0);
+                amountOfMessages--;
+            }
+            chatbox.getChildren().add(hbox);
+            chatbox.setSpacing(10);
+        }
+        amountOfMessages++;
     }
 
     public long getDelta() {

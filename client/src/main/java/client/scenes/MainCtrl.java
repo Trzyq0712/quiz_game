@@ -242,7 +242,7 @@ public class MainCtrl  {
         promptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         promptCtrl.setUp();
         primaryStage.setScene(promptScene);
-
+        buttonSound();
     }
 
     public void showSPLeaderboard() {
@@ -290,6 +290,7 @@ public class MainCtrl  {
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         waitingCtrl.setUp(player);
         primaryStage.setScene(waitingScene);
+        buttonSound();
     }
 
     /**

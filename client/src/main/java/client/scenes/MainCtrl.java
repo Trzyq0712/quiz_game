@@ -367,6 +367,7 @@ public class MainCtrl  {
             c.setSpacing(10);
         }
         amountOfMessages++;
+        buttonSound();
     }
 
     public long getDelta() {

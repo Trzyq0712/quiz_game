@@ -1,6 +1,5 @@
 package server.api;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;

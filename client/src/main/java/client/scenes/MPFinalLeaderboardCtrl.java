@@ -25,12 +25,16 @@ public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
 
     @FXML
     ImageView music;
+
     @FXML
-    public VBox chatbox;
+    VBox chatbox;
+
     @FXML
     StackPane emotePane;
+
     @FXML
     Label chatboxTitle;
+
     @FXML
     Label emoteTitle;
 

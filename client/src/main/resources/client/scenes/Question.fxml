@@ -137,7 +137,7 @@
             </Button>
          </children>
       </StackPane>
-      <VBox id="chatbox" fx:id="chatbox" layoutX="31.0" layoutY="329.0" prefHeight="382.0" prefWidth="290.0" />
+      <VBox id="chatbox1" fx:id="chatbox" layoutX="31.0" layoutY="329.0" prefHeight="382.0" prefWidth="290.0" />
       <Label fx:id="chatboxTitle" layoutX="105.0" layoutY="291.0" text="chatbox" />
       <Label fx:id="emoteTitle" layoutX="67.0" layoutY="730.0" text="pick an emote" />
       <StackPane fx:id="emotePane" layoutX="65.0" layoutY="790.0" prefHeight="220.0" prefWidth="224.0">
@@ -157,7 +157,7 @@
                   <Image url="@images/sunglasses.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="100.0" fitWidth="100.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+            <ImageView fitHeight="100.0" fitWidth="100.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                <image>
                   <Image url="@images/tears.png" />
                </image>

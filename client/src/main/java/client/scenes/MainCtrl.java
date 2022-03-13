@@ -27,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -171,8 +170,16 @@ public class MainCtrl  {
             primaryStage.close();
         });
         showHome();
-        initializeMusicIcons();
-        initializeChatBoxes();
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        initializeMusicIcons();
+                        initializeChatBoxes();
+                    }
+                },
+                1000
+        );
         primaryStage.show();
     }
 
@@ -198,7 +205,8 @@ public class MainCtrl  {
     }
 
     public void initializeChatBoxes() {
-        listOfChatBoxes = Arrays.asList(questionCtrl.chatbox, answerRevealCtrl.chatbox, MPFinal.chatbox); //if new scenes are added, make sure to add their music icons here!
+        listOfChatBoxes = Arrays.asList(questionCtrl.chatbox, intermediateCtrl.chatbox, answerRevealCtrl.chatbox,
+                MPFinal.chatbox);
     }
 
     public void buttonSound() {
@@ -343,21 +351,20 @@ public class MainCtrl  {
     }
 
     public void emote(Event e) {
-        HBox hbox = new HBox();
-        Image arg = ((ImageView) e.getSource()).getImage();
-        Label user = new Label(" user01:  ");
-        ImageView emote = new ImageView(arg);
-        emote.setFitHeight(50);
-        emote.setFitWidth(50);
-        hbox.getChildren().addAll(user, emote);
-        hbox.setAlignment(Pos.CENTER_LEFT);
-        for (VBox chatbox : listOfChatBoxes) {
-            if (amountOfMessages == maxChatMessages) {
-                chatbox.getChildren().remove(0);
-                amountOfMessages--;
+        for (VBox c : listOfChatBoxes) {
+            HBox hbox = new HBox();
+            Image arg = ((ImageView) e.getSource()).getImage();
+            Label user = new Label(" user01:  ");
+            ImageView emote = new ImageView(arg);
+            emote.setFitHeight(50);
+            emote.setFitWidth(50);
+            hbox.getChildren().addAll(user, emote);
+            hbox.setAlignment(Pos.CENTER_LEFT);
+            if (amountOfMessages >= maxChatMessages) {
+                c.getChildren().remove(0);
             }
-            chatbox.getChildren().add(hbox);
-            chatbox.setSpacing(10);
+            c.getChildren().add(hbox);
+            c.setSpacing(10);
         }
         amountOfMessages++;
     }

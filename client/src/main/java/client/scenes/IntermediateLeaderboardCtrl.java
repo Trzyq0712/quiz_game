@@ -5,10 +5,13 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import static client.Config.*;
 
@@ -30,6 +33,15 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     @FXML
     ImageView music;
 
+    @FXML
+    VBox chatbox;
+    @FXML
+    StackPane emotePane;
+    @FXML
+    Label chatboxTitle;
+    @FXML
+    Label emoteTitle;
+
     @Inject
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
@@ -47,6 +59,10 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
 
     public void updateQuestionTracker() {
         mainCtrl.updateQuestionTracker(questionTracker, false);
+    }
+
+    public void emote(Event e){
+        mainCtrl.emote(e);
     }
 
 }

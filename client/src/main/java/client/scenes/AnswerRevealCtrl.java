@@ -34,7 +34,7 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
     ImageView music;
 
     @FXML
-    public VBox chatbox;
+    VBox chatbox;
     @FXML
     StackPane emotePane;
     @FXML

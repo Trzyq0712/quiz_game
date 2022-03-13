@@ -1,5 +1,6 @@
 package server;
 
+import commons.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class ActivityService {
      * @param activity The activity to be added.
      * @return The activity added with the assigned id.
      */
-    Activity addActivity(Activity activity) {
+    public Activity addActivity(Activity activity) {
         activityRepository.save(activity);
         return activity;
     }
@@ -40,7 +41,7 @@ public class ActivityService {
      * @param id the id to search for.
      * @return the activity if present. Otherwise, an empty Optional.
      */
-    Optional<Activity> getActivityById(Long id) {
+    public Optional<Activity> getActivityById(Long id) {
         return activityRepository.findById(id);
     }
 
@@ -51,8 +52,17 @@ public class ActivityService {
      * @param descriptionPattern The string to be searched with.
      * @return List of all matching activities.
      */
-    List<Activity> getActivitiesByMatchingDescription(String descriptionPattern) {
-        return activityRepository.findByDescriptionLike(descriptionPattern);
+    public List<Activity> getActivitiesByMatchingDescription(String descriptionPattern) {
+        return activityRepository.findByDescriptionContaining(descriptionPattern);
+    }
+
+    /**
+     * Get all activities that are stored in the repository.
+     *
+     * @return The activities.
+     */
+    public List<Activity> getAllActivities() {
+        return activityRepository.findAll();
     }
 
     /**
@@ -61,7 +71,7 @@ public class ActivityService {
      * @param id Id of the activity to be removed.
      * @return The activity if it was present. Otherwise, an empty Optional.
      */
-    Optional<Activity> removeActivity(Long id) {
+    public Optional<Activity> removeActivity(Long id) {
         Optional<Activity> optionalActivity = activityRepository.findById(id);
         if (optionalActivity.isPresent()) {
             activityRepository.deleteById(id);
@@ -75,7 +85,7 @@ public class ActivityService {
      * @param activity The activity to be removed from the repository.
      * @return The activity if it was present. Otherwise, an empty Optional.
      */
-    Optional<Activity> removeActivity(Activity activity) {
+    public Optional<Activity> removeActivity(Activity activity) {
         Optional<Activity> optionalActivity = activityRepository.findOne(Example.of(activity));
         if (optionalActivity.isPresent()) {
             activityRepository.delete(activity);

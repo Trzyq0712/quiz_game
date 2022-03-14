@@ -7,15 +7,18 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.Event;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
+import static client.Config.timePerQuestion;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static com.google.inject.Guice.createInjector;
 
-public class SinglePlayerCtrl {
+public class SinglePlayerCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -36,23 +39,37 @@ public class SinglePlayerCtrl {
     @FXML
     Button thirdButton;
 
+    @FXML
+    ProgressBar pgBar;
+
+    @FXML
+    Label questionTracker;
+    @FXML
+    ImageView music;
+
+    //Long startTime;
 
 
     @Inject
     public SinglePlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
     public void showHome() {
         mainCtrl.showHome();
-        restore();
+        restoreAnswers();
+        restoreJokers();
     }
 
-    public void restore() {
+    public void restoreAnswers() {
         firstButton.setVisible(true);
         secondButton.setVisible(true);
         thirdButton.setVisible(true);
+    }
+
+    public void restoreJokers() {
         hintJoker.setVisible(true);
         timeJoker.setVisible(true);
         pointsJoker.setVisible(true);
@@ -69,7 +86,8 @@ public class SinglePlayerCtrl {
         }
     }
 
-    public void toggleSound() {
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
 
     public void hintClick() {
@@ -87,4 +105,16 @@ public class SinglePlayerCtrl {
         timeJoker.setVisible(false);
 
     }
+
+    public void activateProgressBar() {
+        mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
+    }
+
+    public void updateQuestionTracker() {
+        mainCtrl.updateQuestionTracker(questionTracker, true);
+    }
+
+
+
+
 }

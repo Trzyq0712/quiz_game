@@ -29,8 +29,13 @@
     -fx-font-size: 30;
     -fx-text-fill: white;
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+}
 
-
+#ActivityDescription {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
 }
 
 /*.label.text {
@@ -51,6 +56,10 @@
     -fx-text-fill: white;
 }
 
+#errorLabel {
+    -fx-text-fill: red;
+}
+
 .root{
     -fx-background-image: url(images/clouds.png);
 }
@@ -66,4 +75,37 @@
 .label .text, .button .text{
     -fx-stroke: black;
     -fx-stroke-width: 2px;
+}
+
+.scroll-pane{
+    -fx-border-radius: 50px;
+    -fx-border-width: 10px;
+    -fx-background-color: #263f4b;
+    -fx-background-radius: 60px;
+    -fx-border-color: white;
+}
+
+.scroll-pane .viewport{
+    -fx-background-radius: 50px;
+    -fx-background-color: #263f4b;
+}
+
+
+#explain {
+    -fx-font-size: 25;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+#save{
+    -fx-background-color: green;
+}
+
+#edit-button{
+    -fx-background-color: grey;
+}
+
+.text-area {
+    -fx-alignment: center;
+    -fx-font-size: 30;
 }

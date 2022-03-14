@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
-public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
+public class EditScreenCtrl extends ReusedButtonCtrl{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -18,15 +18,10 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
-    ImageView imageView;
-
-    @FXML
     ImageView music;
 
-
-
     @Inject
-    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -35,5 +30,4 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
     public void toggleSound(){
         mainCtrl.toggleSound();
     }
-
 }

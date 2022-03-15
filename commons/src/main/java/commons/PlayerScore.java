@@ -21,11 +21,11 @@ public class PlayerScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public long id;
+    private Long id;
 
-    public String playerName;
-    public int score;
-    public Timestamp time = Timestamp.from(Instant.now());
+    private String playerName;
+    private Integer score;
+    private Timestamp time = Timestamp.from(Instant.now());
 
     @SuppressWarnings("unused")
     private PlayerScore() {
@@ -33,9 +33,10 @@ public class PlayerScore {
     }
 
     /**
-     * Create a playerScore instance
-     * @param playerName - name of the player
-     * @param score - the score they scored in the game
+     * Create a playerScore instance.
+     *
+     * @param playerName name of the player.
+     * @param score the score they scored in the game.
      */
     public PlayerScore(String playerName, int score) {
         this.playerName = playerName;
@@ -43,39 +44,65 @@ public class PlayerScore {
     }
 
     /**
-     * Updating the score by adding points to it
-     * @param points - points we wish to add to the player's score
+     * Updating the score by adding points to it.
+     *
+     * @param points to be added to the player's score.
      */
     public void addPoints(int points){
-        score+=points;
+        score += points;
     }
 
     /**
-     * @return the name of the player
+     * Getter for the PlayerScore's id.
+     *
+     * @return the id of the PlayerScore instance.
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Setter for the PlayerScore's id.
+     *
+     * @param id new id to be set.
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * Getter for player's name.
+     *
+     * @return the name of the player.
      */
     public String getPlayerName() {
         return playerName;
     }
 
     /**
-     * @return the score of the player
+     * Getter for player's score.
+     *
+     * @return the score of the player.
      */
     public int getScore() {
         return score;
     }
 
     /**
-     * @return the time the game was played
+     * Getter for the time the score was achieved.
+     *
+     * @return the time the game was played.
      */
     public Timestamp getTime() {
         return time;
     }
 
     /**
-     * Compare whether two instances of a PlayerScore are equal
-     * All fields have to be equal for equality
-     * @param obj - to be compared with
-     * @return - whether the two objects are equal
+     * Compare whether two instances of a PlayerScore are equal.
+     *
+     * All fields have to be equal for equality.
+     * @param obj to be compared with.
+     * @return whether the two objects are equal.
      */
     @Override
     public boolean equals(Object obj) {
@@ -83,8 +110,9 @@ public class PlayerScore {
     }
 
     /**
-     * Get a hash code of the PlayerScore instance
-     * @return - the hash code
+     * Get a hash code of the PlayerScore instance.
+     *
+     * @return the hash code of the PlayerScore instance.
      */
     @Override
     public int hashCode() {
@@ -92,9 +120,10 @@ public class PlayerScore {
     }
 
     /**
-     * Get a string representation of the PlayerScore instance
-     * It is given in a multiline format
-     * @return - the string representation of PlayerScore
+     * Get a string representation of the PlayerScore instance.
+     *
+     * It is given in a multiline format.
+     * @return the string representation of the PlayerScore instance.
      */
     @Override
     public String toString() {

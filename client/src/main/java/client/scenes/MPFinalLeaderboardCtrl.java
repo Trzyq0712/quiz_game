@@ -5,42 +5,35 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
 
 import static com.google.inject.Guice.createInjector;
 
-public class ExitScreenCtrl {
-
+public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+
     @FXML
-    Button closeButton;
-    @FXML
-    Button quitButton;
+    ImageView music;
 
     @Inject
-    public ExitScreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+        super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    public void quit() {
-        mainCtrl.buttonSound();
-        Platform.exit();
+    public void playAgain() {
+        mainCtrl.enterWaitingRoom();
     }
 
-    public void closeButtonAction(){
-        mainCtrl.buttonSound();
-        // get a handle to the stage
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        // do what you have to do
-        stage.close();
+    public void toggleSound(){
+        mainCtrl.toggleSound();
     }
+
 }

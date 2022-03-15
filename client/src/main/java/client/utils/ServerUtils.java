@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
+import commons.Player;
 import org.glassfish.jersey.client.ClientConfig;
 
 import commons.Quote;
@@ -58,5 +59,67 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
+    }
+
+    /**
+     * @param name the name with which the player wants to play singleplayer
+     * @return true if the server accepts
+     */
+    public boolean startSingle(String name) {
+        return askConfirmation("api/play/single", name);
+    }
+
+    /**
+     * @param name the name with which the player wants to join the waiting room
+     * @return true if the server accepts
+     */
+    public boolean enterWaitingRoom(String name) {
+        return askConfirmation("api/play/join", name);
+    }
+
+    /**
+     * @param path where to send the request
+     * @return true if request is ok
+     */
+    public boolean askConfirmation(String path, String name){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path(path) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(name, APPLICATION_JSON), Boolean.class);
+    }
+
+    /**
+     * @return the list of waiting players
+     */
+    public List<Player> getWaitingPlayers() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/waitingroom") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Player>>() {});
+    }
+
+    /**
+     * @param player that is going to leave
+     */
+    public void leaveWaitingroom(Player player) {
+         ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/waitingroom/leave") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(player, APPLICATION_JSON), Boolean.class);
+    }
+
+    /**
+     * @param players is the list of the visible players for the client
+     * @return the updated list of the players when something has changed
+     */
+    public List<Player> pollWaitingroom(List<Player> players) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/waitingroom/poll") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(players, APPLICATION_JSON), List.class);
     }
 }

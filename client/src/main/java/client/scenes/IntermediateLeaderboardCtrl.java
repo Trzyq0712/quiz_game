@@ -6,11 +6,15 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+
+import static client.Config.*;
 
 import static com.google.inject.Guice.createInjector;
 
-public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
+public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -18,15 +22,16 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
-    ImageView imageView;
+    ProgressBar pgBarIntermediate;
+
+    @FXML
+    Label questionTracker;
 
     @FXML
     ImageView music;
 
-
-
     @Inject
-    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -34,6 +39,14 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
 
     public void toggleSound(){
         mainCtrl.toggleSound();
+    }
+
+    public void activateProgressBar() {
+        mainCtrl.activateGenericProgressBar(pgBarIntermediate, timeForIntermediate, 2);
+    }
+
+    public void updateQuestionTracker() {
+        mainCtrl.updateQuestionTracker(questionTracker, false);
     }
 
 }

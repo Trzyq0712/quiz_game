@@ -6,19 +6,21 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
-import javafx.fxml.FXML;
-import static client.Config.timePerQuestion;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static client.Config.timePerQuestion;
 import static com.google.inject.Guice.createInjector;
 
-public class SinglePlayerCtrl extends ReusedButtonCtrl {
+public class QuestionCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -47,11 +49,17 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
     @FXML
     ImageView music;
 
+    @FXML
+    VBox chatbox;
+    @FXML
+    StackPane chatAndEmoteHolder;
+
     //Long startTime;
+    int amountOfMessages = 0;
 
 
     @Inject
-    public SinglePlayerCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -112,6 +120,23 @@ public class SinglePlayerCtrl extends ReusedButtonCtrl {
 
     public void updateQuestionTracker() {
         mainCtrl.updateQuestionTracker(questionTracker, true);
+    }
+
+    public void emote(Event e){
+        mainCtrl.emote(e);
+    }
+
+    public void activateSingleplayer() {
+        chatAndEmoteHolder.setVisible(false);
+    }
+
+    public void activateMultiplayer() {
+        /*chatboxTitle.setVisible(true);
+        chatbox.setVisible(true);
+        emotePane.setVisible(true);
+        emoteTitle.setVisible(true);
+        timeJoker.setVisible(true);*/
+        chatAndEmoteHolder.setVisible(true);
     }
 
 

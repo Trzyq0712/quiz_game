@@ -36,4 +36,9 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
         mainCtrl.toggleSound();
     }
 
+    public void playAgain() {
+        mainCtrl.restore();
+        mainCtrl.showQuestion();
+    }
+
 }

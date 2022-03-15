@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -52,22 +53,16 @@ public class HomescreenCtrl {
         );
     }
 
-
-
-    public void showNamePrompt(ActionEvent event) {
-        mainCtrl.showNamePrompt();
-    }
-
-    public void showMPNamePrompt(ActionEvent event) {
-        mainCtrl.showMPNamePrompt();
-    }
-
     public void showSPLeaderboard(MouseEvent event) {
         mainCtrl.showSPLeaderboard();
     }
 
     public void showExitScreen(MouseEvent event) {
         mainCtrl.showExitScreen();
+    }
+
+    public void showPrompt(Event e) {
+        mainCtrl.showNewPrompt(e);
     }
 
     public void toggleSound(){

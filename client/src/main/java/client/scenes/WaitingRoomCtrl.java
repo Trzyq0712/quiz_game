@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
 import java.util.List;
 
@@ -48,7 +49,26 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
     public void startGame() {
         threadRun = false;
         leaveWaitingroom(player);
-        mainCtrl.startGame();
+        mainCtrl.showQuestion();
+        mainCtrl.buttonSound();
+        restoreChat1();
+    }
+
+    public void restoreChat() {
+        for (VBox i : mainCtrl.listOfChatBoxes) {
+            int z = i.getChildren().size();
+            for (var k : i.getChildren()) {
+                i.getChildren().remove(k);
+            }
+        }
+    }
+
+    public void restoreChat1() {
+        for (int i = 0; i < mainCtrl.listOfChatBoxes.size(); i++) {
+            VBox k = mainCtrl.listOfChatBoxes.get(i);
+            k.getChildren().clear();
+        }
+        mainCtrl.amountOfMessages = 0;
     }
 
     public void toggleSound(){

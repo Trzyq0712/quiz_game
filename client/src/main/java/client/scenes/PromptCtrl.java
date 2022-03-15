@@ -100,6 +100,10 @@ public class PromptCtrl extends ReusedButtonCtrl{
         }
     }
 
+    /**
+     * when the player clicks the button, we have to check if the player is in single- or multiplayer
+     * depending on this we call the appropriate function
+     */
     public void confirm() {
         if (mainCtrl.singlePlayerModeActive) startGame();
         else enterWaitingRoom();

@@ -83,6 +83,10 @@ public class QuestionCtrl extends ReusedButtonCtrl {
         pointsJoker.setVisible(true);
     }
 
+    /**
+     * hides all buttons except for the one that was clicked
+     * @param event button that was clicked, so either A, B or C
+     */
     public void answerClick(Event event) {
         mainCtrl.buttonSound();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
@@ -114,6 +118,10 @@ public class QuestionCtrl extends ReusedButtonCtrl {
 
     }
 
+    /**
+     * triggers the progressbar of this scene when called, 0 indicates what to do when the bar depletes
+     * see activateGenericProgressBar in mainCtrl for more info
+     */
     public void activateProgressBar() {
         mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
     }
@@ -125,21 +133,5 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     public void emote(Event e){
         mainCtrl.emote(e);
     }
-
-    public void activateSingleplayer() {
-        chatAndEmoteHolder.setVisible(false);
-    }
-
-    public void activateMultiplayer() {
-        /*chatboxTitle.setVisible(true);
-        chatbox.setVisible(true);
-        emotePane.setVisible(true);
-        emoteTitle.setVisible(true);
-        timeJoker.setVisible(true);*/
-        chatAndEmoteHolder.setVisible(true);
-    }
-
-
-
 
 }

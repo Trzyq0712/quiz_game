@@ -40,6 +40,7 @@ class ActivityServiceTest {
         sut.addActivity(act2);
         assertEquals(Optional.of(act1), sut.getActivityById(act1.getId()));
         assertEquals(Optional.of(act2), sut.getActivityById(act2.getId()));
+        assertEquals(Optional.empty(), sut.getActivityById(act1.getId() + act2.getId())); // a non-existent id
     }
 
     @Test
@@ -67,15 +68,18 @@ class ActivityServiceTest {
     void removeActivity() {
         sut.addActivity(act1);
         sut.addActivity(act2);
-        sut.removeActivity(act1.getId());
+        var removed1 = sut.removeActivity(act1.getId());
+        assertEquals(Optional.of(act1), removed1);
         assertTrue(repo.calledMethods.contains("deleteById"));
         assertEquals(List.of(act2), sut.getAllActivities());
         act1.setId(null);
         sut.addActivity(act1);
         assertEquals(2, sut.getAllActivities().size());
-        sut.removeActivity(act2);
+        var removed2 = sut.removeActivity(act2);
+        assertEquals(Optional.of(act2), removed2);
         assertTrue(repo.calledMethods.contains("delete"));
         assertEquals(List.of(act1), sut.getAllActivities());
+        assertEquals(Optional.empty(), sut.removeActivity(new Activity()));
     }
 
 }

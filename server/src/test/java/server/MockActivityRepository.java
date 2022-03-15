@@ -31,7 +31,9 @@ public class MockActivityRepository implements ActivityRepository {
     @Override
     public List<Activity> findByDescriptionContaining(String description) {
         call("findByDescriptionContaining");
-        return activities.stream().filter(act -> act.getDescription().contains(description)).collect(Collectors.toList());
+        return activities.stream()
+                .filter(act -> act.getDescription().contains(description))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -188,7 +190,8 @@ public class MockActivityRepository implements ActivityRepository {
     }
 
     @Override
-    public <S extends Activity, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends Activity, R> R findBy(Example<S> example,
+                                            Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
 }

@@ -50,8 +50,8 @@ class PlayerScoreControllerTest {
     void testGetById() {
         sut.add(ps1);
         sut.add(ps2);
-        assertEquals(ps1, sut.getById(ps1.id).getBody());
-        assertEquals(ps2, sut.getById(ps2.id).getBody());
+        assertEquals(ps1, sut.getById(ps1.getId()).getBody());
+        assertEquals(ps2, sut.getById(ps2.getId()).getBody());
     }
 
     @Test

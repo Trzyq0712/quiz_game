@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -8,6 +9,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.IntermediateLeaderboardCtrl">
@@ -42,5 +45,51 @@
       </ScrollPane>
       <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="910.0" text="Question x/y" />
       <Label id="scoreLabel" layoutX="1450.0" layoutY="970.0" text="Score x/y" />
+      <StackPane fx:id="chatAndEmoteHolder" layoutX="56.0" layoutY="277.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="288.0">
+         <children>
+            <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="382.0" prefWidth="290.0">
+               <StackPane.margin>
+                  <Insets bottom="250.0" />
+               </StackPane.margin>
+            </VBox>
+            <Label fx:id="chatboxTitle" text="chatbox">
+               <StackPane.margin>
+                  <Insets bottom="700.0" />
+               </StackPane.margin>
+            </Label>
+            <Label fx:id="emoteTitle" text="pick an emote">
+               <StackPane.margin>
+                  <Insets top="250.0" />
+               </StackPane.margin>
+            </Label>
+            <StackPane fx:id="emotePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
+                     <image>
+                        <Image url="@images/angry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                     <image>
+                        <Image url="@images/happy.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                     <image>
+                        <Image url="@images/sunglasses.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                     <image>
+                        <Image url="@images/tears.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <StackPane.margin>
+                  <Insets top="500.0" />
+               </StackPane.margin>
+            </StackPane>
+         </children>
+      </StackPane>
          </children>
 </AnchorPane>

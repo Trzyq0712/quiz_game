@@ -19,7 +19,7 @@
    <children>
       <Pane id="questionBox" layoutY="150.0" prefHeight="100.0" prefWidth="1920.0">
          <children>
-            <Label id="questionLabel" prefHeight="100.0" prefWidth="1920.0" text="What is the consumption of x?" wrapText="true">
+            <Label id="questionLabel" prefHeight="100.0" prefWidth="1920.0" text="Which requires more energy?" wrapText="true">
                <font>
                   <Font name="Script MT Bold" size="64.0" />
                </font>

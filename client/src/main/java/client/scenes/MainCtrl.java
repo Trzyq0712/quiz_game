@@ -89,12 +89,12 @@ public class MainCtrl  {
     clicked the homebutton. So he exited the game
     at which point the next scene shouldnt be loaded anymore*/
     /**
-     * if true, game knows the player is in singleplayer, if false, the game knows
-     *     that the player is in multiplayer
+     * If true, game knows the player is in singleplayer, if false, the game knows
+     * that the player is in multiplayer.
      */
     boolean singlePlayerModeActive;
     /**
-     * amount of messages currently displaying in the chat
+     * Amount of messages currently displaying in the chat.
      */
     int amountOfMessages = 0;
     List<VBox> listOfChatBoxes;
@@ -175,20 +175,12 @@ public class MainCtrl  {
         initializeMusicIcons();
         initializeChatBoxes();
         initializeHolders();
-        /*new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        initializeMusicIcons();
-                        initializeChatBoxes();
-                        initializeHolders();
-                    }
-                },
-                500
-        );*/
         primaryStage.show();
     }
 
+    /**
+     * Toggles the backgroundmusic of the application when called.
+     */
     public void toggleSound() {
         if (homeCtrl.mvv.getMediaPlayer().isMute()) {
             homeCtrl.mvv.getMediaPlayer().setMute(false);
@@ -204,21 +196,42 @@ public class MainCtrl  {
         buttonSound();
     }
 
+    /**
+     * Initializes an array of the musicicons of the whole application, this is needed so we can access all of them
+     * to keep them in sync if we want to for example change the music icon between on/off.
+     */
+
     public void initializeMusicIcons() {
         listOfMusicIcons = Arrays.asList(homeCtrl.music, infoCtrl.music, answerRevealCtrl.music, editCtrl.music,
                 intermediateCtrl.music, MPFinal.music, promptCtrl.music, questionCtrl.music, splCtrl.music,
                 waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
     }
 
+    /**
+     * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
+     * in sync.
+     */
+
     public void initializeChatBoxes() {
         listOfChatBoxes = Arrays.asList(questionCtrl.chatbox, intermediateCtrl.chatbox, answerRevealCtrl.chatbox,
                 MPFinal.chatbox);
     }
 
+    /**
+     * Initializes an array of all the stackpanes which are holding the chatbox and emoji's. this way they can be
+     * easily accessed and their visibility property can be easily toggled when the player is playing singleplayer or
+     * multiplayer.
+     */
+
     public void initializeHolders() {
         listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
                 intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder);
     }
+
+    /**
+     * This method modifies the question screen so that it's suited for singleplayer, in this case, it's hiding the
+     * time joker since that isn't applicable to singleplayer.
+     */
 
     public void activateSingleplayer() {
         questionCtrl.timeJoker.setVisible(false);
@@ -227,6 +240,11 @@ public class MainCtrl  {
         }
     }
 
+    /**
+     * This method modifies the question screen so that it's suited for multiplayer, in this case, it's showing the
+     * time joker since that is applicable to multiplayer.
+     */
+
     public void activateMultiplayer() {
         questionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
@@ -234,12 +252,19 @@ public class MainCtrl  {
         }
     }
 
+    /**
+     * Produces the sound of a button when invoked, this function should be called when a button is clicked.
+     */
+
     public void buttonSound() {
         Media media = new Media(buttonClickSound.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.play();
     }
 
+    /**
+     * Shows the home screen.
+     */
 
     public void showHome() {
         player = null;
@@ -251,7 +276,10 @@ public class MainCtrl  {
         buttonSound();
     }
 
-
+    /**
+     * Based on which button the player clicked, the player will get the nameprompt for single- or multiplayer.
+     * @param e The button on which the player has clicked to reach the nameprompt.
+     */
     public void showNewPrompt(Event e) {
         String mode = ((Button) e.getSource()).getText();
         if (mode.equals("Singleplayer")) {
@@ -269,11 +297,19 @@ public class MainCtrl  {
         buttonSound();
     }
 
+    /**
+     * Shows the singleplayer leaderboard.
+     */
+
     public void showSPLeaderboard() {
         splScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
         buttonSound();
     }
+
+    /**
+     * Shows the exitscreen when the user wants to quit the application.
+     */
 
     public void showExitScreen() {
         exitScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
@@ -288,6 +324,13 @@ public class MainCtrl  {
         //primaryStage.setScene(exitScene);
         buttonSound();
     }
+
+    /**
+     * Shows the question screen, sets
+     * active = true
+     * so that the application is aware that a game is active.
+     * Function triggers the progressbar to start decreasing.
+     */
 
 
     public void showQuestion() {
@@ -307,6 +350,10 @@ public class MainCtrl  {
         new Thread(() -> questionCtrl.activateProgressBar()).start();
     }
 
+    /**
+     * Shows the waiting room and adds the player to the waiting room so other clients can be informed about this.
+     * @param player The player which is added to the waiting room.
+     */
     public void enterWaitingRoom(Player player) {
         this.player = player;
         primaryStage.setTitle(titleWaitingRoom);
@@ -327,10 +374,10 @@ public class MainCtrl  {
 
 
     /**
-     *
-     * @param pgBar the progressbar being modified
-     * @param totalTime the total time the progress bar should last
-     * @param call indicates what function should be called next
+     * Triggers the progressbar to start going down, calls the appropriate function on depletion.
+     * @param pgBar The progressbar being modified.
+     * @param totalTime The total time the progress bar should last.
+     * @param call Indicates what function should be called next.
      */
     public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
         if (startTime == null) startTime = System.currentTimeMillis();
@@ -368,11 +415,21 @@ public class MainCtrl  {
         }
     }
 
+    /**
+     * Resets the question to 0 and makes jokers and answers visible again.
+     * Should be called after a game is done.
+     */
+
     public void restore() {
         currentQuestion = 0;
         questionCtrl.restoreJokers();
         questionCtrl.restoreAnswers();
     }
+
+    /**
+     * Updates all the chatboxes to display the emoji that has been clicked.
+     * @param e The emote that has been clicked.
+     */
 
     public void emote(Event e) {
         for (VBox c : listOfChatBoxes) {
@@ -394,9 +451,18 @@ public class MainCtrl  {
         buttonSound();
     }
 
+    /**
+     * Can be used to keep track of time that has passed since a certain point.
+     * @return Time passed since startTime variable in milliseconds.
+     */
+
     public long getDelta() {
         return System.currentTimeMillis() - startTime;
     }
+
+    /**
+     * Shows the screen where answers are revealed.
+     */
 
     public void showAnswerReveal() {
         answerRevealCtrl.updateQuestionTracker();
@@ -416,6 +482,13 @@ public class MainCtrl  {
         primaryStage.setScene(intermediateScene);
         new Thread(() -> intermediateCtrl.activateProgressBar()).start();
     }
+
+    /**
+     * Updates the passed in label to show the current question out of the total.
+     * @param label Label which contains the current question in format "Question X/Y".
+     * @param update Indicates if question counter should be incremented, otherwise, if false it will just update
+     * the given label acoording to currentQuestion variable.
+     */
 
     public void updateQuestionTracker(Label label, boolean update) {
         if (update) currentQuestion++;

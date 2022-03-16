@@ -51,6 +51,12 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
         mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 1);
     }
 
+    /**
+     * updates the label of this page which displays the current question.
+     * it's called with false since the question doesn't update when answers are revealed, only when the next question
+     * shows.
+     */
+
     public void updateQuestionTracker() {
         mainCtrl.updateQuestionTracker(questionTracker, false);
     }

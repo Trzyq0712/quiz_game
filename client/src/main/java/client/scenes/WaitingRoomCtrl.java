@@ -51,19 +51,14 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
         leaveWaitingroom(player);
         mainCtrl.showQuestion();
         mainCtrl.buttonSound();
-        restoreChat1();
+        restoreChat();
     }
+
+    /**
+     * clears the chat of all emoji's, this should be called after the user leaves a game
+     */
 
     public void restoreChat() {
-        for (VBox i : mainCtrl.listOfChatBoxes) {
-            int z = i.getChildren().size();
-            for (var k : i.getChildren()) {
-                i.getChildren().remove(k);
-            }
-        }
-    }
-
-    public void restoreChat1() {
         for (int i = 0; i < mainCtrl.listOfChatBoxes.size(); i++) {
             VBox k = mainCtrl.listOfChatBoxes.get(i);
             k.getChildren().clear();
@@ -99,11 +94,7 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
                     playerList = mapper.convertValue(server.pollWaitingroom(playerList),
                             new TypeReference<List<Player>>() { });
                     if(threadRun){
-                        Platform.runLater(new Runnable() {
-                            @Override public void run() {
-                                loadPlayerGrid(playerList);
-                            }
-                        });
+                        Platform.runLater(() -> loadPlayerGrid(playerList));
                     }
                 } catch (ServiceUnavailableException ex){
                     System.out.println("This is to catch if the poll request times out");

@@ -17,12 +17,10 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.sql.BatchUpdateException;
 import java.util.List;
 
 import commons.Answer;
 import commons.Player;
-import javafx.scene.control.Button;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;

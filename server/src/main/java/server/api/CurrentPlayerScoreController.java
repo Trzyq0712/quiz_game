@@ -118,6 +118,10 @@ public class CurrentPlayerScoreController {
         return ResponseEntity.ok(game.removeAPlayerWithName(name));
     }
 
+    /**
+     * @param answer - the answer coming from the player
+     * @return the points granted
+     */
     @PostMapping(path = {"", "/grantpoints"})
     public ResponseEntity<Integer> grantPoints(@RequestBody Answer answer) {
         int points = 0;

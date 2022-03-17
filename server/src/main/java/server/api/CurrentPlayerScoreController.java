@@ -1,10 +1,9 @@
 package server.api;
 
+import commons.PlayerScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import commons.PlayerScore;
 import server.Game;
 
 import java.util.Comparator;
@@ -27,6 +26,7 @@ public class CurrentPlayerScoreController {
 
     /**
      * Returns all player scores currently stored in the database
+     *
      * @return - list of all scores
      */
     @GetMapping(path = "")
@@ -36,12 +36,13 @@ public class CurrentPlayerScoreController {
 
     /**
      * Get a player current score from the database by id
+     *
      * @param name - id of the requested player score
      * @return - the requested player
      */
     @GetMapping(path = "{name}")
     public ResponseEntity<PlayerScore> getByPlayer(@PathVariable("name") String name) {
-        if (game.getByName(name)==null) {
+        if (game.getByName(name) == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(game.getByName(name));
@@ -49,6 +50,7 @@ public class CurrentPlayerScoreController {
 
     /**
      * Get the top amount of player results with the highest scores
+     *
      * @param amount - the requested number of best results, cannot be negative
      * @return - the list of results, list may be shorter if not enough results
      */
@@ -66,9 +68,9 @@ public class CurrentPlayerScoreController {
     }
 
 
-
     /**
      * Add a player score to the database
+     *
      * @param playerScore - result to be added to the database
      * @return - the PlayerScore that was added
      */
@@ -79,13 +81,14 @@ public class CurrentPlayerScoreController {
 
     /**
      * Awarding points to a player
-     * @param name - name of the player
+     *
+     * @param name   - name of the player
      * @param amount - amount of points awarded
      * @return the PlayerScore for confirmation
      */
-    @PostMapping(path={"", "/{name}/{amount}"})
-    public ResponseEntity<PlayerScore> addPointsToAPlayer(@PathVariable String name, @PathVariable int amount){
-        if (game.getByName(name)==null) {
+    @PostMapping(path = {"", "/{name}/{amount}"})
+    public ResponseEntity<PlayerScore> addPointsToAPlayer(@PathVariable String name, @PathVariable int amount) {
+        if (game.getByName(name) == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(game.addPointsToAPlayer(name, amount));
@@ -94,7 +97,7 @@ public class CurrentPlayerScoreController {
     /**
      * Deletes every temporary PlayerScores in Game
      */
-    @PostMapping(path = { "", "/" })
+    @PostMapping(path = {"", "/"})
     public ResponseEntity<Boolean> deleteAll() {
         return ResponseEntity.ok(game.removeAll());
     }
@@ -102,11 +105,12 @@ public class CurrentPlayerScoreController {
     /**
      * If a player quits the game in the middle of it,
      * then they can be deleted from Game
+     *
      * @param name is the id of the player
      */
-    @PostMapping(path = { "", "/{name}" })
+    @PostMapping(path = {"", "/{name}"})
     public ResponseEntity<Boolean> deleteByName(@PathVariable("name") String name) {
-        if (game.getByName(name)==null) {
+        if (game.getByName(name) == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(game.removeAPlayerWithName(name));

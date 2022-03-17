@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
 import java.util.List;
 
@@ -48,7 +49,21 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
     public void startGame() {
         threadRun = false;
         leaveWaitingroom(player);
-        mainCtrl.startGame();
+        mainCtrl.showQuestion();
+        mainCtrl.buttonSound();
+        restoreChat();
+    }
+
+    /**
+     * clears the chat of all emoji's, this should be called after the user leaves a game
+     */
+
+    public void restoreChat() {
+        for (int i = 0; i < mainCtrl.listOfChatBoxes.size(); i++) {
+            VBox k = mainCtrl.listOfChatBoxes.get(i);
+            k.getChildren().clear();
+        }
+        mainCtrl.amountOfMessages = 0;
     }
 
     public void toggleSound(){
@@ -79,11 +94,7 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
                     playerList = mapper.convertValue(server.pollWaitingroom(playerList),
                             new TypeReference<List<Player>>() { });
                     if(threadRun){
-                        Platform.runLater(new Runnable() {
-                            @Override public void run() {
-                                loadPlayerGrid(playerList);
-                            }
-                        });
+                        Platform.runLater(() -> loadPlayerGrid(playerList));
                     }
                 } catch (ServiceUnavailableException ex){
                     System.out.println("This is to catch if the poll request times out");

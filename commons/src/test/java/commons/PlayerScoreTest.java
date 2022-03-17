@@ -19,8 +19,8 @@ class PlayerScoreTest {
     @Test
     void testConstructor() {
         var ps = new PlayerScore("Josh", 123);
-        assertEquals("Josh", ps.playerName);
-        assertEquals(123, ps.score);
+        assertEquals("Josh", ps.getPlayerName());
+        assertEquals(123, ps.getScore());
     }
 
     @Test

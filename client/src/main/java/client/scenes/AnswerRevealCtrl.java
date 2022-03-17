@@ -5,10 +5,13 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import static client.Config.timeAnswerReveal;
 import static com.google.inject.Guice.createInjector;
@@ -29,6 +32,10 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
     @FXML
     ImageView music;
 
+    @FXML
+    VBox chatbox;
+    @FXML
+    StackPane chatAndEmoteHolder;
 
     @Inject
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -44,11 +51,21 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
         mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 1);
     }
 
+    /**
+     * updates the label of this page which displays the current question.
+     * it's called with false since the question doesn't update when answers are revealed, only when the next question
+     * shows.
+     */
+
     public void updateQuestionTracker() {
         mainCtrl.updateQuestionTracker(questionTracker, false);
     }
 
     public void toggleSound(){
         mainCtrl.toggleSound();
+    }
+
+    public void emote(Event e){
+        mainCtrl.emote(e);
     }
 }

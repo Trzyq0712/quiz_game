@@ -39,7 +39,7 @@ public class TestPlayerScoreRepository implements PlayerScoreRepository {
     public List<PlayerScore> findAll(Sort sort) {
         call("findAll");
         return scores.stream()
-                .sorted(Comparator.comparingInt(ps -> -ps.score))
+                .sorted(Comparator.comparingInt(ps -> -ps.getScore()))
                 .collect(Collectors.toList());
     }
 
@@ -87,7 +87,7 @@ public class TestPlayerScoreRepository implements PlayerScoreRepository {
     @Override
     public <S extends PlayerScore> S save(S entity) {
         call("save");
-        entity.id = (long) scores.size();
+        entity.setId((long) scores.size());
         scores.add(entity);
         return entity;
     }
@@ -100,13 +100,13 @@ public class TestPlayerScoreRepository implements PlayerScoreRepository {
     @Override
     public Optional<PlayerScore> findById(Long aLong) {
         call("findById");
-        return scores.stream().filter(ps -> ps.id == aLong).findFirst();
+        return scores.stream().filter(ps -> ps.getId() == aLong).findFirst();
     }
 
     @Override
     public boolean existsById(Long aLong) {
         call("existsById");
-        return scores.stream().anyMatch(ps -> ps.id == aLong);
+        return scores.stream().anyMatch(ps -> ps.getId() == aLong);
     }
 
     @Override
@@ -147,7 +147,7 @@ public class TestPlayerScoreRepository implements PlayerScoreRepository {
     @Override
     public PlayerScore getById(Long aLong) {
         call("getById");
-        return scores.stream().filter(ps -> ps.id == aLong).findFirst().get();
+        return scores.stream().filter(ps -> ps.getId() == aLong).findFirst().get();
     }
 
     @Override

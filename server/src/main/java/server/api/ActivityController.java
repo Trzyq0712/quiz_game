@@ -29,9 +29,9 @@ public class ActivityController {
 
     /**
      * Endpoint for getting activities.
-     *
      * If specified RequestParam present (q=pattern), return activities whose
      * description match the pattern.
+     *
      * @param pattern The pattern to search for in activities. Ignored if null.
      * @return The list of all matching activities.
      */

@@ -18,12 +18,18 @@ package client.scenes;
 
 import javafx.application.Platform;
 import commons.Player;
+import javafx.event.Event;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -52,20 +58,11 @@ public class MainCtrl  {
     private HomescreenCtrl homeCtrl;
     private Scene homeScene;
 
-    private SPNamePromptCtrl nameCtrl;
-    private Scene namePromptScene;
-
-    private MPNamePromptCtrl mpnameCtrl;
-    private Scene mpnamePromptScene;
-
     private SinglePlayerLeaderboardCtrl splCtrl;
     private Scene splScene;
 
     private ExitScreenCtrl exitCtrl;
     private Scene exitScene;
-
-    private SinglePlayerCtrl singleCtrl;
-    private Scene singleScene;
 
     /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
     private WaitingRoomCtrl waitingCtrl;
@@ -91,23 +88,39 @@ public class MainCtrl  {
     boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
     at which point the next scene shouldnt be loaded anymore*/
+    /**
+     * If true, game knows the player is in singleplayer, if false, the game knows
+     * that the player is in multiplayer.
+     */
+    boolean singlePlayerModeActive;
+    /**
+     * Amount of messages currently displaying in the chat.
+     */
+    int amountOfMessages = 0;
+    List<VBox> listOfChatBoxes;
+    List<StackPane> listOfHolders;
 
     private EditScreenCtrl editCtrl;
     private Scene editScene;
 
+    private PromptCtrl promptCtrl;
+    private Scene promptScene;
+
+    private QuestionCtrl questionCtrl;
+    private Scene questionScene;
+
     public void initialize(Stage primaryStage,
                            Pair<HomescreenCtrl, Parent> home,
-                           Pair<SPNamePromptCtrl, Parent> name,
-                           Pair<MPNamePromptCtrl, Parent> mpname,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
-                           Pair<SinglePlayerCtrl, Parent> single,
                            Pair<ExitScreenCtrl, Parent> exit,
                            Pair<WaitingRoomCtrl, Parent> waiting,
                            Pair<EditScreenCtrl, Parent> edit,
                            Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
                            Pair<AnswerRevealCtrl, Parent> answerReveal,
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
-                           Pair<InfoCtrl, Parent> info) {
+                           Pair<InfoCtrl, Parent> info,
+                           Pair<PromptCtrl, Parent> prompt,
+                           Pair<QuestionCtrl, Parent> question) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -119,17 +132,8 @@ public class MainCtrl  {
         this.homeCtrl = home.getKey();
         this.homeScene = new Scene(home.getValue());
 
-        this.nameCtrl = name.getKey();
-        this.namePromptScene = new Scene(name.getValue());
-
-        this.mpnameCtrl = mpname.getKey();
-        this.mpnamePromptScene = new Scene(mpname.getValue());
-
         this.splCtrl = sp.getKey();
         this.splScene = new Scene(sp.getValue());
-
-        this.singleCtrl = single.getKey();
-        this.singleScene = new Scene(single.getValue());
 
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
@@ -154,6 +158,12 @@ public class MainCtrl  {
         this.editCtrl = edit.getKey();
         this.editScene = new Scene(edit.getValue());
 
+        this.promptCtrl = prompt.getKey();
+        this.promptScene = new Scene(prompt.getValue());
+
+        this.questionCtrl = question.getKey();
+        this.questionScene = new Scene(question.getValue());
+
         //showOverview();
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
@@ -163,9 +173,14 @@ public class MainCtrl  {
         });
         showHome();
         initializeMusicIcons();
+        initializeChatBoxes();
+        initializeHolders();
         primaryStage.show();
     }
 
+    /**
+     * Toggles the backgroundmusic of the application when called.
+     */
     public void toggleSound() {
         if (homeCtrl.mvv.getMediaPlayer().isMute()) {
             homeCtrl.mvv.getMediaPlayer().setMute(false);
@@ -181,11 +196,65 @@ public class MainCtrl  {
         buttonSound();
     }
 
+    /**
+     * Initializes an array of the musicicons of the whole application, this is needed so we can access all of them
+     * to keep them in sync if we want to for example change the music icon between on/off.
+     */
+
     public void initializeMusicIcons() {
         listOfMusicIcons = Arrays.asList(homeCtrl.music, infoCtrl.music, answerRevealCtrl.music, editCtrl.music,
-                intermediateCtrl.music, MPFinal.music, mpnameCtrl.music, singleCtrl.music, splCtrl.music,
-                nameCtrl.music, waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
+                intermediateCtrl.music, MPFinal.music, promptCtrl.music, questionCtrl.music, splCtrl.music,
+                waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
     }
+
+    /**
+     * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
+     * in sync.
+     */
+
+    public void initializeChatBoxes() {
+        listOfChatBoxes = Arrays.asList(questionCtrl.chatbox, intermediateCtrl.chatbox, answerRevealCtrl.chatbox,
+                MPFinal.chatbox);
+    }
+
+    /**
+     * Initializes an array of all the stackpanes which are holding the chatbox and emoji's. this way they can be
+     * easily accessed and their visibility property can be easily toggled when the player is playing singleplayer or
+     * multiplayer.
+     */
+
+    public void initializeHolders() {
+        listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
+                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder);
+    }
+
+    /**
+     * This method modifies the question screen so that it's suited for singleplayer, in this case, it's hiding the
+     * time joker since that isn't applicable to singleplayer.
+     */
+
+    public void activateSingleplayer() {
+        questionCtrl.timeJoker.setVisible(false);
+        for (StackPane s : listOfHolders) {
+            s.setVisible(false);
+        }
+    }
+
+    /**
+     * This method modifies the question screen so that it's suited for multiplayer, in this case, it's showing the
+     * time joker since that is applicable to multiplayer.
+     */
+
+    public void activateMultiplayer() {
+        questionCtrl.timeJoker.setVisible(true);
+        for (StackPane s : listOfHolders) {
+            s.setVisible(true);
+        }
+    }
+
+    /**
+     * Produces the sound of a button when invoked, this function should be called when a button is clicked.
+     */
 
     public void buttonSound() {
         Media media = new Media(buttonClickSound.toURI().toString());
@@ -193,6 +262,9 @@ public class MainCtrl  {
         player.play();
     }
 
+    /**
+     * Shows the home screen.
+     */
 
     public void showHome() {
         player = null;
@@ -204,24 +276,40 @@ public class MainCtrl  {
         buttonSound();
     }
 
-    public void showNamePrompt() {
-        namePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        nameCtrl.setUp();
-        primaryStage.setScene(namePromptScene);
+    /**
+     * Based on which button the player clicked, the player will get the nameprompt for single- or multiplayer.
+     * @param e The button on which the player has clicked to reach the nameprompt.
+     */
+    public void showNewPrompt(Event e) {
+        String mode = ((Button) e.getSource()).getText();
+        if (mode.equals("Singleplayer")) {
+            singlePlayerModeActive = true;
+            promptCtrl.startButton.setPrefWidth(200);
+            promptCtrl.startButton.setText("Enter game");
+        } else {
+            singlePlayerModeActive = false;
+            promptCtrl.startButton.setPrefWidth(500);
+            promptCtrl.startButton.setText("Enter waiting room");
+        }
+        promptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        promptCtrl.setUp();
+        primaryStage.setScene(promptScene);
         buttonSound();
     }
 
-    public void showMPNamePrompt() {
-        mpnamePromptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        mpnameCtrl.setUp();
-        primaryStage.setScene(mpnamePromptScene);
-    }
+    /**
+     * Shows the singleplayer leaderboard.
+     */
 
     public void showSPLeaderboard() {
         splScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
         buttonSound();
     }
+
+    /**
+     * Shows the exitscreen when the user wants to quit the application.
+     */
 
     public void showExitScreen() {
         exitScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
@@ -237,28 +325,42 @@ public class MainCtrl  {
         buttonSound();
     }
 
-    public void startGame() {
+    /**
+     * Shows the question screen, sets
+     * active = true
+     * so that the application is aware that a game is active.
+     * Function triggers the progressbar to start decreasing.
+     */
+
+
+    public void showQuestion() {
         active = true;
-        singleScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        if(true) {
-            singleCtrl.updateQuestionTracker();
-            primaryStage.setScene(singleScene);
+        questionScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        if(singlePlayerModeActive) {
+            activateSingleplayer();
+            questionCtrl.updateQuestionTracker();
+            primaryStage.setScene(questionScene);
             //show singleplayer
-        } else{
-            singleCtrl.updateQuestionTracker();
-            primaryStage.setScene(singleScene);
-            //show multiplayer not yet implemented
+        } else {
+            activateMultiplayer();
+            questionCtrl.updateQuestionTracker();
+            primaryStage.setScene(questionScene);
+            //show multiplayer, partly implemented
         }
-        new Thread(() -> singleCtrl.activateProgressBar()).start();
-        buttonSound();
+        new Thread(() -> questionCtrl.activateProgressBar()).start();
     }
 
+    /**
+     * Shows the waiting room and adds the player to the waiting room so other clients can be informed about this.
+     * @param player The player which is added to the waiting room.
+     */
     public void enterWaitingRoom(Player player) {
         this.player = player;
         primaryStage.setTitle(titleWaitingRoom);
         waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
         waitingCtrl.setUp(player);
         primaryStage.setScene(waitingScene);
+        buttonSound();
     }
 
     /**
@@ -272,10 +374,10 @@ public class MainCtrl  {
 
 
     /**
-     *
-     * @param pgBar the progressbar being modified
-     * @param totalTime the total time the progress bar should last
-     * @param call indicates what function should be called next
+     * Triggers the progressbar to start going down, calls the appropriate function on depletion.
+     * @param pgBar The progressbar being modified.
+     * @param totalTime The total time the progress bar should last.
+     * @param call Indicates what function should be called next.
      */
     public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
         if (startTime == null) startTime = System.currentTimeMillis();
@@ -301,25 +403,66 @@ public class MainCtrl  {
             if (active) {
                 if (call == 0) Platform.runLater(() -> showAnswerReveal());
                 else if (call == 1 && currentQuestion < totalQuestions) {
-                    singleCtrl.restoreAnswers();
-                    Platform.runLater(() -> showIntermediateLeaderboard());
+                    questionCtrl.restoreAnswers();
+                    if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
+                    else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= totalQuestions) {
-                    Platform.runLater(() -> showMPFinalLeaderboard());
                     restore();
-                } else if (call == 2) Platform.runLater(() -> startGame());
+                    if (singlePlayerModeActive) Platform.runLater(() -> showSPLeaderboard());
+                    else Platform.runLater(() -> showMPFinalLeaderboard());
+                } else if (call == 2) Platform.runLater(() -> showQuestion());
             }
         }
     }
 
+    /**
+     * Resets the question to 0 and makes jokers and answers visible again.
+     * Should be called after a game is done.
+     */
+
     public void restore() {
         currentQuestion = 0;
-        singleCtrl.restoreJokers();
-        singleCtrl.restoreAnswers();
+        questionCtrl.restoreJokers();
+        questionCtrl.restoreAnswers();
     }
+
+    /**
+     * Updates all the chatboxes to display the emoji that has been clicked.
+     * @param e The emote that has been clicked.
+     */
+
+    public void emote(Event e) {
+        for (VBox c : listOfChatBoxes) {
+            HBox hbox = new HBox();
+            Image arg = ((ImageView) e.getSource()).getImage();
+            Label user = new Label(" user01:  ");
+            ImageView emote = new ImageView(arg);
+            emote.setFitHeight(50);
+            emote.setFitWidth(50);
+            hbox.getChildren().addAll(user, emote);
+            hbox.setAlignment(Pos.CENTER_LEFT);
+            if (amountOfMessages >= maxChatMessages) {
+                c.getChildren().remove(0);
+            }
+            c.getChildren().add(hbox);
+            c.setSpacing(10);
+        }
+        amountOfMessages++;
+        buttonSound();
+    }
+
+    /**
+     * Can be used to keep track of time that has passed since a certain point.
+     * @return Time passed since startTime variable in milliseconds.
+     */
 
     public long getDelta() {
         return System.currentTimeMillis() - startTime;
     }
+
+    /**
+     * Shows the screen where answers are revealed.
+     */
 
     public void showAnswerReveal() {
         answerRevealCtrl.updateQuestionTracker();
@@ -339,6 +482,13 @@ public class MainCtrl  {
         primaryStage.setScene(intermediateScene);
         new Thread(() -> intermediateCtrl.activateProgressBar()).start();
     }
+
+    /**
+     * Updates the passed in label to show the current question out of the total.
+     * @param label Label which contains the current question in format "Question X/Y".
+     * @param update Indicates if question counter should be incremented, otherwise, if false it will just update
+     * the given label acoording to currentQuestion variable.
+     */
 
     public void updateQuestionTracker(Label label, boolean update) {
         if (update) currentQuestion++;

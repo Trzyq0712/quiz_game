@@ -13,22 +13,22 @@ class ActivityTest {
 
     @BeforeEach
     void setUp() {
-        act1 = new Activity("desc1", 86, "path/to/pic");
-        act2 = new Activity("desc2", 42, "path/to/different/pic");
+        act1 = new Activity("desc1", 86L, "path/to/pic");
+        act2 = new Activity("desc2", 42L, "path/to/different/pic");
     }
 
     @Test
     void testEquals() {
         assertNotEquals(act1, act2);
         assertEquals(act1, act1);
-        Activity act = new Activity("desc1", 86, "path/to/pic");
+        Activity act = new Activity("desc1", 86L, "path/to/pic");
         assertEquals(act, act1);
     }
 
     @Test
     void testHashCode() {
         assertNotEquals(act1.hashCode(), act2.hashCode());
-        Activity act = new Activity("desc1", 86, "path/to/pic");
+        Activity act = new Activity("desc1", 86L, "path/to/pic");
         assertEquals(act.hashCode(), act1.hashCode());
     }
 
@@ -64,13 +64,13 @@ class ActivityTest {
 
     @Test
     void getEnergyConsumption() {
-        assertEquals(86, act1.getEnergyConsumption());
+        assertEquals(86L, act1.getEnergyConsumption());
     }
 
     @Test
     void setEnergyConsumption() {
-        act1.setEnergyConsumption(4);
-        assertEquals(4, act1.getEnergyConsumption());
+        act1.setEnergyConsumption(4L);
+        assertEquals(4L, act1.getEnergyConsumption());
     }
 
     @Test

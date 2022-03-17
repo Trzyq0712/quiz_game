@@ -20,8 +20,8 @@ class ActivityServiceTest {
     void setup() {
         repo = new MockActivityRepository();
         sut = new ActivityService(repo);
-        act1 = new Activity("description", 12, "path/to/file1");
-        act2 = new Activity("a different description", 42, "path/to/file2");
+        act1 = new Activity("description", 12L, "path/to/file1");
+        act2 = new Activity("a different description", 42L, "path/to/file2");
     }
 
     @Test

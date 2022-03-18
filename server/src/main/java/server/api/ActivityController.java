@@ -45,6 +45,11 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.getAllActivities());
     }
 
+    @GetMapping(path = "3")
+    public ResponseEntity<List<Activity>> get3Activities(){
+         return ResponseEntity.ok(activityService.get3Activities());
+    }
+
     /**
      * Endpoint for getting activities by id.
      *

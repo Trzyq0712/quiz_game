@@ -6,9 +6,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import server.database.ActivityRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class ActivityService {
 
@@ -94,4 +94,10 @@ public class ActivityService {
     }
 
 
+    public List<Activity> get3Activities() {
+        List<Activity> list = new ArrayList<>(activityRepository.findAll());
+        int value = (int)(Math.random()* (list.size()-2));
+        list = list.subList(value, value+3);
+        return list;
+    }
 }

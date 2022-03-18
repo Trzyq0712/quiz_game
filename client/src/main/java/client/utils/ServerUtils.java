@@ -19,6 +19,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.List;
 
+import commons.Activity;
 import commons.Player;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -28,7 +29,7 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    public static final String SERVER = "http://localhost:8080/";
 
     /**
      * @param name the name with which the player wants to play singleplayer
@@ -85,10 +86,19 @@ public class ServerUtils {
      * @return the updated list of the players when something has changed
      */
     public List<Player> pollWaitingroom(List<Player> players) {
-        return ClientBuilder.newClient(new ClientConfig()) //
+        return ClientBuilder.newClient(new ClientConfig()) //F
                 .target(SERVER).path("api/play/waitingroom/poll") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
     }
+
+    public List<Activity> get3Activities() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/activity/3") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Activity>>() {});
+    }
+
 }

@@ -36,7 +36,7 @@
       </ImageView>
       <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
       <image>
-         <Image url="@images/music.png" />
+         <Image url="@images/placeholder.png" />
       </image>
       </ImageView>
       <Label layoutX="793.0" layoutY="10.0" prefHeight="82.0" prefWidth="334.0" text="Time Left" textFill="WHITE">
@@ -68,43 +68,37 @@
       <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
       <StackPane layoutX="360.0" layoutY="308.0" prefHeight="439.0" prefWidth="1095.0">
          <children>
-            <ImageView id="questionImage" fx:id="left" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="questionImage1" fx:id="questionImage1" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <StackPane.margin>
                   <Insets right="900.0" top="100.0" />
                </StackPane.margin>
-               <image>
-                  <Image url="@images/placeholder.png" />
-               </image>
+
             </ImageView>
-            <ImageView fx:id="right" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="questionImage3"  fx:id="questionImage3" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <StackPane.margin>
                   <Insets left="900.0" top="100.0" />
                </StackPane.margin>
-               <image>
-                  <Image url="@images/placeholder.png" />
-               </image>
+
             </ImageView>
-            <ImageView fx:id="middle" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="questionImage2" fx:id="questionImage2" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <StackPane.margin>
                   <Insets top="100.0" />
                </StackPane.margin>
-               <image>
-                  <Image url="@images/placeholder.png" />
-               </image>
+
             </ImageView>
-            <Label id="ActivityDescription" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true">
+            <Label id="ActivityDescription2" fx:id="ActivityDescription2" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true">
+               <StackPane.margin>
+                  <Insets bottom="300.0" />
+               </StackPane.margin>
+            </Label>
+            <Label id="ActivityDescription3" fx:id="ActivityDescription3" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true">
                <StackPane.margin>
                   <Insets bottom="300.0" left="800.0" />
                </StackPane.margin>
             </Label>
-            <Label id="ActivityDescription" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true">
+            <Label id="ActivityDescription1" fx:id="ActivityDescription1" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true">
                <StackPane.margin>
                   <Insets bottom="300.0" right="800.0" />
-               </StackPane.margin>
-            </Label>
-            <Label id="ActivityDescription" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true">
-               <StackPane.margin>
-                  <Insets bottom="300.0" />
                </StackPane.margin>
             </Label>
          </children>

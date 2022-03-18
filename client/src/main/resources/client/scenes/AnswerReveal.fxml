@@ -112,5 +112,8 @@
             </StackPane>
          </children>
       </StackPane>
+      <Label fx:id="label1" layoutX="659.0" layoutY="374.0" text="Label" />
+      <Label fx:id="label2" layoutX="659.0" layoutY="553.0" text="Label" />
+      <Label fx:id="label3" layoutX="659.0" layoutY="742.0" text="Label" />
          </children>
 </AnchorPane>

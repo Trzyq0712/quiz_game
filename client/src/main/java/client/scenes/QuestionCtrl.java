@@ -165,9 +165,6 @@ public class QuestionCtrl extends ReusedButtonCtrl {
         questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
         questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
         questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
-        firstButton.setText(activities.get(0).getEnergyConsumption().toString());
-        secondButton.setText(activities.get(1).getEnergyConsumption().toString());
-        thirdButton.setText(activities.get(2).getEnergyConsumption().toString());
         mainCtrl.setAnswersforAnswerReveal(activities);
     }
 

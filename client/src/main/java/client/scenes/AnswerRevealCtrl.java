@@ -8,7 +8,6 @@ import com.google.inject.Injector;
 import commons.Activity;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
@@ -34,11 +33,11 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
     Label questionTracker;
 
     @FXML
-    Button firstButton;
+    Label label1;
     @FXML
-    Button secondButton;
+    Label label2;
     @FXML
-    Button thirdButton;
+    Label label3;
 
     @FXML
     ImageView music;
@@ -81,8 +80,8 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
     }
 
     public void setAnswers(List<Activity> activities) {
-        firstButton.setText(activities.get(0).getEnergyConsumption().toString());
-        secondButton.setText(activities.get(1).getEnergyConsumption().toString());
-        thirdButton.setText(activities.get(2).getEnergyConsumption().toString());
+        label1.setText(activities.get(0).getEnergyConsumption().toString());
+        label2.setText(activities.get(1).getEnergyConsumption().toString());
+        label3.setText(activities.get(2).getEnergyConsumption().toString());
     }
 }

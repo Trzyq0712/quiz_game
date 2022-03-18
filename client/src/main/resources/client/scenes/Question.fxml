@@ -74,7 +74,7 @@
                </StackPane.margin>
 
             </ImageView>
-            <ImageView id="questionImage3"  fx:id="questionImage3" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="questionImage3" fx:id="questionImage3" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <StackPane.margin>
                   <Insets left="900.0" top="100.0" />
                </StackPane.margin>
@@ -105,7 +105,7 @@
       </StackPane>
       <StackPane layoutX="346.0" layoutY="725.0" prefHeight="150.0" prefWidth="1189.0" AnchorPane.rightAnchor="375.0">
          <children>
-            <Button id="firstButton" fx:id="firstButton" mnemonicParsing="false" onMouseClicked="#answerClick" prefHeight="82.0" prefWidth="256.0" text="Answer A">
+            <Button id="firstButton" fx:id="firstButton" mnemonicParsing="false" onMouseClicked="#answerClick" prefHeight="82.0" prefWidth="256.0" text="A">
                <styleClass>
                   <String fx:value="answer-button" />
                   <String fx:value="clickable" />
@@ -114,13 +114,13 @@
                   <Insets right="800.0" />
                </StackPane.margin>
             </Button>
-            <Button id="secondButton" fx:id="secondButton" mnemonicParsing="false" onMouseClicked="#answerClick" text="Answer B">
+            <Button id="secondButton" fx:id="secondButton" mnemonicParsing="false" onMouseClicked="#answerClick" text="B">
                <styleClass>
                   <String fx:value="answer-button" />
                   <String fx:value="clickable" />
                </styleClass>
             </Button>
-            <Button id="thirdButton" fx:id="thirdButton" mnemonicParsing="false" onMouseClicked="#answerClick" text="answer c">
+            <Button id="thirdButton" fx:id="thirdButton" mnemonicParsing="false" onMouseClicked="#answerClick" text="C">
                <styleClass>
                   <String fx:value="answer-button" />
                   <String fx:value="clickable" />

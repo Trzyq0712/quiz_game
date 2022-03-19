@@ -19,6 +19,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.List;
 
+import commons.Answer;
 import commons.Player;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -85,10 +86,18 @@ public class ServerUtils {
      * @return the updated list of the players when something has changed
      */
     public List<Player> pollWaitingroom(List<Player> players) {
-        return ClientBuilder.newClient(new ClientConfig()) //
+        return ClientBuilder.newClient(new ClientConfig()) //F
                 .target(SERVER).path("api/play/waitingroom/poll") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
+    }
+
+    public int grantPoints(Answer answer) {
+      return ClientBuilder.newClient(new ClientConfig())
+              .target(SERVER).path("api/currentplayerscore/grantpoints")
+              .request(APPLICATION_JSON)
+              .accept(APPLICATION_JSON)
+              .post(Entity.entity(answer, APPLICATION_JSON), Integer.class);
     }
 }

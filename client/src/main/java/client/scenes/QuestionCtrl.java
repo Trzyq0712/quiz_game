@@ -105,6 +105,18 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     public void hintClick() {
         mainCtrl.buttonSound();
         hintJoker.setVisible(false);
+        String falseAnswer = server.activateHint();
+        switch (falseAnswer) {
+            case "a":
+                firstButton.setVisible(false);
+                break;
+            case "b":
+                secondButton.setVisible(false);
+                break;
+            case "c":
+                thirdButton.setVisible(false);
+                break;
+        }
     }
 
     public void pointsClick() {

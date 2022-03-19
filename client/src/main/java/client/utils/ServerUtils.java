@@ -91,4 +91,13 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
     }
+
+
+    public String activateHint() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/joker/hint") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<String>() {});
+    }
 }

@@ -1,12 +1,17 @@
 package server.api;
 
+import commons.PostActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import commons.Activity;
 import server.ActivityService;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Controller for managing activities.
@@ -78,12 +83,38 @@ public class ActivityController {
     /**
      * Endpoint for adding new activities.
      *
-     * @param activity The activity to be added.
+     * @param postActivity The activity to be added.
      * @return The activity added to the database.
      */
-    @PostMapping(path = "")
-    public ResponseEntity<Activity> addActivity(@RequestBody Activity activity) {
-        return ResponseEntity.ok(activityService.addActivity(activity));
+    @PostMapping(path = "/add")
+    public ResponseEntity<Activity> addActivity(@RequestBody PostActivity postActivity) {
+        if(writeImageToFile(postActivity)){
+            Activity activity = activityService.addActivity(postActivity.getActivity());
+            activityService.getAllActivities();
+            return ResponseEntity.ok(activity);
+        }
+
+
+        return ResponseEntity.ok(null);
+    }
+
+    public boolean writeImageToFile(PostActivity postActivity){
+        try {
+            BufferedImage image = ImageIO.read(postActivity.getPicture());
+            Activity activity = postActivity.getActivity();
+            String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
+
+            String path;
+            do path = new File("server\\src\\main\\resources\\static\\activity\\newActivities\\" + new Random().nextInt() + "." + extension).getAbsolutePath();
+            while (new File(path).isFile());
+
+            activity.setPicturePath(path);
+            ImageIO.write(image, extension, new File(path));
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+        return true;
     }
 
 }

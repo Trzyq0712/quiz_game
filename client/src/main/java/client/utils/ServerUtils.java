@@ -19,7 +19,10 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.List;
 
+import commons.Activity;
 import commons.Player;
+import commons.PostActivity;
+import javafx.geometry.Pos;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -90,5 +93,17 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
+    }
+
+    /**
+     * @param activity is the activity to try to add to the database
+     * @return the updated list of the players when something has changed
+     */
+    public Activity addActivity(PostActivity activity) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/add") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
     }
 }

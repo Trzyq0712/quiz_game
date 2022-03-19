@@ -39,6 +39,11 @@
     -fx-font-family: "Showcard Gothic";
 }
 
+#addButton {
+    -fx-border-width: 3px;
+    -fx-font-size: 25;
+}
+
 #ActivityDescription {
     -fx-alignment: center;
     -fx-font-size: 20;

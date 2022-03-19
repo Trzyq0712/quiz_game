@@ -93,8 +93,9 @@ public class EditActivityCtrl {
     public void tryAdd() {
         if (validActivity()) {
             Activity activity = new Activity(questionField.getText(),
-                                             Long.parseLong(consumptionField.getText()), imagePath);
-            PostActivity postActivity = new PostActivity(activity);
+                    Long.parseLong(consumptionField.getText()), imagePath);
+            PostActivity postActivity = new PostActivity(activity,
+                    "server\\src\\main\\resources\\static\\activity\\newActivities\\");
 
             if (server.addPostActivity(postActivity) != null) errorLabel.setText("Successfully added!");
             else errorLabel.setText("Server did not allow the activity to be added");

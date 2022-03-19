@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import server.ActivityService;
 import server.MockActivityRepository;
 import server.database.ActivityRepository;
@@ -13,7 +14,6 @@ import server.database.ActivityRepository;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,9 +34,15 @@ class ActivityControllerTest {
         sut = new ActivityController(serv);
         act1 = new Activity("description", 12L, "path/to/file1");
         act2 = new Activity("a different description", 42L, "path/to/file2");
-        act3 = new Activity("even more different description", 50L,
-                new File("\\server\\src\\main\\resources\\static\\activity\\00\\fridge.png").getAbsolutePath());
-        postAct = new PostActivity(act3);
+        File picture;
+        try{
+            picture = ResourceUtils.getFile("classpath:static\\00\\fridge.png");
+            act3 = new Activity("even more different description", 50L,
+                    picture.getAbsolutePath());
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        postAct = new PostActivity(act3, "src\\test\\resources\\static\\newActivities\\");
     }
 
     @Test

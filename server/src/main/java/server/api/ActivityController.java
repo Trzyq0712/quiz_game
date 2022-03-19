@@ -99,11 +99,9 @@ public class ActivityController {
      */
     @PostMapping(path = "/add")
     public ResponseEntity<Activity> addPostActivity(@RequestBody PostActivity postActivity) {
-        if(writeImageToFile(postActivity)){
-            Activity activity = activityService.addActivity(postActivity.getActivity());
-            activityService.getAllActivities();
-            return ResponseEntity.ok(activity);
-        }
+        if(writeImageToFile(postActivity))
+            return ResponseEntity.ok(activityService.addActivity(postActivity.getActivity()));
+
         return ResponseEntity.ok(null);
     }
 
@@ -120,7 +118,7 @@ public class ActivityController {
             String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
 
             String path;
-            do path = new File("server\\src\\main\\resources\\static\\activity\\newActivities\\"
+            do path = new File(postActivity.getWriteTo()
                     + new Random().nextInt() + "." + extension).getAbsolutePath();
             while (new File(path).isFile());
 

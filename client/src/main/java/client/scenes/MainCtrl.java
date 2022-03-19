@@ -382,7 +382,7 @@ public class MainCtrl  {
      * @param call Indicates what function should be called next.
      */
     public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
-        if (!active) {
+        if (!active) {//if a game is not active, the progressbar should stop going down and be reset
             startTime = null;
             return;
         }

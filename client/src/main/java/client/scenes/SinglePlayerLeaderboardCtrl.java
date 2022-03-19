@@ -48,19 +48,12 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
     @FXML
     private TableColumn<PlayerScore, String> scoredTime;
 
-    private List<PlayerScore> allPlayerScores = new ArrayList<>();
-
-    private ObservableList<PlayerScore> data = FXCollections.observableList(getAllPlayerScores());
-
-
 
     @Inject
     public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
-        allPlayerScores = new ArrayList<>();
-        allPlayerScores.add(new PlayerScore(1,"kh",5555));
     }
 
     @Override
@@ -71,16 +64,9 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
         scoredTime.setCellValueFactory(new PropertyValueFactory<PlayerScore, String>("scoredTime"));
     }
 
-    public List<PlayerScore> getAllPlayerScores() {
-        if(allPlayerScores.size()==0){
-            allPlayerScores.add(new PlayerScore(0,"0",0));
-        }
-        allPlayerScores.add(new PlayerScore(1,"0",0));
-        allPlayerScores.add(new PlayerScore(2,"0",0));
-        allPlayerScores.add(new PlayerScore(3,"0",0));
-        return allPlayerScores;
+    public void addPlayer(PlayerScore p){
+        server.addPlayerToSPLeaderboard(p);
     }
-
 
     public void toggleSound(){
         mainCtrl.toggleSound();

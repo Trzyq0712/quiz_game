@@ -21,6 +21,7 @@ import java.util.List;
 
 import commons.Answer;
 import commons.Player;
+import commons.PlayerScore;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -99,5 +100,14 @@ public class ServerUtils {
               .request(APPLICATION_JSON)
               .accept(APPLICATION_JSON)
               .post(Entity.entity(answer, APPLICATION_JSON), Integer.class);
+    }
+
+    public PlayerScore addPlayerToSPLeaderboard(PlayerScore playerScore) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/playerscore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(playerScore, APPLICATION_JSON), PlayerScore.class);
+
     }
 }

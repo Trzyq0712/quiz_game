@@ -1,16 +1,32 @@
 package commons;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
+import javax.persistence.*;
 
+@Entity
 public class Answer {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long answer;
     private long timeToAnswer;
 
+
     /**
+     * Empty constructor, which makes us avoid some exceptions on client and serverside
+     */
+    public Answer() {}
+
+
+    /**
+     * Constructor
      * @param answer - answer of question
      * @param timeToAnswer - time taken to submit the answer
      */
-    public Answer(long answer, long timeToAnswer) {
+    public Answer( long answer, long timeToAnswer) {
         this.answer = answer;
         this.timeToAnswer = timeToAnswer;
     }

@@ -23,9 +23,11 @@ public class PlayerScore {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private int rank = 0;
+
     private String playerName;
     private Integer score;
-    private Timestamp time = Timestamp.from(Instant.now());
+    private Timestamp time;
 
     @SuppressWarnings("unused")
     private PlayerScore() {
@@ -41,7 +43,21 @@ public class PlayerScore {
     public PlayerScore(String playerName, int score) {
         this.playerName = playerName;
         this.score = score;
+        time = Timestamp.from(Instant.now());
     }
+
+    /**
+     * Create a playerScore instance with ranking.
+     * @param rank rank number of the player
+     * @param playerName name of the player.
+     * @param score the score they scored in the game.
+     */
+    public PlayerScore(int rank, String playerName, int score) {
+        this.rank=rank;
+        this.playerName = playerName;
+        this.score = score;
+    }
+
 
     /**
      * Updating the score by adding points to it.

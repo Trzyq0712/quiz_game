@@ -79,6 +79,10 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
         mainCtrl.emote(e);
     }
 
+    /**
+     * takes in a list of 3 activities and sets the values next to the answer
+     * @param activities - list of 3 activities passed from the QuestionCtrl
+     */
     public void setAnswers(List<Activity> activities) {
         label1.setText(activities.get(0).getEnergyConsumption().toString());
         label2.setText(activities.get(1).getEnergyConsumption().toString());

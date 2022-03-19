@@ -157,6 +157,9 @@ public class QuestionCtrl extends ReusedButtonCtrl {
         mainCtrl.emote(e);
     }
 
+    /**
+     * gets 3 activities form the server and displays them
+     */
     public void generateActivity(){
         List<Activity> activities = server.get3Activities();
         ActivityDescription1.setText(activities.get(0).getDescription());

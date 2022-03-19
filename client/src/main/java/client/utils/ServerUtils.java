@@ -93,6 +93,10 @@ public class ServerUtils {
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
     }
 
+    /**
+     * gets a list of 3 activities from the server
+     * @return a list of 3 activities
+     */
     public List<Activity> get3Activities() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/activity/3") //

@@ -93,7 +93,10 @@ public class ActivityService {
         return optionalActivity;
     }
 
-
+    /**
+     * Method for getting 3 activities.
+     * @return The list containing 3 activities
+     */
     public List<Activity> get3Activities() {
         List<Activity> list = new ArrayList<>(activityRepository.findAll());
         int value = (int)(Math.random()* (list.size()-2));

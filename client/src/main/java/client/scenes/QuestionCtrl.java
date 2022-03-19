@@ -5,6 +5,7 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import commons.Answer;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ import static com.google.inject.Guice.createInjector;
 public class QuestionCtrl extends ReusedButtonCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
@@ -89,13 +91,27 @@ public class QuestionCtrl extends ReusedButtonCtrl {
      */
     public void answerClick(Event event) {
         mainCtrl.buttonSound();
+        long timeToAnswer = mainCtrl.getDelta();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
+        long i = 0;
+        long buttonNb = 0;
         for (Button b : listOfButtons) {
+            i++;
             if (b.getId() != activated.getId()) {
                 b.setVisible(false);
+            } else{
+                buttonNb=i;
             }
         }
+        grantPoints(new Answer(buttonNb, timeToAnswer));
+    }
+
+    /**
+     * @param answer - answer the player submitted
+     */
+    public void grantPoints(Answer answer){
+        server.grantPoints(answer);
     }
 
     public void toggleSound(){

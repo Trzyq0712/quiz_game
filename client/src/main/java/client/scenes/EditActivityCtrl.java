@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.checkerframework.checker.units.qual.A;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -47,7 +46,12 @@ public class EditActivityCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    public void setUp(){
+    /**
+     * resets the imageView to the placeholder image
+     * makes the error label invisible
+     * instantiates the file browser and applies a filter to it so only jpgs and pngs can be selected
+     */
+    public void setUp() {
         imagePath = "images/placeholder.png";
         errorLabel.setVisible(false);
         imageView.setImage(new Image(imagePath));
@@ -71,7 +75,10 @@ public class EditActivityCtrl {
         fileChooser.setAcceptAllFileFilterUsed(false);
     }
 
-    public void browseFiles(){
+    /**
+     * Opens the file dialog for the user to select the image to be added
+     */
+    public void browseFiles() {
         int result = fileChooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -80,21 +87,25 @@ public class EditActivityCtrl {
         }
     }
 
-    public void trySend(){
+    /**
+     * try to add the activity to the database
+     */
+    public void tryAdd() {
         if (validActivity()) {
-            Activity activity = new Activity(questionField.getText(), Long.parseLong(consumptionField.getText()), imagePath);
+            Activity activity = new Activity(questionField.getText(),
+                                             Long.parseLong(consumptionField.getText()), imagePath);
             PostActivity postActivity = new PostActivity(activity);
 
-            if (server.addActivity(postActivity) != null) {
-                errorLabel.setText("Successfully added!");
-                errorLabel.setVisible(true);
-            } else {
-                errorLabel.setText("Server did not allow the activity to be added");
-                errorLabel.setVisible(true);
-            }
+            if (server.addPostActivity(postActivity) != null) errorLabel.setText("Successfully added!");
+            else errorLabel.setText("Server did not allow the activity to be added");
+
+            errorLabel.setVisible(true);
         }
     }
 
+    /**
+     * @return true if the activity fields pass the tests
+     */
     private boolean validActivity() {
         String description = questionField.getText();
         Long consumption = (long) -1;

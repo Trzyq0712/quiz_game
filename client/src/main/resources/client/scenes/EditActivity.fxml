@@ -19,7 +19,7 @@
          <image>
             <Image url="@images/placeholder.png" />
          </image></ImageView>
-      <Button id="save" layoutX="406.0" layoutY="704.0" mnemonicParsing="false" onMouseClicked="#trySend" text="Save" />
+      <Button id="save" layoutX="406.0" layoutY="704.0" mnemonicParsing="false" onMouseClicked="#tryAdd" text="Save" />
       <Label id="errorLabel" fx:id="errorLabel" layoutX="32.0" layoutY="669.0" prefHeight="35.0" prefWidth="902.0" text="Error label" visible="false" />
    </children>
 </AnchorPane>

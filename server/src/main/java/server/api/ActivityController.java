@@ -83,21 +83,36 @@ public class ActivityController {
     /**
      * Endpoint for adding new activities.
      *
-     * @param postActivity The activity to be added.
+     * @param activity The activity to be added.
+     * @return The activity added to the database.
+     */
+    @PostMapping(path = "")
+    public ResponseEntity<Activity> addActivity(@RequestBody Activity activity) {
+        return ResponseEntity.ok(activityService.addActivity(activity));
+    }
+
+    /**
+     * Endpoint for adding new activities.
+     *
+     * @param postActivity The activity with an image to be added.
      * @return The activity added to the database.
      */
     @PostMapping(path = "/add")
-    public ResponseEntity<Activity> addActivity(@RequestBody PostActivity postActivity) {
+    public ResponseEntity<Activity> addPostActivity(@RequestBody PostActivity postActivity) {
         if(writeImageToFile(postActivity)){
             Activity activity = activityService.addActivity(postActivity.getActivity());
             activityService.getAllActivities();
             return ResponseEntity.ok(activity);
         }
-
-
         return ResponseEntity.ok(null);
     }
 
+    /**
+     * Writes the image to the folder
+     *
+     * @param postActivity activity that has the image to be written to the folder newActivities
+     * @return true if written successfully
+     */
     public boolean writeImageToFile(PostActivity postActivity){
         try {
             BufferedImage image = ImageIO.read(postActivity.getPicture());
@@ -105,7 +120,8 @@ public class ActivityController {
             String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
 
             String path;
-            do path = new File("server\\src\\main\\resources\\static\\activity\\newActivities\\" + new Random().nextInt() + "." + extension).getAbsolutePath();
+            do path = new File("server\\src\\main\\resources\\static\\activity\\newActivities\\"
+                    + new Random().nextInt() + "." + extension).getAbsolutePath();
             while (new File(path).isFile());
 
             activity.setPicturePath(path);
@@ -116,5 +132,4 @@ public class ActivityController {
         }
         return true;
     }
-
 }

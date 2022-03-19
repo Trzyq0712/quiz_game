@@ -99,7 +99,7 @@ public class ServerUtils {
      * @param activity is the activity to try to add to the database
      * @return the updated list of the players when something has changed
      */
-    public Activity addActivity(PostActivity activity) {
+    public Activity addPostActivity(PostActivity activity) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("/api/activity/add") //
                 .request(APPLICATION_JSON) //

@@ -17,5 +17,6 @@ public class Config {
     //joker is played
     public static String edit = "Edit activities";
     public static int maxChatMessages = 6;//maximum amount of chatmessages that can be in the chat at once
+    public static int maxCharsUsername = 20; //maximum amount of characters a name can contain
 
 }

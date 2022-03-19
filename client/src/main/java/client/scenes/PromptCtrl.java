@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import static client.Config.*;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -70,7 +71,11 @@ public class PromptCtrl extends ReusedButtonCtrl{
      */
     public boolean checkName(TextField nameField, Label errorLabel){
         String name = nameField.getText();
-        if(name.contains(" ")){
+        if (name.length() > maxCharsUsername) {
+            errorLabel.setText("Name needs to be 20 characters or less!");
+            errorLabel.setVisible(true);
+            return false;
+        } else if(name.contains(" ")){
             errorLabel.setText("No whitespaces allowed!");
             errorLabel.setVisible(true);
             return false;

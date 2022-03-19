@@ -20,6 +20,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.util.List;
 
 import commons.Activity;
+import commons.Answer;
 import commons.Player;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -105,4 +106,11 @@ public class ServerUtils {
                 .get(new GenericType<List<Activity>>() {});
     }
 
+    public int grantPoints(Answer answer) {
+      return ClientBuilder.newClient(new ClientConfig())
+              .target(SERVER).path("api/currentplayerscore/grantpoints")
+              .request(APPLICATION_JSON)
+              .accept(APPLICATION_JSON)
+              .post(Entity.entity(answer, APPLICATION_JSON), Integer.class);
+    }
 }

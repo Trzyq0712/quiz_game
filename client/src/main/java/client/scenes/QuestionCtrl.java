@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import commons.Activity;
+import commons.Answer;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -119,6 +120,14 @@ public class QuestionCtrl extends ReusedButtonCtrl {
                 buttonNb=i;
             }
         }
+        grantPoints(new Answer(buttonNb, timeToAnswer));
+    }
+
+    /**
+     * @param answer - answer the player submitted
+     */
+    public void grantPoints(Answer answer){
+        server.grantPoints(answer);
     }
 
     public void toggleSound(){

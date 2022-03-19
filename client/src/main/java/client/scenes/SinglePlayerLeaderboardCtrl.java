@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import commons.PlayerScore;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,11 +37,16 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
     @FXML
     ImageView music;
 
-    @FXML private TableView<PlayerScore> tableView;
-    @FXML private TableColumn<PlayerScore, Integer> rank;
-    @FXML private TableColumn<PlayerScore, String> player;
-    @FXML private TableColumn<PlayerScore, Integer> score;
-    @FXML private TableColumn<PlayerScore, String> scoredTime;
+    @FXML
+    private TableView<PlayerScore> tableView;
+    @FXML
+    private TableColumn<PlayerScore, String> rank;
+    @FXML
+    private TableColumn<PlayerScore, String> player;
+    @FXML
+    private TableColumn<PlayerScore, String> score;
+    @FXML
+    private TableColumn<PlayerScore, String> scoredTime;
 
     private List<PlayerScore> allPlayerScores = new ArrayList<>();
 
@@ -59,12 +65,10 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        rank.setCellValueFactory(new PropertyValueFactory<PlayerScore, Integer>("rank"));
-        player.setCellValueFactory(new PropertyValueFactory<PlayerScore, String>("playerName"));
-        score.setCellValueFactory(new PropertyValueFactory<PlayerScore, Integer>("score"));
+        rank.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getRank())));
+        player.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPlayerName()));
+        score.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getScore())));
         scoredTime.setCellValueFactory(new PropertyValueFactory<PlayerScore, String>("scoredTime"));
-        tableView= new TableView<>();
-        tableView.setItems(data);
     }
 
     public List<PlayerScore> getAllPlayerScores() {

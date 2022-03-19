@@ -113,6 +113,10 @@ public class PlayerScore {
         return time;
     }
 
+    public int getRank() {
+        return rank;
+    }
+
     /**
      * Compare whether two instances of a PlayerScore are equal.
      *

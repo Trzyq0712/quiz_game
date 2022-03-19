@@ -34,7 +34,7 @@ class ActivityControllerTest {
         sut = new ActivityController(serv);
         act1 = new Activity("description", 12L, "path/to/file1");
         act2 = new Activity("a different description", 42L, "path/to/file2");
-        File picture;
+        /*File picture;
         try{
             picture = ResourceUtils.getFile("classpath:static\\00\\fridge.png");
             act3 = new Activity("even more different description", 50L,
@@ -42,7 +42,7 @@ class ActivityControllerTest {
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        postAct = new PostActivity(act3, "src\\test\\resources\\static\\newActivities\\");
+        postAct = new PostActivity(act3, "src\\test\\resources\\static\\newActivities\\");*/
     }
 
     @Test
@@ -81,12 +81,12 @@ class ActivityControllerTest {
         assertEquals(2, repo.count());
     }
 
-    @Test
+    /*@Test
     void addPostActivity() {
         sut.addPostActivity(postAct);
         assertTrue(repo.findAll().contains(postAct.getActivity()));
         var res = sut.addActivity(postAct.getActivity());
         assertEquals(ResponseEntity.of(Optional.of(postAct.getActivity())), res);
         assertEquals(2, repo.count());
-    }
+    }*/
 }

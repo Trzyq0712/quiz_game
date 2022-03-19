@@ -6,7 +6,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import commons.Answer;
-import commons.PlayerScore;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,7 +59,6 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     //Long startTime;
     int amountOfMessages = 0;
 
-    PlayerScore player;
 
 
     @Inject
@@ -68,14 +66,6 @@ public class QuestionCtrl extends ReusedButtonCtrl {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
-    }
-
-    /**
-     * Identifies the player
-     * @param player playing and anwsering the questions
-     */
-    public static void setPlayer(PlayerScore player) {
-        this.player = player;
     }
 
     public void showHome() {
@@ -123,7 +113,7 @@ public class QuestionCtrl extends ReusedButtonCtrl {
      */
     public void grantPoints(Answer answer){
         int earnedPoints = server.grantPoints(answer);
-        player.addPoints(earnedPoints);
+        mainCtrl.getPlayerScore().addPoints(earnedPoints);
     }
 
     public void toggleSound(){

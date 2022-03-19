@@ -48,7 +48,7 @@ public class PromptCtrl extends ReusedButtonCtrl{
     public void startGame() {
         if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
             PlayerScore player = new PlayerScore(0, nameField.getText(),0);
-            QuestionCtrl.setPlayer(player);
+            mainCtrl.setPlayerScore(player);
             mainCtrl.showQuestion();
             mainCtrl.buttonSound();
         }

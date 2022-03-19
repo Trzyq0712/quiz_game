@@ -6,12 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ResourceUtils;
 import server.ActivityService;
 import server.MockActivityRepository;
 import server.database.ActivityRepository;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 

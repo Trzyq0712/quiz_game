@@ -100,6 +100,7 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<String>() {});
+    }
 
     public int grantPoints(Answer answer) {
       return ClientBuilder.newClient(new ClientConfig())

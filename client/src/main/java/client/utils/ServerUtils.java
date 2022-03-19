@@ -22,7 +22,6 @@ import java.util.List;
 import commons.Activity;
 import commons.Player;
 import commons.PostActivity;
-import javafx.geometry.Pos;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;

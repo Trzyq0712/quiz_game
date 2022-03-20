@@ -10,9 +10,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import static client.Config.timeAnswerReveal;
 
 public class AnswerRevealCtrl extends BaseCtrl {

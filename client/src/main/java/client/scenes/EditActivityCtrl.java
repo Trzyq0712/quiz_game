@@ -13,9 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-
 import java.io.File;
 
 import static client.Config.*;
@@ -38,8 +35,9 @@ public class EditActivityCtrl {
     TextField questionField;
     @FXML
     TextField consumptionField;
+    @FXML
+    TextField imagePathField;
 
-    JFileChooser fileChooser;
     String imagePath;
 
     @Inject
@@ -51,43 +49,31 @@ public class EditActivityCtrl {
     /**
      * resets the imageView to the placeholder image
      * makes the error label invisible
-     * instantiates the file browser and applies a filter to it so only jpgs and pngs can be selected
      */
     public void setUp() {
         imagePath = "images/placeholder.png";
         errorLabel.setVisible(false);
         imageView.setImage(new Image(imagePath));
-        fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                if (f.isDirectory()) return true;
-
-                String extension = f.getAbsolutePath().substring(f.getAbsolutePath().length()-3);
-                if (extension.equals("jpg") || extension.equals("png")) return true;
-
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return "Only jpg and png allowed";
-            }
-        });
-        fileChooser.setAcceptAllFileFilterUsed(false);
     }
 
     /**
      * Opens the file dialog for the user to select the image to be added
      */
-    public void browseFiles() {
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File file = fileChooser.getSelectedFile();
-            imagePath = file.getAbsolutePath();
+    public void addImage() {
+        String path = imagePathField.getText();
+        if(path.equals("")){
+            errorLabel.setText("Path can't be empty");
+            errorLabel.setVisible(true);
+        }
+        try {
+            imagePath = path.replace('\\', File.separatorChar);
             imageView.setImage(new Image(imagePath));
+        } catch (Exception ex){
+            errorLabel.setText("Can't find image");
+            errorLabel.setVisible(true);
         }
     }
+
 
     /**
      * try to add the activity to the database
@@ -142,4 +128,5 @@ public class EditActivityCtrl {
 
         return true;
     }
+
 }

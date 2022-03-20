@@ -5,32 +5,27 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 
 
-public class PromptCtrl extends ReusedButtonCtrl{
+public class PromptCtrl extends BaseCtrl implements Initializable {
 
     private final ServerUtils server;
-    private final ApplicationUtils utils;
-
 
     @FXML
     private TextField nameField;
     @FXML
     private Label errorLabel;
     @FXML
-    ImageView music;
-    @FXML
     public Button startButton;
 
     @Inject
     public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl);
+        super(mainCtrl, utils);
         this.server = server;
-        this.utils = utils;
     }
 
     /**
@@ -52,10 +47,6 @@ public class PromptCtrl extends ReusedButtonCtrl{
         nameField.clear();
         nameField.setPromptText("Enter your name...");
         errorLabel.setVisible(false);
-    }
-
-    public void toggleSound(){
-        utils.toggleSound();
     }
 
     /**
@@ -104,4 +95,5 @@ public class PromptCtrl extends ReusedButtonCtrl{
         if (mainCtrl.singlePlayerModeActive) startGame();
         else enterWaitingRoom();
     }
+
 }

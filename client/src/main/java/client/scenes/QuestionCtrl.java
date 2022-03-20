@@ -17,11 +17,9 @@ import java.util.List;
 
 import static client.Config.timePerQuestion;
 
-public class QuestionCtrl extends ReusedButtonCtrl {
+public class QuestionCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
 
     @FXML
     ImageView hintJoker;
@@ -42,8 +40,6 @@ public class QuestionCtrl extends ReusedButtonCtrl {
 
     @FXML
     Label questionTracker;
-    @FXML
-    ImageView music;
 
     @FXML
     VBox chatbox;
@@ -56,10 +52,8 @@ public class QuestionCtrl extends ReusedButtonCtrl {
 
     @Inject
     public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl);
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
 
     }
 
@@ -94,10 +88,6 @@ public class QuestionCtrl extends ReusedButtonCtrl {
                 b.setVisible(false);
             }
         }
-    }
-
-    public void toggleSound(){
-        utils.toggleSound();
     }
 
     public void hintClick() {

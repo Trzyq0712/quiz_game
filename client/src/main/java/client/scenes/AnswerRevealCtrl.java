@@ -7,24 +7,22 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import static client.Config.timeAnswerReveal;
 
-public class AnswerRevealCtrl extends ReusedButtonCtrl {
+public class AnswerRevealCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
 
     @FXML
     ProgressBar pgBarReveal;
     @FXML
     Label questionTracker;
-    @FXML
-    ImageView music;
     @FXML
     VBox chatbox;
     @FXML
@@ -32,10 +30,8 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
 
     @Inject
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl);
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
     }
 
     /**
@@ -55,11 +51,8 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
         mainCtrl.updateQuestionTracker(questionTracker, false);
     }
 
-    public void toggleSound(){
-        utils.toggleSound();
-    }
-
     public void emote(Event e){
         mainCtrl.emote(e);
     }
+
 }

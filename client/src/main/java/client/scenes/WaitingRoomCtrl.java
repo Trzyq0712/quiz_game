@@ -10,23 +10,18 @@ import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-public class WaitingRoomCtrl extends ReusedButtonCtrl{
+public class WaitingRoomCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
 
     @FXML
     private GridPane playerGrid;
-    @FXML
-    ImageView music;
 
     private Player player;
     private List<Player> playerList;
@@ -35,10 +30,8 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
 
     @Inject
     public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl);
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
     }
 
     public void startGame() {
@@ -59,10 +52,6 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
             k.getChildren().clear();
         }
         mainCtrl.amountOfMessages = 0;
-    }
-
-    public void toggleSound(){
-        utils.toggleSound();
     }
 
     /**

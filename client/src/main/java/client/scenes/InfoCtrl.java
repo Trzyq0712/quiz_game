@@ -5,15 +5,12 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 
 import static client.Config.*;
 
-public class InfoCtrl extends ReusedButtonCtrl {
+public class InfoCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
 
     @FXML
     Label hintExplainer;
@@ -21,16 +18,12 @@ public class InfoCtrl extends ReusedButtonCtrl {
     Label timeExplainer;
     @FXML
     Label doublePointsExplainer;
-    @FXML
-    ImageView music;
 
 
     @Inject
     public InfoCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl);
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
     }
 
     public void setHintExplainer() {
@@ -45,8 +38,4 @@ public class InfoCtrl extends ReusedButtonCtrl {
         doublePointsExplainer.setText("Doubles your points\nfor the current question");
     }
 
-
-    public void toggleSound(){
-        utils.toggleSound();
-    }
 }

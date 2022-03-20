@@ -16,6 +16,7 @@
 package client.scenes;
 
 
+import client.Config;
 import javafx.application.Platform;
 import commons.Player;
 import javafx.event.Event;
@@ -38,9 +39,6 @@ import javafx.util.Pair;
 import java.util.Arrays;
 import java.util.List;
 
-import static client.Config.*;
-
-
 
 public class MainCtrl  {
 
@@ -49,11 +47,6 @@ public class MainCtrl  {
 
     private Player player;
 
-    /*private QuoteOverviewCtrl overviewCtrl;
-    private Scene overview;
-
-    private AddQuoteCtrl addCtrl;
-    private Scene add;*/
 
     private HomescreenCtrl homeCtrl;
     private Scene homeScene;
@@ -64,7 +57,6 @@ public class MainCtrl  {
     private ExitScreenCtrl exitCtrl;
     private Scene exitScene;
 
-    /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
     private WaitingRoomCtrl waitingCtrl;
     private Scene waitingScene;
 
@@ -82,12 +74,10 @@ public class MainCtrl  {
 
     Long startTime;
     int currentQuestion = 0;
-    List<ImageView> listOfMusicIcons;
-    Image musicOn = new Image(getClass().getClassLoader().getResourceAsStream("images/music.png"));
-    Image musicOff = new Image(getClass().getClassLoader().getResourceAsStream("images/musicOff.png"));
-    boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has
+
+    boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
-    at which point the next scene shouldnt be loaded anymore*/
+    at which point the next scene shouldnt be loaded anymore */
     /**
      * If true, game knows the player is in singleplayer, if false, the game knows
      * that the player is in multiplayer.
@@ -138,8 +128,6 @@ public class MainCtrl  {
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
 
-        //homeScene.setOnMouseClicked(e -> clip.play());
-
         this.waitingCtrl = waiting.getKey();
         this.waitingScene = new Scene(waiting.getValue());
 
@@ -172,21 +160,9 @@ public class MainCtrl  {
             primaryStage.close();
         });
         showHome();
-        initializeMusicIcons();
         initializeChatBoxes();
         initializeHolders();
         primaryStage.show();
-    }
-
-    /**
-     * Initializes an array of the musicicons of the whole application, this is needed so we can access all of them
-     * to keep them in sync if we want to for example change the music icon between on/off.
-     */
-
-    public void initializeMusicIcons() {
-        listOfMusicIcons = Arrays.asList(homeCtrl.music, infoCtrl.music, answerRevealCtrl.music, editCtrl.music,
-                intermediateCtrl.music, MPFinal.music, promptCtrl.music, questionCtrl.music, splCtrl.music,
-                waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
     }
 
     /**
@@ -239,7 +215,7 @@ public class MainCtrl  {
      */
 
     public void buttonSound() {
-        Media media = new Media(buttonClickSound.toURI().toString());
+        Media media = new Media(Config.buttonClickSound.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.play();
     }
@@ -250,8 +226,8 @@ public class MainCtrl  {
 
     public void showHome() {
         player = null;
-        primaryStage.setTitle(title);
-        homeScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setTitle(Config.title);
+        homeScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
         active = false;
         restore();
@@ -273,7 +249,7 @@ public class MainCtrl  {
             promptCtrl.startButton.setPrefWidth(500);
             promptCtrl.startButton.setText("Enter waiting room");
         }
-        promptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        promptScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         promptCtrl.setUp();
         primaryStage.setScene(promptScene);
         buttonSound();
@@ -284,7 +260,7 @@ public class MainCtrl  {
      */
 
     public void showSPLeaderboard() {
-        splScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
         buttonSound();
     }
@@ -294,10 +270,10 @@ public class MainCtrl  {
      */
 
     public void showExitScreen() {
-        exitScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        exitScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         quitStage = new Stage();
         quitStage.setScene(exitScene);
-        quitStage.setTitle(quit);
+        quitStage.setTitle(Config.quit);
         quitStage.centerOnScreen();
         quitStage.sizeToScene();
         /*quitStage.setMinHeight(quitStage.getMinHeight());
@@ -317,8 +293,8 @@ public class MainCtrl  {
 
     public void showQuestion() {
         active = true;
-        questionScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        if(singlePlayerModeActive) {
+        questionScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+        if (singlePlayerModeActive) {
             activateSingleplayer();
             questionCtrl.updateQuestionTracker();
             primaryStage.setScene(questionScene);
@@ -338,8 +314,8 @@ public class MainCtrl  {
      */
     public void enterWaitingRoom(Player player) {
         this.player = player;
-        primaryStage.setTitle(titleWaitingRoom);
-        waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setTitle(Config.titleWaitingRoom);
+        waitingScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         waitingCtrl.setUp(player);
         primaryStage.setScene(waitingScene);
         buttonSound();
@@ -348,7 +324,7 @@ public class MainCtrl  {
     /**
      * This is here for reentering a multi game to work without changing a lot of stuff.
      * When we add a multiplayer controller going to remake it.
-     * Don't want to do it know not to mess up controllers for the future.
+     * Don't want to do it now not to mess up controllers for the future.
      */
     public void enterWaitingRoom() {
         enterWaitingRoom(player);
@@ -384,11 +360,11 @@ public class MainCtrl  {
             startTime = null;
             if (active) {
                 if (call == 0) Platform.runLater(() -> showAnswerReveal());
-                else if (call == 1 && currentQuestion < totalQuestions) {
+                else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     questionCtrl.restoreAnswers();
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
-                } else if (call == 1 && currentQuestion >= totalQuestions) {
+                } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
                     restore();
                     if (singlePlayerModeActive) Platform.runLater(() -> showSPLeaderboard());
                     else Platform.runLater(() -> showMPFinalLeaderboard());
@@ -423,7 +399,7 @@ public class MainCtrl  {
             emote.setFitWidth(50);
             hbox.getChildren().addAll(user, emote);
             hbox.setAlignment(Pos.CENTER_LEFT);
-            if (amountOfMessages >= maxChatMessages) {
+            if (amountOfMessages >= Config.maxChatMessages) {
                 c.getChildren().remove(0);
             }
             c.getChildren().add(hbox);
@@ -448,19 +424,19 @@ public class MainCtrl  {
 
     public void showAnswerReveal() {
         answerRevealCtrl.updateQuestionTracker();
-        answerRevealScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        answerRevealScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(answerRevealScene);
         new Thread(() -> answerRevealCtrl.activateProgressBar()).start();
     }
 
     public void showMPFinalLeaderboard() {
-        MPFinalScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        MPFinalScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(MPFinalScene);
     }
 
     public void showIntermediateLeaderboard() {
         intermediateCtrl.updateQuestionTracker();
-        intermediateScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        intermediateScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(intermediateScene);
         new Thread(() -> intermediateCtrl.activateProgressBar()).start();
     }
@@ -474,20 +450,20 @@ public class MainCtrl  {
 
     public void updateQuestionTracker(Label label, boolean update) {
         if (update) currentQuestion++;
-        label.setText("Question " + currentQuestion + "/" + totalQuestions);
+        label.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
     }
 
     public void showInfo() {
         infoCtrl.setHintExplainer();
         infoCtrl.setTimeExplainer();
         infoCtrl.setDoublePointsExplainerExplainer();
-        infoScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        infoScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(infoScene);
     }
 
     public void showEditScreen() {
-        primaryStage.setTitle(edit);
-        editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
+        primaryStage.setTitle(Config.edit);
+        editScene.getStylesheets().add(Config.styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
     }
 

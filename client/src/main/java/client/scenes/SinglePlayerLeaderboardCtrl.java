@@ -6,30 +6,17 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 
-public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
+public class SinglePlayerLeaderboardCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
 
     @FXML
     ImageView imageView;
 
-    @FXML
-    ImageView music;
-
-
-
     @Inject
     public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl);
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
-    }
-
-    public void toggleSound(){
-        utils.toggleSound();
     }
 
     public void playAgain() {

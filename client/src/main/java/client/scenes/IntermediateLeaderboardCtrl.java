@@ -7,17 +7,14 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import static client.Config.*;
 
-public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
+public class IntermediateLeaderboardCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
 
 
     @FXML
@@ -27,23 +24,14 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     Label questionTracker;
 
     @FXML
-    ImageView music;
-
-    @FXML
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
 
     @Inject
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl);
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
-    }
-
-    public void toggleSound(){
-        utils.toggleSound();
     }
 
     public void activateProgressBar() {

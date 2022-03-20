@@ -3,40 +3,18 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.MediaView;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
-public class HomescreenCtrl implements Initializable {
+public class HomescreenCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
-
-
-    @FXML
-    private ImageView leaderboard;
-    @FXML
-    public MediaView mvv;
-    @FXML
-    public ImageView music;
-
-    //Image myImage = new Image(getClass().getClassLoader().getResourceAsStream("images/leaderboard.png"));
 
     @Inject
     public HomescreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
-        //leaderboard.setImage(myImage);
     }
 
     public void showSPLeaderboard(MouseEvent event) {
@@ -51,11 +29,7 @@ public class HomescreenCtrl implements Initializable {
         mainCtrl.showNewPrompt(e);
     }
 
-    public void toggleSound(){
-        utils.toggleSound();
-    }
-
-    public void showEditScreen(ActionEvent event) {
+    public void showEditScreen() {
         mainCtrl.showEditScreen();
     }
 
@@ -63,8 +37,4 @@ public class HomescreenCtrl implements Initializable {
         mainCtrl.showInfo();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        utils.registerMusicToggle(music);
-    }
 }

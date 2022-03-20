@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
@@ -60,7 +59,7 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
         rank.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getRank())));
         player.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPlayerName()));
         score.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getScore())));
-        scoredTime.setCellValueFactory(new PropertyValueFactory<PlayerScore, String>("scoredTime"));
+        scoredTime.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getTime())));
     }
 
     public void addPlayer(PlayerScore p){

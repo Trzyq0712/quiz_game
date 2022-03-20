@@ -35,10 +35,10 @@
       <Button layoutX="714.0" layoutY="953.0" mnemonicParsing="false" onAction="#playAgain" text="play singleplayer again" />
       <TableView fx:id="table" layoutX="555.0" layoutY="366.0" prefHeight="491.0" prefWidth="923.0">
         <columns>
-          <TableColumn prefWidth="128.0" text="Rank n°" fx:id="rank"/>
-          <TableColumn prefWidth="332.0" text="Player's name" fx:id="player"/>
-            <TableColumn prefWidth="259.0" text="Score" fx:id="score" />
-            <TableColumn prefWidth="203.0" text="scored" fx:id="scoredTime" />
+          <TableColumn fx:id="rank" prefWidth="128.0" text="Rank n°" />
+          <TableColumn fx:id="player" prefWidth="332.0" text="Player's name" />
+            <TableColumn fx:id="score" prefWidth="259.0" text="Score" />
+            <TableColumn fx:id="scoredTime" prefWidth="203.0" text="scored" />
         </columns>
       </TableView>
    </children>

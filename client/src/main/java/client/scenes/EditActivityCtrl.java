@@ -18,6 +18,8 @@ import javax.swing.filechooser.FileFilter;
 
 import java.io.File;
 
+import static client.Config.*;
+
 import static com.google.inject.Guice.createInjector;
 
 public class EditActivityCtrl {
@@ -95,7 +97,7 @@ public class EditActivityCtrl {
             Activity activity = new Activity(questionField.getText(),
                     Long.parseLong(consumptionField.getText()), imagePath);
             PostActivity postActivity = new PostActivity(activity,
-                    "server\\src\\main\\resources\\static\\activity\\newActivities\\");
+                    serverImagePath);
 
             if (server.addPostActivity(postActivity) != null) errorLabel.setText("Successfully added!");
             else errorLabel.setText("Server did not allow the activity to be added");

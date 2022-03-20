@@ -1,10 +1,8 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,14 +16,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static client.Config.timePerQuestion;
-import static com.google.inject.Guice.createInjector;
 
 public class QuestionCtrl extends ReusedButtonCtrl {
+
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private final ApplicationUtils utils;
 
     @FXML
     ImageView hintJoker;
@@ -59,10 +55,12 @@ public class QuestionCtrl extends ReusedButtonCtrl {
 
 
     @Inject
-    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.utils = utils;
+
     }
 
     public void showHome() {
@@ -99,7 +97,7 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     }
 
     public void toggleSound(){
-        mainCtrl.toggleSound();
+        utils.toggleSound();
     }
 
     public void hintClick() {

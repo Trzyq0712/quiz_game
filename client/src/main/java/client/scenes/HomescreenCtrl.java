@@ -1,31 +1,26 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.util.Duration;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-import static client.Config.backgroundMusic;
-import static com.google.inject.Guice.createInjector;
-
-public class HomescreenCtrl {
+public class HomescreenCtrl implements Initializable {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private final ApplicationUtils utils;
 
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     private ImageView leaderboard;
@@ -37,20 +32,11 @@ public class HomescreenCtrl {
     //Image myImage = new Image(getClass().getClassLoader().getResourceAsStream("images/leaderboard.png"));
 
     @Inject
-    public HomescreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public HomescreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.utils = utils;
         //leaderboard.setImage(myImage);
-        new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        // your code here
-                        repeatSound();
-                    }
-                },
-                500
-        );
     }
 
     public void showSPLeaderboard(MouseEvent event) {
@@ -66,30 +52,19 @@ public class HomescreenCtrl {
     }
 
     public void toggleSound(){
-        mainCtrl.toggleSound();
+        utils.toggleSound();
     }
-
-
-    public void repeatSound(){
-        Media media = new Media(backgroundMusic.toURI().toString());
-        MediaPlayer player = new MediaPlayer(media);
-        mvv.setMediaPlayer(player);
-        player.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                player.seek(Duration.ZERO);
-            }
-        });
-        player.play();
-    }
-
 
     public void showEditScreen(ActionEvent event) {
         mainCtrl.showEditScreen();
     }
 
-
     public void showInfo() {
         mainCtrl.showInfo();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        utils.registerMusicToggle(music);
     }
 }

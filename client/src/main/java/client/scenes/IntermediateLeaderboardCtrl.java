@@ -1,10 +1,8 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,14 +13,12 @@ import javafx.scene.layout.VBox;
 
 import static client.Config.*;
 
-import static com.google.inject.Guice.createInjector;
-
 public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
+
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private final ApplicationUtils utils;
 
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     ProgressBar pgBarIntermediate;
@@ -39,14 +35,15 @@ public class IntermediateLeaderboardCtrl extends ReusedButtonCtrl {
     StackPane chatAndEmoteHolder;
 
     @Inject
-    public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.utils = utils;
     }
 
     public void toggleSound(){
-        mainCtrl.toggleSound();
+        utils.toggleSound();
     }
 
     public void activateProgressBar() {

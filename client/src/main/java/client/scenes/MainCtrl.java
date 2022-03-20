@@ -179,24 +179,6 @@ public class MainCtrl  {
     }
 
     /**
-     * Toggles the backgroundmusic of the application when called.
-     */
-    public void toggleSound() {
-        if (homeCtrl.mvv.getMediaPlayer().isMute()) {
-            homeCtrl.mvv.getMediaPlayer().setMute(false);
-            for (ImageView i : listOfMusicIcons) {
-                i.setImage(musicOn);
-            }
-        } else {
-            homeCtrl.mvv.getMediaPlayer().setMute(true);
-            for (ImageView i : listOfMusicIcons) {
-                i.setImage(musicOff);
-            }
-        }
-        buttonSound();
-    }
-
-    /**
      * Initializes an array of the musicicons of the whole application, this is needed so we can access all of them
      * to keep them in sync if we want to for example change the music icon between on/off.
      */

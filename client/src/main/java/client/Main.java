@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.utils.ApplicationUtils;
 import com.google.inject.Injector;
 
 import client.scenes.MainCtrl;
@@ -64,6 +65,7 @@ public class Main extends Application {
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        INJECTOR.getInstance(ApplicationUtils.class);
 
         mainCtrl.initialize(primaryStage,
                 home,

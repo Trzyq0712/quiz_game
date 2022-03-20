@@ -1,24 +1,21 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import static com.google.inject.Guice.createInjector;
 
 public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
+
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private final ApplicationUtils utils;
 
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
 
     @FXML
@@ -30,10 +27,11 @@ public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
     StackPane chatAndEmoteHolder;
 
     @Inject
-    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.utils = utils;
     }
 
     public void playAgain() {
@@ -41,7 +39,7 @@ public class MPFinalLeaderboardCtrl extends ReusedButtonCtrl {
     }
 
     public void toggleSound(){
-        mainCtrl.toggleSound();
+        utils.toggleSound();
     }
 
     public void emote(Event e){

@@ -1,10 +1,8 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,15 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
-import static com.google.inject.Guice.createInjector;
 
 public class PromptCtrl extends ReusedButtonCtrl{
 
     private final ServerUtils server;
+    private final ApplicationUtils utils;
 
-    //I think we can remove these 2 lines since they are in NamePromptCtrl but not sure tho
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     private TextField nameField;
@@ -32,9 +27,10 @@ public class PromptCtrl extends ReusedButtonCtrl{
     public Button startButton;
 
     @Inject
-    public PromptCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl);
         this.server = server;
+        this.utils = utils;
     }
 
     /**
@@ -59,7 +55,7 @@ public class PromptCtrl extends ReusedButtonCtrl{
     }
 
     public void toggleSound(){
-        mainCtrl.toggleSound();
+        utils.toggleSound();
     }
 
     /**

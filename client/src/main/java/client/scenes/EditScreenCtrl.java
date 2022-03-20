@@ -1,33 +1,30 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 
-import static com.google.inject.Guice.createInjector;
 
-public class EditScreenCtrl extends ReusedButtonCtrl{
+public class EditScreenCtrl extends ReusedButtonCtrl {
+
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private final ApplicationUtils utils;
 
     @FXML
     ImageView music;
 
     @Inject
-    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.utils = utils;
     }
 
     public void toggleSound(){
-        mainCtrl.toggleSound();
+        utils.toggleSound();
     }
 }

@@ -1,12 +1,10 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.Player;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
@@ -19,15 +17,11 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-import static com.google.inject.Guice.createInjector;
-
 public class WaitingRoomCtrl extends ReusedButtonCtrl{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private final ApplicationUtils utils;
 
     @FXML
     private GridPane playerGrid;
@@ -40,10 +34,11 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
     static Boolean threadRun;
 
     @Inject
-    public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl);
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.utils = utils;
     }
 
     public void startGame() {
@@ -67,7 +62,7 @@ public class WaitingRoomCtrl extends ReusedButtonCtrl{
     }
 
     public void toggleSound(){
-        mainCtrl.toggleSound();
+        utils.toggleSound();
     }
 
     /**

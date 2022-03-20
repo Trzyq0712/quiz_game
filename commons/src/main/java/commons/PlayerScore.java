@@ -25,7 +25,7 @@ public class PlayerScore {
 
     private String playerName;
     private Integer score;
-    private final Timestamp time = Timestamp.from(Instant.now());
+    private Timestamp time = Timestamp.from(Instant.now());
 
     @SuppressWarnings("unused")
     private PlayerScore() {

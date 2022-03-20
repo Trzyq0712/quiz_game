@@ -19,6 +19,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.List;
 
+import commons.Activity;
 import commons.Answer;
 import commons.Player;
 import org.glassfish.jersey.client.ClientConfig;
@@ -29,7 +30,7 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    public static final String SERVER = "http://localhost:8080/";
 
     /**
      * @param name the name with which the player wants to play singleplayer
@@ -100,6 +101,17 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<String>() {});
+
+    /**
+     * gets a list of 3 activities from the server
+     * @return a list of 3 activities
+     */
+    public List<Activity> get3Activities() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/activity/3") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Activity>>() {});
     }
 
     public int grantPoints(Answer answer) {

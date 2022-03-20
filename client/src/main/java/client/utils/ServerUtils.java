@@ -94,6 +94,14 @@ public class ServerUtils {
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
     }
 
+
+    public String activateHint() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/joker/hint") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<String>() {});
+    }
     /**
      * gets a list of 3 activities from the server
      * @return a list of 3 activities
@@ -106,6 +114,11 @@ public class ServerUtils {
                 .get(new GenericType<List<Activity>>() {});
     }
 
+    /**
+     * Sends the answer of the player to the server for granting points.
+     * @param answer The answer of the player.
+     * @return The amount of points received for the answer sent.
+     */
     public int grantPoints(Answer answer) {
       return ClientBuilder.newClient(new ClientConfig())
               .target(SERVER).path("api/currentplayerscore/grantpoints")

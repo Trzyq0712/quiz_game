@@ -62,13 +62,21 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
         scoredTime.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getTime())));
     }
 
+    /**
+     * Adds a playr to the repo
+     * @param p - thre player we want to add to the leaderboard
+     */
     public void addPlayer(PlayerScore p){
         server.addPlayerToSPLeaderboard(p);
         refresh();
     }
 
+    /**
+     * Update the leaderboard
+     */
     public void refresh(){
         var players = server.getPlayersInSPL();
+        //A sort should be done to display the PlayerScores in the correct order
         data = FXCollections.observableList(players);
         table.setItems(data);
     }

@@ -94,6 +94,10 @@ public class ServerUtils {
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
     }
 
+    /**
+     * @param answer given by player
+     * @return the number of points granted
+     */
     public int grantPoints(Answer answer) {
       return ClientBuilder.newClient(new ClientConfig())
               .target(SERVER).path("api/currentplayerscore/grantpoints")
@@ -102,6 +106,10 @@ public class ServerUtils {
               .post(Entity.entity(answer, APPLICATION_JSON), Integer.class);
     }
 
+    /**
+     * @param playerScore added to the leaderboard
+     * @return the player added
+     */
     public PlayerScore addPlayerToSPLeaderboard(PlayerScore playerScore) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/playerscore") //
@@ -109,5 +117,16 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(playerScore, APPLICATION_JSON), PlayerScore.class);
 
+    }
+
+    /**
+     * @return the list of waiting players
+     */
+    public List<PlayerScore> getPlayersInSPL() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/playerscore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<PlayerScore>>() {});
     }
 }

@@ -7,6 +7,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import commons.PlayerScore;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -32,8 +34,10 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
     @FXML
     ImageView music;
 
+    private ObservableList<PlayerScore> data;
+
     @FXML
-    private TableView<PlayerScore> tableView;
+    private TableView<PlayerScore> table;
     @FXML
     private TableColumn<PlayerScore, String> rank;
     @FXML
@@ -61,6 +65,13 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
 
     public void addPlayer(PlayerScore p){
         server.addPlayerToSPLeaderboard(p);
+        refresh();
+    }
+
+    public void refresh(){
+        var players = server.getPlayersInSPL();
+        data = FXCollections.observableList(players);
+        table.setItems(data);
     }
 
     public void toggleSound(){

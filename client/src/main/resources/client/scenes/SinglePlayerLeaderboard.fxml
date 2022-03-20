@@ -33,7 +33,7 @@
          </image>
       </ImageView>
       <Button layoutX="714.0" layoutY="953.0" mnemonicParsing="false" onAction="#playAgain" text="play singleplayer again" />
-      <TableView layoutX="555.0" layoutY="366.0" prefHeight="491.0" prefWidth="923.0">
+      <TableView fx:id="table" layoutX="555.0" layoutY="366.0" prefHeight="491.0" prefWidth="923.0">
         <columns>
           <TableColumn prefWidth="128.0" text="Rank n°" fx:id="rank"/>
           <TableColumn prefWidth="332.0" text="Player's name" fx:id="player"/>

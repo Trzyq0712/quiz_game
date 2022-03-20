@@ -51,6 +51,20 @@
     -fx-font-family: "Times New Roman";
 }
 
+#ActivityDescription2 {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
+}
+
+#ActivityDescription3 {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
+}
+
 /*.label.text {
     !*this is also in .button class so maybe avoid this duplicate way of coding?*!
     -fx-stroke: black;

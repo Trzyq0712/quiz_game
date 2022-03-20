@@ -16,6 +16,7 @@
 package client.scenes;
 
 
+import commons.Activity;
 import javafx.application.Platform;
 import commons.Player;
 import javafx.event.Event;
@@ -355,6 +356,7 @@ public class MainCtrl  {
             primaryStage.setScene(questionScene);
             //show multiplayer, partly implemented
         }
+        questionCtrl.generateActivity();
         new Thread(() -> questionCtrl.activateProgressBar()).start();
     }
 
@@ -515,6 +517,10 @@ public class MainCtrl  {
         primaryStage.setTitle(edit);
         editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
+    }
+
+    public void setAnswersforAnswerReveal(List<Activity> activities) {
+        answerRevealCtrl.setAnswers(activities);
     }
 
     public void editActivity(boolean add) {

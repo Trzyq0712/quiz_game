@@ -5,6 +5,7 @@ import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import commons.Activity;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -12,6 +13,8 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.util.List;
 
 import static client.Config.timeAnswerReveal;
 import static com.google.inject.Guice.createInjector;
@@ -28,6 +31,13 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
 
     @FXML
     Label questionTracker;
+
+    @FXML
+    Label label1;
+    @FXML
+    Label label2;
+    @FXML
+    Label label3;
 
     @FXML
     ImageView music;
@@ -67,5 +77,15 @@ public class AnswerRevealCtrl extends ReusedButtonCtrl {
 
     public void emote(Event e){
         mainCtrl.emote(e);
+    }
+
+    /**
+     * takes in a list of 3 activities and sets the values next to the answer
+     * @param activities - list of 3 activities passed from the QuestionCtrl
+     */
+    public void setAnswers(List<Activity> activities) {
+        label1.setText(activities.get(0).getEnergyConsumption().toString());
+        label2.setText(activities.get(1).getEnergyConsumption().toString());
+        label3.setText(activities.get(2).getEnergyConsumption().toString());
     }
 }

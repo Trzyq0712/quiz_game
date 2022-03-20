@@ -18,4 +18,6 @@ public class Config {
     public static String edit = "Edit activities";
     public static int maxChatMessages = 6;//maximum amount of chatmessages that can be in the chat at once
     public static String serverImagePath = "server\\src\\main\\resources\\static\\activity\\newActivities\\";
+    public static int maxCharsUsername = 20; //maximum amount of characters a name can contain
+
 }

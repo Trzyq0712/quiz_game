@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SinglePlayerLeaderboardCtrl">
    <children>
@@ -32,7 +33,7 @@
             <Image url="@images/music.png" />
          </image>
       </ImageView>
-      <Button layoutX="714.0" layoutY="953.0" mnemonicParsing="false" onAction="#playAgain" text="play singleplayer again" />
+      <Button layoutX="888.0" layoutY="946.0" mnemonicParsing="false" onAction="#playAgain" text="play singleplayer again" />
       <TableView fx:id="table" layoutX="555.0" layoutY="366.0" prefHeight="491.0" prefWidth="923.0">
         <columns>
           <TableColumn fx:id="rank" prefWidth="128.0" text="Rank n°" />
@@ -41,5 +42,6 @@
             <TableColumn fx:id="scoredTime" prefWidth="203.0" text="scored" />
         </columns>
       </TableView>
+      <Button layoutX="590.0" layoutY="946.0" mnemonicParsing="false" onAction="#refresh" prefHeight="84.0" prefWidth="240.0" text="refresh" />
    </children>
 </AnchorPane>

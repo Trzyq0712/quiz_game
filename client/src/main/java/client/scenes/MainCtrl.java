@@ -420,13 +420,16 @@ public class MainCtrl  {
                 } else if (call == 1 && currentQuestion >= totalQuestions) {
                     restore();
                     if (singlePlayerModeActive) {
-                        //SinglePlayerLeaderboardCtrl s = new SinglePlayerLeaderboardCtrl(new ServerUtils(), this);
                         splCtrl.addPlayer(getPlayerScore());
                         Platform.runLater(() -> showSPLeaderboard());
                     } else Platform.runLater(() -> showMPFinalLeaderboard());
                 } else if (call == 2) Platform.runLater(() -> showQuestion());
             }
         }
+    }
+
+    public void refresh(){
+        splCtrl.refresh();
     }
 
     /**

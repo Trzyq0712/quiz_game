@@ -26,8 +26,9 @@ public class PlayerScoreController {
     }
 
     /**
-     * Returns all player scores stored in the database
-     * @return - list of all scores
+     * Returns all player scores stored in the database.
+     *
+     * @return list of all scores.
      */
     @GetMapping(path = "")
     public ResponseEntity<List<PlayerScore>> getAll() {
@@ -35,9 +36,10 @@ public class PlayerScoreController {
     }
 
     /**
-     * Get a player score from the database by id
-     * @param id - id of the requested player score
-     * @return - the requested player
+     * Get a player score from the database by id.
+     *
+     * @param id id of the requested player score.
+     * @return the requested player.
      */
     @GetMapping(path = "{id}")
     public ResponseEntity<PlayerScore> getById(@PathVariable("id") long id) {
@@ -48,9 +50,10 @@ public class PlayerScoreController {
     }
 
     /**
-     * Get the top amount of player results with the highest scores
-     * @param amount - the requested number of best results, cannot be negative
-     * @return - the list of results, list may be shorter if not enough results
+     * Get the top amount of player results with the highest scores.
+     *
+     * @param amount the requested number of best results, cannot be negative.
+     * @return the list of results, list may be shorter if not enough results.
      */
     @GetMapping(path = "top/{amount}")
     public ResponseEntity<List<PlayerScore>> getTop(@PathVariable("amount") int amount) {
@@ -66,9 +69,10 @@ public class PlayerScoreController {
     }
 
     /**
-     * Add a player score to the database
-     * @param playerScore - result to be added to the database
-     * @return - the score that was created
+     * Add a player score to the database.
+     *
+     * @param playerScore result to be added to the database.
+     * @return the score that was created.
      */
     @PostMapping(path = "")
     public ResponseEntity<PlayerScore> add(@RequestBody PlayerScore playerScore) {

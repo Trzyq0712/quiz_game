@@ -29,9 +29,9 @@ public class ActivityController {
 
     /**
      * Endpoint for getting activities.
-     *
      * If specified RequestParam present (q=pattern), return activities whose
      * description match the pattern.
+     *
      * @param pattern The pattern to search for in activities. Ignored if null.
      * @return The list of all matching activities.
      */
@@ -43,6 +43,15 @@ public class ActivityController {
                     activityService.getActivitiesByMatchingDescription(pattern.toLowerCase()));
         }
         return ResponseEntity.ok(activityService.getAllActivities());
+    }
+
+    /**
+     * Endpoint for getting 3 activities
+     * @return The list containing 3 activities
+     */
+    @GetMapping(path = "3")
+    public ResponseEntity<List<Activity>> get3Activities(){
+         return ResponseEntity.ok(activityService.get3Activities());
     }
 
     /**

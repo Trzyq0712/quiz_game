@@ -14,7 +14,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String description;
-    private Integer energyConsumption;
+    private Long energyConsumption;
     private String picturePath;
 
     /**
@@ -24,7 +24,7 @@ public class Activity {
      * @param energyConsumption - The energy consumption in watt-hours.
      * @param picturePath - The path to the image file of the activity.
      */
-    public Activity(String description, Integer energyConsumption, String picturePath) {
+    public Activity(String description, Long energyConsumption, String picturePath) {
         this.description = description;
         this.energyConsumption = energyConsumption;
         this.picturePath = picturePath;
@@ -113,7 +113,7 @@ public class Activity {
      *
      * @return The energy consumption in watt-hours.
      */
-    public Integer getEnergyConsumption() {
+    public Long getEnergyConsumption() {
         return energyConsumption;
     }
 
@@ -122,7 +122,7 @@ public class Activity {
      *
      * @param energyConsumption The energy consumption value in watt-hours to be set.
      */
-    public void setEnergyConsumption(Integer energyConsumption) {
+    public void setEnergyConsumption(Long energyConsumption) {
         this.energyConsumption = energyConsumption;
     }
 

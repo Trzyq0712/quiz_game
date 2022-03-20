@@ -17,49 +17,20 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.List;
 
+import commons.Activity;
+import commons.Answer;
 import commons.Player;
 import org.glassfish.jersey.client.ClientConfig;
 
-import commons.Quote;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
-
-    public void getQuotesTheHardWay() throws IOException {
-        var url = new URL("http://localhost:8080/api/quotes");
-        var is = url.openConnection().getInputStream();
-        var br = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while ((line = br.readLine()) != null) {
-            System.out.println(line);
-        }
-    }
-
-    public List<Quote> getQuotes() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Quote>>() {});
-    }
-
-    public Quote addQuote(Quote quote) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/quotes") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(quote, APPLICATION_JSON), Quote.class);
-    }
+    public static final String SERVER = "http://localhost:8080/";
 
     /**
      * @param name the name with which the player wants to play singleplayer
@@ -116,10 +87,43 @@ public class ServerUtils {
      * @return the updated list of the players when something has changed
      */
     public List<Player> pollWaitingroom(List<Player> players) {
-        return ClientBuilder.newClient(new ClientConfig()) //
+        return ClientBuilder.newClient(new ClientConfig()) //F
                 .target(SERVER).path("api/play/waitingroom/poll") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
+    }
+
+
+    public String activateHint() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/joker/hint") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<String>() {});
+    }
+    /**
+     * gets a list of 3 activities from the server
+     * @return a list of 3 activities
+     */
+    public List<Activity> get3Activities() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/activity/3") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Activity>>() {});
+    }
+
+    /**
+     * Sends the answer of the player to the server for granting points.
+     * @param answer The answer of the player.
+     * @return The amount of points received for the answer sent.
+     */
+    public int grantPoints(Answer answer) {
+      return ClientBuilder.newClient(new ClientConfig())
+              .target(SERVER).path("api/currentplayerscore/grantpoints")
+              .request(APPLICATION_JSON)
+              .accept(APPLICATION_JSON)
+              .post(Entity.entity(answer, APPLICATION_JSON), Integer.class);
     }
 }

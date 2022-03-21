@@ -542,6 +542,10 @@ public class MainCtrl  {
         editCtrl.updateAdd(newActivity);
     }
 
+    public Stage getSecondaryStage(){
+        return secondaryStage;
+    }
+
     /*public void showOverview() {
         primaryStage.setTitle("Quotes: Overview");
         primaryStage.setScene(overview);

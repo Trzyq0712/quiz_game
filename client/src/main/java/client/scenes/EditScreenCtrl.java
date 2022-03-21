@@ -202,7 +202,7 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
         activityGrid.add(deleteActivity, 4, index % 10);
     }
 
-    public void setProperties(ImageView imageView, Image image, int index){
+    public void setProperties(ImageView imageView, Image image, int index) {
         imageView.setImage(image);
         imageView.getStyleClass().add("clickable");
         imageView.setFitWidth(100);

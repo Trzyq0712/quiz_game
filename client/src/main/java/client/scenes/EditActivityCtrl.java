@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
@@ -44,6 +45,7 @@ public class EditActivityCtrl {
     boolean add;
     Activity activity;
     byte[] pictureBuffer;
+    FileChooser fileChooser;
 
     @Inject
     public EditActivityCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -52,13 +54,18 @@ public class EditActivityCtrl {
     }
 
     /**
+     * resets all the fields
      * resets the imageView to the placeholder image
      * makes the error label invisible
      */
     public void setUp(boolean add, Activity activity) {
+        fileChooser = new FileChooser();
         imagePath = "images/placeholder.png";
         errorLabel.setVisible(false);
         imageView.setImage(new Image(imagePath));
+        questionField.setText("");
+        consumptionField.setText("");
+        imagePathField.setText("");
         this.add = add;
         if(!add){
             this.activity = activity;
@@ -74,18 +81,14 @@ public class EditActivityCtrl {
      * Opens the file dialog for the user to select the image to be added
      */
     public void addImage() {
-        String path = imagePathField.getText();
-        String extension = path.substring(path.length() - 3);
-        if(path.equals("")){
-            errorLabel.setText("Path can't be empty");
-            errorLabel.setVisible(true);
-        } else if (!extension.equals("png") && !extension.equals("jpg")){
-            errorLabel.setText("Only png and jpg allowed!");
-            errorLabel.setVisible(true);
-            return;
-        }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedImage = fileChooser.showOpenDialog(mainCtrl.getSecondaryStage());
+        imagePathField.setText(selectedImage.getAbsolutePath());
+        imagePath = selectedImage.getAbsolutePath();
         try {
-            imagePath = path.replace('\\', File.separatorChar);
             pictureBuffer = Files.readAllBytes(Paths.get(imagePath));
             imageView.setImage(new Image(imagePath));
         } catch (Exception ex){

@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Activity;
+import commons.PostActivity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ class ActivityControllerTest {
     private ActivityController sut;
     private Activity act1;
     private Activity act2;
+    private Activity act3;
+    private PostActivity postAct;
 
     @BeforeEach
     void setup() {
@@ -29,6 +32,15 @@ class ActivityControllerTest {
         sut = new ActivityController(serv);
         act1 = new Activity("description", 12L, "path/to/file1");
         act2 = new Activity("a different description", 42L, "path/to/file2");
+        /*File picture;
+        try{
+            picture = ResourceUtils.getFile("classpath:static\\00\\fridge.png");
+            act3 = new Activity("even more different description", 50L,
+                    picture.getAbsolutePath());
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        postAct = new PostActivity(act3, "src\\test\\resources\\static\\newActivities\\");*/
     }
 
     @Test
@@ -60,10 +72,19 @@ class ActivityControllerTest {
 
     @Test
     void addActivity() {
-        sut.addActivity(act1);
-        assertTrue(repo.findAll().contains(act1));
-        var res = sut.addActivity(act1);
-        assertEquals(ResponseEntity.of(Optional.of(act1)), res);
+        sut.addActivity(act2);
+        assertTrue(repo.findAll().contains(act2));
+        var res = sut.addActivity(act2);
+        assertEquals(ResponseEntity.of(Optional.of(act2)), res);
         assertEquals(2, repo.count());
     }
+
+    /*@Test
+    void addPostActivity() {
+        sut.addPostActivity(postAct);
+        assertTrue(repo.findAll().contains(postAct.getActivity()));
+        var res = sut.addActivity(postAct.getActivity());
+        assertEquals(ResponseEntity.of(Optional.of(postAct.getActivity())), res);
+        assertEquals(2, repo.count());
+    }*/
 }

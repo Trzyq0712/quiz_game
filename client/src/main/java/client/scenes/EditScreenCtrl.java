@@ -30,4 +30,8 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
     public void toggleSound(){
         mainCtrl.toggleSound();
     }
+
+    public void addActivity() {
+        mainCtrl.editActivity(true);
+    }
 }

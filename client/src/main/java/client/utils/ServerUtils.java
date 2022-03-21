@@ -17,6 +17,8 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
+import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import commons.Activity;
@@ -127,4 +129,37 @@ public class ServerUtils {
                 .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
     }
 
+    public List<Activity> getActivities() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/activity") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Activity>>() {
+                });
+    }
+
+    public byte[] getImageBuffer(long id) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/activity/image"+id) //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<byte[]>() {
+                });
+    }
+
+    public Activity updatePostActivity(PostActivity postActivity) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/update") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(postActivity, APPLICATION_JSON), Activity.class);
+    }
+
+    public Boolean deletePostActivity(Long id) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/delete") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(id, APPLICATION_JSON), Boolean.class);
+    }
 }

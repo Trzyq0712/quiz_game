@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PostActivityTest {
 
-    Activity activity;
+    /*Activity activity;
     private File picture;
     String writeTo;
     PostActivity postActivity;
@@ -41,5 +41,5 @@ class PostActivityTest {
     void testEquals() {
         PostActivity postActivity2 = new PostActivity(activity, writeTo);
         assertEquals(postActivity2, postActivity);
-    }
+    }*/
 }

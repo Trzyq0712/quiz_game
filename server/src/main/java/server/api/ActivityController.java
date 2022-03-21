@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import commons.Activity;
 import server.ActivityService;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -115,6 +117,69 @@ public class ActivityController {
     }
 
     /**
+     * Endpoint for adding new activities.
+     *
+     * @param postActivity The activity with an image to be added.
+     * @return The activity added to the database.
+     */
+    @PostMapping(path = "/update")
+    public ResponseEntity<Activity> updatePostActivity(@RequestBody PostActivity postActivity) {
+        if(writeImageToFile(postActivity))
+            return ResponseEntity.ok(activityService.updateActivity(postActivity.getActivity()));
+
+        return ResponseEntity.ok(null);
+    }
+
+    /**
+     * Endpoint for getting images of activities.
+     *
+     * @param id the id of the activity of which to get the image
+     * @return the image file if it is found
+     */
+    @GetMapping(path = "/image{id}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
+        Optional<Activity> activity = activityService.getActivityById(id);
+        if(activity.isEmpty())
+            return ResponseEntity.ok(null);
+
+        File pathToFile = new File("server\\src\\main\\resources\\static\\" + activity.get().getPicturePath());
+        System.out.println("trying to fetch image: "+ pathToFile.getAbsolutePath());
+        try{
+            byte[] bytes = Files.readAllBytes(Paths.get(pathToFile.getAbsolutePath()));
+            return ResponseEntity.ok(bytes);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return ResponseEntity.ok(null);
+        }
+    }
+
+    /**
+     * Endpoint for getting images of activities.
+     *
+     * @param id of the activity to be deleted
+     * @return the image file if it is found
+     */
+    @PostMapping(path = "/delete")
+    public ResponseEntity<Boolean> deletePostActivity(@RequestBody Long id) {
+        Optional<Activity> activity = activityService.getActivityById(id);
+        if(activity.isEmpty())
+            return ResponseEntity.ok(false);
+
+        File pathToFile = new File("server\\src\\main\\resources\\static\\"
+                + activity.get().getPicturePath());
+        System.out.println("trying to delete: "+ pathToFile.getAbsolutePath());
+        try{
+            if(activityService.removeActivity(id).isPresent()){
+                pathToFile.delete();
+                return ResponseEntity.ok(true);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return ResponseEntity.ok(false);
+    }
+
+    /**
      * Writes the image to the folder
      *
      * @param postActivity activity that has the image to be written to the folder newActivities
@@ -122,17 +187,17 @@ public class ActivityController {
      */
     public boolean writeImageToFile(PostActivity postActivity){
         try {
-            BufferedImage image = ImageIO.read(postActivity.getPicture());
             Activity activity = postActivity.getActivity();
             String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
 
-            String path;
-            do path = new File(postActivity.getWriteTo()
+            String pathString;
+            do pathString = new File(postActivity.getWriteTo()
                     + new Random().nextInt() + "." + extension).getAbsolutePath();
-            while (new File(path).isFile());
+            while (new File(pathString).isFile());
 
-            activity.setPicturePath(path);
-            ImageIO.write(image, extension, new File(path));
+            System.out.println("trying to delete: " + pathString);
+            Path path = Paths.get(pathString);
+            Files.write(path, postActivity.getPictureBuffer());
         } catch (Exception ex) {
             System.out.println(ex);
             return false;

@@ -13,7 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static client.Config.*;
 
@@ -39,6 +42,9 @@ public class EditActivityCtrl {
     TextField imagePathField;
 
     String imagePath;
+    boolean add;
+    Activity activity;
+    byte[] pictureBuffer;
 
     @Inject
     public EditActivityCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -50,10 +56,19 @@ public class EditActivityCtrl {
      * resets the imageView to the placeholder image
      * makes the error label invisible
      */
-    public void setUp() {
+    public void setUp(boolean add, Activity activity) {
         imagePath = "images/placeholder.png";
         errorLabel.setVisible(false);
         imageView.setImage(new Image(imagePath));
+        this.add = add;
+        if(!add){
+            this.activity = activity;
+            questionField.setText(activity.getDescription());
+            consumptionField.setText(activity.getEnergyConsumption().toString());
+            pictureBuffer = server.getImageBuffer(activity.getId());
+            imageView.setImage(new Image(new ByteArrayInputStream(pictureBuffer)));
+            imagePath = activity.getPicturePath();
+        } else activity = new Activity();
     }
 
     /**
@@ -67,6 +82,7 @@ public class EditActivityCtrl {
         }
         try {
             imagePath = path.replace('\\', File.separatorChar);
+            pictureBuffer = Files.readAllBytes(Paths.get(imagePath));
             imageView.setImage(new Image(imagePath));
         } catch (Exception ex){
             errorLabel.setText("Can't find image");
@@ -80,13 +96,23 @@ public class EditActivityCtrl {
      */
     public void tryAdd() {
         if (validActivity()) {
-            Activity activity = new Activity(questionField.getText(),
-                    Long.parseLong(consumptionField.getText()), imagePath);
-            PostActivity postActivity = new PostActivity(activity,
-                    serverImagePath);
-
-            if (server.addPostActivity(postActivity) != null) errorLabel.setText("Successfully added!");
-            else errorLabel.setText("Server did not allow the activity to be added");
+            activity.setDescription(questionField.getText());
+            activity.setEnergyConsumption(Long.parseLong(consumptionField.getText()));
+            activity.setPicturePath(imagePath);
+            PostActivity postActivity = new PostActivity(activity, pictureBuffer, serverImagePath);
+            if(add){
+                Activity newActivity = server.updatePostActivity(postActivity);
+                if (server.addPostActivity(postActivity) != null){
+                    mainCtrl.updateAdd(newActivity);
+                    errorLabel.setText("Successfully added!");
+                }  else errorLabel.setText("Server did not allow the activity to be added");
+            } else {
+                Activity newActivity = server.updatePostActivity(postActivity);
+                if (newActivity != null){
+                    mainCtrl.updateEdit(newActivity);
+                    errorLabel.setText("Successfully added!");
+                }  else errorLabel.setText("Server did not allow the activity to be added");
+            }
 
             errorLabel.setVisible(true);
         }

@@ -515,6 +515,7 @@ public class MainCtrl  {
 
     public void showEditScreen() {
         primaryStage.setTitle(edit);
+        editCtrl.setUp();
         editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
     }
@@ -523,15 +524,22 @@ public class MainCtrl  {
         answerRevealCtrl.setAnswers(activities);
     }
 
-    public void editActivity(boolean add) {
-        if (add) {
-            editActivityCtrl.setUp();
-            editActivityScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-            secondaryStage.setScene(editActivityScene);
-            secondaryStage.centerOnScreen();
-            secondaryStage.sizeToScene();
-            secondaryStage.show();
-        }
+    public void editActivity(boolean add, Activity activity) {
+        editActivityCtrl.setUp(add, activity);
+        editActivityScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        secondaryStage.setScene(editActivityScene);
+        secondaryStage.centerOnScreen();
+        secondaryStage.sizeToScene();
+        secondaryStage.show();
+    }
+
+    public void updateEdit(Activity newActivity) {
+        editCtrl.updateEdit(newActivity);
+
+    }
+
+    public void updateAdd(Activity newActivity) {
+        editCtrl.updateAdd(newActivity);
     }
 
     /*public void showOverview() {

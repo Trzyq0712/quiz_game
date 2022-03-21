@@ -16,12 +16,9 @@
 package client.scenes;
 
 
-<<<<<<< HEAD
 import commons.PlayerScore;
-=======
 import client.Config;
 import commons.Activity;
->>>>>>> dev
 import javafx.application.Platform;
 import commons.Player;
 import javafx.event.Event;
@@ -52,13 +49,7 @@ public class MainCtrl  {
 
     private Player player;
 
-<<<<<<< HEAD
     private PlayerScore playerScore;
-
-    /*private QuoteOverviewCtrl overviewCtrl;
-    private Scene overview;
-=======
->>>>>>> dev
 
     private HomeScreenCtrl homeCtrl;
     private Scene homeScene;

@@ -1,12 +1,17 @@
 package server.api;
 
+import commons.PostActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import commons.Activity;
 import server.ActivityService;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Controller for managing activities.
@@ -95,4 +100,43 @@ public class ActivityController {
         return ResponseEntity.ok(activityService.addActivity(activity));
     }
 
+    /**
+     * Endpoint for adding new activities.
+     *
+     * @param postActivity The activity with an image to be added.
+     * @return The activity added to the database.
+     */
+    @PostMapping(path = "/add")
+    public ResponseEntity<Activity> addPostActivity(@RequestBody PostActivity postActivity) {
+        if(writeImageToFile(postActivity))
+            return ResponseEntity.ok(activityService.addActivity(postActivity.getActivity()));
+
+        return ResponseEntity.ok(null);
+    }
+
+    /**
+     * Writes the image to the folder
+     *
+     * @param postActivity activity that has the image to be written to the folder newActivities
+     * @return true if written successfully
+     */
+    public boolean writeImageToFile(PostActivity postActivity){
+        try {
+            BufferedImage image = ImageIO.read(postActivity.getPicture());
+            Activity activity = postActivity.getActivity();
+            String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
+
+            String path;
+            do path = new File(postActivity.getWriteTo()
+                    + new Random().nextInt() + "." + extension).getAbsolutePath();
+            while (new File(path).isFile());
+
+            activity.setPicturePath(path);
+            ImageIO.write(image, extension, new File(path));
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+        return true;
+    }
 }

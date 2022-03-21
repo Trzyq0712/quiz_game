@@ -40,6 +40,7 @@ import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 
 public class MainCtrl  {
@@ -84,6 +85,9 @@ public class MainCtrl  {
     private QuestionCtrl questionCtrl;
     private Scene questionScene;
 
+    private EstimateQuestionCtrl estimateQuestionCtrl;
+    private Scene estimateQuestionScene;
+
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
 
@@ -117,7 +121,8 @@ public class MainCtrl  {
                            Pair<InfoCtrl, Parent> info,
                            Pair<PromptCtrl, Parent> prompt,
                            Pair<QuestionCtrl, Parent> question,
-                           Pair<EditActivityCtrl, Parent> editActivity) {
+                           Pair<EditActivityCtrl, Parent> editActivity,
+                           Pair<EstimateQuestionCtrl, Parent> estimateQuestion) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -158,6 +163,9 @@ public class MainCtrl  {
 
         this.questionCtrl = question.getKey();
         this.questionScene = new Scene(question.getValue());
+
+        this.estimateQuestionCtrl = estimateQuestion.getKey();
+        this.estimateQuestionScene = new Scene(estimateQuestion.getValue());
 
         this.editActivityCtrl = editActivity.getKey();
         this.editActivityScene = new Scene(editActivity.getValue());
@@ -203,7 +211,7 @@ public class MainCtrl  {
 
     public void initializeHolders() {
         listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
-                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder);
+                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder, estimateQuestionCtrl.chatAndEmoteHolder);
     }
 
     /**
@@ -213,6 +221,7 @@ public class MainCtrl  {
 
     public void activateSingleplayer() {
         questionCtrl.timeJoker.setVisible(false);
+        estimateQuestionCtrl.timeJoker.setVisible(false);
         for (StackPane s : listOfHolders) {
             s.setVisible(false);
         }
@@ -225,6 +234,7 @@ public class MainCtrl  {
 
     public void activateMultiplayer() {
         questionCtrl.timeJoker.setVisible(true);
+        estimateQuestionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
             s.setVisible(true);
         }
@@ -312,20 +322,32 @@ public class MainCtrl  {
 
     public void showQuestion() {
         active = true;
-        questionScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        if (singlePlayerModeActive) {
+         //APPLY CSS SHEET
+        if (singlePlayerModeActive)
             activateSingleplayer();
-            questionCtrl.updateTracker();
-            primaryStage.setScene(questionScene);
-            //show singleplayer
-        } else {
+        else
             activateMultiplayer();
-            questionCtrl.updateTracker();
-            primaryStage.setScene(questionScene);
-            //show multiplayer, partly implemented
+        Random random = new Random();
+        int value = random.nextInt();
+        switch (value%2){
+            case 0: {
+                questionScene.getStylesheets().add(Config.styleSheet);
+                questionCtrl.updateTracker();
+                questionCtrl.generateActivity();
+                primaryStage.setScene(questionScene);
+                new Thread(() -> questionCtrl.activateProgressBar()).start();
+                break;
+            }
+            case 1: {
+                estimateQuestionScene.getStylesheets().add(Config.styleSheet);
+                estimateQuestionCtrl.updateTracker();
+                estimateQuestionCtrl.generateActivity();
+                primaryStage.setScene(estimateQuestionScene);
+                new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
+                break;
+            }
         }
-        questionCtrl.generateActivity();
-        new Thread(() -> questionCtrl.activateProgressBar()).start();
+
     }
 
     /**
@@ -379,8 +401,9 @@ public class MainCtrl  {
         } else {
             startTime = null;
             if (active) {
-                if (call == 0) Platform.runLater(() -> showAnswerReveal());
-                else if (call == 1 && currentQuestion < Config.totalQuestions) {
+                if (call == 0) {
+                    Platform.runLater(() -> showAnswerReveal());
+                } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     questionCtrl.restoreAnswers();
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
@@ -391,7 +414,9 @@ public class MainCtrl  {
                         getPlayerScore().setScore(0);
                         Platform.runLater(() -> showSPLeaderboard());
                     } else Platform.runLater(() -> showMPFinalLeaderboard());
-                } else if (call == 2) Platform.runLater(() -> showQuestion());
+                } else if (call == 2) {
+                    Platform.runLater(() -> showQuestion());
+                }
             }
         }
     }
@@ -408,6 +433,7 @@ public class MainCtrl  {
     public void restore() {
         currentQuestion = 0;
         questionCtrl.restoreJokers();
+        estimateQuestionCtrl.restoreJokers();
         questionCtrl.restoreAnswers();
     }
 
@@ -511,6 +537,14 @@ public class MainCtrl  {
             secondaryStage.sizeToScene();
             secondaryStage.show();
         }
+    }
+
+    public void setAnswersforAnswerReveal(Activity activity) {
+        answerRevealCtrl.setAnswer(activity);
+    }
+
+    public void setAnswersforAnswerReveal(int points) {
+        answerRevealCtrl.setAnswer(points);
     }
 
     /*public void showOverview() {

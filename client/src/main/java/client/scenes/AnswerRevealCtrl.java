@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 import commons.Activity;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -33,6 +34,18 @@ public class AnswerRevealCtrl extends BaseCtrl {
     Label label2;
     @FXML
     Label label3;
+
+    @FXML
+    Button firstButton;
+    @FXML
+    Button secondButton;
+    @FXML
+    Button thirdButton;
+
+    @FXML
+    Label estimateAnswer;
+    @FXML
+    Label pointsGranted;
 
     @FXML
     ImageView checkmark1;
@@ -79,6 +92,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
      * @param answerButtonId - numeric id of the correct answer
      */
     public void setAnswers(List<Activity> activities, int answerButtonId) {
+        setEstimateQuestionFormat(false);
         checkmark1.setImage(null);
         checkmark2.setImage(null);
         checkmark3.setImage(null);
@@ -93,5 +107,32 @@ public class AnswerRevealCtrl extends BaseCtrl {
         label1.setText(activities.get(0).getEnergyConsumption().toString());
         label2.setText(activities.get(1).getEnergyConsumption().toString());
         label3.setText(activities.get(2).getEnergyConsumption().toString());
+    }
+
+    /**
+     * Takes in a boolean, if true, sets the estimate question format, if false, sets the MC question format
+     * @param bool
+     */
+    private void setEstimateQuestionFormat(Boolean bool) {
+        estimateAnswer.setVisible(bool);
+        pointsGranted.setVisible(bool);
+        checkmark1.setVisible(!bool);
+        checkmark2.setVisible(!bool);
+        checkmark3.setVisible(!bool);
+        label1.setVisible(!bool);
+        label2.setVisible(!bool);
+        label3.setVisible(!bool);
+        firstButton.setVisible(!bool);
+        secondButton.setVisible(!bool);
+        thirdButton.setVisible(!bool);
+    }
+
+    public void setAnswer(Activity activity) {
+        setEstimateQuestionFormat(true);
+        estimateAnswer.setText(activity.getEnergyConsumption().toString());
+    }
+
+    public void setAnswer(int points) {
+        pointsGranted.setText("You got " + points + " points!");
     }
 }

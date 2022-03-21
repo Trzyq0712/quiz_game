@@ -44,6 +44,13 @@
     -fx-font-size: 25;
 }
 
+#ActivityDescription {
+    -fx-alignment: center;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-font-family: "Times New Roman";
+}
+
 #ActivityDescription1 {
     -fx-alignment: center;
     -fx-font-size: 20;

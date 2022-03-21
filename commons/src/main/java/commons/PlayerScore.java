@@ -105,6 +105,14 @@ public class PlayerScore {
     }
 
     /**
+     * Setter for the player's score
+     * @param score of the player
+     */
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    /**
      * Getter for the time the score was achieved.
      *
      * @return the time the game was played.

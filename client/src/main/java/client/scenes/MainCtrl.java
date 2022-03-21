@@ -421,6 +421,7 @@ public class MainCtrl  {
                     restore();
                     if (singlePlayerModeActive) {
                         splCtrl.addPlayer(getPlayerScore());
+                        getPlayerScore().setScore(0);
                         Platform.runLater(() -> showSPLeaderboard());
                     } else Platform.runLater(() -> showMPFinalLeaderboard());
                 } else if (call == 2) Platform.runLater(() -> showQuestion());

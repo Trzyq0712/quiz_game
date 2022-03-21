@@ -54,7 +54,7 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
         activityList = server.getActivities();
         start = 0;
         if(activityList.size() - 10 < 0) end = activityList.size();
-        else end = 10;
+        else end = start + 10;
         loadGrid();
     }
 
@@ -140,6 +140,9 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
             public void handle(MouseEvent event) {
                 int index = Integer.parseInt(((ImageView) event.getSource()).getId());
                 if(server.deletePostActivity(activityList.get(index).getId()))
+                    activityList.remove(index);
+
+                loadGrid();
                 event.consume();
             }
         });

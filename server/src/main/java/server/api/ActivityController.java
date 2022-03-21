@@ -124,7 +124,7 @@ public class ActivityController {
      */
     @PostMapping(path = "/update")
     public ResponseEntity<Activity> updatePostActivity(@RequestBody PostActivity postActivity) {
-        if(writeImageToFile(postActivity))
+        if(overWriteImage(postActivity))
             return ResponseEntity.ok(activityService.updateActivity(postActivity.getActivity()));
 
         return ResponseEntity.ok(null);
@@ -165,7 +165,7 @@ public class ActivityController {
         if(activity.isEmpty())
             return ResponseEntity.ok(false);
 
-        File pathToFile = new File("server\\src\\main\\resources\\static\\"
+        File pathToFile = new File("server\\src\\main\\resources\\static"
                 + activity.get().getPicturePath());
         System.out.println("trying to delete: "+ pathToFile.getAbsolutePath());
         try{
@@ -191,13 +191,42 @@ public class ActivityController {
             String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
 
             String pathString;
-            do pathString = new File(postActivity.getWriteTo()
-                    + new Random().nextInt() + "." + extension).getAbsolutePath();
+            String filename;
+            do {
+                filename = new Random().nextInt() + "." + extension;
+                pathString = new File(postActivity.getWriteTo()
+                        + filename).getAbsolutePath();
+            }
             while (new File(pathString).isFile());
 
-            System.out.println("trying to delete: " + pathString);
+            System.out.println("trying to write: " + pathString);
             Path path = Paths.get(pathString);
             Files.write(path, postActivity.getPictureBuffer());
+            activity.setPicturePath(postActivity.getWriteTo() + filename);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Writes the image to the folder
+     *
+     * @param postActivity activity that has the image to be written to the folder newActivities
+     * @return true if written successfully
+     */
+    public boolean overWriteImage(PostActivity postActivity){
+        try {
+            Activity activity = postActivity.getActivity();
+            Activity oldActivity = activityService.getActivityById(activity.getId()).get();
+
+            File pathToFile = new File("server\\src\\main\\resources\\static\\" + oldActivity.getPicturePath());
+                    System.out.println("trying to overwrite: " + pathToFile.getAbsolutePath());
+            Path path = Paths.get(pathToFile.getAbsolutePath());
+            System.out.println("trying to overwrite: " + path.toString());
+            Files.write(path, postActivity.getPictureBuffer());
+            activity.setPicturePath(oldActivity.getPicturePath());
         } catch (Exception ex) {
             System.out.println(ex);
             return false;

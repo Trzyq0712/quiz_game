@@ -48,7 +48,7 @@ public class MainCtrl  {
     private Player player;
 
 
-    private HomescreenCtrl homeCtrl;
+    private HomeScreenCtrl homeCtrl;
     private Scene homeScene;
 
     private SinglePlayerLeaderboardCtrl splCtrl;
@@ -100,7 +100,7 @@ public class MainCtrl  {
     private Scene questionScene;
 
     public void initialize(Stage primaryStage,
-                           Pair<HomescreenCtrl, Parent> home,
+                           Pair<HomeScreenCtrl, Parent> home,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<ExitScreenCtrl, Parent> exit,
                            Pair<WaitingRoomCtrl, Parent> waiting,

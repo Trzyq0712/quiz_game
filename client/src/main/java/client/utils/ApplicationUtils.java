@@ -11,6 +11,9 @@ import java.util.List;
 
 import static client.Config.backgroundMusic;
 
+/**
+ * A class with controls for the application, such as sound control. The class is a singleton.
+ */
 public class ApplicationUtils {
 
     private final MediaPlayer musicPlayer = new MediaPlayer(new Media(backgroundMusic.toURI().toString()));
@@ -25,7 +28,7 @@ public class ApplicationUtils {
     }
 
     /**
-     * Toggles the background music of the application when called.
+     * Toggles the mute state background music of the application when called.
      */
     public void toggleSound() {
         musicPlayer.setMute(!musicPlayer.isMute());
@@ -35,6 +38,10 @@ public class ApplicationUtils {
         });
     }
 
+    /**
+     * Register a music indicators for changes when sound is being toggled.
+     * @param iv The ImageView which should be registered for changes. The image will change between an on and off.
+     */
     public void registerMusicToggle(ImageView iv) {
         musicToggles.add(iv);
     }

@@ -4,36 +4,41 @@ import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.Event;
-import javafx.scene.input.MouseEvent;
+import javafx.fxml.FXML;
 
 
-public class HomescreenCtrl extends BaseCtrl {
+public class HomeScreenCtrl extends BaseCtrl {
 
     private final ServerUtils server;
 
     @Inject
-    public HomescreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public HomeScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils);
         this.server = server;
     }
 
-    public void showSPLeaderboard(MouseEvent event) {
+    @FXML
+    private void showSPLeaderboard() {
         mainCtrl.showSPLeaderboard();
     }
 
-    public void showExitScreen(MouseEvent event) {
+    @FXML
+    private void showExitScreen() {
         mainCtrl.showExitScreen();
     }
 
-    public void showPrompt(Event e) {
+    @FXML
+    private void showPrompt(Event e) {
         mainCtrl.showNewPrompt(e);
     }
 
-    public void showEditScreen() {
+    @FXML
+    private void showEditScreen() {
         mainCtrl.showEditScreen();
     }
 
-    public void showInfo() {
+    @FXML
+    private void showInfo() {
         mainCtrl.showInfo();
     }
 

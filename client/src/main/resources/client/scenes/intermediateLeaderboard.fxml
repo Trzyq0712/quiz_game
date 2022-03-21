@@ -44,7 +44,7 @@
          </content>
       </ScrollPane>
       <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="910.0" text="Question x/y" />
-      <Label id="scoreLabel" layoutX="1450.0" layoutY="970.0" text="Score x/y" />
+      <Label id="scoreLabel" fx:id="scoreLabel"  layoutX="1450.0" layoutY="970.0" text="Score x/y" />
       <StackPane fx:id="chatAndEmoteHolder" layoutX="56.0" layoutY="277.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="288.0">
          <children>
             <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="382.0" prefWidth="290.0">

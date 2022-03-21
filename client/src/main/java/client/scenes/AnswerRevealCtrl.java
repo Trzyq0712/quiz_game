@@ -8,6 +8,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -24,11 +26,20 @@ public class AnswerRevealCtrl extends BaseCtrl {
     @FXML
     Label questionTracker;
     @FXML
+    Label scoreLabel;
+    @FXML
     Label label1;
     @FXML
     Label label2;
     @FXML
     Label label3;
+
+    @FXML
+    ImageView checkmark1;
+    @FXML
+    ImageView checkmark2;
+    @FXML
+    ImageView checkmark3;
 
     @FXML
     VBox chatbox;
@@ -54,8 +65,8 @@ public class AnswerRevealCtrl extends BaseCtrl {
      * shows.
      */
 
-    public void updateQuestionTracker() {
-        mainCtrl.updateQuestionTracker(questionTracker, false);
+    public void updateTracker() {
+        mainCtrl.updateTracker(questionTracker, scoreLabel, false);
     }
 
     public void emote(Event e){
@@ -66,7 +77,19 @@ public class AnswerRevealCtrl extends BaseCtrl {
      * takes in a list of 3 activities and sets the values next to the answer
      * @param activities - list of 3 activities passed from the QuestionCtrl
      */
-    public void setAnswers(List<Activity> activities) {
+    @SuppressWarnings("checkstyle:AvoidNestedBlocks")
+    public void setAnswers(List<Activity> activities, int answerButtonId) {
+        checkmark1.setImage(null);
+        checkmark2.setImage(null);
+        checkmark3.setImage(null);
+        Image checkmark = new Image("/images/checkmark.png");
+        if (answerButtonId == 1) {
+            checkmark1.setImage(checkmark);
+        } else if (answerButtonId == 2) {
+            checkmark2.setImage(checkmark);
+        } else if (answerButtonId == 3) {
+            checkmark3.setImage(checkmark);
+        }
         label1.setText(activities.get(0).getEnergyConsumption().toString());
         label2.setText(activities.get(1).getEnergyConsumption().toString());
         label3.setText(activities.get(2).getEnergyConsumption().toString());

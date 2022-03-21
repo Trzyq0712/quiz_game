@@ -22,6 +22,8 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
 
     @FXML
     Label questionTracker;
+    @FXML
+    Label scoreLabel;
 
     @FXML
     VBox chatbox;
@@ -39,7 +41,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     }
 
     public void updateQuestionTracker() {
-        mainCtrl.updateQuestionTracker(questionTracker, false);
+        mainCtrl.updateTracker(questionTracker, scoreLabel, false);
     }
 
     public void emote(Event e){

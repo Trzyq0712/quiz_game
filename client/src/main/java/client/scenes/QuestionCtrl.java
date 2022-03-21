@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static client.Config.timePerQuestion;
 
@@ -59,6 +60,9 @@ public class QuestionCtrl extends BaseCtrl {
     Label questionTracker;
 
     @FXML
+    Label scoreLabel;
+
+    @FXML
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
@@ -66,13 +70,18 @@ public class QuestionCtrl extends BaseCtrl {
     //Long startTime;
     int amountOfMessages = 0;
 
-
+    private  List<Activity> activities;
+    private int answerButtonId;
 
     @Inject
     public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils);
         this.server = server;
 
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
     }
 
     public void showHome() {
@@ -119,7 +128,9 @@ public class QuestionCtrl extends BaseCtrl {
      * @param answer - answer the player submitted
      */
     public void grantPoints(Answer answer){
-        int earnedPoints = server.grantPoints(answer);
+        int earnedPoints = 0;
+        if(answer.getAnswer() == answerButtonId)
+            earnedPoints = answer.getPoints();
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
     }
 
@@ -159,8 +170,8 @@ public class QuestionCtrl extends BaseCtrl {
         mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
     }
 
-    public void updateQuestionTracker() {
-        mainCtrl.updateQuestionTracker(questionTracker, true);
+    public void updateTracker() {
+        mainCtrl.updateTracker(questionTracker, scoreLabel, true);
     }
 
     public void emote(Event e){
@@ -171,14 +182,22 @@ public class QuestionCtrl extends BaseCtrl {
      * gets 3 activities form the server and displays them
      */
     public void generateActivity(){
-        List<Activity> activities = server.get3Activities();
+        activities = server.get3Activities();
+        long answer = activities.stream().map(Activity::getEnergyConsumption)
+                .sorted().collect(Collectors.toList()).get(2);
+        answerButtonId = activities.stream().map(Activity::getEnergyConsumption)
+                .collect(Collectors.toList()).indexOf(answer) + 1;
+        displayActivities();
+    }
+
+    private void displayActivities() {
         ActivityDescription1.setText(activities.get(0).getDescription());
         ActivityDescription2.setText(activities.get(1).getDescription());
         ActivityDescription3.setText(activities.get(2).getDescription());
         questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
         questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
         questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
-        mainCtrl.setAnswersforAnswerReveal(activities);
+        mainCtrl.setAnswersforAnswerReveal(activities,answerButtonId);
     }
 
 }

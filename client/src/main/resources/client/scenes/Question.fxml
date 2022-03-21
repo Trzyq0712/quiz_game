@@ -65,7 +65,7 @@
          </image>
       </ImageView>
       <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
-      <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
+      <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
       <StackPane layoutX="360.0" layoutY="308.0" prefHeight="439.0" prefWidth="1095.0">
          <children>
             <ImageView id="questionImage1" fx:id="questionImage1" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">

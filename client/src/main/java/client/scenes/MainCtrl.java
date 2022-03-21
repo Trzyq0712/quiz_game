@@ -315,12 +315,12 @@ public class MainCtrl  {
         questionScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         if (singlePlayerModeActive) {
             activateSingleplayer();
-            questionCtrl.updateQuestionTracker();
+            questionCtrl.updateTracker();
             primaryStage.setScene(questionScene);
             //show singleplayer
         } else {
             activateMultiplayer();
-            questionCtrl.updateQuestionTracker();
+            questionCtrl.updateTracker();
             primaryStage.setScene(questionScene);
             //show multiplayer, partly implemented
         }
@@ -450,7 +450,7 @@ public class MainCtrl  {
      */
 
     public void showAnswerReveal() {
-        answerRevealCtrl.updateQuestionTracker();
+        answerRevealCtrl.updateTracker();
         answerRevealScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(answerRevealScene);
         new Thread(() -> answerRevealCtrl.activateProgressBar()).start();
@@ -469,15 +469,19 @@ public class MainCtrl  {
     }
 
     /**
-     * Updates the passed in label to show the current question out of the total.
-     * @param label Label which contains the current question in format "Question X/Y".
+     * Updates the passed in labels to show the current question and score out of the total.
+     * @param question Label which contains the current question in format "Question X/Y".
+     * @param score Label which contains the current score in format "Score X/Y".
      * @param update Indicates if question counter should be incremented, otherwise, if false it will just update
      * the given label acoording to currentQuestion variable.
      */
 
-    public void updateQuestionTracker(Label label, boolean update) {
-        if (update) currentQuestion++;
-        label.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
+    public void updateTracker(Label question, Label score, boolean update) {
+        if (update) {
+            currentQuestion++;
+        }
+        question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
+        score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
     }
 
     public void showInfo() {
@@ -494,8 +498,8 @@ public class MainCtrl  {
         primaryStage.setScene(editScene);
     }
 
-    public void setAnswersforAnswerReveal(List<Activity> activities) {
-        answerRevealCtrl.setAnswers(activities);
+    public void setAnswersforAnswerReveal(List<Activity> activities,int answerButtonId) {
+        answerRevealCtrl.setAnswers(activities,answerButtonId);
     }
 
     public void editActivity(boolean add) {

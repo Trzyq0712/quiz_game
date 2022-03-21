@@ -179,7 +179,7 @@ public class QuestionCtrl extends BaseCtrl {
     }
 
     /**
-     * gets 3 activities form the server and displays them
+     * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
     public void generateActivity(){
         activities = server.get3Activities();

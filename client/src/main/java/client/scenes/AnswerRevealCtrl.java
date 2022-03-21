@@ -76,8 +76,8 @@ public class AnswerRevealCtrl extends BaseCtrl {
     /**
      * takes in a list of 3 activities and sets the values next to the answer
      * @param activities - list of 3 activities passed from the QuestionCtrl
+     * @param answerButtonId - numeric id of the correct answer
      */
-    @SuppressWarnings("checkstyle:AvoidNestedBlocks")
     public void setAnswers(List<Activity> activities, int answerButtonId) {
         checkmark1.setImage(null);
         checkmark2.setImage(null);

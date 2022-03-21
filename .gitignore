@@ -3,9 +3,11 @@ HELP.md
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
-!**/src/test/**/build/
+!**/src/test/
 
-
+*.mv.db
+**/*.mv.db
+**/*.trace.db
 **/*.swp
 
 ### STS ###

@@ -1,10 +1,8 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.PlayerScore;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -18,20 +16,11 @@ import javafx.scene.image.ImageView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.google.inject.Guice.createInjector;
-
-public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Initializable {
+public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     ImageView imageView;
-
-    @FXML
-    ImageView music;
 
     private ObservableList<PlayerScore> data;
 
@@ -48,10 +37,9 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
 
 
     @Inject
-    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(mainCtrl);
+    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
     }
 
     @Override
@@ -79,10 +67,6 @@ public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl implements Ini
         //A sort should be done to display the PlayerScores in the correct order
         data = FXCollections.observableList(players);
         table.setItems(data);
-    }
-
-    public void toggleSound(){
-        mainCtrl.toggleSound();
     }
 
     public void playAgain() {

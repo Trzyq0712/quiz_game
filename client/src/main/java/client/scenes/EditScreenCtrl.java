@@ -6,9 +6,13 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import commons.Activity;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,9 +35,20 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
     ImageView music;
     @FXML
     GridPane activityGrid;
+    @FXML
+    Button previousButton;
+    @FXML
+    Button nextButton;
+    @FXML
+    Button showButton;
+    @FXML
+    Spinner<Integer> pageSpinner;
+    @FXML
+    Label pageLabel;
 
     List<Activity> activityList;
-    int start, end;
+    int start, end, activitiesPerPage = 5, pageCount;
+    SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValues;
 
     @Inject
     public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -53,23 +68,62 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
     public void setUp() {
         activityList = server.getActivities();
         start = 0;
-        if(activityList.size() - 10 < 0) end = activityList.size();
-        else end = start + 10;
+        if(activityList.size() - activitiesPerPage < 0) end = activityList.size();
+        else end = start + activitiesPerPage;
+        pageCount = activityList.size() / activitiesPerPage;
+        if(activityList.size() % activitiesPerPage != 0)
+            pageCount++;
+        spinnerValues = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, pageCount, 1);
+        pageSpinner.setEditable(true);
+        pageSpinner.setValueFactory(spinnerValues);
+
         loadGrid();
     }
 
     public void loadGrid(){
         activityGrid.getChildren().clear();
-        for(int i=start; i < end; i++){
-            setUpRow(i);
-        }
+        for(int i=start; i < end; i++) setUpRow(i);
+
+        pageLabel.setText("\\ " + pageCount);
+        pageSpinner.getValueFactory().setValue(start / activitiesPerPage + 1);
+        if(start != 0) previousButton.setVisible(true);
+        else previousButton.setVisible(false);
+        if(end != activityList.size()) nextButton.setVisible(true);
+        else nextButton.setVisible(false);
+
+        Platform.runLater(() -> {
+            nextButton.setDisable(false);
+            previousButton.setDisable(false);
+            showButton.setDisable(false);
+        });
+    }
+
+    public void loadPrevious(){
+        Platform.runLater(() -> {
+            nextButton.setDisable(true);
+            previousButton.setDisable(true);
+        });
+        start -= activitiesPerPage;
+        if(start - activitiesPerPage < 0) start = 0;
+        end = start + activitiesPerPage;
+        loadGrid();
+    }
+
+    public void loadNext(){
+        Platform.runLater(() -> {
+            nextButton.setDisable(true);
+            previousButton.setDisable(true);
+        });
+        start += activitiesPerPage;
+        end = start + activitiesPerPage;
+        if(end > activityList.size()) end = activityList.size();
+        loadGrid();
     }
 
     private void setUpRow(int i) {
-        Image placeholderImage = new Image("images\\placeholder.png");
         Image editImage = new Image("images\\gear.png");
         Image deleteImage = new Image("images\\delete.png");
-        setUpImage(placeholderImage, i);
+        setUpImage(i);
         setUpEdit(editImage, i);
         setUpDelete(deleteImage, i);
         setUpLabels(activityList.get(i), i);
@@ -84,20 +138,10 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
         activityGrid.add(new Label(activity.getEnergyConsumption().toString()), 1, index % 10);
     }
 
-    public void setUpImage(Image image, int index){
+    public void setUpImage(int index){
         ImageView imageView = new ImageView();
+        Image image = new Image(new ByteArrayInputStream(server.getImageBuffer(activityList.get(index).getId())));
         setProperties(imageView, image, index);
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                int index = Integer.parseInt(((ImageView) event.getSource()).getId());
-                Image img = new Image(new ByteArrayInputStream(server.getImageBuffer(activityList.get(index).getId())));
-                ((ImageView) event.getSource()).setFitWidth(200);
-                ((ImageView) event.getSource()).setImage(img);
-                event.consume();
-            }
-        });
         activityGrid.add(imageView, 2, index % 10);
     }
 
@@ -128,7 +172,11 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
 
     public void updateAdd(Activity newActivity) {
         activityList.add(newActivity);
-        loadGrid();
+        pageCount = activityList.size() / activitiesPerPage;
+        if(activityList.size() % activitiesPerPage != 0)
+            pageCount++;
+        spinnerValues.setMax(pageCount);
+        loadPage();
     }
 
     public void setUpDelete(Image image, int index){
@@ -139,10 +187,15 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
             @Override
             public void handle(MouseEvent event) {
                 int index = Integer.parseInt(((ImageView) event.getSource()).getId());
-                if(server.deletePostActivity(activityList.get(index).getId()))
+                if(server.deletePostActivity(activityList.get(index).getId())){
                     activityList.remove(index);
+                    pageCount = activityList.size() / activitiesPerPage;
+                    if(activityList.size() % activitiesPerPage != 0)
+                        pageCount++;
+                    spinnerValues.setMax(pageCount);
+                    loadPage();
+                }
 
-                loadGrid();
                 event.consume();
             }
         });
@@ -156,5 +209,20 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
         imageView.setId(Integer.toString(index));
+    }
+
+    public void loadPage() {
+        Platform.runLater(() -> {
+            showButton.setDisable(true);
+        });
+
+        int page = (Integer) pageSpinner.getValueFactory().getValue();
+        start = (page - 1) * activitiesPerPage;
+        end = start + activitiesPerPage;
+        if(end > activityList.size()) end = activityList.size();
+
+        System.out.println(start + " " + end);
+
+        loadGrid();
     }
 }

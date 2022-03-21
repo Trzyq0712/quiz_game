@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -68,7 +69,7 @@ public class EditActivityCtrl {
             pictureBuffer = server.getImageBuffer(activity.getId());
             imageView.setImage(new Image(new ByteArrayInputStream(pictureBuffer)));
             imagePath = activity.getPicturePath();
-        } else activity = new Activity();
+        } else this.activity = new Activity();
     }
 
     /**
@@ -76,9 +77,14 @@ public class EditActivityCtrl {
      */
     public void addImage() {
         String path = imagePathField.getText();
+        String extension = path.substring(path.length() - 3);
         if(path.equals("")){
             errorLabel.setText("Path can't be empty");
             errorLabel.setVisible(true);
+        } else if (!extension.equals("png") && !extension.equals("jpg")){
+            errorLabel.setText("Only png and jpg allowed!");
+            errorLabel.setVisible(true);
+            return;
         }
         try {
             imagePath = path.replace('\\', File.separatorChar);
@@ -101,16 +107,18 @@ public class EditActivityCtrl {
             activity.setPicturePath(imagePath);
             PostActivity postActivity = new PostActivity(activity, pictureBuffer, serverImagePath);
             if(add){
-                Activity newActivity = server.updatePostActivity(postActivity);
-                if (server.addPostActivity(postActivity) != null){
+                Activity newActivity = server.addPostActivity(postActivity);
+                if (newActivity != null){
                     mainCtrl.updateAdd(newActivity);
-                    errorLabel.setText("Successfully added!");
+                    Stage stage = (Stage) imageView.getScene().getWindow();
+                    stage.close();
                 }  else errorLabel.setText("Server did not allow the activity to be added");
             } else {
                 Activity newActivity = server.updatePostActivity(postActivity);
                 if (newActivity != null){
                     mainCtrl.updateEdit(newActivity);
-                    errorLabel.setText("Successfully added!");
+                    Stage stage = (Stage) imageView.getScene().getWindow();
+                    stage.close();
                 }  else errorLabel.setText("Server did not allow the activity to be added");
             }
 

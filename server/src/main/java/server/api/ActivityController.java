@@ -165,7 +165,7 @@ public class ActivityController {
         if(activity.isEmpty())
             return ResponseEntity.ok(false);
 
-        File pathToFile = new File("server\\src\\main\\resources\\static"
+        File pathToFile = new File("server\\src\\main\\resources\\static\\"
                 + activity.get().getPicturePath());
         System.out.println("trying to delete: "+ pathToFile.getAbsolutePath());
         try{
@@ -202,7 +202,7 @@ public class ActivityController {
             System.out.println("trying to write: " + pathString);
             Path path = Paths.get(pathString);
             Files.write(path, postActivity.getPictureBuffer());
-            activity.setPicturePath(postActivity.getWriteTo() + filename);
+            activity.setPicturePath("activity\\newActivities\\" + filename);
         } catch (Exception ex) {
             System.out.println(ex);
             return false;

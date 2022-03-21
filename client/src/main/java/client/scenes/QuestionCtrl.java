@@ -159,7 +159,6 @@ public class QuestionCtrl extends BaseCtrl {
     public void timeClick() {
         mainCtrl.buttonSound();
         timeJoker.setVisible(false);
-
     }
 
     /**

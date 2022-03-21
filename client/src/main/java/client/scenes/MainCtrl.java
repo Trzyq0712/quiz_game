@@ -17,6 +17,7 @@ package client.scenes;
 
 
 import client.Config;
+import commons.Activity;
 import javafx.application.Platform;
 import commons.Player;
 import javafx.event.Event;
@@ -43,7 +44,7 @@ import java.util.List;
 public class MainCtrl  {
 
     private Stage primaryStage;
-    private Stage quitStage;
+    private Stage secondaryStage;
 
     private Player player;
 
@@ -72,6 +73,18 @@ public class MainCtrl  {
     private InfoCtrl infoCtrl;
     private Scene infoScene;
 
+    private EditScreenCtrl editCtrl;
+    private Scene editScene;
+
+    private PromptCtrl promptCtrl;
+    private Scene promptScene;
+
+    private QuestionCtrl questionCtrl;
+    private Scene questionScene;
+
+    private EditActivityCtrl editActivityCtrl;
+    private Scene editActivityScene;
+
     Long startTime;
     int currentQuestion = 0;
 
@@ -90,15 +103,6 @@ public class MainCtrl  {
     List<VBox> listOfChatBoxes;
     List<StackPane> listOfHolders;
 
-    private EditScreenCtrl editCtrl;
-    private Scene editScene;
-
-    private PromptCtrl promptCtrl;
-    private Scene promptScene;
-
-    private QuestionCtrl questionCtrl;
-    private Scene questionScene;
-
     public void initialize(Stage primaryStage,
                            Pair<HomeScreenCtrl, Parent> home,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
@@ -110,7 +114,8 @@ public class MainCtrl  {
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
                            Pair<InfoCtrl, Parent> info,
                            Pair<PromptCtrl, Parent> prompt,
-                           Pair<QuestionCtrl, Parent> question) {
+                           Pair<QuestionCtrl, Parent> question,
+                           Pair<EditActivityCtrl, Parent> editActivity) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -151,6 +156,11 @@ public class MainCtrl  {
 
         this.questionCtrl = question.getKey();
         this.questionScene = new Scene(question.getValue());
+
+        this.editActivityCtrl = editActivity.getKey();
+        this.editActivityScene = new Scene(editActivity.getValue());
+
+        secondaryStage = new Stage();
 
         //showOverview();
         primaryStage.setOnCloseRequest(e -> {
@@ -271,14 +281,13 @@ public class MainCtrl  {
 
     public void showExitScreen() {
         exitScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        quitStage = new Stage();
-        quitStage.setScene(exitScene);
-        quitStage.setTitle(Config.quit);
-        quitStage.centerOnScreen();
-        quitStage.sizeToScene();
+        secondaryStage.setScene(exitScene);
+        secondaryStage.setTitle(Config.quit);
+        secondaryStage.centerOnScreen();
+        secondaryStage.sizeToScene();
         /*quitStage.setMinHeight(quitStage.getMinHeight());
         quitStage.setMinWidth(quitStage.getMinWidth());*/
-        quitStage.show();
+        secondaryStage.show();
         //primaryStage.setScene(exitScene);
         buttonSound();
     }
@@ -305,6 +314,7 @@ public class MainCtrl  {
             primaryStage.setScene(questionScene);
             //show multiplayer, partly implemented
         }
+        questionCtrl.generateActivity();
         new Thread(() -> questionCtrl.activateProgressBar()).start();
     }
 
@@ -465,6 +475,21 @@ public class MainCtrl  {
         primaryStage.setTitle(Config.edit);
         editScene.getStylesheets().add(Config.styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
+    }
+
+    public void setAnswersforAnswerReveal(List<Activity> activities) {
+        answerRevealCtrl.setAnswers(activities);
+    }
+
+    public void editActivity(boolean add) {
+        if (add) {
+            editActivityCtrl.setUp();
+            editActivityScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+            secondaryStage.setScene(editActivityScene);
+            secondaryStage.centerOnScreen();
+            secondaryStage.sizeToScene();
+            secondaryStage.show();
+        }
     }
 
     /*public void showOverview() {

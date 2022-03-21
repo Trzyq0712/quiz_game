@@ -3,11 +3,14 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Activity;
+import commons.Answer;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -34,6 +37,20 @@ public class QuestionCtrl extends BaseCtrl {
     Button secondButton;
     @FXML
     Button thirdButton;
+
+    @FXML
+    Label ActivityDescription1;
+    @FXML
+    Label ActivityDescription2;
+    @FXML
+    Label ActivityDescription3;
+
+    @FXML
+    ImageView questionImage1;
+    @FXML
+    ImageView questionImage2;
+    @FXML
+    ImageView questionImage3;
 
     @FXML
     ProgressBar pgBar;
@@ -81,18 +98,44 @@ public class QuestionCtrl extends BaseCtrl {
      */
     public void answerClick(Event event) {
         mainCtrl.buttonSound();
+        long timeToAnswer = mainCtrl.getDelta();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
+        long i = 0;
+        long buttonNb = 0;
         for (Button b : listOfButtons) {
+            i++;
             if (b.getId() != activated.getId()) {
                 b.setVisible(false);
+            } else{
+                buttonNb=i;
             }
         }
+        grantPoints(new Answer(buttonNb, timeToAnswer));
+    }
+
+    /**
+     * @param answer - answer the player submitted
+     */
+    public void grantPoints(Answer answer){
+        server.grantPoints(answer);
     }
 
     public void hintClick() {
         mainCtrl.buttonSound();
         hintJoker.setVisible(false);
+        String falseAnswer = server.activateHint();
+        switch (falseAnswer) {
+            case "a":
+                firstButton.setVisible(false);
+                break;
+            case "b":
+                secondButton.setVisible(false);
+                break;
+            case "c":
+                thirdButton.setVisible(false);
+                break;
+        }
     }
 
     public void pointsClick() {
@@ -120,6 +163,20 @@ public class QuestionCtrl extends BaseCtrl {
 
     public void emote(Event e){
         mainCtrl.emote(e);
+    }
+
+    /**
+     * gets 3 activities form the server and displays them
+     */
+    public void generateActivity(){
+        List<Activity> activities = server.get3Activities();
+        ActivityDescription1.setText(activities.get(0).getDescription());
+        ActivityDescription2.setText(activities.get(1).getDescription());
+        ActivityDescription3.setText(activities.get(2).getDescription());
+        questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
+        questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
+        questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
+        mainCtrl.setAnswersforAnswerReveal(activities);
     }
 
 }

@@ -16,4 +16,7 @@ public class EditScreenCtrl
         this.server = server;
     }
 
+    public void addActivity() {
+        mainCtrl.editActivity(true);
+    }
 }

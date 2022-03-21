@@ -3,12 +3,15 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Activity;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.util.List;
 
 import static client.Config.timeAnswerReveal;
 
@@ -20,6 +23,13 @@ public class AnswerRevealCtrl extends BaseCtrl {
     ProgressBar pgBarReveal;
     @FXML
     Label questionTracker;
+    @FXML
+    Label label1;
+    @FXML
+    Label label2;
+    @FXML
+    Label label3;
+
     @FXML
     VBox chatbox;
     @FXML
@@ -52,4 +62,13 @@ public class AnswerRevealCtrl extends BaseCtrl {
         mainCtrl.emote(e);
     }
 
+    /**
+     * takes in a list of 3 activities and sets the values next to the answer
+     * @param activities - list of 3 activities passed from the QuestionCtrl
+     */
+    public void setAnswers(List<Activity> activities) {
+        label1.setText(activities.get(0).getEnergyConsumption().toString());
+        label2.setText(activities.get(1).getEnergyConsumption().toString());
+        label3.setText(activities.get(2).getEnergyConsumption().toString());
+    }
 }

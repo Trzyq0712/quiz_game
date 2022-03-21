@@ -62,6 +62,8 @@ public class Main extends Application {
                 FXML.load(PromptCtrl.class, "client", "scenes", "Prompt.fxml");
         var question =
                 FXML.load(QuestionCtrl.class, "client", "scenes", "Question.fxml");
+        var editActivity =
+                FXML.load(EditActivityCtrl.class, "client", "scenes", "EditActivity.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
@@ -78,6 +80,7 @@ public class Main extends Application {
                 MPFinal,
                 info,
                 prompt,
-                question);
+                question,
+                editActivity);
     }
 }

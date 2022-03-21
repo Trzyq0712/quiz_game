@@ -1,6 +1,5 @@
 package commons;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -8,12 +7,10 @@ public class PostActivity{
 
     Activity activity;
     private byte[] pictureBuffer;
-    String writeTo;
 
-    public PostActivity(Activity activity, byte[] pictureBuffer, String writeTo) {
+    public PostActivity(Activity activity, byte[] pictureBuffer) {
         this.activity = activity;
         this.pictureBuffer = pictureBuffer;
-        this.writeTo = writeTo;
     }
 
     public PostActivity() {}
@@ -26,22 +23,18 @@ public class PostActivity{
         return activity;
     }
 
-    public String getWriteTo() {
-        return writeTo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PostActivity)) return false;
         PostActivity that = (PostActivity) o;
-        return Objects.equals(getActivity(), that.getActivity()) && Arrays.equals(pictureBuffer, that.pictureBuffer) && Objects.equals(getWriteTo(), that.getWriteTo());
+        return Objects.equals(getActivity(), that.getActivity()) && Arrays.equals(getPictureBuffer(), that.getPictureBuffer());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getActivity(), getWriteTo());
-        result = 31 * result + Arrays.hashCode(pictureBuffer);
+        int result = Objects.hash(getActivity());
+        result = 31 * result + Arrays.hashCode(getPictureBuffer());
         return result;
     }
 }

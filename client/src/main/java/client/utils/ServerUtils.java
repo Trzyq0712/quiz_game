@@ -17,8 +17,6 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.awt.*;
-import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import commons.Activity;

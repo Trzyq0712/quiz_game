@@ -19,8 +19,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static client.Config.*;
-
 import static com.google.inject.Guice.createInjector;
 
 public class EditActivityCtrl {
@@ -105,7 +103,7 @@ public class EditActivityCtrl {
             activity.setDescription(questionField.getText());
             activity.setEnergyConsumption(Long.parseLong(consumptionField.getText()));
             activity.setPicturePath(imagePath);
-            PostActivity postActivity = new PostActivity(activity, pictureBuffer, serverImagePath);
+            PostActivity postActivity = new PostActivity(activity, pictureBuffer);
             if(add){
                 Activity newActivity = server.addPostActivity(postActivity);
                 if (newActivity != null){

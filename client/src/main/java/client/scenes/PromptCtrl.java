@@ -4,6 +4,7 @@ import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
+import commons.PlayerScore;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -34,9 +35,12 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
      * When the start button is clicked this fires off.
      * It checks whether the provided name abides by certain rules and whether it has permission
      * to start a singleplayer game
+     * A new player is created, the name entered will be used for identification later on
      */
     public void startGame() {
         if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
+            PlayerScore player = new PlayerScore(0, nameField.getText(),0);
+            mainCtrl.setPlayerScore(player);
             mainCtrl.showQuestion();
             mainCtrl.buttonSound();
         }

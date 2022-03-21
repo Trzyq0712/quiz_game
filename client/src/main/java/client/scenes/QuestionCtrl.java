@@ -67,6 +67,7 @@ public class QuestionCtrl extends BaseCtrl {
     int amountOfMessages = 0;
 
 
+
     @Inject
     public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils);
@@ -118,7 +119,8 @@ public class QuestionCtrl extends BaseCtrl {
      * @param answer - answer the player submitted
      */
     public void grantPoints(Answer answer){
-        server.grantPoints(answer);
+        int earnedPoints = server.grantPoints(answer);
+        mainCtrl.getPlayerScore().addPoints(earnedPoints);
     }
 
     public void hintClick() {

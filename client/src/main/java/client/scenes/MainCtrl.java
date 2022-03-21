@@ -16,6 +16,7 @@
 package client.scenes;
 
 
+import commons.PlayerScore;
 import client.Config;
 import commons.Activity;
 import javafx.application.Platform;
@@ -48,6 +49,7 @@ public class MainCtrl  {
 
     private Player player;
 
+    private PlayerScore playerScore;
 
     private HomeScreenCtrl homeCtrl;
     private Scene homeScene;
@@ -173,6 +175,14 @@ public class MainCtrl  {
         initializeChatBoxes();
         initializeHolders();
         primaryStage.show();
+    }
+
+    public PlayerScore getPlayerScore() {
+        return playerScore;
+    }
+
+    public void setPlayerScore(PlayerScore playerScore) {
+        this.playerScore = playerScore;
     }
 
     /**
@@ -376,11 +386,18 @@ public class MainCtrl  {
                     else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
                     restore();
-                    if (singlePlayerModeActive) Platform.runLater(() -> showSPLeaderboard());
-                    else Platform.runLater(() -> showMPFinalLeaderboard());
+                    if (singlePlayerModeActive) {
+                        splCtrl.addPlayer(getPlayerScore());
+                        getPlayerScore().setScore(0);
+                        Platform.runLater(() -> showSPLeaderboard());
+                    } else Platform.runLater(() -> showMPFinalLeaderboard());
                 } else if (call == 2) Platform.runLater(() -> showQuestion());
             }
         }
+    }
+
+    public void refresh(){
+        splCtrl.refresh();
     }
 
     /**

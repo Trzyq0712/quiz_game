@@ -22,6 +22,7 @@ import java.util.List;
 import commons.Activity;
 import commons.Answer;
 import commons.Player;
+import commons.PlayerScore;
 import commons.PostActivity;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -95,6 +96,29 @@ public class ServerUtils {
                 .post(Entity.entity(players, APPLICATION_JSON), List.class);
     }
 
+    /**
+     * @param playerScore added to the leaderboard
+     * @return the player added
+     */
+    public PlayerScore addPlayerToSPLeaderboard(PlayerScore playerScore) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/playerscore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(playerScore, APPLICATION_JSON), PlayerScore.class);
+
+    }
+
+    /**
+     * @return the list of waiting players
+     */
+    public List<PlayerScore> getPlayersInSPL() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/playerscore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<PlayerScore>>() {});
+    }
 
     public String activateHint() {
         return ClientBuilder.newClient(new ClientConfig()) //

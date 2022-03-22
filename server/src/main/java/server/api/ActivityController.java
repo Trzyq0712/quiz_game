@@ -111,7 +111,7 @@ public class ActivityController {
     }
 
     /**
-     * Endpoint for adding new activities.
+     * Endpoint for adding new activities and their image.
      *
      * @param postActivity The activity with an image to be added.
      * @return The activity added to the database.
@@ -139,30 +139,7 @@ public class ActivityController {
     }
 
     /**
-     * Endpoint for getting images of activities.
-     *
-     * @param id the id of the activity of which to get the image
-     * @return the image file if it is found
-     */
-    @GetMapping(path = "/image{id}")
-    public ResponseEntity<byte[]> getImageBytes(@PathVariable("id") Long id) {
-        Optional<Activity> activity = activityService.getActivityById(id);
-        if(activity.isEmpty())
-            return ResponseEntity.ok(null);
-
-        Path pathToFile = Path.of(imgPath, activity.get().getPicturePath());
-        System.out.println(pathToFile);
-        try{
-            byte[] bytes = Files.readAllBytes(pathToFile);
-            return ResponseEntity.ok(bytes);
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return ResponseEntity.ok(null);
-        }
-    }
-
-    /**
-     * Endpoint for getting images of activities.
+     * Endpoint for deleting activities and their images
      *
      * @param id of the activity to be deleted
      * @return the image file if it is found

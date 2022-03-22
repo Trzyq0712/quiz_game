@@ -198,9 +198,10 @@ public class EditScreenCtrl
      * @param newActivity is the activity from which to get new data
      */
     public void updateEdit(Activity newActivity) {
-        for(Activity activity: activityList){
-            if(activity.getId() == newActivity.getId()){
-                activity = newActivity;
+        for(int i=0; i<activityList.size(); i++){
+            if(activityList.get(i).getId() == newActivity.getId()){
+                activityList.remove(i);
+                activityList.add(i, newActivity);
                 break;
             }
         }

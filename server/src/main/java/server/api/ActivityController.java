@@ -150,12 +150,9 @@ public class ActivityController {
         if(activity.isEmpty())
             return ResponseEntity.ok(false);
 
-        Path pathToFile = Path.of(imgPath, activity.get().getPicturePath());
-        File toBeDeleted = new File(pathToFile.toString());
-        System.out.println("trying to delete: " + pathToFile);
         try{
             if(activityService.removeActivity(id).isPresent()){
-                toBeDeleted.delete();
+                deleteImageFromServer(activity.get());
                 return ResponseEntity.ok(true);
             }
         } catch (Exception ex) {
@@ -193,21 +190,27 @@ public class ActivityController {
         return true;
     }
 
+    public void deleteImageFromServer(Activity activity){
+        Path pathToFile = Path.of(imgPath, activity.getPicturePath());
+        File toBeDeleted = new File(pathToFile.toString());
+        System.out.println("trying to delete: " + pathToFile);
+        toBeDeleted.delete();
+    }
+
     /**
-     * Rewrites the image to the folder
+     * Rewrites the image to the folder by deleting the old one and writing a new one.
+     * Decided to do so due to having different file types just overwriting the old path
+     * may have conflicts if file extensions are different.
      *
      * @param postActivity activity that has the image to be rewritten
      * @return true if rewritten successfully
      */
     public boolean overWriteImage(PostActivity postActivity){
         try {
-            Activity activity = postActivity.getActivity();
-            Activity oldActivity = activityService.getActivityById(activity.getId()).get();
-
-            Path path = Path.of(imgPath, oldActivity.getPicturePath());
-            System.out.println("trying to overwrite: " + path);
-            Files.write(path, postActivity.getPictureBuffer());
-            activity.setPicturePath(oldActivity.getPicturePath());
+            Activity updatedActivity = postActivity.getActivity();
+            Activity oldActivity = activityService.getActivityById(updatedActivity.getId()).get();
+            deleteImageFromServer(oldActivity);
+            writeImageToFile(postActivity);
         } catch (Exception ex) {
             System.out.println(ex);
             return false;

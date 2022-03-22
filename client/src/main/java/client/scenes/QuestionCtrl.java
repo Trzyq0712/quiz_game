@@ -132,6 +132,7 @@ public class QuestionCtrl extends BaseCtrl {
         if(answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
+        mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
     }
 
     public void hintClick() {

@@ -87,7 +87,7 @@ public class EstimateQuestionCtrl extends BaseCtrl{
         int guess = Integer.parseInt(textField.getText());
         int points = (int)(guess/(double)activity.getEnergyConsumption() * 200);
         mainCtrl.getPlayerScore().addPoints(points);
-        mainCtrl.setAnswersforAnswerReveal(points);
+        mainCtrl.setAnswersforAnswerReveal(points,true);
     }
 
     public void restoreJokers() {

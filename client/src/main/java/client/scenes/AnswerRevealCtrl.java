@@ -45,7 +45,9 @@ public class AnswerRevealCtrl extends BaseCtrl {
     @FXML
     Label estimateAnswer;
     @FXML
-    Label pointsGranted;
+    Label pointsGrantedEstimate;
+    @FXML
+    Label pointsGrantedMC;
 
     @FXML
     ImageView checkmark1;
@@ -119,7 +121,8 @@ public class AnswerRevealCtrl extends BaseCtrl {
      */
     private void setEstimateQuestionFormat(Boolean bool) {
         estimateAnswer.setVisible(bool);
-        pointsGranted.setVisible(bool);
+        pointsGrantedEstimate.setVisible(bool);
+        pointsGrantedMC.setVisible(!bool);
         checkmark1.setVisible(!bool);
         checkmark2.setVisible(!bool);
         checkmark3.setVisible(!bool);
@@ -131,12 +134,26 @@ public class AnswerRevealCtrl extends BaseCtrl {
         thirdButton.setVisible(!bool);
     }
 
+    /**
+     * Sets the answer after having an estimate question
+     * @param activity
+     */
     public void setAnswer(Activity activity) {
         setEstimateQuestionFormat(true);
         estimateAnswer.setText(activity.getEnergyConsumption().toString());
     }
 
-    public void setAnswer(int points) {
-        pointsGranted.setText("You got " + points + " points!");
+    /**
+     * Sets the obtained points
+     * @param points - obtained points
+     * @param bool - indicates which label to set visible
+     *             -> true for estimate related label
+     *             -> false for MC with 3 activities related label
+     */
+    public void setAnswer(int points, boolean bool) {
+        if(bool)
+            pointsGrantedEstimate.setText("You got " + points + " points!");
+        else
+            pointsGrantedMC.setText("You got " + points + " points!");
     }
 }

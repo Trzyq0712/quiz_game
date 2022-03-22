@@ -523,10 +523,6 @@ public class MainCtrl  {
         primaryStage.setScene(editScene);
     }
 
-    public void setAnswersforAnswerReveal(List<Activity> activities,int answerButtonId) {
-        answerRevealCtrl.setAnswers(activities,answerButtonId);
-    }
-
     public void editActivity(boolean add) {
         if (add) {
             editActivityCtrl.setUp();
@@ -538,23 +534,32 @@ public class MainCtrl  {
         }
     }
 
+    /**
+     * Used to prepare the answer reveal screen for a multiple choice question with 3 activities as answers
+     * @param activities - a list of 3 activities
+     * @param answerButtonId - the id of the correct answer button
+     */
+    public void setAnswersforAnswerReveal(List<Activity> activities,int answerButtonId) {
+        answerRevealCtrl.setAnswers(activities,answerButtonId);
+    }
+
+    /**
+     * Used to prepare the answer reveal screen for an estimate question
+     * @param activity - the generated activity
+     */
     public void setAnswersforAnswerReveal(Activity activity) {
         answerRevealCtrl.setAnswer(activity);
     }
 
-    public void setAnswersforAnswerReveal(int points) {
-        answerRevealCtrl.setAnswer(points);
+    /**
+     * Used to send the answer reveal screen the obtained points
+     * @param points - the points that the player obtained
+     * @param bool - indicates which label to set visible
+     *             -> true for estimate related label
+     *             -> false for MC with 3 activities related label
+     */
+    public void setAnswersforAnswerReveal(int points, boolean bool) {
+        answerRevealCtrl.setAnswer(points,bool);
     }
 
-    /*public void showOverview() {
-        primaryStage.setTitle("Quotes: Overview");
-        primaryStage.setScene(overview);
-        overviewCtrl.refresh();
-    }*/
-
-    /*public void showAdd() {
-        primaryStage.setTitle("Quotes: Adding Quote");
-        primaryStage.setScene(add);
-        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
-    }*/
 }

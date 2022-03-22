@@ -40,7 +40,6 @@ import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 
 public class MainCtrl  {
@@ -328,8 +327,7 @@ public class MainCtrl  {
             activateSingleplayer();
         else
             activateMultiplayer();
-        Random random = new Random();
-        int value = random.nextInt();
+        int value = (int)(Math.random()*2);
         switch (value%2){
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);

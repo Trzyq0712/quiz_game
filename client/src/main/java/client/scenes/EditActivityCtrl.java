@@ -1,10 +1,7 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.Activity;
 import commons.PostActivity;
 import javafx.fxml.FXML;
@@ -21,14 +18,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static com.google.inject.Guice.createInjector;
+import static client.Config.serverImagePath;
+
 
 public class EditActivityCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     ImageView imageView;

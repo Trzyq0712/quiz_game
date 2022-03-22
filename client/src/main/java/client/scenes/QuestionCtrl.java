@@ -1,10 +1,8 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.Activity;
 import commons.Answer;
 import javafx.event.Event;
@@ -21,15 +19,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import static client.Config.timePerQuestion;
-import static com.google.inject.Guice.createInjector;
 
-public class QuestionCtrl extends ReusedButtonCtrl {
+public class QuestionCtrl extends BaseCtrl {
+
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     ImageView hintJoker;
@@ -64,8 +57,6 @@ public class QuestionCtrl extends ReusedButtonCtrl {
 
     @FXML
     Label questionTracker;
-    @FXML
-    ImageView music;
 
     @FXML
     VBox chatbox;
@@ -76,11 +67,12 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     int amountOfMessages = 0;
 
 
+
     @Inject
-    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(mainCtrl);
+    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
+
     }
 
     public void showHome() {
@@ -127,16 +119,25 @@ public class QuestionCtrl extends ReusedButtonCtrl {
      * @param answer - answer the player submitted
      */
     public void grantPoints(Answer answer){
-        server.grantPoints(answer);
-    }
-
-    public void toggleSound(){
-        mainCtrl.toggleSound();
+        int earnedPoints = server.grantPoints(answer);
+        mainCtrl.getPlayerScore().addPoints(earnedPoints);
     }
 
     public void hintClick() {
         mainCtrl.buttonSound();
         hintJoker.setVisible(false);
+        String falseAnswer = server.activateHint();
+        switch (falseAnswer) {
+            case "a":
+                firstButton.setVisible(false);
+                break;
+            case "b":
+                secondButton.setVisible(false);
+                break;
+            case "c":
+                thirdButton.setVisible(false);
+                break;
+        }
     }
 
     public void pointsClick() {

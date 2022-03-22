@@ -1,7 +1,6 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -24,9 +23,10 @@ import java.util.List;
 
 import static com.google.inject.Guice.createInjector;
 
-public class EditScreenCtrl extends ReusedButtonCtrl{
+public class EditScreenCtrl
+        extends BaseCtrl {
+
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
@@ -51,10 +51,9 @@ public class EditScreenCtrl extends ReusedButtonCtrl{
     SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValues;
 
     @Inject
-    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(mainCtrl);
+    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
     }
 
     public void toggleSound(){

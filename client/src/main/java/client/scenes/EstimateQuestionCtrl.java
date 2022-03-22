@@ -83,9 +83,25 @@ public class EstimateQuestionCtrl extends BaseCtrl{
         mainCtrl.setAnswersforAnswerReveal(activity);
     }
 
-    public void submitGuess(){
+    public void submitGuess() {
         int guess = Integer.parseInt(textField.getText());
-        int points = (int)(guess/(double)activity.getEnergyConsumption() * 200);
+        long correctAnswer = activity.getEnergyConsumption();
+        int points = 0;
+        if(guess==correctAnswer) {
+            points = 200;
+        } else if(correctAnswer-(0.1*correctAnswer)<=guess && guess<=correctAnswer+(0.1*correctAnswer)) {
+            points = 180;
+        } else if(correctAnswer-(0.2*correctAnswer)<=guess && guess<=correctAnswer+(0.2*correctAnswer)) {
+            points = 160;
+        } else if(correctAnswer-(0.3*correctAnswer)<=guess && guess<=correctAnswer+(0.3*correctAnswer)) {
+            points = 140;
+        } else if(correctAnswer-(0.4*correctAnswer)<=guess && guess<=correctAnswer+(0.4*correctAnswer)) {
+            points = 120;
+        }else if(correctAnswer-(0.5*correctAnswer)<=guess && guess<=correctAnswer+(0.5*correctAnswer)) {
+            points = 100;
+        } else if(correctAnswer-(0.7*correctAnswer)<=guess && guess<=correctAnswer+(0.7*correctAnswer)) {
+            points = 50;
+        }
         mainCtrl.getPlayerScore().addPoints(points);
         mainCtrl.setAnswersforAnswerReveal(points,true);
     }

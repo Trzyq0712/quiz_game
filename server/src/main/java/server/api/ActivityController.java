@@ -60,6 +60,15 @@ public class ActivityController {
     }
 
     /**
+     * Endpoint for getting an activities
+     * @return The activity
+     */
+    @GetMapping(path = "1")
+    public ResponseEntity<Activity> getActivity(){
+        return ResponseEntity.ok(activityService.getActivity());
+    }
+
+    /**
      * Endpoint for getting activities by id.
      *
      * @param id The id of the activity.

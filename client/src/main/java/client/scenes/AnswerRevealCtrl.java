@@ -83,12 +83,16 @@ public class AnswerRevealCtrl extends BaseCtrl {
         checkmark2.setImage(null);
         checkmark3.setImage(null);
         Image checkmark = new Image("/images/checkmark.png");
-        if (answerButtonId == 1) {
-            checkmark1.setImage(checkmark);
-        } else if (answerButtonId == 2) {
-            checkmark2.setImage(checkmark);
-        } else if (answerButtonId == 3) {
-            checkmark3.setImage(checkmark);
+        switch (answerButtonId) {
+            case 1:
+                checkmark1.setImage(checkmark);
+                break;
+            case 2:
+                checkmark2.setImage(checkmark);
+                break;
+            case 3:
+                checkmark3.setImage(checkmark);
+                break;
         }
         label1.setText(activities.get(0).getEnergyConsumption().toString());
         label2.setText(activities.get(1).getEnergyConsumption().toString());

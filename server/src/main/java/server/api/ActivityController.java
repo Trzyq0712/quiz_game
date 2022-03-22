@@ -10,7 +10,6 @@ import server.ActivityService;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -23,7 +22,8 @@ import java.util.Random;
 public class ActivityController {
 
     private final ActivityService activityService;
-    private String imagePath = "server\\src\\main\\resources\\static\\";
+    private String imgPath = getClass().getClassLoader().getResource("static/")
+            .toString().substring(6).replace("%20", " ");
 
     /**
      * Endpoint for ActivityController.
@@ -39,7 +39,7 @@ public class ActivityController {
      * @return current image path of the server
      */
     public String getImagePath() {
-        return imagePath;
+        return imgPath;
     }
 
     /**
@@ -150,9 +150,10 @@ public class ActivityController {
         if(activity.isEmpty())
             return ResponseEntity.ok(null);
 
-        File pathToFile = new File(imagePath + activity.get().getPicturePath());
+        Path pathToFile = Path.of(imgPath, activity.get().getPicturePath());
+        System.out.println(pathToFile);
         try{
-            byte[] bytes = Files.readAllBytes(Paths.get(pathToFile.getAbsolutePath()));
+            byte[] bytes = Files.readAllBytes(pathToFile);
             return ResponseEntity.ok(bytes);
         } catch (Exception ex) {
             System.out.println(ex);
@@ -164,7 +165,7 @@ public class ActivityController {
      * @param imagePath new path for the image folder
      */
     public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+        this.imgPath = imagePath;
     }
 
     /**
@@ -179,12 +180,12 @@ public class ActivityController {
         if(activity.isEmpty())
             return ResponseEntity.ok(false);
 
-        File pathToFile = new File(imagePath
-                + activity.get().getPicturePath());
-        System.out.println("trying to delete: "+ pathToFile.getAbsolutePath());
+        Path pathToFile = Path.of(imgPath, activity.get().getPicturePath());
+        File toBeDeleted = new File(pathToFile.toString());
+        System.out.println("trying to delete: " + pathToFile);
         try{
             if(activityService.removeActivity(id).isPresent()){
-                pathToFile.delete();
+                toBeDeleted.delete();
                 return ResponseEntity.ok(true);
             }
         } catch (Exception ex) {
@@ -204,18 +205,17 @@ public class ActivityController {
             Activity activity = postActivity.getActivity();
             String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
 
-            String pathString;
-            String fileLocation;
+            Path pathToFile;
+            String fileName;
             do {
-                fileLocation = "activity\\newActivities\\" + new Random().nextInt() + "." + extension;
-                pathString = new File(imagePath + fileLocation).getAbsolutePath();
+                fileName = new Random().nextInt() + "." + extension;
+                pathToFile = Path.of(imgPath,"activity", "newActivities", fileName);
             }
-            while (new File(pathString).isFile());
+            while (new File(pathToFile.toString()).isFile());
 
-            System.out.println("trying to write: " + pathString);
-            Path path = Paths.get(pathString);
-            Files.write(path, postActivity.getPictureBuffer());
-            activity.setPicturePath(fileLocation);
+            System.out.println("trying to write: " + pathToFile);
+            Files.write(pathToFile, postActivity.getPictureBuffer());
+            activity.setPicturePath("activity/newActivities/" + fileName);
         } catch (Exception ex) {
             System.out.println(ex);
             return false;
@@ -234,8 +234,7 @@ public class ActivityController {
             Activity activity = postActivity.getActivity();
             Activity oldActivity = activityService.getActivityById(activity.getId()).get();
 
-            File pathToFile = new File(imagePath + oldActivity.getPicturePath());
-            Path path = Paths.get(pathToFile.getAbsolutePath());
+            Path path = Path.of(imgPath, oldActivity.getPicturePath());
             System.out.println("trying to overwrite: " + path);
             Files.write(path, postActivity.getPictureBuffer());
             activity.setPicturePath(oldActivity.getPicturePath());

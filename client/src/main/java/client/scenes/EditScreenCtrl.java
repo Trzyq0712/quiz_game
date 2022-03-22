@@ -137,8 +137,8 @@ public class EditScreenCtrl
      * @param i is the index of the row
      */
     private void setUpRow(int i) {
-        Image editImage = new Image("images\\gear.png");
-        Image deleteImage = new Image("images\\delete.png");
+        Image editImage = new Image(getClass().getClassLoader().getResourceAsStream("images/gear.png"));
+        Image deleteImage = new Image(getClass().getClassLoader().getResourceAsStream("images/delete.png"));
         setUpImage(i);
         setUpEdit(editImage, i);
         setUpDelete(deleteImage, i);

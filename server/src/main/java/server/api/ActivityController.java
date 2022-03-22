@@ -36,6 +36,13 @@ public class ActivityController {
     }
 
     /**
+     * @return current image path of the server
+     */
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    /**
      * Endpoint for getting activities.
      * If specified RequestParam present (q=pattern), return activities whose
      * description match the pattern.
@@ -118,9 +125,9 @@ public class ActivityController {
     }
 
     /**
-     * Endpoint for adding new activities.
+     * Endpoint for updating new activities.
      *
-     * @param postActivity The activity with an image to be added.
+     * @param postActivity The activity with an image to be updated
      * @return The activity added to the database.
      */
     @PostMapping(path = "/update")
@@ -138,13 +145,12 @@ public class ActivityController {
      * @return the image file if it is found
      */
     @GetMapping(path = "/image{id}")
-    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) {
+    public ResponseEntity<byte[]> getImageBytes(@PathVariable("id") Long id) {
         Optional<Activity> activity = activityService.getActivityById(id);
         if(activity.isEmpty())
             return ResponseEntity.ok(null);
 
         File pathToFile = new File(imagePath + activity.get().getPicturePath());
-        System.out.println("trying to fetch image: "+ pathToFile.getAbsolutePath());
         try{
             byte[] bytes = Files.readAllBytes(Paths.get(pathToFile.getAbsolutePath()));
             return ResponseEntity.ok(bytes);
@@ -154,6 +160,9 @@ public class ActivityController {
         }
     }
 
+    /**
+     * @param imagePath new path for the image folder
+     */
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
@@ -199,8 +208,7 @@ public class ActivityController {
             String fileLocation;
             do {
                 fileLocation = "activity\\newActivities\\" + new Random().nextInt() + "." + extension;
-                pathString = new File(imagePath
-                        + fileLocation).getAbsolutePath();
+                pathString = new File(imagePath + fileLocation).getAbsolutePath();
             }
             while (new File(pathString).isFile());
 
@@ -216,10 +224,10 @@ public class ActivityController {
     }
 
     /**
-     * Writes the image to the folder
+     * Rewrites the image to the folder
      *
-     * @param postActivity activity that has the image to be written to the folder newActivities
-     * @return true if written successfully
+     * @param postActivity activity that has the image to be rewritten
+     * @return true if rewritten successfully
      */
     public boolean overWriteImage(PostActivity postActivity){
         try {
@@ -227,9 +235,8 @@ public class ActivityController {
             Activity oldActivity = activityService.getActivityById(activity.getId()).get();
 
             File pathToFile = new File(imagePath + oldActivity.getPicturePath());
-                    System.out.println("trying to overwrite: " + pathToFile.getAbsolutePath());
             Path path = Paths.get(pathToFile.getAbsolutePath());
-            System.out.println("trying to overwrite: " + path.toString());
+            System.out.println("trying to overwrite: " + path);
             Files.write(path, postActivity.getPictureBuffer());
             activity.setPicturePath(oldActivity.getPicturePath());
         } catch (Exception ex) {

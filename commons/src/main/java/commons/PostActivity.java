@@ -28,7 +28,8 @@ public class PostActivity{
         if (this == o) return true;
         if (!(o instanceof PostActivity)) return false;
         PostActivity that = (PostActivity) o;
-        return Objects.equals(getActivity(), that.getActivity()) && Arrays.equals(getPictureBuffer(), that.getPictureBuffer());
+        return Objects.equals(getActivity(), that.getActivity())
+                && Arrays.equals(getPictureBuffer(), that.getPictureBuffer());
     }
 
     @Override

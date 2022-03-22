@@ -127,6 +127,9 @@ public class ServerUtils {
                 .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
     }
 
+    /**
+     * @return all activities
+     */
     public List<Activity> getActivities() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/activity") //
@@ -136,6 +139,10 @@ public class ServerUtils {
                 });
     }
 
+    /**
+     * @param id is the id of the activity of which to get the image bytes
+     * @return the image of the activity in byte[]
+     */
     public byte[] getImageBuffer(long id) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/activity/image"+id) //
@@ -145,6 +152,10 @@ public class ServerUtils {
                 });
     }
 
+    /**
+     * @param postActivity is the activity and image to be added to the server
+     * @return the newly added activity
+     */
     public Activity updatePostActivity(PostActivity postActivity) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("/api/activity/update") //
@@ -153,6 +164,10 @@ public class ServerUtils {
                 .post(Entity.entity(postActivity, APPLICATION_JSON), Activity.class);
     }
 
+    /**
+     * @param id is the id of the activity to be deleted and its image from the server files
+     * @return true if successful
+     */
     public Boolean deletePostActivity(Long id) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("/api/activity/delete") //

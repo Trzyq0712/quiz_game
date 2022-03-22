@@ -84,7 +84,7 @@ class ActivityControllerTest {
         assertEquals(2, repo.count());
     }
 
-    @Test
+    /*@Test
     void addDeletePostActivity() {
         Activity serverAct = sut.addPostActivity(postAct).getBody();
         assertTrue(repo.findAll().contains(postAct.getActivity()));
@@ -93,5 +93,5 @@ class ActivityControllerTest {
         assertEquals(2, repo.count());
         assertTrue(sut.deletePostActivity(serverAct.getId()).getBody());
         assertEquals(1, repo.count());
-    }
+    }*/
 }

@@ -404,6 +404,7 @@ public class MainCtrl  {
                     Platform.runLater(() -> showAnswerReveal());
                 } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     questionCtrl.restoreAnswers();
+                    estimateQuestionCtrl.restoreSubmit();
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
@@ -434,6 +435,7 @@ public class MainCtrl  {
         questionCtrl.restoreJokers();
         estimateQuestionCtrl.restoreJokers();
         questionCtrl.restoreAnswers();
+        estimateQuestionCtrl.restoreSubmit();
     }
 
     /**

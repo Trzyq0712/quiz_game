@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import commons.Activity;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -43,6 +44,8 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     StackPane chatAndEmoteHolder;
     @FXML
     TextField textField;
+    @FXML
+    Button submit;
 
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
@@ -97,11 +100,12 @@ public class EstimateQuestionCtrl extends BaseCtrl{
             points = 140;
         } else if(correctAnswer-(0.4*correctAnswer)<=guess && guess<=correctAnswer+(0.4*correctAnswer)) {
             points = 120;
-        }else if(correctAnswer-(0.5*correctAnswer)<=guess && guess<=correctAnswer+(0.5*correctAnswer)) {
+        } else if(correctAnswer-(0.5*correctAnswer)<=guess && guess<=correctAnswer+(0.5*correctAnswer)) {
             points = 100;
         } else if(correctAnswer-(0.7*correctAnswer)<=guess && guess<=correctAnswer+(0.7*correctAnswer)) {
             points = 50;
         }
+        submit.setDisable(true);
         mainCtrl.getPlayerScore().addPoints(points);
         mainCtrl.setAnswersforAnswerReveal(points,true);
     }
@@ -109,5 +113,10 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     public void restoreJokers() {
         timeJoker.setVisible(true);
         pointsJoker.setVisible(true);
+    }
+
+    public void restoreSubmit(){
+        submit.setDisable(false);
+        textField.setText("");
     }
 }

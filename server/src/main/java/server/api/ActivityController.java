@@ -22,7 +22,7 @@ import java.util.Random;
 public class ActivityController {
 
     private final ActivityService activityService;
-    private String imgPath = getClass().getClassLoader().getResource("static/")
+    public String imgPath = getClass().getClassLoader().getResource("static/")
             .toString().substring(6).replace("%20", " ");
 
     /**
@@ -159,13 +159,6 @@ public class ActivityController {
             System.out.println(ex);
             return ResponseEntity.ok(null);
         }
-    }
-
-    /**
-     * @param imagePath new path for the image folder
-     */
-    public void setImagePath(String imagePath) {
-        this.imgPath = imagePath;
     }
 
     /**

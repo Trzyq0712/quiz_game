@@ -177,19 +177,6 @@ public class ServerUtils {
     }
 
     /**
-     * @param id is the id of the activity of which to get the image bytes
-     * @return the image of the activity in byte[]
-     */
-    public byte[] getImageBuffer(long id) {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/activity/image"+id) //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<byte[]>() {
-                });
-    }
-
-    /**
      * @param postActivity is the activity and image to be added to the server
      * @return the newly added activity
      */

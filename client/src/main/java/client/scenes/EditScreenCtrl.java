@@ -167,7 +167,7 @@ public class EditScreenCtrl
      */
     public void setUpImage(int index){
         ImageView imageView = new ImageView();
-        Image image = new Image(new ByteArrayInputStream(server.getImageBuffer(activityList.get(index).getId())));
+        Image image = new Image(server.SERVER + activityList.get(index).getPicturePath());
         setProperties(imageView, image, index);
         activityGrid.add(imageView, 2, index % activitiesPerPage);
     }

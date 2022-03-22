@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -35,8 +34,8 @@ public class EditActivityCtrl {
 
     String imagePath;
     boolean add;
-    Activity activity;
     byte[] pictureBuffer;
+    Activity activity;
     FileChooser fileChooser;
 
     @Inject
@@ -63,8 +62,7 @@ public class EditActivityCtrl {
             this.activity = activity;
             questionField.setText(activity.getDescription());
             consumptionField.setText(activity.getEnergyConsumption().toString());
-            pictureBuffer = server.getImageBuffer(activity.getId());
-            imageView.setImage(new Image(new ByteArrayInputStream(pictureBuffer)));
+            imageView.setImage(new Image(server.SERVER + activity.getPicturePath()));
             imagePath = activity.getPicturePath();
         } else this.activity = new Activity();
     }

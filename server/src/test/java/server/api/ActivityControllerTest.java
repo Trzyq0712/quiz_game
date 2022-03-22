@@ -10,9 +10,8 @@ import server.ActivityService;
 import server.MockActivityRepository;
 import server.database.ActivityRepository;
 
-import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,15 +32,14 @@ class ActivityControllerTest {
         repo = new MockActivityRepository();
         serv = new ActivityService(repo);
         sut = new ActivityController(serv);
-        sut.setImagePath("src\\test\\resources\\static\\");
         act1 = new Activity("description", 12L, "path/to/file1");
         act2 = new Activity("a different description", 42L, "path/to/file2");
         act3 = new Activity("even more different description", 50L,
-                "\\activity\\00\\fridge.png");
-        File pathToFile = new File("src\\test\\resources\\static\\" + act3.getPicturePath());
-        System.out.println("trying to fetch image: "+ pathToFile.getAbsolutePath());
+                "/activity/00/fridge.png");
+        Path pathToFile = Path.of(sut.imgPath, act3.getPicturePath());
+        System.out.println("trying to fetch image: " + pathToFile);
         try{
-            byte[] bytes = Files.readAllBytes(Paths.get(pathToFile.getAbsolutePath()));
+            byte[] bytes = Files.readAllBytes(pathToFile);
             postAct = new PostActivity(act3, bytes);
         } catch (Exception ex) {
             System.out.println(ex);

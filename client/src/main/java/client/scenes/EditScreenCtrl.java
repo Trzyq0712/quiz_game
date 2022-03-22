@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.Activity;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -21,15 +20,11 @@ import javafx.scene.text.TextAlignment;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import static com.google.inject.Guice.createInjector;
 
 public class EditScreenCtrl
         extends BaseCtrl {
 
     private final ServerUtils server;
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     ImageView music;
@@ -54,10 +49,6 @@ public class EditScreenCtrl
     public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils);
         this.server = server;
-    }
-
-    public void toggleSound(){
-        mainCtrl.toggleSound();
     }
 
     /**

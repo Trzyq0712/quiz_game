@@ -17,10 +17,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static com.google.inject.Guice.createInjector;
-import static client.Config.serverImagePath;
-
-
 public class EditActivityCtrl {
 
     private final ServerUtils server;

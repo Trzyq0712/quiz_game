@@ -211,7 +211,8 @@ public class MainCtrl  {
 
     public void initializeHolders() {
         listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
-                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder, estimateQuestionCtrl.chatAndEmoteHolder);
+                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder,
+                 estimateQuestionCtrl.chatAndEmoteHolder);
     }
 
     /**

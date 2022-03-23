@@ -87,6 +87,9 @@ public class MainCtrl  {
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
 
+    private MCQuestionCtrl MCQuestionCtrl;
+    private Scene MCQuestionScene;
+
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
 
@@ -121,7 +124,8 @@ public class MainCtrl  {
                            Pair<PromptCtrl, Parent> prompt,
                            Pair<QuestionCtrl, Parent> question,
                            Pair<EditActivityCtrl, Parent> editActivity,
-                           Pair<EstimateQuestionCtrl, Parent> estimateQuestion) {
+                           Pair<EstimateQuestionCtrl, Parent> estimateQuestion,
+                           Pair<MCQuestionCtrl, Parent> MCQuestion) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -165,6 +169,9 @@ public class MainCtrl  {
 
         this.estimateQuestionCtrl = estimateQuestion.getKey();
         this.estimateQuestionScene = new Scene(estimateQuestion.getValue());
+
+        this.MCQuestionCtrl = MCQuestion.getKey();
+        this.MCQuestionScene = new Scene(MCQuestion.getValue());
 
         this.editActivityCtrl = editActivity.getKey();
         this.editActivityScene = new Scene(editActivity.getValue());
@@ -211,7 +218,7 @@ public class MainCtrl  {
     public void initializeHolders() {
         listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
                 intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder,
-                 estimateQuestionCtrl.chatAndEmoteHolder);
+                 estimateQuestionCtrl.chatAndEmoteHolder, MCQuestionCtrl.chatAndEmoteHolder);
     }
 
     /**
@@ -293,6 +300,18 @@ public class MainCtrl  {
         splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
         buttonSound();
+        splCtrl.showPLayAgain();
+    }
+
+    /**
+     * Shows the singleplayer leaderboard, without the play again button.
+     */
+
+    public void showSPLeaderboardFromHome() {
+        splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+        primaryStage.setScene(splScene);
+        buttonSound();
+        splCtrl.hidePlayAgain();
     }
 
     /**
@@ -327,8 +346,8 @@ public class MainCtrl  {
             activateSingleplayer();
         else
             activateMultiplayer();
-        int value = (int)(Math.random()*2);
-        switch (value%2){
+        int value = (int)(Math.random()*3);
+        switch (value%3){
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);
                 questionCtrl.updateTracker();
@@ -343,6 +362,15 @@ public class MainCtrl  {
                 estimateQuestionCtrl.generateActivity();
                 primaryStage.setScene(estimateQuestionScene);
                 new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
+                break;
+            }
+
+            case 2: {
+                MCQuestionScene.getStylesheets().add(Config.styleSheet);
+                MCQuestionCtrl.updateTracker();
+                MCQuestionCtrl.generateActivity();
+                primaryStage.setScene(MCQuestionScene);
+                new Thread(() -> MCQuestionCtrl.activateProgressBar()).start();
                 break;
             }
         }
@@ -379,6 +407,10 @@ public class MainCtrl  {
      * @param call Indicates what function should be called next.
      */
     public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
+        if (!active) {
+            startTime = null;
+            return;
+        }
         if (startTime == null) startTime = System.currentTimeMillis();
         double delta = getDelta();
         double progress = (totalTime - delta) / totalTime;
@@ -404,7 +436,7 @@ public class MainCtrl  {
                     Platform.runLater(() -> showAnswerReveal());
                 } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     questionCtrl.restoreAnswers();
-                    estimateQuestionCtrl.restoreSubmit();
+                    MCQuestionCtrl.restoreAnswers();
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
@@ -434,7 +466,9 @@ public class MainCtrl  {
         currentQuestion = 0;
         questionCtrl.restoreJokers();
         estimateQuestionCtrl.restoreJokers();
+        MCQuestionCtrl.restoreJokers();
         questionCtrl.restoreAnswers();
+        MCQuestionCtrl.restoreAnswers();
         estimateQuestionCtrl.restoreSubmit();
     }
 

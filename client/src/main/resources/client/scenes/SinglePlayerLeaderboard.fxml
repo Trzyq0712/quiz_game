@@ -33,7 +33,7 @@
             <Image url="@images/music.png" />
          </image>
       </ImageView>
-      <Button layoutX="888.0" layoutY="946.0" mnemonicParsing="false" onAction="#playAgain" text="play singleplayer again" />
+      <Button layoutX="888.0" fx:id="playAgain" layoutY="946.0" mnemonicParsing="false" onAction="#playAgain" text="play singleplayer again" />
       <TableView fx:id="table" layoutX="555.0" layoutY="366.0" prefHeight="491.0" prefWidth="923.0">
         <columns>
           <TableColumn fx:id="rank" prefWidth="128.0" text="Rank n°" />

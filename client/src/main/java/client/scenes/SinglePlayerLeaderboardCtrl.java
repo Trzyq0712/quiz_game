@@ -11,16 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
     private final ServerUtils server;
-
-    @FXML
-    ImageView imageView;
 
     private ObservableList<PlayerScore> data;
 
@@ -51,8 +47,8 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     }
 
     /**
-     * Adds a playr to the repo
-     * @param p - thre player we want to add to the leaderboard
+     * Adds a player to the repo
+     * @param p - the player we want to add to the leaderboard
      */
     public void addPlayer(PlayerScore p){
         server.addPlayerToSPLeaderboard(p);

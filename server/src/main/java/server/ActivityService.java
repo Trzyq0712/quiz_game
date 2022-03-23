@@ -104,6 +104,12 @@ public class ActivityService {
         return list;
     }
 
+    public Activity getActivity() {
+        List<Activity> list = new ArrayList<>(activityRepository.findAll());
+        int value = (int)(Math.random()* list.size());
+        return list.get(value);
+    }
+
     /**
      * @param activity which has the newer fields
      * @return the new activity if update is successful or null otherwise

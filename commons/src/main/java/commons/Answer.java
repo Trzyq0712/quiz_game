@@ -64,4 +64,9 @@ public class Answer {
     public int hashCode() {
         return Objects.hash(answer, timeToAnswer);
     }
+
+    public int getPoints() {
+        double percentageOfTimeTaken = 1 - (timeToAnswer / 10000.0);
+        return 100 +(int) (percentageOfTimeTaken * 100);
+    }
 }

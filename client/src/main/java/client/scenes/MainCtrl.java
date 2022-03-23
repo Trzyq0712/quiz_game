@@ -437,11 +437,8 @@ public class MainCtrl  {
                     Platform.runLater(() -> showAnswerReveal());
                 } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     questionCtrl.restoreAnswers();
-<<<<<<< HEAD
                     estimateQuestionCtrl.restoreSubmitButton();
-=======
                     MCQuestionCtrl.restoreAnswers();
->>>>>>> dev
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {

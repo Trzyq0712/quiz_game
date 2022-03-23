@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static client.Config.timePerQuestion;
+import static commons.Config.*;
 
 public class MCQuestionCtrl extends BaseCtrl{
 

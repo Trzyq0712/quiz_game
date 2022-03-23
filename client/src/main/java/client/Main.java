@@ -66,6 +66,8 @@ public class Main extends Application {
                 FXML.load(EditActivityCtrl.class, "client", "scenes", "EditActivity.fxml");
         var estimateQuestion =
                 FXML.load(EstimateQuestionCtrl.class, "client", "scenes", "EstimateQuestion.fxml");
+        var MCQuestion =
+                FXML.load(MCQuestionCtrl.class, "client", "scenes", "MCQuestion.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
@@ -84,6 +86,7 @@ public class Main extends Application {
                 prompt,
                 question,
                 editActivity,
-                estimateQuestion);
+                estimateQuestion,
+                MCQuestion);
     }
 }

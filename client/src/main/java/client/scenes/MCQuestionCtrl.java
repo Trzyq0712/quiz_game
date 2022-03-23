@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static client.Config.timePerQuestion;
@@ -95,7 +96,8 @@ public class MCQuestionCtrl extends BaseCtrl{
         Activity a = new Activity(activity.getDescription(), (long)(answer*1.5),activity.getPicturePath());
         Activity b = new Activity(activity.getDescription(), (long)(answer*0.5),activity.getPicturePath());
         List<Activity> activities = Arrays.asList(activity,a,b);
-        answerButtonId = 1;
+        Collections.shuffle(activities);
+        answerButtonId = activities.indexOf(activity)+1;
         displayActivity(activities);
     }
 
@@ -121,7 +123,7 @@ public class MCQuestionCtrl extends BaseCtrl{
         long buttonNb = 0;
         for (Button b : listOfButtons) {
             i++;
-            if (b.getId() != activated.getId()) {
+            if (!b.getId().equals(activated.getId())) {
                 b.setVisible(false);
             } else{
                 buttonNb=i;

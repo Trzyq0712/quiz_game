@@ -103,4 +103,10 @@ public class ActivityService {
         list = list.subList(value, value+3);
         return list;
     }
+
+    public Activity getActivity() {
+        List<Activity> list = new ArrayList<>(activityRepository.findAll());
+        int value = (int)(Math.random()* list.size());
+        return list.get(value);
+    }
 }

@@ -20,8 +20,9 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.util.List;
 
 import commons.Activity;
-import commons.Answer;
 import commons.Player;
+import commons.PlayerScore;
+import commons.PostActivity;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -95,6 +96,37 @@ public class ServerUtils {
     }
 
     /**
+     * @param playerScore added to the leaderboard
+     * @return the player added
+     */
+    public PlayerScore addPlayerToSPLeaderboard(PlayerScore playerScore) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/playerscore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(playerScore, APPLICATION_JSON), PlayerScore.class);
+
+    }
+
+    /**
+     * @return the list of waiting players
+     */
+    public List<PlayerScore> getPlayersInSPL() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/playerscore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<PlayerScore>>() {});
+    }
+
+    public String activateHint() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/joker/hint") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<String>() {});
+    }
+    /**
      * gets a list of 3 activities from the server
      * @return a list of 3 activities
      */
@@ -106,11 +138,24 @@ public class ServerUtils {
                 .get(new GenericType<List<Activity>>() {});
     }
 
-    public int grantPoints(Answer answer) {
-      return ClientBuilder.newClient(new ClientConfig())
-              .target(SERVER).path("api/currentplayerscore/grantpoints")
-              .request(APPLICATION_JSON)
-              .accept(APPLICATION_JSON)
-              .post(Entity.entity(answer, APPLICATION_JSON), Integer.class);
+
+    /**
+     * @param activity is the activity to try to add to the database
+     * @return the updated list of the players when something has changed
+     */
+    public Activity addPostActivity(PostActivity activity) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/add") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
+    }
+
+    public Activity getActivity() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/1") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(Activity.class);
     }
 }

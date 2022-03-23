@@ -16,6 +16,8 @@
 package client.scenes;
 
 
+import commons.PlayerScore;
+import client.Config;
 import commons.Activity;
 import javafx.application.Platform;
 import commons.Player;
@@ -39,24 +41,17 @@ import javafx.util.Pair;
 import java.util.Arrays;
 import java.util.List;
 
-import static client.Config.*;
-
-
 
 public class MainCtrl  {
 
     private Stage primaryStage;
-    private Stage quitStage;
+    private Stage secondaryStage;
 
     private Player player;
 
-    /*private QuoteOverviewCtrl overviewCtrl;
-    private Scene overview;
+    private PlayerScore playerScore;
 
-    private AddQuoteCtrl addCtrl;
-    private Scene add;*/
-
-    private HomescreenCtrl homeCtrl;
+    private HomeScreenCtrl homeCtrl;
     private Scene homeScene;
 
     private SinglePlayerLeaderboardCtrl splCtrl;
@@ -65,7 +60,6 @@ public class MainCtrl  {
     private ExitScreenCtrl exitCtrl;
     private Scene exitScene;
 
-    /*private AudioClip clip = new AudioClip(f.toURI().toString());*/
     private WaitingRoomCtrl waitingCtrl;
     private Scene waitingScene;
 
@@ -81,14 +75,27 @@ public class MainCtrl  {
     private InfoCtrl infoCtrl;
     private Scene infoScene;
 
+    private EditScreenCtrl editCtrl;
+    private Scene editScene;
+
+    private PromptCtrl promptCtrl;
+    private Scene promptScene;
+
+    private QuestionCtrl questionCtrl;
+    private Scene questionScene;
+
+    private EstimateQuestionCtrl estimateQuestionCtrl;
+    private Scene estimateQuestionScene;
+
+    private EditActivityCtrl editActivityCtrl;
+    private Scene editActivityScene;
+
     Long startTime;
     int currentQuestion = 0;
-    List<ImageView> listOfMusicIcons;
-    Image musicOn = new Image(getClass().getClassLoader().getResourceAsStream("images/music.png"));
-    Image musicOff = new Image(getClass().getClassLoader().getResourceAsStream("images/musicOff.png"));
-    boolean active = true; /*if true progressbar will load the next scene on depletion, if false, it means the user has
+
+    boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
-    at which point the next scene shouldnt be loaded anymore*/
+    at which point the next scene shouldnt be loaded anymore */
     /**
      * If true, game knows the player is in singleplayer, if false, the game knows
      * that the player is in multiplayer.
@@ -101,17 +108,8 @@ public class MainCtrl  {
     List<VBox> listOfChatBoxes;
     List<StackPane> listOfHolders;
 
-    private EditScreenCtrl editCtrl;
-    private Scene editScene;
-
-    private PromptCtrl promptCtrl;
-    private Scene promptScene;
-
-    private QuestionCtrl questionCtrl;
-    private Scene questionScene;
-
     public void initialize(Stage primaryStage,
-                           Pair<HomescreenCtrl, Parent> home,
+                           Pair<HomeScreenCtrl, Parent> home,
                            Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
                            Pair<ExitScreenCtrl, Parent> exit,
                            Pair<WaitingRoomCtrl, Parent> waiting,
@@ -121,7 +119,9 @@ public class MainCtrl  {
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
                            Pair<InfoCtrl, Parent> info,
                            Pair<PromptCtrl, Parent> prompt,
-                           Pair<QuestionCtrl, Parent> question) {
+                           Pair<QuestionCtrl, Parent> question,
+                           Pair<EditActivityCtrl, Parent> editActivity,
+                           Pair<EstimateQuestionCtrl, Parent> estimateQuestion) {
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -138,8 +138,6 @@ public class MainCtrl  {
 
         this.exitCtrl = exit.getKey();
         this.exitScene = new Scene(exit.getValue());
-
-        //homeScene.setOnMouseClicked(e -> clip.play());
 
         this.waitingCtrl = waiting.getKey();
         this.waitingScene = new Scene(waiting.getValue());
@@ -165,6 +163,14 @@ public class MainCtrl  {
         this.questionCtrl = question.getKey();
         this.questionScene = new Scene(question.getValue());
 
+        this.estimateQuestionCtrl = estimateQuestion.getKey();
+        this.estimateQuestionScene = new Scene(estimateQuestion.getValue());
+
+        this.editActivityCtrl = editActivity.getKey();
+        this.editActivityScene = new Scene(editActivity.getValue());
+
+        secondaryStage = new Stage();
+
         //showOverview();
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
@@ -173,39 +179,17 @@ public class MainCtrl  {
             primaryStage.close();
         });
         showHome();
-        initializeMusicIcons();
         initializeChatBoxes();
         initializeHolders();
         primaryStage.show();
     }
 
-    /**
-     * Toggles the backgroundmusic of the application when called.
-     */
-    public void toggleSound() {
-        if (homeCtrl.mvv.getMediaPlayer().isMute()) {
-            homeCtrl.mvv.getMediaPlayer().setMute(false);
-            for (ImageView i : listOfMusicIcons) {
-                i.setImage(musicOn);
-            }
-        } else {
-            homeCtrl.mvv.getMediaPlayer().setMute(true);
-            for (ImageView i : listOfMusicIcons) {
-                i.setImage(musicOff);
-            }
-        }
-        buttonSound();
+    public PlayerScore getPlayerScore() {
+        return playerScore;
     }
 
-    /**
-     * Initializes an array of the musicicons of the whole application, this is needed so we can access all of them
-     * to keep them in sync if we want to for example change the music icon between on/off.
-     */
-
-    public void initializeMusicIcons() {
-        listOfMusicIcons = Arrays.asList(homeCtrl.music, infoCtrl.music, answerRevealCtrl.music, editCtrl.music,
-                intermediateCtrl.music, MPFinal.music, promptCtrl.music, questionCtrl.music, splCtrl.music,
-                waitingCtrl.music); //if new scenes are added, make sure to add their music icons here!
+    public void setPlayerScore(PlayerScore playerScore) {
+        this.playerScore = playerScore;
     }
 
     /**
@@ -226,7 +210,8 @@ public class MainCtrl  {
 
     public void initializeHolders() {
         listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
-                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder);
+                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder,
+                 estimateQuestionCtrl.chatAndEmoteHolder);
     }
 
     /**
@@ -236,6 +221,7 @@ public class MainCtrl  {
 
     public void activateSingleplayer() {
         questionCtrl.timeJoker.setVisible(false);
+        estimateQuestionCtrl.timeJoker.setVisible(false);
         for (StackPane s : listOfHolders) {
             s.setVisible(false);
         }
@@ -248,6 +234,7 @@ public class MainCtrl  {
 
     public void activateMultiplayer() {
         questionCtrl.timeJoker.setVisible(true);
+        estimateQuestionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
             s.setVisible(true);
         }
@@ -258,7 +245,7 @@ public class MainCtrl  {
      */
 
     public void buttonSound() {
-        Media media = new Media(buttonClickSound.toURI().toString());
+        Media media = new Media(Config.buttonClickSound.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.play();
     }
@@ -269,8 +256,8 @@ public class MainCtrl  {
 
     public void showHome() {
         player = null;
-        primaryStage.setTitle(title);
-        homeScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setTitle(Config.title);
+        homeScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(homeScene);
         active = false;
         restore();
@@ -292,7 +279,7 @@ public class MainCtrl  {
             promptCtrl.startButton.setPrefWidth(500);
             promptCtrl.startButton.setText("Enter waiting room");
         }
-        promptScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        promptScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         promptCtrl.setUp();
         primaryStage.setScene(promptScene);
         buttonSound();
@@ -303,7 +290,7 @@ public class MainCtrl  {
      */
 
     public void showSPLeaderboard() {
-        splScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
         buttonSound();
     }
@@ -313,15 +300,14 @@ public class MainCtrl  {
      */
 
     public void showExitScreen() {
-        exitScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        quitStage = new Stage();
-        quitStage.setScene(exitScene);
-        quitStage.setTitle(quit);
-        quitStage.centerOnScreen();
-        quitStage.sizeToScene();
+        exitScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+        secondaryStage.setScene(exitScene);
+        secondaryStage.setTitle(Config.quit);
+        secondaryStage.centerOnScreen();
+        secondaryStage.sizeToScene();
         /*quitStage.setMinHeight(quitStage.getMinHeight());
         quitStage.setMinWidth(quitStage.getMinWidth());*/
-        quitStage.show();
+        secondaryStage.show();
         //primaryStage.setScene(exitScene);
         buttonSound();
     }
@@ -336,20 +322,31 @@ public class MainCtrl  {
 
     public void showQuestion() {
         active = true;
-        questionScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
-        if(singlePlayerModeActive) {
+         //APPLY CSS SHEET
+        if (singlePlayerModeActive)
             activateSingleplayer();
-            questionCtrl.updateQuestionTracker();
-            primaryStage.setScene(questionScene);
-            //show singleplayer
-        } else {
+        else
             activateMultiplayer();
-            questionCtrl.updateQuestionTracker();
-            primaryStage.setScene(questionScene);
-            //show multiplayer, partly implemented
+        int value = (int)(Math.random()*2);
+        switch (value%2){
+            case 0: {
+                questionScene.getStylesheets().add(Config.styleSheet);
+                questionCtrl.updateTracker();
+                questionCtrl.generateActivity();
+                primaryStage.setScene(questionScene);
+                new Thread(() -> questionCtrl.activateProgressBar()).start();
+                break;
+            }
+            case 1: {
+                estimateQuestionScene.getStylesheets().add(Config.styleSheet);
+                estimateQuestionCtrl.updateTracker();
+                estimateQuestionCtrl.generateActivity();
+                primaryStage.setScene(estimateQuestionScene);
+                new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
+                break;
+            }
         }
-        questionCtrl.generateActivity();
-        new Thread(() -> questionCtrl.activateProgressBar()).start();
+
     }
 
     /**
@@ -358,8 +355,8 @@ public class MainCtrl  {
      */
     public void enterWaitingRoom(Player player) {
         this.player = player;
-        primaryStage.setTitle(titleWaitingRoom);
-        waitingScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        primaryStage.setTitle(Config.titleWaitingRoom);
+        waitingScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         waitingCtrl.setUp(player);
         primaryStage.setScene(waitingScene);
         buttonSound();
@@ -368,7 +365,7 @@ public class MainCtrl  {
     /**
      * This is here for reentering a multi game to work without changing a lot of stuff.
      * When we add a multiplayer controller going to remake it.
-     * Don't want to do it know not to mess up controllers for the future.
+     * Don't want to do it now not to mess up controllers for the future.
      */
     public void enterWaitingRoom() {
         enterWaitingRoom(player);
@@ -407,18 +404,28 @@ public class MainCtrl  {
         } else {
             startTime = null;
             if (active) {
-                if (call == 0) Platform.runLater(() -> showAnswerReveal());
-                else if (call == 1 && currentQuestion < totalQuestions) {
+                if (call == 0) {
+                    Platform.runLater(() -> showAnswerReveal());
+                } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     questionCtrl.restoreAnswers();
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
-                } else if (call == 1 && currentQuestion >= totalQuestions) {
+                } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
                     restore();
-                    if (singlePlayerModeActive) Platform.runLater(() -> showSPLeaderboard());
-                    else Platform.runLater(() -> showMPFinalLeaderboard());
-                } else if (call == 2) Platform.runLater(() -> showQuestion());
+                    if (singlePlayerModeActive) {
+                        splCtrl.addPlayer(getPlayerScore());
+                        getPlayerScore().setScore(0);
+                        Platform.runLater(() -> showSPLeaderboard());
+                    } else Platform.runLater(() -> showMPFinalLeaderboard());
+                } else if (call == 2) {
+                    Platform.runLater(() -> showQuestion());
+                }
             }
         }
+    }
+
+    public void refresh(){
+        splCtrl.refresh();
     }
 
     /**
@@ -429,6 +436,7 @@ public class MainCtrl  {
     public void restore() {
         currentQuestion = 0;
         questionCtrl.restoreJokers();
+        estimateQuestionCtrl.restoreJokers();
         questionCtrl.restoreAnswers();
     }
 
@@ -447,7 +455,7 @@ public class MainCtrl  {
             emote.setFitWidth(50);
             hbox.getChildren().addAll(user, emote);
             hbox.setAlignment(Pos.CENTER_LEFT);
-            if (amountOfMessages >= maxChatMessages) {
+            if (amountOfMessages >= Config.maxChatMessages) {
                 c.getChildren().remove(0);
             }
             c.getChildren().add(hbox);
@@ -471,63 +479,91 @@ public class MainCtrl  {
      */
 
     public void showAnswerReveal() {
-        answerRevealCtrl.updateQuestionTracker();
-        answerRevealScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        answerRevealCtrl.updateTracker();
+        answerRevealScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(answerRevealScene);
         new Thread(() -> answerRevealCtrl.activateProgressBar()).start();
     }
 
     public void showMPFinalLeaderboard() {
-        MPFinalScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        MPFinalScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(MPFinalScene);
     }
 
     public void showIntermediateLeaderboard() {
         intermediateCtrl.updateQuestionTracker();
-        intermediateScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        intermediateScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(intermediateScene);
         new Thread(() -> intermediateCtrl.activateProgressBar()).start();
     }
 
     /**
-     * Updates the passed in label to show the current question out of the total.
-     * @param label Label which contains the current question in format "Question X/Y".
+     * Updates the passed in labels to show the current question and score out of the total.
+     * @param question Label which contains the current question in format "Question X/Y".
+     * @param score Label which contains the current score in format "Score X/Y".
      * @param update Indicates if question counter should be incremented, otherwise, if false it will just update
      * the given label acoording to currentQuestion variable.
      */
 
-    public void updateQuestionTracker(Label label, boolean update) {
-        if (update) currentQuestion++;
-        label.setText("Question " + currentQuestion + "/" + totalQuestions);
+    public void updateTracker(Label question, Label score, boolean update) {
+        if (update) {
+            currentQuestion++;
+        }
+        question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
+        score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
     }
 
     public void showInfo() {
         infoCtrl.setHintExplainer();
         infoCtrl.setTimeExplainer();
         infoCtrl.setDoublePointsExplainerExplainer();
-        infoScene.getStylesheets().add(styleSheet); //APPLY CSS SHEET
+        infoScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(infoScene);
     }
 
     public void showEditScreen() {
-        primaryStage.setTitle(edit);
-        editScene.getStylesheets().add(styleSheet);//APPLY CSS SHEET
+        primaryStage.setTitle(Config.edit);
+        editScene.getStylesheets().add(Config.styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
     }
 
-    public void setAnswersforAnswerReveal(List<Activity> activities) {
-        answerRevealCtrl.setAnswers(activities);
+    public void editActivity(boolean add) {
+        if (add) {
+            editActivityCtrl.setUp();
+            editActivityScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+            secondaryStage.setScene(editActivityScene);
+            secondaryStage.centerOnScreen();
+            secondaryStage.sizeToScene();
+            secondaryStage.show();
+        }
     }
 
-    /*public void showOverview() {
-        primaryStage.setTitle("Quotes: Overview");
-        primaryStage.setScene(overview);
-        overviewCtrl.refresh();
-    }*/
+    /**
+     * Used to prepare the answer reveal screen for a multiple choice question with 3 activities as answers
+     * @param activities - a list of 3 activities
+     * @param answerButtonId - the id of the correct answer button
+     */
+    public void setAnswersforAnswerReveal(List<Activity> activities,int answerButtonId) {
+        answerRevealCtrl.setAnswers(activities,answerButtonId);
+    }
 
-    /*public void showAdd() {
-        primaryStage.setTitle("Quotes: Adding Quote");
-        primaryStage.setScene(add);
-        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
-    }*/
+    /**
+     * Used to prepare the answer reveal screen for an estimate question
+     * @param activity - the generated activity
+     */
+    public void setAnswersforAnswerReveal(Activity activity) {
+        answerRevealCtrl.setAnswer(activity);
+    }
+
+    /**
+     * Used to send the answer reveal screen the obtained points
+     * @param points - the points that the player obtained
+     * @param bool - indicates which label to set visible
+     *             -> true for estimate related label
+     *             -> false for MC with 3 activities related label
+     */
+    public void setAnswersforAnswerReveal(int points, boolean bool) {
+        answerRevealCtrl.setAnswer(points,bool);
+    }
+
 }

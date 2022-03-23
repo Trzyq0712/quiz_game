@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.*;
+import client.utils.ApplicationUtils;
 import com.google.inject.Injector;
 
 import client.scenes.MainCtrl;
@@ -40,7 +41,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         var home =
-                FXML.load(HomescreenCtrl.class, "client", "scenes", "Homescreen.fxml");
+                FXML.load(HomeScreenCtrl.class, "client", "scenes", "Homescreen.fxml");
         var sp =
                 FXML.load(SinglePlayerLeaderboardCtrl.class, "client", "scenes", "SinglePlayerLeaderboard.fxml");
         var exit =
@@ -61,9 +62,14 @@ public class Main extends Application {
                 FXML.load(PromptCtrl.class, "client", "scenes", "Prompt.fxml");
         var question =
                 FXML.load(QuestionCtrl.class, "client", "scenes", "Question.fxml");
+        var editActivity =
+                FXML.load(EditActivityCtrl.class, "client", "scenes", "EditActivity.fxml");
+        var estimateQuestion =
+                FXML.load(EstimateQuestionCtrl.class, "client", "scenes", "EstimateQuestion.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        INJECTOR.getInstance(ApplicationUtils.class);
 
         mainCtrl.initialize(primaryStage,
                 home,
@@ -76,6 +82,8 @@ public class Main extends Application {
                 MPFinal,
                 info,
                 prompt,
-                question);
+                question,
+                editActivity,
+                estimateQuestion);
     }
 }

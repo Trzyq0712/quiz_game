@@ -76,8 +76,11 @@ public class PlayerScoreController {
      */
     @PostMapping(path = "")
     public ResponseEntity<PlayerScore> add(@RequestBody PlayerScore playerScore) {
-        repo.save(playerScore);
-        return ResponseEntity.ok(playerScore);
+        if(playerScore.getPlayerName()==null){
+            return ResponseEntity.badRequest().build();
+        }
+        PlayerScore p = repo.save(playerScore);
+        return ResponseEntity.ok(p);
     }
 
 }

@@ -32,7 +32,7 @@
       </ImageView>
       <Pane id="questionBox" layoutY="150.0" prefHeight="100.0" prefWidth="1920.0">
          <children>
-            <Label id="questionLabel" prefHeight="100.0" prefWidth="1920.0" text="Correct answer!" wrapText="true">
+            <Label id="questionLabel" prefHeight="100.0" prefWidth="1920.0" text="Correct answer :" wrapText="true">
                <font>
                   <Font name="Script MT Bold" size="64.0" />
                </font>
@@ -65,7 +65,7 @@
          </effect>
       </ProgressBar>
       <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
-      <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
+      <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
       <StackPane fx:id="chatAndEmoteHolder" layoutX="56.0" layoutY="277.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="288.0">
          <children>
             <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="382.0" prefWidth="290.0">
@@ -112,8 +112,14 @@
             </StackPane>
          </children>
       </StackPane>
-      <Label fx:id="label1" layoutX="659.0" layoutY="374.0" text="Label" />
-      <Label fx:id="label2" layoutX="659.0" layoutY="553.0" text="Label" />
-      <Label fx:id="label3" layoutX="659.0" layoutY="742.0" text="Label" />
+      <Label id="label1" fx:id="label1" layoutX="659.0" layoutY="374.0" text="Label" />
+      <Label id="label2" fx:id="label2" layoutX="659.0" layoutY="553.0" text="Label" />
+      <Label id="label3" fx:id="label3" layoutX="659.0" layoutY="742.0" text="Label" />
+      <ImageView id="checkmark1" fx:id="checkmark1" fitHeight="75.0" fitWidth="79.0" layoutX="1150.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="checkmark2" fx:id="checkmark2" fitHeight="75.0" fitWidth="79.0" layoutX="1151.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="checkmark3" fx:id="checkmark3" fitHeight="75.0" fitWidth="79.0" layoutX="1149.0" layoutY="724.0" pickOnBounds="true" preserveRatio="true" />
+      <Label id="estimateAnswer" fx:id="estimateAnswer" layoutX="917.0" layoutY="375.0" text="Label" />
+      <Label id="pointsGrantedEstimate" fx:id="pointsGrantedEstimate" layoutX="813.0" layoutY="593.0" text="You got 200 points" />
+      <Label id="pointsGrantedMC" fx:id="pointsGrantedMC" layoutX="812.0" layoutY="925.0" text="You got 200 points" />
          </children>
 </AnchorPane>

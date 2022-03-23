@@ -1,10 +1,8 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.Activity;
 import commons.Answer;
 import javafx.event.Event;
@@ -19,17 +17,13 @@ import javafx.scene.layout.VBox;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static client.Config.timePerQuestion;
-import static com.google.inject.Guice.createInjector;
 
-public class QuestionCtrl extends ReusedButtonCtrl {
+public class QuestionCtrl extends BaseCtrl {
+
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-
-
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     ImageView hintJoker;
@@ -64,8 +58,9 @@ public class QuestionCtrl extends ReusedButtonCtrl {
 
     @FXML
     Label questionTracker;
+
     @FXML
-    ImageView music;
+    Label scoreLabel;
 
     @FXML
     VBox chatbox;
@@ -75,12 +70,18 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     //Long startTime;
     int amountOfMessages = 0;
 
+    private  List<Activity> activities;
+    private int answerButtonId;
 
     @Inject
-    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(mainCtrl);
+    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
+
+    }
+
+    public List<Activity> getActivities() {
+        return activities;
     }
 
     public void showHome() {
@@ -127,16 +128,28 @@ public class QuestionCtrl extends ReusedButtonCtrl {
      * @param answer - answer the player submitted
      */
     public void grantPoints(Answer answer){
-        server.grantPoints(answer);
-    }
-
-    public void toggleSound(){
-        mainCtrl.toggleSound();
+        int earnedPoints = 0;
+        if(answer.getAnswer() == answerButtonId)
+            earnedPoints = answer.getPoints();
+        mainCtrl.getPlayerScore().addPoints(earnedPoints);
+        mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
     }
 
     public void hintClick() {
         mainCtrl.buttonSound();
         hintJoker.setVisible(false);
+        String falseAnswer = server.activateHint();
+        switch (falseAnswer) {
+            case "a":
+                firstButton.setVisible(false);
+                break;
+            case "b":
+                secondButton.setVisible(false);
+                break;
+            case "c":
+                thirdButton.setVisible(false);
+                break;
+        }
     }
 
     public void pointsClick() {
@@ -147,7 +160,6 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     public void timeClick() {
         mainCtrl.buttonSound();
         timeJoker.setVisible(false);
-
     }
 
     /**
@@ -158,8 +170,8 @@ public class QuestionCtrl extends ReusedButtonCtrl {
         mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
     }
 
-    public void updateQuestionTracker() {
-        mainCtrl.updateQuestionTracker(questionTracker, true);
+    public void updateTracker() {
+        mainCtrl.updateTracker(questionTracker, scoreLabel, true);
     }
 
     public void emote(Event e){
@@ -167,17 +179,25 @@ public class QuestionCtrl extends ReusedButtonCtrl {
     }
 
     /**
-     * gets 3 activities form the server and displays them
+     * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
     public void generateActivity(){
-        List<Activity> activities = server.get3Activities();
+        activities = server.get3Activities();
+        long answer = activities.stream().map(Activity::getEnergyConsumption)
+                .sorted().collect(Collectors.toList()).get(2);
+        answerButtonId = activities.stream().map(Activity::getEnergyConsumption)
+                .collect(Collectors.toList()).indexOf(answer) + 1;
+        displayActivities();
+    }
+
+    private void displayActivities() {
         ActivityDescription1.setText(activities.get(0).getDescription());
         ActivityDescription2.setText(activities.get(1).getDescription());
         ActivityDescription3.setText(activities.get(2).getDescription());
         questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
         questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
         questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
-        mainCtrl.setAnswersforAnswerReveal(activities);
+        mainCtrl.setAnswersforAnswerReveal(activities,answerButtonId);
     }
 
 }

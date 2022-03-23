@@ -5,7 +5,6 @@
 
 <module name = "Checker">
     <module name="TreeWalker">
-        <module name="AvoidNestedBlocks"/>
         <module name="EmptyBlock"/>
         <module name="UnusedImports"/>
         <module name="DefaultComesLast"/>

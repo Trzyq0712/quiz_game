@@ -1,13 +1,11 @@
 package server.api;
 
-import commons.Answer;
 import commons.PlayerScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.Game;
 
-import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -116,25 +114,6 @@ public class CurrentPlayerScoreController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(game.removeAPlayerWithName(name));
-    }
-
-    /**
-     * @param answer - the answer coming from the player
-     * @return the points granted
-     */
-    @PostMapping(path = {"", "/grantpoints"})
-    public ResponseEntity<Integer> grantPoints(@RequestBody Answer answer) {
-        int points = 0;
-        if(checkAnswer(answer)) {
-            long percentageOfTimeTaken = answer.getTimeToAnswer() / 3000;
-            points = 100 +(int) percentageOfTimeTaken * 100;
-            //gives 100 points if you answer correctly, and extra points according to how fast it was answered
-        }
-        return ResponseEntity.ok(points);
-    }
-
-    private boolean checkAnswer(Answer answer) {
-        return true;
     }
 
 }

@@ -1,39 +1,68 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
+import commons.PlayerScore;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
-import static com.google.inject.Guice.createInjector;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class SinglePlayerLeaderboardCtrl extends ReusedButtonCtrl {
+public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
 
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
+    private ObservableList<PlayerScore> data;
 
     @FXML
-    ImageView imageView;
-
+    private TableView<PlayerScore> table;
     @FXML
-    ImageView music;
-
+    private TableColumn<PlayerScore, String> rank;
+    @FXML
+    private TableColumn<PlayerScore, String> player;
+    @FXML
+    private TableColumn<PlayerScore, String> score;
+    @FXML
+    private TableColumn<PlayerScore, String> scoredTime;
 
 
     @Inject
-    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(mainCtrl);
+    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils);
         this.server = server;
-        this.mainCtrl = mainCtrl;
     }
 
-    public void toggleSound(){
-        mainCtrl.toggleSound();
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        rank.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getRank())));
+        player.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPlayerName()));
+        score.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getScore())));
+        scoredTime.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getTime())));
+    }
+
+    /**
+     * Adds a player to the repo
+     * @param p - the player we want to add to the leaderboard
+     */
+    public void addPlayer(PlayerScore p){
+        server.addPlayerToSPLeaderboard(p);
+        refresh();
+    }
+
+    /**
+     * Update the leaderboard
+     */
+    public void refresh(){
+        var players = server.getPlayersInSPL();
+        //A sort should be done to display the PlayerScores in the correct order
+        data = FXCollections.observableList(players);
+        table.setItems(data);
     }
 
     public void playAgain() {

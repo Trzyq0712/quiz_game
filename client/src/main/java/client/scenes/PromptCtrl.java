@@ -1,40 +1,33 @@
 package client.scenes;
 
-import client.MyFXML;
-import client.MyModule;
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import commons.Player;
+import commons.PlayerScore;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import static client.Config.*;
 
-import static com.google.inject.Guice.createInjector;
+import static client.Config.maxCharsUsername;
 
-public class PromptCtrl extends ReusedButtonCtrl{
+
+public class PromptCtrl extends BaseCtrl implements Initializable {
 
     private final ServerUtils server;
-
-    //I think we can remove these 2 lines since they are in NamePromptCtrl but not sure tho
-    private static final Injector INJECTOR = createInjector(new MyModule());
-    private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     @FXML
     private TextField nameField;
     @FXML
     private Label errorLabel;
     @FXML
-    ImageView music;
-    @FXML
     public Button startButton;
 
     @Inject
-    public PromptCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        super(mainCtrl);
+    public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils);
         this.server = server;
     }
 
@@ -42,9 +35,12 @@ public class PromptCtrl extends ReusedButtonCtrl{
      * When the start button is clicked this fires off.
      * It checks whether the provided name abides by certain rules and whether it has permission
      * to start a singleplayer game
+     * A new player is created, the name entered will be used for identification later on
      */
     public void startGame() {
         if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
+            PlayerScore player = new PlayerScore(0, nameField.getText(),0);
+            mainCtrl.setPlayerScore(player);
             mainCtrl.showQuestion();
             mainCtrl.buttonSound();
         }
@@ -57,10 +53,6 @@ public class PromptCtrl extends ReusedButtonCtrl{
         nameField.clear();
         nameField.setPromptText("Enter your name...");
         errorLabel.setVisible(false);
-    }
-
-    public void toggleSound(){
-        mainCtrl.toggleSound();
     }
 
     /**
@@ -113,4 +105,5 @@ public class PromptCtrl extends ReusedButtonCtrl{
         if (mainCtrl.singlePlayerModeActive) startGame();
         else enterWaitingRoom();
     }
+
 }

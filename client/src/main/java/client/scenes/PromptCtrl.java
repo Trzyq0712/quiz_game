@@ -87,10 +87,11 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
      */
     public void enterWaitingRoom(){
         if(checkName(nameField, errorLabel)){
-            Player player = new Player(nameField.getText());
-            if(server.enterWaitingRoom(nameField.getText()))
+            if(server.enterWaitingRoom(nameField.getText())) {
+                PlayerScore player = new PlayerScore(0, nameField.getText(), 0);
+                mainCtrl.setPlayerScore(player);
                 mainCtrl.enterWaitingRoom(new Player(nameField.getText()));
-            else{
+            } else{
                 errorLabel.setText("Name is taken!");
                 errorLabel.setVisible(true);
             }

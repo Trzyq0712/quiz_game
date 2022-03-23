@@ -34,12 +34,10 @@ public class WaitingRoomCtrl extends BaseCtrl {
         this.server = server;
     }
 
+
     public void startGame() {
         threadRun = false;
-        leaveWaitingroom(player);
-        mainCtrl.showQuestion();
-        mainCtrl.buttonSound();
-        restoreChat();
+        server.send("/app/waitingroom/start",true);
     }
 
     /**
@@ -86,6 +84,17 @@ public class WaitingRoomCtrl extends BaseCtrl {
             }
         });
         pollingThread.start();
+
+        server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
+            if(b) {
+                leaveWaitingroom(player);
+                mainCtrl.showQuestion();
+                mainCtrl.buttonSound();
+                restoreChat();
+                server.unsubscribe();
+            }
+        });
+
     }
 
     /**

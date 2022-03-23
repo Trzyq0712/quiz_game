@@ -341,7 +341,7 @@ public class MainCtrl  {
                 questionScene.getStylesheets().add(Config.styleSheet);
                 questionCtrl.updateTracker();
                 questionCtrl.generateActivity();
-                primaryStage.setScene(questionScene);
+                Platform.runLater(()->primaryStage.setScene(questionScene));
                 new Thread(() -> questionCtrl.activateProgressBar()).start();
                 break;
             }
@@ -349,7 +349,7 @@ public class MainCtrl  {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
                 estimateQuestionCtrl.updateTracker();
                 estimateQuestionCtrl.generateActivity();
-                primaryStage.setScene(estimateQuestionScene);
+                Platform.runLater(()->primaryStage.setScene(estimateQuestionScene));
                 new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
                 break;
             }
@@ -358,7 +358,7 @@ public class MainCtrl  {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
                 MCQuestionCtrl.updateTracker();
                 MCQuestionCtrl.generateActivity();
-                primaryStage.setScene(MCQuestionScene);
+                Platform.runLater(()->primaryStage.setScene(MCQuestionScene));
                 new Thread(() -> MCQuestionCtrl.activateProgressBar()).start();
                 break;
             }

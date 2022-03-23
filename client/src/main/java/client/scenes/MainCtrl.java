@@ -353,16 +353,16 @@ public class MainCtrl  {
                 questionScene.getStylesheets().add(Config.styleSheet);
                 questionCtrl.updateTracker();
                 questionCtrl.generateActivity();
-                Platform.runLater(()->primaryStage.setScene(questionScene));
-                new Thread(() -> questionCtrl.activateProgressBar()).start();
+                Platform.runLater(() -> primaryStage.setScene(questionScene));
+                Platform.runLater(() -> questionCtrl.activateProgressBar());
                 break;
             }
             case 1: {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
                 estimateQuestionCtrl.updateTracker();
                 estimateQuestionCtrl.generateActivity();
-                Platform.runLater(()->primaryStage.setScene(estimateQuestionScene));
-                new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
+                Platform.runLater(() -> primaryStage.setScene(estimateQuestionScene));
+                Platform.runLater(() -> estimateQuestionCtrl.activateProgressBar());
                 break;
             }
 
@@ -370,8 +370,8 @@ public class MainCtrl  {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
                 MCQuestionCtrl.updateTracker();
                 MCQuestionCtrl.generateActivity();
-                Platform.runLater(()->primaryStage.setScene(MCQuestionScene));
-                new Thread(() -> MCQuestionCtrl.activateProgressBar()).start();
+                Platform.runLater(() -> primaryStage.setScene(MCQuestionScene));
+                Platform.runLater(() -> MCQuestionCtrl.activateProgressBar());
                 break;
             }
         }
@@ -541,8 +541,10 @@ public class MainCtrl  {
         if (update) {
             currentQuestion++;
         }
-        question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
-        score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
+        Platform.runLater(() -> {
+            question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
+            score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
+        });
     }
 
     public void showInfo() {

@@ -36,7 +36,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
 
     public void startGame() {
-        threadRun = false;
         server.send("/app/waitingroom/start",true);
     }
 
@@ -87,6 +86,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
         server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
             if(b) {
+                threadRun = false;
                 leaveWaitingroom(player);
                 mainCtrl.showQuestion();
                 mainCtrl.buttonSound();

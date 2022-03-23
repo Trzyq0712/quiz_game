@@ -115,7 +115,7 @@ public class QuestionCtrl extends BaseCtrl {
         long buttonNb = 0;
         for (Button b : listOfButtons) {
             i++;
-            if (b.getId() != activated.getId()) {
+            if (!b.getId().equals(activated.getId())) {
                 b.setVisible(false);
             } else{
                 buttonNb=i;

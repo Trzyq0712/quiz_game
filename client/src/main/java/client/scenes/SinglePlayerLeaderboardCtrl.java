@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -30,6 +31,8 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     private TableColumn<PlayerScore, String> score;
     @FXML
     private TableColumn<PlayerScore, String> scoredTime;
+    @FXML
+    private Button playAgain;
 
 
     @Inject
@@ -68,6 +71,21 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     public void playAgain() {
         mainCtrl.restore();
         mainCtrl.showQuestion();
+    }
+
+    /**
+     * The button "Play a singleplayer again" is made visible
+     */
+    public void showPLayAgain(){
+        playAgain.setVisible(true);
+    }
+
+    /**
+     * The button "Play a singleplayer again" is hidden
+     * Used when leaderboard is accessed from the homescreen
+     */
+    public void hidePlayAgain(){
+        playAgain.setVisible(false);
     }
 
 }

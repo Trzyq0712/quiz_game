@@ -293,6 +293,18 @@ public class MainCtrl  {
         splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
         primaryStage.setScene(splScene);
         buttonSound();
+        splCtrl.showPLayAgain();
+    }
+
+    /**
+     * Shows the singleplayer leaderboard, without the play again button.
+     */
+
+    public void showSPLeaderboardFromHome() {
+        splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+        primaryStage.setScene(splScene);
+        buttonSound();
+        splCtrl.hidePlayAgain();
     }
 
     /**

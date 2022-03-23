@@ -19,7 +19,7 @@ public class HomeScreenCtrl extends BaseCtrl {
 
     @FXML
     private void showSPLeaderboard() {
-        mainCtrl.showSPLeaderboard();
+        mainCtrl.showSPLeaderboardFromHome();
     }
 
     @FXML

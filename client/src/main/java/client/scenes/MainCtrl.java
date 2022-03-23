@@ -379,6 +379,10 @@ public class MainCtrl  {
      * @param call Indicates what function should be called next.
      */
     public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
+        if (!active) {
+            startTime = null;
+            return;
+        }
         if (startTime == null) startTime = System.currentTimeMillis();
         double delta = getDelta();
         double progress = (totalTime - delta) / totalTime;

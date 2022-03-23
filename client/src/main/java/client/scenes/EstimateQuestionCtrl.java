@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
+
 import static client.Config.timePerQuestion;
 
 public class EstimateQuestionCtrl extends BaseCtrl{
@@ -46,6 +47,8 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     TextField textField;
     @FXML
     Button submit;
+    @FXML
+    private Label errorLabel;
 
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
@@ -87,27 +90,38 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     }
 
     public void submitGuess() {
-        int guess = Integer.parseInt(textField.getText());
-        long correctAnswer = activity.getEnergyConsumption();
-        int points = 0;
-        if(guess==correctAnswer) {
-            points = 200;
-        } else if(correctAnswer-(0.1*correctAnswer)<=guess && guess<=correctAnswer+(0.1*correctAnswer)) {
-            points = 180;
-        } else if(correctAnswer-(0.2*correctAnswer)<=guess && guess<=correctAnswer+(0.2*correctAnswer)) {
-            points = 160;
-        } else if(correctAnswer-(0.3*correctAnswer)<=guess && guess<=correctAnswer+(0.3*correctAnswer)) {
-            points = 140;
-        } else if(correctAnswer-(0.4*correctAnswer)<=guess && guess<=correctAnswer+(0.4*correctAnswer)) {
-            points = 120;
-        } else if(correctAnswer-(0.5*correctAnswer)<=guess && guess<=correctAnswer+(0.5*correctAnswer)) {
-            points = 100;
-        } else if(correctAnswer-(0.7*correctAnswer)<=guess && guess<=correctAnswer+(0.7*correctAnswer)) {
-            points = 50;
+        try {
+            long guess = Integer.parseInt(textField.getText());
+            long correctAnswer = activity.getEnergyConsumption();
+            int points = 0;
+            if (guess == correctAnswer) {
+                points = 200;
+            } else if (correctAnswer - (0.1 * correctAnswer) <= guess
+                        && guess <= correctAnswer + (0.1 * correctAnswer)) {
+                points = 180;
+            } else if (correctAnswer - (0.2 * correctAnswer) <= guess
+                        && guess <= correctAnswer + (0.2 * correctAnswer)) {
+                points = 160;
+            } else if (correctAnswer - (0.3 * correctAnswer) <= guess
+                        && guess <= correctAnswer + (0.3 * correctAnswer)) {
+                points = 140;
+            } else if (correctAnswer - (0.4 * correctAnswer) <= guess
+                        && guess <= correctAnswer + (0.4 * correctAnswer)) {
+                points = 120;
+            } else if (correctAnswer - (0.5 * correctAnswer) <= guess
+                        && guess <= correctAnswer + (0.5 * correctAnswer)) {
+                points = 100;
+            } else if (correctAnswer - (0.7 * correctAnswer) <= guess
+                        && guess <= correctAnswer + (0.7 * correctAnswer)) {
+                points = 50;
+            }
+            submit.setDisable(true);
+            mainCtrl.getPlayerScore().addPoints(points);
+            mainCtrl.setAnswersforAnswerReveal(points, true);
+        } catch(Exception e){
+            errorLabel.setText("Please type a number" );
+            errorLabel.setVisible(true);
         }
-        submit.setDisable(true);
-        mainCtrl.getPlayerScore().addPoints(points);
-        mainCtrl.setAnswersforAnswerReveal(points,true);
     }
 
     public void restoreJokers() {

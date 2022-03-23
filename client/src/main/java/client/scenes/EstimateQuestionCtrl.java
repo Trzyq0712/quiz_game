@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import commons.Activity;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -15,7 +16,7 @@ import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
-import static client.Config.timePerQuestion;
+import static commons.Config.*;
 
 public class EstimateQuestionCtrl extends BaseCtrl{
 
@@ -43,6 +44,8 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     StackPane chatAndEmoteHolder;
     @FXML
     TextField textField;
+    @FXML
+    Button submitButton;
 
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
@@ -83,15 +86,37 @@ public class EstimateQuestionCtrl extends BaseCtrl{
         mainCtrl.setAnswersforAnswerReveal(activity);
     }
 
+    /**
+     * Score is calculated in the range from 0 to 2 * the correct answer.
+     * Points granted decline in a linear fashion from the correct answer.
+     */
     public void submitGuess(){
-        int guess = Integer.parseInt(textField.getText());
-        int points = (int)(guess/(double)activity.getEnergyConsumption() * 200);
-        mainCtrl.getPlayerScore().addPoints(points);
+        mainCtrl.buttonSound();
+        submitButton.setVisible(false);
+        double start = 0;
+        double center = activity.getEnergyConsumption();
+        double end = 2 * center;
+        double guess = Double.parseDouble(textField.getText());
+        int points = 0;
+        if (guess > start && guess < end) {
+            double fraction;
+            if (guess <= center) {
+                fraction =  guess / center;
+            } else {
+                fraction = (center - (guess - center)) / center;
+            }
+            points = (int) (fraction * 200);
+            mainCtrl.getPlayerScore().addPoints(points);
+        }
         mainCtrl.setAnswersforAnswerReveal(points,true);
     }
 
     public void restoreJokers() {
         timeJoker.setVisible(true);
         pointsJoker.setVisible(true);
+    }
+
+    public void restoreSubmitButton() {
+        submitButton.setVisible(true);
     }
 }

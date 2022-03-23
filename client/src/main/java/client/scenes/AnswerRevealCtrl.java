@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-import static client.Config.timeAnswerReveal;
+import static commons.Config.*;
 
 public class AnswerRevealCtrl extends BaseCtrl {
 

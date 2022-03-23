@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.File;
 
-import static client.Config.serverImagePath;
+import static commons.Config.serverImagePath;
 
 
 public class EditActivityCtrl {

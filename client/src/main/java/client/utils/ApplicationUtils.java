@@ -9,7 +9,7 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static client.Config.backgroundMusic;
+import static commons.Config.backgroundMusic;
 
 /**
  * A class with controls for the application, such as sound control. The class is a singleton.

@@ -17,7 +17,7 @@ package client.scenes;
 
 
 import commons.PlayerScore;
-import client.Config;
+import commons.Config;
 import commons.Activity;
 import javafx.application.Platform;
 import commons.Player;
@@ -327,7 +327,8 @@ public class MainCtrl  {
             activateSingleplayer();
         else
             activateMultiplayer();
-        int value = (int)(Math.random()*2);
+        //int value = (int)(Math.random()*2);
+        int value = 1; //for debugging purposes
         switch (value%2){
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);
@@ -408,6 +409,7 @@ public class MainCtrl  {
                     Platform.runLater(() -> showAnswerReveal());
                 } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     questionCtrl.restoreAnswers();
+                    estimateQuestionCtrl.restoreSubmitButton();
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {

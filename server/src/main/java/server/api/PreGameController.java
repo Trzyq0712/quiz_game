@@ -19,6 +19,7 @@ public class PreGameController {
 
     private List<Player> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
+    //list of singleplayers?
 
     public PreGameController() {
         waitingPlayers = new ArrayList<>();

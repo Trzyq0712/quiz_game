@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static client.Config.timePerQuestion;
+import static commons.Config.*;
 
 public class QuestionCtrl extends BaseCtrl {
 
@@ -129,8 +129,7 @@ public class QuestionCtrl extends BaseCtrl {
      */
     public void grantPoints(Answer answer){
         int earnedPoints = 0;
-        if(answer.getAnswer() == answerButtonId)
-            earnedPoints = answer.getPoints();
+        if(answer.getAnswer() == answerButtonId) earnedPoints = answer.getPoints();
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
         mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
     }

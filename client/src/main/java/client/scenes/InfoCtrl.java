@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import static client.Config.*;
+import static commons.Config.*;
 
 public class InfoCtrl extends BaseCtrl {
 

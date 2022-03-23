@@ -10,7 +10,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import static client.Config.*;
+import static commons.Config.*;
 
 public class IntermediateLeaderboardCtrl extends BaseCtrl {
 

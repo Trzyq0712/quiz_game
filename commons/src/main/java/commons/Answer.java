@@ -5,6 +5,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 import javax.persistence.*;
+import static commons.Config.*;
 
 @Entity
 public class Answer {
@@ -66,7 +67,7 @@ public class Answer {
     }
 
     public int getPoints() {
-        double percentageOfTimeTaken = 1 - (timeToAnswer / 10000.0);
+        double percentageOfTimeTaken = 1 - (timeToAnswer / timePerQuestion);
         return 100 +(int) (percentageOfTimeTaken * 100);
     }
 }

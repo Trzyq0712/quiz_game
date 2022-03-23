@@ -68,6 +68,6 @@ public class Answer {
 
     public int getPoints() {
         double percentageOfTimeTaken = 1 - (timeToAnswer / timePerQuestion);
-        return 100 +(int) (percentageOfTimeTaken * 100);
+        return 100 + (int) (percentageOfTimeTaken * 100);
     }
 }

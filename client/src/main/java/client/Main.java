@@ -51,15 +51,15 @@ public class Main extends Application {
         var edit = 
                 FXML.load(EditScreenCtrl.class, "client", "scenes", "EditScreen.fxml");
         var intermediate =
-                FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "intermediateLeaderboard.fxml");
+                FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "IntermediateLeaderboard.fxml");
         var answerReveal =
                 FXML.load(AnswerRevealCtrl.class, "client", "scenes", "AnswerReveal.fxml");
         var MPFinal =
                 FXML.load(MPFinalLeaderboardCtrl.class, "client", "scenes", "MPFinalLeaderboard.fxml");
         var info =
-                FXML.load(InfoScreenCtrl.class, "client", "scenes", "Info.fxml");
+                FXML.load(InfoScreenCtrl.class, "client", "scenes", "InfoScreen.fxml");
         var prompt =
-                FXML.load(NamePromptCtrl.class, "client", "scenes", "Prompt.fxml");
+                FXML.load(NamePromptCtrl.class, "client", "scenes", "NamePrompt.fxml");
         var question =
                 FXML.load(ComparisonQuestionCtrl.class, "client", "scenes", "Question.fxml");
         var editActivity =

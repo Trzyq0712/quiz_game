@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Config;
 import commons.Player;
 import commons.PlayerScore;
 import javafx.fxml.FXML;
@@ -24,6 +25,8 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
     private Label errorLabel;
     @FXML
     public Button startButton;
+    @FXML
+    private TextField serverField;
 
     @Inject
     public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
@@ -49,9 +52,10 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
     /**
      * mane the nameField prompt display this
      */
-    public void setUp(){
+    public void setUp() {
         nameField.clear();
         nameField.setPromptText("Enter your name...");
+        serverField.setText(Config.server);
         errorLabel.setVisible(false);
     }
 
@@ -102,6 +106,7 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
      * depending on this we call the appropriate function
      */
     public void confirm() {
+        ServerUtils.SERVER = serverField.getText(); //sets the server to the user input
         if (mainCtrl.singlePlayerModeActive) startGame();
         else enterWaitingRoom();
     }

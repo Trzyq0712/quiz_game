@@ -19,5 +19,7 @@ public class Config {
     public static int maxChatMessages = 6;//maximum amount of chatmessages that can be in the chat at once
     public static String serverImagePath = "server\\src\\main\\resources\\static\\activity\\newActivities\\";
     public static int maxCharsUsername = 20; //maximum amount of characters a name can contain
+    public static String port = "7070"; //port for server and client
+    public static String server = "http://localhost:" + port + "/";
 
 }

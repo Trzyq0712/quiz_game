@@ -16,6 +16,7 @@
 package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static commons.Config.*;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ import jakarta.ws.rs.core.GenericType;
 
 public class ServerUtils {
 
-    public static final String SERVER = "http://localhost:8080/";
+    public static String SERVER = server;
 
     /**
      * @param name the name with which the player wants to play singleplayer

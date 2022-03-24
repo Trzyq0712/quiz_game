@@ -109,6 +109,6 @@
             </children>
         </StackPane>
       <TextField id="textField" fx:id="textField" layoutX="873.0" layoutY="846.0" prefHeight="35.0" prefWidth="162.0" promptText="Enter guess" />
-      <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="864.0" layoutY="883.0" text="Error label" visible="false />
+      <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="798.0" layoutY="883.0" text="Error label" visible="false" />
     </children>
 </AnchorPane>

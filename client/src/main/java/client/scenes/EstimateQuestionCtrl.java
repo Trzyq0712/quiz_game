@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 import static client.Config.timePerQuestion;
 
-public class EstimateQuestionCtrl extends BaseCtrl{
+public class EstimateQuestionCtrl extends BaseCtrl {
 
     protected final ServerUtils server;
 
@@ -61,7 +61,7 @@ public class EstimateQuestionCtrl extends BaseCtrl{
         pointsJoker.setVisible(false);
     }
 
-    public void emote(Event e){
+    public void emote(Event e) {
         mainCtrl.emote(e);
     }
 
@@ -90,37 +90,38 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     }
 
     public void submitGuess() {
+        int points = 0;
         try {
             long guess = Integer.parseInt(textField.getText());
             long correctAnswer = activity.getEnergyConsumption();
-            int points = 0;
             if (guess == correctAnswer) {
                 points = 200;
             } else if (correctAnswer - (0.1 * correctAnswer) <= guess
-                        && guess <= correctAnswer + (0.1 * correctAnswer)) {
+                    && guess <= correctAnswer + (0.1 * correctAnswer)) {
                 points = 180;
             } else if (correctAnswer - (0.2 * correctAnswer) <= guess
-                        && guess <= correctAnswer + (0.2 * correctAnswer)) {
+                    && guess <= correctAnswer + (0.2 * correctAnswer)) {
                 points = 160;
             } else if (correctAnswer - (0.3 * correctAnswer) <= guess
-                        && guess <= correctAnswer + (0.3 * correctAnswer)) {
+                    && guess <= correctAnswer + (0.3 * correctAnswer)) {
                 points = 140;
             } else if (correctAnswer - (0.4 * correctAnswer) <= guess
-                        && guess <= correctAnswer + (0.4 * correctAnswer)) {
+                    && guess <= correctAnswer + (0.4 * correctAnswer)) {
                 points = 120;
             } else if (correctAnswer - (0.5 * correctAnswer) <= guess
-                        && guess <= correctAnswer + (0.5 * correctAnswer)) {
+                    && guess <= correctAnswer + (0.5 * correctAnswer)) {
                 points = 100;
             } else if (correctAnswer - (0.7 * correctAnswer) <= guess
-                        && guess <= correctAnswer + (0.7 * correctAnswer)) {
+                    && guess <= correctAnswer + (0.7 * correctAnswer)) {
                 points = 50;
             }
             submit.setDisable(true);
             mainCtrl.getPlayerScore().addPoints(points);
             mainCtrl.setAnswersforAnswerReveal(points, true);
-        } catch(Exception e){
-            errorLabel.setText("Please type a number" );
+        } catch (Exception e) {
+            errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
+            mainCtrl.setAnswersforAnswerReveal(points, true);
         }
     }
 
@@ -129,8 +130,9 @@ public class EstimateQuestionCtrl extends BaseCtrl{
         pointsJoker.setVisible(true);
     }
 
-    public void restoreSubmit(){
+    public void restoreSubmit() {
         submit.setDisable(false);
         textField.setText("");
+        errorLabel.setVisible(false);
     }
 }

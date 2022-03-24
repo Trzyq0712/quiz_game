@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Config;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -9,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
-import static client.Config.*;
 
 public class IntermediateLeaderboardCtrl extends BaseCtrl {
 
@@ -37,7 +36,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     }
 
     public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBarIntermediate, timeForIntermediate, 2);
+        mainCtrl.activateGenericProgressBar(pgBarIntermediate, Config.timeForIntermediate, 2);
     }
 
     public void updateQuestionTracker() {

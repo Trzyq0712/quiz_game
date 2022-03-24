@@ -3,7 +3,8 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.PlayerScore;
+import commons.Player;
+import commons.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,18 +20,18 @@ import java.util.ResourceBundle;
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
     private final ServerUtils server;
 
-    private ObservableList<PlayerScore> data;
+    private ObservableList<Player> data;
 
     @FXML
-    private TableView<PlayerScore> table;
+    private TableView<Player> table;
     @FXML
-    private TableColumn<PlayerScore, String> rank;
+    private TableColumn<Player, String> rank;
     @FXML
-    private TableColumn<PlayerScore, String> player;
+    private TableColumn<Player, String> player;
     @FXML
-    private TableColumn<PlayerScore, String> score;
+    private TableColumn<Player, String> score;
     @FXML
-    private TableColumn<PlayerScore, String> scoredTime;
+    private TableColumn<Player, String> scoredTime;
     @FXML
     private Button playAgain;
 
@@ -55,7 +56,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
      *
      * @param p - the player we want to add to the leaderboard
      */
-    public void addPlayer(PlayerScore p) {
+    public void addPlayer(Player p) {
         server.addPlayerToSPLeaderboard(p);
         refresh();
     }
@@ -71,7 +72,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
      */
     public void refresh() {
         var players = server.getPlayersInSPL();
-        //A sort should be done to display the PlayerScores in the correct order
+        //A sort should be done to display the Players in the correct order
         data = FXCollections.observableList(players);
         table.setItems(data);
     }

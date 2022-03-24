@@ -4,7 +4,6 @@ import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
-import commons.PlayerScore;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -39,8 +38,8 @@ public class NamePromptCtrl extends BaseCtrl implements Initializable {
      */
     public void startGame() {
         if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
-            PlayerScore player = new PlayerScore(0, nameField.getText(),0);
-            mainCtrl.setPlayerScore(player);
+            Player player = new Player( nameField.getText(),0);
+            mainCtrl.setPlayer(player);
             mainCtrl.showQuestion();
             utils.playButtonSound();
         }

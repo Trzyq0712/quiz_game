@@ -1,7 +1,6 @@
 package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.context.request.async.DeferredResult;

@@ -19,7 +19,6 @@ package client.scenes;
 import client.Config;
 import commons.Activity;
 import commons.Player;
-import commons.PlayerScore;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.geometry.Pos;
@@ -74,9 +73,6 @@ public class MainCtrl {
     private Scene editActivityScene;
 
     // --------------------- to move START
-    private Player player;
-
-    private PlayerScore playerScore;
 
     Long startTime;
     int currentQuestion = 0;
@@ -178,13 +174,6 @@ public class MainCtrl {
     }
 
     // --- to move START
-    public PlayerScore getPlayerScore() {
-        return playerScore;
-    }
-
-    public void setPlayerScore(PlayerScore playerScore) {
-        this.playerScore = playerScore;
-    }
 
     /**
      * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
@@ -424,8 +413,8 @@ public class MainCtrl {
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
                     restore();
                     if (singlePlayerModeActive) {
-                        singlePlayerLeaderboardCtrl.addPlayer(getPlayerScore());
-                        getPlayerScore().setScore(0);
+                        singlePlayerLeaderboardCtrl.addPlayer(player);
+                        player.setScore(0);
                         Platform.runLater(this::showSPLeaderboard);
                     } else Platform.runLater(this::showMPFinalLeaderboard);
                 } else if (call == 2) {
@@ -526,7 +515,7 @@ public class MainCtrl {
             currentQuestion++;
         }
         question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
-        score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
+        score.setText("Score " + player.getScore() + "/" + currentQuestion * 200);
     }
     // --- to move END
 

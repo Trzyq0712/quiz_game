@@ -139,7 +139,7 @@ public class MCQuestionCtrl extends BaseCtrl {
         int earnedPoints = 0;
         if(answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
-        mainCtrl.getPlayerScore().addPoints(earnedPoints);
+        mainCtrl.getPlayer().addPoints(earnedPoints);
         mainCtrl.setAnswersForAnswerReveal(earnedPoints,false);
     }
 

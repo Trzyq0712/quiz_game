@@ -21,7 +21,6 @@ import java.util.List;
 
 import commons.Activity;
 import commons.Player;
-import commons.PlayerScore;
 import commons.PostActivity;
 import org.glassfish.jersey.client.ClientConfig;
 
@@ -96,27 +95,27 @@ public class ServerUtils {
     }
 
     /**
-     * @param playerScore added to the leaderboard
+     * @param Player added to the leaderboard
      * @return the player added
      */
-    public PlayerScore addPlayerToSPLeaderboard(PlayerScore playerScore) {
+    public Player addPlayerToSPLeaderboard(Player Player) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/playerscore") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(playerScore, APPLICATION_JSON), PlayerScore.class);
+                .post(Entity.entity(Player, APPLICATION_JSON), Player.class);
 
     }
 
     /**
      * @return the list of waiting players
      */
-    public List<PlayerScore> getPlayersInSPL() {
+    public List<Player> getPlayersInSPL() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/playerscore") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<PlayerScore>>() {});
+                .get(new GenericType<List<Player>>() {});
     }
 
     public String activateHint() {

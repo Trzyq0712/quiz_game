@@ -16,6 +16,7 @@
 package client;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -28,5 +29,6 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ApplicationUtils.class).in(Scopes.SINGLETON);
+        binder.bind(GameUtils.class).in(Scopes.SINGLETON);
     }
 }

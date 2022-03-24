@@ -100,7 +100,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         con.setPrefHeight(149);
         for(int i=0; i < loadPlayers.size(); i++){
             if(i%4==0) playerGrid.getRowConstraints().add(con);
-            playerGrid.add(new Label(loadPlayers.get(i).name), i%4, i/4);
+            playerGrid.add(new Label(loadPlayers.get(i).getPlayerName()), i%4, i/4);
         }
     }
 

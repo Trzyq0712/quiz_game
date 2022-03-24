@@ -5,8 +5,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import server.database.PlayerScoreRepository;
-import commons.PlayerScore;
+import server.database.PlayerRepository;
+import commons.Player;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/playerscore")
 public class PlayerScoreController {
 
-    private final PlayerScoreRepository repo;
+    private final PlayerRepository repo;
 
     @Autowired
-    public PlayerScoreController(PlayerScoreRepository repo) {
+    public PlayerScoreController(PlayerRepository repo) {
         this.repo = repo;
     }
 
@@ -31,7 +31,7 @@ public class PlayerScoreController {
      * @return list of all scores.
      */
     @GetMapping(path = "")
-    public ResponseEntity<List<PlayerScore>> getAll() {
+    public ResponseEntity<List<Player>> getAll() {
         return ResponseEntity.ok(repo.findAll());
     }
 
@@ -42,7 +42,7 @@ public class PlayerScoreController {
      * @return the requested player.
      */
     @GetMapping(path = "{id}")
-    public ResponseEntity<PlayerScore> getById(@PathVariable("id") long id) {
+    public ResponseEntity<Player> getById(@PathVariable("id") long id) {
         if (id < 0 || !repo.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
@@ -56,11 +56,11 @@ public class PlayerScoreController {
      * @return the list of results, list may be shorter if not enough results.
      */
     @GetMapping(path = "top/{amount}")
-    public ResponseEntity<List<PlayerScore>> getTop(@PathVariable("amount") int amount) {
+    public ResponseEntity<List<Player>> getTop(@PathVariable("amount") int amount) {
         if (amount < 0) {
             return ResponseEntity.badRequest().build();
         }
-        List<PlayerScore> topScores = repo.findAll(
+        List<Player> topScores = repo.findAll(
                 Sort.by(Sort.Direction.DESC, "score"));
         topScores = topScores.stream()
                 .limit(amount)
@@ -71,15 +71,15 @@ public class PlayerScoreController {
     /**
      * Add a player score to the database.
      *
-     * @param playerScore result to be added to the database.
+     * @param Player result to be added to the database.
      * @return the score that was created.
      */
     @PostMapping(path = "")
-    public ResponseEntity<PlayerScore> add(@RequestBody PlayerScore playerScore) {
-        if(playerScore.getPlayerName()==null){
+    public ResponseEntity<Player> add(@RequestBody Player Player) {
+        if(Player.getPlayerName()==null){
             return ResponseEntity.badRequest().build();
         }
-        PlayerScore p = repo.save(playerScore);
+        Player p = repo.save(Player);
         return ResponseEntity.ok(p);
     }
 

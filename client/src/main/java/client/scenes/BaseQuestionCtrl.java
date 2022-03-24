@@ -130,7 +130,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * @param e - emote
      */
     public void emote(Event e) {
-        mainCtrl.emote(e);
+        server.send("/app/emote/1", mainCtrl.getPlayerScore().getPlayerName());
     }
 
     /**

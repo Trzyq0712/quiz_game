@@ -22,7 +22,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
     private final ServerUtils server;
 
     public StompSession.Subscription waitingroom;
-    public StompSession.Subscription emotes;
 
     @FXML
     private GridPane playerGrid;
@@ -38,12 +37,13 @@ public class WaitingRoomCtrl extends BaseCtrl {
         this.server = server;
     }
 
-
-    public void startGame() {
-        emotes = server.registerForMessages("/topic/emote/1", String.class, e -> {
+    @FXML
+    private void startGame() {
+        server.send("/app/waitingroom/start",true);
+        server.registerForMessages("/topic/emote/1", String.class, e -> {
             System.out.println(e);
         });
-        server.send("/app/waitingroom/start",true);
+
     }
 
     /**
@@ -95,8 +95,10 @@ public class WaitingRoomCtrl extends BaseCtrl {
             if(b) {
                 threadRun = false;
                 leaveWaitingroom(player);
-                mainCtrl.showQuestion();
-                mainCtrl.buttonSound();
+                Platform.runLater(()->{
+                    mainCtrl.showQuestion();
+                    mainCtrl.buttonSound();
+                });
                 restoreChat();
                 waitingroom.unsubscribe();
             }

@@ -229,6 +229,7 @@ public class MainCtrl  {
     public void activateSingleplayer() {
         questionCtrl.timeJoker.setVisible(false);
         estimateQuestionCtrl.timeJoker.setVisible(false);
+        MCQuestionCtrl.timeJoker.setVisible(false);
         for (StackPane s : listOfHolders) {
             s.setVisible(false);
         }

@@ -61,7 +61,7 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     }
 
     public void emote(Event e){
-        server.send("/app/emote/{gameId}", mainCtrl.getPlayerScore().getPlayerName());
+        server.send("/app/emote/1", mainCtrl.getPlayerScore().getPlayerName());
     }
 
     public void timeClick() {

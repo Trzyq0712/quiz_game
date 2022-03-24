@@ -13,14 +13,16 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
 
-    private int gameId = 0;
-
     private final ServerUtils server;
+
+    public StompSession.Subscription waitingroom;
+    public StompSession.Subscription emotes;
 
     @FXML
     private GridPane playerGrid;
@@ -38,6 +40,9 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
 
     public void startGame() {
+        emotes = server.registerForMessages("/topic/emote/1", String.class, e -> {
+            System.out.println(e);
+        });
         server.send("/app/waitingroom/start",true);
     }
 
@@ -86,19 +91,14 @@ public class WaitingRoomCtrl extends BaseCtrl {
         });
         pollingThread.start();
 
-        server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
+        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
             if(b) {
                 threadRun = false;
                 leaveWaitingroom(player);
                 mainCtrl.showQuestion();
                 mainCtrl.buttonSound();
                 restoreChat();
-                server.unsubscribe();
-                gameId++;
-                server.registerForMessages("/topic/emote/{gameId}", String.class, s -> {
-                    System.out.println(s);
-                });
-
+                waitingroom.unsubscribe();
             }
         });
 

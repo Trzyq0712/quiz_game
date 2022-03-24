@@ -479,12 +479,12 @@ public class MainCtrl  {
      * @param e The emote that has been clicked.
      */
 
-    public void emote(Event e, String name) {
+    public void emote(Event e) {
         for (VBox c : listOfChatBoxes) {
             Platform.runLater(() -> {
                 HBox hbox = new HBox();
                 Image arg = ((ImageView) e.getSource()).getImage();
-                Label user = new Label(" " + name + ":  ");
+                Label user = new Label("mama:  ");
                 ImageView emote = new ImageView(arg);
                 emote.setFitHeight(50);
                 emote.setFitWidth(50);

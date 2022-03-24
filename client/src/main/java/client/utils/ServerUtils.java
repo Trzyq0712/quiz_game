@@ -202,7 +202,6 @@ public class ServerUtils {
     }
 
     private StompSession session = connect("ws://localhost:8080/websocket");
-    private StompSession.Subscription subscription;
 
     private StompSession connect(String url){
         var client = new StandardWebSocketClient();
@@ -216,8 +215,8 @@ public class ServerUtils {
         throw new IllegalStateException();
     }
 
-    public <T> void registerForMessages(String dest, Class<T> type ,Consumer<T> consumer){
-        subscription = session.subscribe(dest, new StompFrameHandler(){
+    public <T> StompSession.Subscription registerForMessages(String dest, Class<T> type ,Consumer<T> consumer){
+        return session.subscribe(dest, new StompFrameHandler(){
             @Override
             public Type getPayloadType(StompHeaders headers) {
                 return type;
@@ -228,10 +227,6 @@ public class ServerUtils {
                 consumer.accept((T) payload);
             }
         });
-    }
-
-    public void unsubscribe(){
-        subscription.unsubscribe();
     }
 
     public void send(String dest, Object o){

@@ -142,5 +142,6 @@
                 </StackPane>
             </children>
         </StackPane>
+        <Label fx:id="jokerConfirmation" layoutX="407.0" layoutY="960.0" text="Your asked to double your points!" visible="true" />
     </children>
 </AnchorPane>

@@ -119,7 +119,7 @@
       <ImageView id="checkmark2" fx:id="checkmark2" fitHeight="75.0" fitWidth="79.0" layoutX="1151.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView id="checkmark3" fx:id="checkmark3" fitHeight="75.0" fitWidth="79.0" layoutX="1149.0" layoutY="724.0" pickOnBounds="true" preserveRatio="true" />
       <Label id="estimateAnswer" fx:id="estimateAnswer" layoutX="917.0" layoutY="375.0" text="Label" />
-      <Label id="pointsGrantedEstimate" fx:id="pointsGrantedEstimate" layoutX="813.0" layoutY="593.0" text="You got 200 points" />
-      <Label id="pointsGrantedMC" fx:id="pointsGrantedMC" layoutX="812.0" layoutY="925.0" text="You got 200 points" />
+      <Label id="pointsGrantedEstimate" fx:id="pointsGrantedEstimate" layoutX="813.0" layoutY="593.0" text="You got 0 points!" />
+      <Label id="pointsGrantedMC" fx:id="pointsGrantedMC" layoutX="812.0" layoutY="925.0" text="You got 0 points!" />
          </children>
 </AnchorPane>

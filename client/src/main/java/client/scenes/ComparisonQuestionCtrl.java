@@ -5,11 +5,11 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import commons.Answer;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -19,25 +19,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static client.Config.timePerQuestion;
 
 public class ComparisonQuestionCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
-
-    @FXML
-    ImageView hintJoker;
-    @FXML
-    ImageView pointsJoker;
-    @FXML
-    ImageView timeJoker;
-
-    @FXML
-    Button firstButton;
-    @FXML
-    Button secondButton;
-    @FXML
-    Button thirdButton;
 
     @FXML
     Label ActivityDescription1;
@@ -54,24 +38,13 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
     ImageView questionImage3;
 
     @FXML
-    ProgressBar pgBar;
-
-    @FXML
-    Label questionTracker;
-
-    @FXML
-    Label scoreLabel;
-
-    @FXML
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
 
     //Long startTime;
-    int amountOfMessages = 0;
 
     private  List<Activity> activities;
-    private int answerButtonId;
 
     @Inject
     public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
@@ -91,17 +64,10 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
         utils.playButtonSound();
     }
 
-    public void restoreAnswers() {
-        firstButton.setVisible(true);
-        secondButton.setVisible(true);
-        thirdButton.setVisible(true);
-    }
 
-    public void restoreJokers() {
-        hintJoker.setVisible(true);
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
-    }
+
+
+
 
     /**
      * hides all buttons except for the one that was clicked

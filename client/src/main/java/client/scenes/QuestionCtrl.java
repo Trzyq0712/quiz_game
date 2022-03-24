@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import commons.Answer;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -191,12 +192,14 @@ public class QuestionCtrl extends BaseCtrl {
     }
 
     private void displayActivities() {
-        ActivityDescription1.setText(activities.get(0).getDescription());
-        ActivityDescription2.setText(activities.get(1).getDescription());
-        ActivityDescription3.setText(activities.get(2).getDescription());
-        questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
-        questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
-        questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
+        Platform.runLater(() -> {
+            ActivityDescription1.setText(activities.get(0).getDescription());
+            ActivityDescription2.setText(activities.get(1).getDescription());
+            ActivityDescription3.setText(activities.get(2).getDescription());
+            questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
+            questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
+            questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
+        });
         mainCtrl.setAnswersforAnswerReveal(activities,answerButtonId);
     }
 

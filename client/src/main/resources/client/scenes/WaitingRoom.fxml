@@ -26,7 +26,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" onMousePressed="#toggleSound" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/music.png" />
          </image>

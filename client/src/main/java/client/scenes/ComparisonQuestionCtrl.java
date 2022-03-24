@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static client.Config.timePerQuestion;
 
-public class QuestionCtrl extends BaseCtrl {
+public class ComparisonQuestionCtrl extends BaseCtrl {
 
     private final ServerUtils server;
 
@@ -74,7 +74,7 @@ public class QuestionCtrl extends BaseCtrl {
     private int answerButtonId;
 
     @Inject
-    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils);
         this.server = server;
 
@@ -132,7 +132,7 @@ public class QuestionCtrl extends BaseCtrl {
         if(answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
-        mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
+        mainCtrl.setAnswersForAnswerReveal(earnedPoints,false);
     }
 
     public void hintClick() {
@@ -197,7 +197,7 @@ public class QuestionCtrl extends BaseCtrl {
         questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
         questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
         questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
-        mainCtrl.setAnswersforAnswerReveal(activities,answerButtonId);
+        mainCtrl.setAnswersForAnswerReveal(activities,answerButtonId);
     }
 
 }

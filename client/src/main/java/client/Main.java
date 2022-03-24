@@ -57,11 +57,11 @@ public class Main extends Application {
         var MPFinal =
                 FXML.load(MPFinalLeaderboardCtrl.class, "client", "scenes", "MPFinalLeaderboard.fxml");
         var info =
-                FXML.load(InfoCtrl.class, "client", "scenes", "Info.fxml");
+                FXML.load(InfoScreenCtrl.class, "client", "scenes", "Info.fxml");
         var prompt =
-                FXML.load(PromptCtrl.class, "client", "scenes", "Prompt.fxml");
+                FXML.load(NamePromptCtrl.class, "client", "scenes", "Prompt.fxml");
         var question =
-                FXML.load(QuestionCtrl.class, "client", "scenes", "Question.fxml");
+                FXML.load(ComparisonQuestionCtrl.class, "client", "scenes", "Question.fxml");
         var editActivity =
                 FXML.load(EditActivityCtrl.class, "client", "scenes", "EditActivity.fxml");
         var estimateQuestion =

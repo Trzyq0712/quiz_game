@@ -22,7 +22,7 @@ import java.util.List;
 
 import static client.Config.timePerQuestion;
 
-public class MCQuestionCtrl extends BaseCtrl{
+public class MCQuestionCtrl extends BaseCtrl {
 
     protected final ServerUtils server;
 
@@ -107,7 +107,7 @@ public class MCQuestionCtrl extends BaseCtrl{
         firstButton.setText(String.valueOf(activities.get(0).getEnergyConsumption()));
         secondButton.setText(String.valueOf(activities.get(1).getEnergyConsumption()));
         thirdButton.setText(String.valueOf(activities.get(2).getEnergyConsumption()));
-        mainCtrl.setAnswersforAnswerReveal(activities, answerButtonId);
+        mainCtrl.setAnswersForAnswerReveal(activities, answerButtonId);
     }
 
     /**
@@ -140,7 +140,7 @@ public class MCQuestionCtrl extends BaseCtrl{
         if(answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
-        mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
+        mainCtrl.setAnswersForAnswerReveal(earnedPoints,false);
     }
 
     public void restoreJokers() {

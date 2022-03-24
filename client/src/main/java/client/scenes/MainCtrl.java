@@ -16,11 +16,11 @@
 package client.scenes;
 
 
-import commons.PlayerScore;
 import client.Config;
 import commons.Activity;
-import javafx.application.Platform;
 import commons.Player;
+import commons.PlayerScore;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -42,60 +42,46 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class MainCtrl  {
+public class MainCtrl {
 
     private Stage primaryStage;
     private Stage secondaryStage;
+    private HomeScreenCtrl homeScreenCtrl;
+    private Scene homeScreenScene;
+    private SinglePlayerLeaderboardCtrl singlePlayerLeaderboardCtrl;
+    private Scene singlePlayerLeaderboardScene;
+    private ExitScreenCtrl exitScreenCtrl;
+    private Scene exitScreenScene;
+    private WaitingRoomCtrl waitingRoomCtrl;
+    private Scene waitingRoomScene;
+    private IntermediateLeaderboardCtrl intermediateLeaderboardCtrl;
+    private Scene intermediateLeaderboardScene;
+    private AnswerRevealCtrl answerRevealCtrl;
+    private Scene answerRevealScene;
+    private MPFinalLeaderboardCtrl MPFinalLeaderboardCtrl;
+    private Scene MPFinalLeaderboardScene;
+    private InfoScreenCtrl infoScreenCtrl;
+    private Scene infoScreenScene;
+    private EditScreenCtrl editScreenCtrl;
+    private Scene editScreenScene;
+    private NamePromptCtrl namePromptCtrl;
+    private Scene namePromptScene;
+    private ComparisonQuestionCtrl comparisonQuestionCtrl;
 
+    // --------------------- to move START
+    private Scene questionScreenScene;
+    private EstimateQuestionCtrl estimateQuestionCtrl;
+    private Scene estimateQuestionScene;
+    private MCQuestionCtrl MCQuestionCtrl;
+    private Scene MCQuestionScene;
+    private EditActivityCtrl editActivityCtrl;
+    private Scene editActivityScene;
     private Player player;
 
     private PlayerScore playerScore;
 
-    private HomeScreenCtrl homeCtrl;
-    private Scene homeScene;
-
-    private SinglePlayerLeaderboardCtrl splCtrl;
-    private Scene splScene;
-
-    private ExitScreenCtrl exitCtrl;
-    private Scene exitScene;
-
-    private WaitingRoomCtrl waitingCtrl;
-    private Scene waitingScene;
-
-    private IntermediateLeaderboardCtrl intermediateCtrl;
-    private Scene intermediateScene;
-
-    private AnswerRevealCtrl answerRevealCtrl;
-    private Scene answerRevealScene;
-
-    private MPFinalLeaderboardCtrl MPFinal;
-    private Scene MPFinalScene;
-
-    private InfoCtrl infoCtrl;
-    private Scene infoScene;
-
-    private EditScreenCtrl editCtrl;
-    private Scene editScene;
-
-    private PromptCtrl promptCtrl;
-    private Scene promptScene;
-
-    private QuestionCtrl questionCtrl;
-    private Scene questionScene;
-
-    private EstimateQuestionCtrl estimateQuestionCtrl;
-    private Scene estimateQuestionScene;
-
-    private MCQuestionCtrl MCQuestionCtrl;
-    private Scene MCQuestionScene;
-
-    private EditActivityCtrl editActivityCtrl;
-    private Scene editActivityScene;
-
     Long startTime;
     int currentQuestion = 0;
-
     boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
     at which point the next scene shouldnt be loaded anymore */
@@ -111,61 +97,58 @@ public class MainCtrl  {
     List<VBox> listOfChatBoxes;
     List<StackPane> listOfHolders;
 
+    // -------------------- to move END
+
     public void initialize(Stage primaryStage,
-                           Pair<HomeScreenCtrl, Parent> home,
-                           Pair<SinglePlayerLeaderboardCtrl, Parent> sp,
-                           Pair<ExitScreenCtrl, Parent> exit,
-                           Pair<WaitingRoomCtrl, Parent> waiting,
-                           Pair<EditScreenCtrl, Parent> edit,
-                           Pair<IntermediateLeaderboardCtrl, Parent> intermediate,
+                           Pair<HomeScreenCtrl, Parent> homeScreen,
+                           Pair<SinglePlayerLeaderboardCtrl, Parent> singlePlayerLeaderboard,
+                           Pair<ExitScreenCtrl, Parent> exitScreen,
+                           Pair<WaitingRoomCtrl, Parent> waitingRoom,
+                           Pair<EditScreenCtrl, Parent> editScreen,
+                           Pair<IntermediateLeaderboardCtrl, Parent> intermediateLeaderboard,
                            Pair<AnswerRevealCtrl, Parent> answerReveal,
                            Pair<MPFinalLeaderboardCtrl, Parent> MPFinalLeaderboard,
-                           Pair<InfoCtrl, Parent> info,
-                           Pair<PromptCtrl, Parent> prompt,
-                           Pair<QuestionCtrl, Parent> question,
+                           Pair<InfoScreenCtrl, Parent> infoScreen,
+                           Pair<NamePromptCtrl, Parent> namePrompt,
+                           Pair<ComparisonQuestionCtrl, Parent> comparisonQuestion,
                            Pair<EditActivityCtrl, Parent> editActivity,
                            Pair<EstimateQuestionCtrl, Parent> estimateQuestion,
                            Pair<MCQuestionCtrl, Parent> MCQuestion) {
+
         this.primaryStage = primaryStage;
-        /*this.overviewCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
 
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());*/
+        this.homeScreenCtrl = homeScreen.getKey();
+        this.homeScreenScene = new Scene(homeScreen.getValue());
 
+        this.singlePlayerLeaderboardCtrl = singlePlayerLeaderboard.getKey();
+        this.singlePlayerLeaderboardScene = new Scene(singlePlayerLeaderboard.getValue());
 
-        this.homeCtrl = home.getKey();
-        this.homeScene = new Scene(home.getValue());
+        this.exitScreenCtrl = exitScreen.getKey();
+        this.exitScreenScene = new Scene(exitScreen.getValue());
 
-        this.splCtrl = sp.getKey();
-        this.splScene = new Scene(sp.getValue());
+        this.waitingRoomCtrl = waitingRoom.getKey();
+        this.waitingRoomScene = new Scene(waitingRoom.getValue());
 
-        this.exitCtrl = exit.getKey();
-        this.exitScene = new Scene(exit.getValue());
-
-        this.waitingCtrl = waiting.getKey();
-        this.waitingScene = new Scene(waiting.getValue());
-
-        this.intermediateCtrl = intermediate.getKey();
-        this.intermediateScene = new Scene(intermediate.getValue());
+        this.intermediateLeaderboardCtrl = intermediateLeaderboard.getKey();
+        this.intermediateLeaderboardScene = new Scene(intermediateLeaderboard.getValue());
 
         this.answerRevealCtrl = answerReveal.getKey();
         this.answerRevealScene = new Scene(answerReveal.getValue());
 
-        this.MPFinal = MPFinalLeaderboard.getKey();
-        this.MPFinalScene = new Scene(MPFinalLeaderboard.getValue());
+        this.MPFinalLeaderboardCtrl = MPFinalLeaderboard.getKey();
+        this.MPFinalLeaderboardScene = new Scene(MPFinalLeaderboard.getValue());
 
-        this.infoCtrl = info.getKey();
-        this.infoScene = new Scene(info.getValue());
+        this.infoScreenCtrl = infoScreen.getKey();
+        this.infoScreenScene = new Scene(infoScreen.getValue());
 
-        this.editCtrl = edit.getKey();
-        this.editScene = new Scene(edit.getValue());
+        this.editScreenCtrl = editScreen.getKey();
+        this.editScreenScene = new Scene(editScreen.getValue());
 
-        this.promptCtrl = prompt.getKey();
-        this.promptScene = new Scene(prompt.getValue());
+        this.namePromptCtrl = namePrompt.getKey();
+        this.namePromptScene = new Scene(namePrompt.getValue());
 
-        this.questionCtrl = question.getKey();
-        this.questionScene = new Scene(question.getValue());
+        this.comparisonQuestionCtrl = comparisonQuestion.getKey();
+        this.questionScreenScene = new Scene(comparisonQuestion.getValue());
 
         this.estimateQuestionCtrl = estimateQuestion.getKey();
         this.estimateQuestionScene = new Scene(estimateQuestion.getValue());
@@ -178,19 +161,25 @@ public class MainCtrl  {
 
         secondaryStage = new Stage();
 
-        //showOverview();
+        // TODO Consider refactoring
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
-            if(player != null)
-                waitingCtrl.leaveWaitingroom(player);
+            if (player != null)
+                waitingRoomCtrl.leaveWaitingroom(player);
             primaryStage.close();
         });
+
         showHome();
+
+        // ----- to move START
         initializeChatBoxes();
         initializeHolders();
+        // ----- to move END
+
         primaryStage.show();
     }
 
+    // --- to move START
     public PlayerScore getPlayerScore() {
         return playerScore;
     }
@@ -203,10 +192,9 @@ public class MainCtrl  {
      * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
      * in sync.
      */
-
     public void initializeChatBoxes() {
-        listOfChatBoxes = Arrays.asList(questionCtrl.chatbox, intermediateCtrl.chatbox, answerRevealCtrl.chatbox,
-                MPFinal.chatbox);
+        listOfChatBoxes = Arrays.asList(comparisonQuestionCtrl.chatbox, intermediateLeaderboardCtrl.chatbox,
+                answerRevealCtrl.chatbox, MPFinalLeaderboardCtrl.chatbox);
     }
 
     /**
@@ -214,20 +202,18 @@ public class MainCtrl  {
      * easily accessed and their visibility property can be easily toggled when the player is playing singleplayer or
      * multiplayer.
      */
-
     public void initializeHolders() {
-        listOfHolders = Arrays.asList(questionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
-                intermediateCtrl.chatAndEmoteHolder, MPFinal.chatAndEmoteHolder,
-                 estimateQuestionCtrl.chatAndEmoteHolder, MCQuestionCtrl.chatAndEmoteHolder);
+        listOfHolders = Arrays.asList(comparisonQuestionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
+                intermediateLeaderboardCtrl.chatAndEmoteHolder, MPFinalLeaderboardCtrl.chatAndEmoteHolder,
+                estimateQuestionCtrl.chatAndEmoteHolder, MCQuestionCtrl.chatAndEmoteHolder);
     }
 
     /**
      * This method modifies the question screen so that it's suited for singleplayer, in this case, it's hiding the
      * time joker since that isn't applicable to singleplayer.
      */
-
     public void activateSingleplayer() {
-        questionCtrl.timeJoker.setVisible(false);
+        comparisonQuestionCtrl.timeJoker.setVisible(false);
         estimateQuestionCtrl.timeJoker.setVisible(false);
         MCQuestionCtrl.timeJoker.setVisible(false);
         for (StackPane s : listOfHolders) {
@@ -239,9 +225,8 @@ public class MainCtrl  {
      * This method modifies the question screen so that it's suited for multiplayer, in this case, it's showing the
      * time joker since that is applicable to multiplayer.
      */
-
     public void activateMultiplayer() {
-        questionCtrl.timeJoker.setVisible(true);
+        comparisonQuestionCtrl.timeJoker.setVisible(true);
         estimateQuestionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
             s.setVisible(true);
@@ -251,86 +236,92 @@ public class MainCtrl  {
     /**
      * Produces the sound of a button when invoked, this function should be called when a button is clicked.
      */
-
     public void buttonSound() {
         Media media = new Media(Config.buttonClickSound.toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.play();
     }
 
+    // --- to move END
+
     /**
      * Shows the home screen.
      */
-
     public void showHome() {
         player = null;
         primaryStage.setTitle(Config.title);
-        homeScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        primaryStage.setScene(homeScene);
+        homeScreenScene.getStylesheets().add(Config.styleSheet);
+        primaryStage.setScene(homeScreenScene);
         active = false;
         restore();
         buttonSound();
     }
 
+
+    // TODO consider refactoring
+
     /**
      * Based on which button the player clicked, the player will get the nameprompt for single- or multiplayer.
+     *
      * @param e The button on which the player has clicked to reach the nameprompt.
      */
     public void showNewPrompt(Event e) {
         String mode = ((Button) e.getSource()).getText();
         if (mode.equals("Singleplayer")) {
             singlePlayerModeActive = true;
-            promptCtrl.startButton.setPrefWidth(200);
-            promptCtrl.startButton.setText("Enter game");
+            namePromptCtrl.startButton.setPrefWidth(200);
+            namePromptCtrl.startButton.setText("Enter game");
         } else {
             singlePlayerModeActive = false;
-            promptCtrl.startButton.setPrefWidth(500);
-            promptCtrl.startButton.setText("Enter waiting room");
+            namePromptCtrl.startButton.setPrefWidth(500);
+            namePromptCtrl.startButton.setText("Enter waiting room");
         }
-        promptScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        promptCtrl.setUp();
-        primaryStage.setScene(promptScene);
+        namePromptScene.getStylesheets().add(Config.styleSheet);
+        namePromptCtrl.setUp();
+        primaryStage.setScene(namePromptScene);
         buttonSound();
     }
+
+
+    // TODO consider refactoring START
 
     /**
      * Shows the singleplayer leaderboard.
      */
-
     public void showSPLeaderboard() {
-        splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        primaryStage.setScene(splScene);
+        singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
+        primaryStage.setScene(singlePlayerLeaderboardScene);
         buttonSound();
-        splCtrl.showPLayAgain();
+        singlePlayerLeaderboardCtrl.showPLayAgain();
     }
 
     /**
      * Shows the singleplayer leaderboard, without the play again button.
      */
-
     public void showSPLeaderboardFromHome() {
-        splScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        primaryStage.setScene(splScene);
+        singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
+        primaryStage.setScene(singlePlayerLeaderboardScene);
         buttonSound();
-        splCtrl.hidePlayAgain();
+        singlePlayerLeaderboardCtrl.hidePlayAgain();
     }
+    // TODO consider refactoring END
 
     /**
      * Shows the exitscreen when the user wants to quit the application.
      */
-
     public void showExitScreen() {
-        exitScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        secondaryStage.setScene(exitScene);
+        exitScreenScene.getStylesheets().add(Config.styleSheet);
+        secondaryStage.setScene(exitScreenScene);
         secondaryStage.setTitle(Config.quit);
         secondaryStage.centerOnScreen();
         secondaryStage.sizeToScene();
-        /*quitStage.setMinHeight(quitStage.getMinHeight());
-        quitStage.setMinWidth(quitStage.getMinWidth());*/
         secondaryStage.show();
-        //primaryStage.setScene(exitScene);
         buttonSound();
     }
+
+
+    // --- to move START
+    // TODO consider refactoring
 
     /**
      * Shows the question screen, sets
@@ -338,23 +329,20 @@ public class MainCtrl  {
      * so that the application is aware that a game is active.
      * Function triggers the progressbar to start decreasing.
      */
-
-
     public void showQuestion() {
         active = true;
-         //APPLY CSS SHEET
         if (singlePlayerModeActive)
             activateSingleplayer();
         else
             activateMultiplayer();
-        int value = (int)(Math.random()*3);
-        switch (value%3){
+        int value = (int) (Math.random() * 3);
+        switch (value % 3) {
             case 0: {
-                questionScene.getStylesheets().add(Config.styleSheet);
-                questionCtrl.updateTracker();
-                questionCtrl.generateActivity();
-                primaryStage.setScene(questionScene);
-                new Thread(() -> questionCtrl.activateProgressBar()).start();
+                questionScreenScene.getStylesheets().add(Config.styleSheet);
+                comparisonQuestionCtrl.updateTracker();
+                comparisonQuestionCtrl.generateActivity();
+                primaryStage.setScene(questionScreenScene);
+                new Thread(() -> comparisonQuestionCtrl.activateProgressBar()).start();
                 break;
             }
             case 1: {
@@ -365,7 +353,6 @@ public class MainCtrl  {
                 new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
                 break;
             }
-
             case 2: {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
                 MCQuestionCtrl.updateTracker();
@@ -377,19 +364,25 @@ public class MainCtrl  {
         }
 
     }
+    // --- to move END
+
+    // TODO consider refactoring
 
     /**
      * Shows the waiting room and adds the player to the waiting room so other clients can be informed about this.
+     *
      * @param player The player which is added to the waiting room.
      */
     public void enterWaitingRoom(Player player) {
         this.player = player;
         primaryStage.setTitle(Config.titleWaitingRoom);
-        waitingScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        waitingCtrl.setUp(player);
-        primaryStage.setScene(waitingScene);
+        waitingRoomScene.getStylesheets().add(Config.styleSheet);
+        waitingRoomCtrl.setUp(player);
+        primaryStage.setScene(waitingRoomScene);
         buttonSound();
     }
+
+    // TODO consider refactoring
 
     /**
      * This is here for reentering a multi game to work without changing a lot of stuff.
@@ -401,11 +394,15 @@ public class MainCtrl  {
     }
 
 
+    // --- to move START
+    // TODO consider refactoring
+
     /**
      * Triggers the progressbar to start going down, calls the appropriate function on depletion.
-     * @param pgBar The progressbar being modified.
+     *
+     * @param pgBar     The progressbar being modified.
      * @param totalTime The total time the progress bar should last.
-     * @param call Indicates what function should be called next.
+     * @param call      Indicates what function should be called next.
      */
     public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
         if (!active) {
@@ -434,46 +431,46 @@ public class MainCtrl  {
             startTime = null;
             if (active) {
                 if (call == 0) {
-                    Platform.runLater(() -> showAnswerReveal());
+                    Platform.runLater(this::showAnswerReveal);
                 } else if (call == 1 && currentQuestion < Config.totalQuestions) {
-                    questionCtrl.restoreAnswers();
+                    comparisonQuestionCtrl.restoreAnswers();
                     MCQuestionCtrl.restoreAnswers();
-                    if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
-                    else Platform.runLater(() -> showIntermediateLeaderboard());
+                    if (singlePlayerModeActive) Platform.runLater(this::showQuestion);
+                    else Platform.runLater(this::showIntermediateLeaderboard);
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
                     restore();
                     if (singlePlayerModeActive) {
-                        splCtrl.addPlayer(getPlayerScore());
+                        singlePlayerLeaderboardCtrl.addPlayer(getPlayerScore());
                         getPlayerScore().setScore(0);
-                        Platform.runLater(() -> showSPLeaderboard());
-                    } else Platform.runLater(() -> showMPFinalLeaderboard());
+                        Platform.runLater(this::showSPLeaderboard);
+                    } else Platform.runLater(this::showMPFinalLeaderboard);
                 } else if (call == 2) {
-                    Platform.runLater(() -> showQuestion());
+                    Platform.runLater(this::showQuestion);
                 }
             }
         }
     }
 
-    public void refresh(){
-        splCtrl.refresh();
+    public void refresh() {
+        singlePlayerLeaderboardCtrl.refresh();
     }
 
     /**
      * Resets the question to 0 and makes jokers and answers visible again.
      * Should be called after a game is done.
      */
-
     public void restore() {
         currentQuestion = 0;
-        questionCtrl.restoreJokers();
+        comparisonQuestionCtrl.restoreJokers();
         estimateQuestionCtrl.restoreJokers();
         MCQuestionCtrl.restoreJokers();
-        questionCtrl.restoreAnswers();
+        comparisonQuestionCtrl.restoreAnswers();
         MCQuestionCtrl.restoreAnswers();
     }
 
     /**
      * Updates all the chatboxes to display the emoji that has been clicked.
+     *
      * @param e The emote that has been clicked.
      */
 
@@ -499,44 +496,48 @@ public class MainCtrl  {
 
     /**
      * Can be used to keep track of time that has passed since a certain point.
+     *
      * @return Time passed since startTime variable in milliseconds.
      */
-
     public long getDelta() {
         return System.currentTimeMillis() - startTime;
     }
 
+    // --- to move END
+
+
     /**
      * Shows the screen where answers are revealed.
      */
-
     public void showAnswerReveal() {
         answerRevealCtrl.updateTracker();
-        answerRevealScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+        answerRevealScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(answerRevealScene);
         new Thread(() -> answerRevealCtrl.activateProgressBar()).start();
     }
 
     public void showMPFinalLeaderboard() {
-        MPFinalScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        primaryStage.setScene(MPFinalScene);
+        MPFinalLeaderboardScene.getStylesheets().add(Config.styleSheet);
+        primaryStage.setScene(MPFinalLeaderboardScene);
     }
 
     public void showIntermediateLeaderboard() {
-        intermediateCtrl.updateQuestionTracker();
-        intermediateScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        primaryStage.setScene(intermediateScene);
-        new Thread(() -> intermediateCtrl.activateProgressBar()).start();
+        intermediateLeaderboardCtrl.updateQuestionTracker();
+        intermediateLeaderboardScene.getStylesheets().add(Config.styleSheet);
+        primaryStage.setScene(intermediateLeaderboardScene);
+        new Thread(() -> intermediateLeaderboardCtrl.activateProgressBar()).start();
     }
+
+    // --- to move START
 
     /**
      * Updates the passed in labels to show the current question and score out of the total.
+     *
      * @param question Label which contains the current question in format "Question X/Y".
-     * @param score Label which contains the current score in format "Score X/Y".
-     * @param update Indicates if question counter should be incremented, otherwise, if false it will just update
-     * the given label acoording to currentQuestion variable.
+     * @param score    Label which contains the current score in format "Score X/Y".
+     * @param update   Indicates if question counter should be incremented, otherwise, if false it will just update
+     *                 the given label acoording to currentQuestion variable.
      */
-
     public void updateTracker(Label question, Label score, boolean update) {
         if (update) {
             currentQuestion++;
@@ -544,25 +545,26 @@ public class MainCtrl  {
         question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
         score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
     }
+    // --- to move END
 
     public void showInfo() {
-        infoCtrl.setHintExplainer();
-        infoCtrl.setTimeExplainer();
-        infoCtrl.setDoublePointsExplainerExplainer();
-        infoScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-        primaryStage.setScene(infoScene);
+        infoScreenCtrl.setHintExplainer();
+        infoScreenCtrl.setTimeExplainer();
+        infoScreenCtrl.setDoublePointsExplainerExplainer();
+        infoScreenScene.getStylesheets().add(Config.styleSheet);
+        primaryStage.setScene(infoScreenScene);
     }
 
     public void showEditScreen() {
         primaryStage.setTitle(Config.edit);
-        editScene.getStylesheets().add(Config.styleSheet);//APPLY CSS SHEET
-        primaryStage.setScene(editScene);
+        editScreenScene.getStylesheets().add(Config.styleSheet);
+        primaryStage.setScene(editScreenScene);
     }
 
     public void editActivity(boolean add) {
         if (add) {
             editActivityCtrl.setUp();
-            editActivityScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+            editActivityScene.getStylesheets().add(Config.styleSheet);
             secondaryStage.setScene(editActivityScene);
             secondaryStage.centerOnScreen();
             secondaryStage.sizeToScene();
@@ -570,32 +572,39 @@ public class MainCtrl  {
         }
     }
 
+    // --- to move START
+
     /**
      * Used to prepare the answer reveal screen for a multiple choice question with 3 activities as answers
-     * @param activities - a list of 3 activities
+     *
+     * @param activities     - a list of 3 activities
      * @param answerButtonId - the id of the correct answer button
      */
-    public void setAnswersforAnswerReveal(List<Activity> activities,int answerButtonId) {
-        answerRevealCtrl.setAnswers(activities,answerButtonId);
+    public void setAnswersForAnswerReveal(List<Activity> activities, int answerButtonId) {
+        answerRevealCtrl.setAnswers(activities, answerButtonId);
     }
 
     /**
      * Used to prepare the answer reveal screen for an estimate question
+     *
      * @param activity - the generated activity
      */
-    public void setAnswersforAnswerReveal(Activity activity) {
+    public void setAnswersForAnswerReveal(Activity activity) {
         answerRevealCtrl.setAnswer(activity);
     }
 
     /**
      * Used to send the answer reveal screen the obtained points
+     *
      * @param points - the points that the player obtained
-     * @param bool - indicates which label to set visible
-     *             -> true for estimate related label
-     *             -> false for MC with 3 activities related label
+     * @param bool   - indicates which label to set visible
+     *               -> true for estimate related label
+     *               -> false for MC with 3 activities related label
      */
-    public void setAnswersforAnswerReveal(int points, boolean bool) {
-        answerRevealCtrl.setAnswer(points,bool);
+    public void setAnswersForAnswerReveal(int points, boolean bool) {
+        answerRevealCtrl.setAnswer(points, bool);
     }
+
+    // --- to move END
 
 }

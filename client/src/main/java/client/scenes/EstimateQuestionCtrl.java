@@ -80,14 +80,14 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     private void displayActivity() {
         ActivityDescription.setText(activity.getDescription());
         questionImage.setImage(new Image(ServerUtils.SERVER + activity.getPicturePath()));
-        mainCtrl.setAnswersforAnswerReveal(activity);
+        mainCtrl.setAnswersForAnswerReveal(activity);
     }
 
     public void submitGuess(){
         int guess = Integer.parseInt(textField.getText());
         int points = (int)(guess/(double)activity.getEnergyConsumption() * 200);
         mainCtrl.getPlayerScore().addPoints(points);
-        mainCtrl.setAnswersforAnswerReveal(points,true);
+        mainCtrl.setAnswersForAnswerReveal(points,true);
     }
 
     public void restoreJokers() {

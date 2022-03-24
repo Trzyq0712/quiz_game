@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import static client.Config.maxCharsUsername;
 
 
-public class PromptCtrl extends BaseCtrl implements Initializable {
+public class NamePromptCtrl extends BaseCtrl implements Initializable {
 
     private final ServerUtils server;
 
@@ -26,7 +26,7 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
     public Button startButton;
 
     @Inject
-    public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils);
         this.server = server;
     }

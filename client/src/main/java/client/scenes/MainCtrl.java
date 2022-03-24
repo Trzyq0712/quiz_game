@@ -470,7 +470,6 @@ public class MainCtrl  {
         estimateQuestionCtrl.restoreJokers();
         MCQuestionCtrl.restoreJokers();
         questionCtrl.restoreAnswers();
-        MCQuestionCtrl.restoreAnswers();
         estimateQuestionCtrl.restoreSubmit();
     }
 

@@ -10,7 +10,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -20,25 +19,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static client.Config.timePerQuestion;
 
-public class QuestionCtrl extends BaseCtrl {
+public class QuestionCtrl extends BaseQuestionCtrl {
 
-    private final ServerUtils server;
-
-    @FXML
-    ImageView hintJoker;
-    @FXML
-    ImageView pointsJoker;
-    @FXML
-    ImageView timeJoker;
-
-    @FXML
-    Button firstButton;
-    @FXML
-    Button secondButton;
-    @FXML
-    Button thirdButton;
 
     @FXML
     Label ActivityDescription1;
@@ -55,29 +38,17 @@ public class QuestionCtrl extends BaseCtrl {
     ImageView questionImage3;
 
     @FXML
-    ProgressBar pgBar;
-
-    @FXML
-    Label questionTracker;
-
-    @FXML
-    Label scoreLabel;
-
-    @FXML
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
 
     //Long startTime;
-    int amountOfMessages = 0;
 
     private  List<Activity> activities;
-    private int answerButtonId;
 
     @Inject
     public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(server, mainCtrl, utils);
 
     }
 
@@ -85,23 +56,11 @@ public class QuestionCtrl extends BaseCtrl {
         return activities;
     }
 
-    public void showHome() {
-        mainCtrl.showHome();
-        restoreAnswers();
-        restoreJokers();
-    }
 
-    public void restoreAnswers() {
-        firstButton.setVisible(true);
-        secondButton.setVisible(true);
-        thirdButton.setVisible(true);
-    }
 
-    public void restoreJokers() {
-        hintJoker.setVisible(true);
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
-    }
+
+
+
 
     /**
      * hides all buttons except for the one that was clicked
@@ -125,59 +84,7 @@ public class QuestionCtrl extends BaseCtrl {
         grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
-    /**
-     * @param answer - answer the player submitted
-     */
-    public void grantPoints(Answer answer){
-        int earnedPoints = 0;
-        if(answer.getAnswer() == answerButtonId)
-            earnedPoints = answer.getPoints();
-        mainCtrl.getPlayerScore().addPoints(earnedPoints);
-        mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
-    }
 
-    public void hintClick() {
-        mainCtrl.buttonSound();
-        hintJoker.setVisible(false);
-        String falseAnswer = server.activateHint();
-        switch (falseAnswer) {
-            case "a":
-                firstButton.setVisible(false);
-                break;
-            case "b":
-                secondButton.setVisible(false);
-                break;
-            case "c":
-                thirdButton.setVisible(false);
-                break;
-        }
-    }
-
-    public void pointsClick() {
-        mainCtrl.buttonSound();
-        pointsJoker.setVisible(false);
-    }
-
-    public void timeClick() {
-        mainCtrl.buttonSound();
-        timeJoker.setVisible(false);
-    }
-
-    /**
-     * triggers the progressbar of this scene when called, 0 indicates what to do when the bar depletes
-     * see activateGenericProgressBar in mainCtrl for more info
-     */
-    public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
-    }
-
-    public void updateTracker() {
-        mainCtrl.updateTracker(questionTracker, scoreLabel, true);
-    }
-
-    public void emote(Event e){
-        mainCtrl.emote(e);
-    }
 
     /**
      * gets 3 activities from the server, calculates the correct answer and displays the activities

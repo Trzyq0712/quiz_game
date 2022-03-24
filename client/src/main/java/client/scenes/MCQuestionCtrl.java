@@ -8,7 +8,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -20,14 +19,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static client.Config.timePerQuestion;
 
-public class MCQuestionCtrl extends BaseCtrl{
-
-    protected final ServerUtils server;
+public class MCQuestionCtrl extends BaseQuestionCtrl{
 
     private Activity activity;
-    private int answerButtonId;
 
     @FXML
     ImageView hintJoker;
@@ -46,8 +41,6 @@ public class MCQuestionCtrl extends BaseCtrl{
     @FXML
     Button thirdButton;
     @FXML
-    ProgressBar pgBar;
-    @FXML
     Label questionTracker;
     @FXML
     Label scoreLabel;
@@ -58,37 +51,10 @@ public class MCQuestionCtrl extends BaseCtrl{
 
     @Inject
     public MCQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(server, mainCtrl, utils);
     }
 
-    public void pointsClick() {
-        mainCtrl.buttonSound();
-        pointsJoker.setVisible(false);
-    }
 
-    public void emote(Event e){
-        mainCtrl.emote(e);
-    }
-
-    public void timeClick() {
-        mainCtrl.buttonSound();
-        timeJoker.setVisible(false);
-    }
-
-    public void showHome() {
-        mainCtrl.showHome();
-        restoreAnswers();
-        restoreJokers();
-    }
-
-    public void updateTracker() {
-        mainCtrl.updateTracker(questionTracker, scoreLabel, true);
-    }
-
-    public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
-    }
 
     public void generateActivity() {
         activity = server.getActivity();
@@ -132,43 +98,6 @@ public class MCQuestionCtrl extends BaseCtrl{
         grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
-    /**
-     * @param answer - answer the player submitted
-     */
-    public void grantPoints(Answer answer){
-        int earnedPoints = 0;
-        if(answer.getAnswer() == answerButtonId)
-            earnedPoints = answer.getPoints();
-        mainCtrl.getPlayerScore().addPoints(earnedPoints);
-        mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
-    }
 
-    public void restoreJokers() {
-        hintJoker.setVisible(true);
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
-    }
 
-    public void restoreAnswers() {
-        firstButton.setVisible(true);
-        secondButton.setVisible(true);
-        thirdButton.setVisible(true);
-    }
-
-    public void hintClick() {
-        mainCtrl.buttonSound();
-        hintJoker.setVisible(false);
-        String falseAnswer = server.activateHint();
-        switch (falseAnswer) {
-            case "a":
-                firstButton.setVisible(false);
-                break;
-            case "b":
-                secondButton.setVisible(false);
-                break;
-            case "c":
-                thirdButton.setVisible(false);
-                break;
-        }
-    }
 }

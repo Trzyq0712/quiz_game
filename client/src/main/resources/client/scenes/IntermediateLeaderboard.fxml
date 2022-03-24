@@ -23,7 +23,7 @@
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
       <image>
          <Image url="@/images/music.png" />
       </image>
@@ -64,22 +64,22 @@
             </Label>
             <StackPane fx:id="emotePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
                      <image>
                         <Image url="@/images/angry.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
                      <image>
                         <Image url="@/images/happy.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                      <image>
                         <Image url="@/images/sunglasses.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                      <image>
                         <Image url="@/images/tears.png" />
                      </image>

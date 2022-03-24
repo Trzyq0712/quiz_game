@@ -51,7 +51,7 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     }
 
     public void pointsClick() {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         pointsJoker.setVisible(false);
     }
 
@@ -60,7 +60,7 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     }
 
     public void timeClick() {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         timeJoker.setVisible(false);
     }
 

@@ -17,7 +17,7 @@
             <Image url="@/images/home.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
             <Image url="@/images/music.png" />
          </image>

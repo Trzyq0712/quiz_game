@@ -38,7 +38,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         threadRun = false;
         leaveWaitingroom(player);
         mainCtrl.showQuestion();
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         restoreChat();
     }
 

@@ -26,11 +26,15 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
         this.server = server;
     }
 
-    public void playAgain() {
+    @FXML
+    private void playAgain() {
+        utils.playButtonSound();
         mainCtrl.enterWaitingRoom();
     }
 
-    public void emote(Event e){
+    @FXML
+    private void emote(Event e){
+        utils.playButtonSound();
         mainCtrl.emote(e);
     }
 

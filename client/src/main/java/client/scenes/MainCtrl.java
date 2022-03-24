@@ -33,8 +33,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -67,8 +65,6 @@ public class MainCtrl {
     private NamePromptCtrl namePromptCtrl;
     private Scene namePromptScene;
     private ComparisonQuestionCtrl comparisonQuestionCtrl;
-
-    // --------------------- to move START
     private Scene questionScreenScene;
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
@@ -76,6 +72,8 @@ public class MainCtrl {
     private Scene MCQuestionScene;
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
+
+    // --------------------- to move START
     private Player player;
 
     private PlayerScore playerScore;
@@ -233,14 +231,6 @@ public class MainCtrl {
         }
     }
 
-    /**
-     * Produces the sound of a button when invoked, this function should be called when a button is clicked.
-     */
-    public void buttonSound() {
-        Media media = new Media(Config.buttonClickSound.toURI().toString());
-        MediaPlayer player = new MediaPlayer(media);
-        player.play();
-    }
 
     // --- to move END
 
@@ -254,7 +244,6 @@ public class MainCtrl {
         primaryStage.setScene(homeScreenScene);
         active = false;
         restore();
-        buttonSound();
     }
 
 
@@ -279,7 +268,6 @@ public class MainCtrl {
         namePromptScene.getStylesheets().add(Config.styleSheet);
         namePromptCtrl.setUp();
         primaryStage.setScene(namePromptScene);
-        buttonSound();
     }
 
 
@@ -291,7 +279,6 @@ public class MainCtrl {
     public void showSPLeaderboard() {
         singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(singlePlayerLeaderboardScene);
-        buttonSound();
         singlePlayerLeaderboardCtrl.showPLayAgain();
     }
 
@@ -301,7 +288,6 @@ public class MainCtrl {
     public void showSPLeaderboardFromHome() {
         singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(singlePlayerLeaderboardScene);
-        buttonSound();
         singlePlayerLeaderboardCtrl.hidePlayAgain();
     }
     // TODO consider refactoring END
@@ -316,7 +302,6 @@ public class MainCtrl {
         secondaryStage.centerOnScreen();
         secondaryStage.sizeToScene();
         secondaryStage.show();
-        buttonSound();
     }
 
 
@@ -379,7 +364,6 @@ public class MainCtrl {
         waitingRoomScene.getStylesheets().add(Config.styleSheet);
         waitingRoomCtrl.setUp(player);
         primaryStage.setScene(waitingRoomScene);
-        buttonSound();
     }
 
     // TODO consider refactoring
@@ -491,7 +475,6 @@ public class MainCtrl {
             c.setSpacing(10);
         }
         amountOfMessages++;
-        buttonSound();
     }
 
     /**

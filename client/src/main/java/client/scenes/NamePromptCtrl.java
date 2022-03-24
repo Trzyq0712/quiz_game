@@ -42,7 +42,7 @@ public class NamePromptCtrl extends BaseCtrl implements Initializable {
             PlayerScore player = new PlayerScore(0, nameField.getText(),0);
             mainCtrl.setPlayerScore(player);
             mainCtrl.showQuestion();
-            mainCtrl.buttonSound();
+            utils.playButtonSound();
         }
     }
 
@@ -101,7 +101,9 @@ public class NamePromptCtrl extends BaseCtrl implements Initializable {
      * when the player clicks the button, we have to check if the player is in single- or multiplayer
      * depending on this we call the appropriate function
      */
-    public void confirm() {
+    @FXML
+    private void confirm() {
+        utils.playButtonSound();
         if (mainCtrl.singlePlayerModeActive) startGame();
         else enterWaitingRoom();
     }

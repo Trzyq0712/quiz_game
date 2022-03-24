@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
@@ -19,6 +20,7 @@ public class EditActivityCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private final ApplicationUtils utils;
 
     @FXML
     ImageView imageView;
@@ -34,9 +36,10 @@ public class EditActivityCtrl {
     String imagePath;
 
     @Inject
-    public EditActivityCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditActivityCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.utils = utils;
     }
 
     /**
@@ -52,7 +55,9 @@ public class EditActivityCtrl {
     /**
      * Opens the file dialog for the user to select the image to be added
      */
-    public void addImage() {
+    @FXML
+    private void addImage() {
+        utils.playButtonSound();
         String path = imagePathField.getText();
         if(path.equals("")){
             errorLabel.setText("Path can't be empty");
@@ -71,7 +76,9 @@ public class EditActivityCtrl {
     /**
      * try to add the activity to the database
      */
-    public void tryAdd() {
+    @FXML
+    private void tryAdd() {
+        utils.playButtonSound();
         if (validActivity()) {
             Activity activity = new Activity(questionField.getText(),
                     Long.parseLong(consumptionField.getText()), imagePath);

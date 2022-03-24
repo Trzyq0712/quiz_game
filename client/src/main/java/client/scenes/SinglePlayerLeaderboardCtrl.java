@@ -42,7 +42,8 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         rank.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getRank())));
         player.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPlayerName()));
         score.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getScore())));
@@ -51,17 +52,24 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
 
     /**
      * Adds a player to the repo
+     *
      * @param p - the player we want to add to the leaderboard
      */
-    public void addPlayer(PlayerScore p){
+    public void addPlayer(PlayerScore p) {
         server.addPlayerToSPLeaderboard(p);
+        refresh();
+    }
+
+    @FXML
+    private void refreshButton() {
+        utils.playButtonSound();
         refresh();
     }
 
     /**
      * Update the leaderboard
      */
-    public void refresh(){
+    public void refresh() {
         var players = server.getPlayersInSPL();
         //A sort should be done to display the PlayerScores in the correct order
         data = FXCollections.observableList(players);
@@ -69,6 +77,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     }
 
     public void playAgain() {
+        utils.playButtonSound();
         mainCtrl.restore();
         mainCtrl.showQuestion();
     }
@@ -76,7 +85,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     /**
      * The button "Play a singleplayer again" is made visible
      */
-    public void showPLayAgain(){
+    public void showPLayAgain() {
         playAgain.setVisible(true);
     }
 
@@ -84,7 +93,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
      * The button "Play a singleplayer again" is hidden
      * Used when leaderboard is accessed from the homescreen
      */
-    public void hidePlayAgain(){
+    public void hidePlayAgain() {
         playAgain.setVisible(false);
     }
 

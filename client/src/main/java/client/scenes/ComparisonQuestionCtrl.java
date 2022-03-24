@@ -88,6 +88,7 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
         mainCtrl.showHome();
         restoreAnswers();
         restoreJokers();
+        utils.playButtonSound();
     }
 
     public void restoreAnswers() {
@@ -107,7 +108,7 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
      * @param event button that was clicked, so either A, B or C
      */
     public void answerClick(Event event) {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         long timeToAnswer = mainCtrl.getDelta();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
@@ -136,7 +137,7 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
     }
 
     public void hintClick() {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         hintJoker.setVisible(false);
         String falseAnswer = server.activateHint();
         switch (falseAnswer) {
@@ -153,12 +154,12 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
     }
 
     public void pointsClick() {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         pointsJoker.setVisible(false);
     }
 
     public void timeClick() {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         timeJoker.setVisible(false);
     }
 
@@ -175,6 +176,7 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
     }
 
     public void emote(Event e){
+        utils.playButtonSound();
         mainCtrl.emote(e);
     }
 

@@ -44,7 +44,9 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
         mainCtrl.updateTracker(questionTracker, scoreLabel, false);
     }
 
-    public void emote(Event e){
+    @FXML
+    private void emote(Event e) {
+        utils.playButtonSound();
         mainCtrl.emote(e);
     }
 

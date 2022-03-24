@@ -19,26 +19,31 @@ public class HomeScreenCtrl extends BaseCtrl {
 
     @FXML
     private void showSPLeaderboard() {
+        utils.playButtonSound();
         mainCtrl.showSPLeaderboardFromHome();
     }
 
     @FXML
     private void showExitScreen() {
+        utils.playButtonSound();
         mainCtrl.showExitScreen();
     }
 
     @FXML
     private void showPrompt(Event e) {
+        utils.playButtonSound();
         mainCtrl.showNewPrompt(e);
     }
 
     @FXML
     private void showEditScreen() {
+        utils.playButtonSound();
         mainCtrl.showEditScreen();
     }
 
     @FXML
     private void showInfo() {
+        utils.playButtonSound();
         mainCtrl.showInfo();
     }
 

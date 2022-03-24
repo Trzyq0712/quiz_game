@@ -25,7 +25,9 @@ public abstract class BaseCtrl implements Initializable {
         this.utils = utils;
     }
 
+    @FXML
     public void showHome() {
+        utils.playButtonSound();
         mainCtrl.showHome();
     }
 
@@ -33,8 +35,9 @@ public abstract class BaseCtrl implements Initializable {
      * Toggles music in the application.
      */
     @FXML
-    protected void toggleSound() {
-        utils.toggleSound();
+    protected void toggleMusic() {
+        utils.playButtonSound();
+        utils.toggleMusic();
     }
 
     /**

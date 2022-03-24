@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.fxml.FXML;
 
 
 public class EditScreenCtrl
@@ -16,7 +17,9 @@ public class EditScreenCtrl
         this.server = server;
     }
 
-    public void addActivity() {
+    @FXML
+    private void addActivity() {
+        utils.playButtonSound();
         mainCtrl.editActivity(true);
     }
 }

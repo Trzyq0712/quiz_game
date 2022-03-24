@@ -557,21 +557,38 @@ public class MainCtrl  {
 
     public void showEditScreen() {
         primaryStage.setTitle(Config.edit);
+        editCtrl.setUp();
         editScene.getStylesheets().add(Config.styleSheet);//APPLY CSS SHEET
         primaryStage.setScene(editScene);
     }
 
-    public void editActivity(boolean add) {
-        if (add) {
-            editActivityCtrl.setUp();
-            editActivityScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
-            secondaryStage.setScene(editActivityScene);
-            secondaryStage.centerOnScreen();
-            secondaryStage.sizeToScene();
-            secondaryStage.show();
-        }
+    public void editActivity(boolean add, Activity activity) {
+        editActivityCtrl.setUp(add, activity);
+        editActivityScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET
+        secondaryStage.setScene(editActivityScene);
+        secondaryStage.centerOnScreen();
+        secondaryStage.sizeToScene();
+        secondaryStage.show();
     }
 
+    public void updateEdit(Activity newActivity) {
+        editCtrl.updateEdit(newActivity);
+
+    }
+
+    public void updateAdd(Activity newActivity) {
+        editCtrl.updateAdd(newActivity);
+    }
+
+    public Stage getSecondaryStage(){
+        return secondaryStage;
+    }
+
+    /*public void showOverview() {
+        primaryStage.setTitle("Quotes: Overview");
+        primaryStage.setScene(overview);
+        overviewCtrl.refresh();
+    }*/
     /**
      * Used to prepare the answer reveal screen for a multiple choice question with 3 activities as answers
      * @param activities - a list of 3 activities

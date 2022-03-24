@@ -1,15 +1,13 @@
 package commons;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
-
-import javax.persistence.*;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.Instant;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 /**
  * A class to store scores of players in the database
@@ -28,6 +26,7 @@ public class Player {
 
     private String playerName;
     private Integer score;
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp time;
 
     @SuppressWarnings("unused")
@@ -39,7 +38,7 @@ public class Player {
      * Create a Player instance.
      *
      * @param playerName name of the player.
-     * @param score the score they scored in the game.
+     * @param score      the score they scored in the game.
      */
     public Player(String playerName, int score) {
         this.playerName = playerName;
@@ -56,7 +55,7 @@ public class Player {
      *
      * @param points to be added to the player's score.
      */
-    public void addPoints(int points){
+    public void addPoints(int points) {
         score += points;
     }
 
@@ -98,6 +97,7 @@ public class Player {
 
     /**
      * Setter for the player's score
+     *
      * @param score of the player
      */
     public void setScore(Integer score) {
@@ -116,14 +116,16 @@ public class Player {
     public int getRank() {
         return rank;
     }
+
     public void setRank(int rank) {
         this.rank = rank;
     }
 
+
     /**
      * Compare whether two instances of a Player are equal.
-     *
      * All fields have to be equal for equality.
+     *
      * @param obj to be compared with.
      * @return whether the two objects are equal.
      */
@@ -144,8 +146,8 @@ public class Player {
 
     /**
      * Get a string representation of the Player instance.
-     *
      * It is given in a multiline format.
+     *
      * @return the string representation of the Player instance.
      */
     @Override

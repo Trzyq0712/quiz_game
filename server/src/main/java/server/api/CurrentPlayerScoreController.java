@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
  * Controller for accessing scores of players during a game
  */
 @RestController
-@RequestMapping("/api/currentPlayer")
-public class CurrentPlayerController {
+@RequestMapping("/api/currentPlayerScore")
+public class CurrentPlayerScoreController {
 
     private Game game;
 
     @Autowired
-    public CurrentPlayerController(Game game) {
+    public CurrentPlayerScoreController(Game game) {
         this.game = game;
     }
 

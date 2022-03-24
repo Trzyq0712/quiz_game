@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
-import server.database.PlayerRepository;
+import server.database.PlayerScoreRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,12 +15,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TestPlayerRepository implements PlayerRepository {
+public class TestPlayerScoreScoreRepository implements PlayerScoreRepository {
 
     public final List<Player> scores;
     public final List<String> calledMethods;
 
-    public TestPlayerRepository() {
+    public TestPlayerScoreScoreRepository() {
         scores = new ArrayList<>();
         calledMethods = new ArrayList<>();
     }

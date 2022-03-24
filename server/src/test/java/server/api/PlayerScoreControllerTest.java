@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerScoreControllerTest {
 
-    private TestPlayerRepository repo;
+    private TestPlayerScoreScoreRepository repo;
     private PlayerScoreController sut;
 
     private Player ps1;
@@ -19,7 +19,7 @@ class PlayerScoreControllerTest {
 
     @BeforeEach
     public void setup() {
-        repo = new TestPlayerRepository();
+        repo = new TestPlayerScoreScoreRepository();
         sut = new PlayerScoreController(repo);
         ps1 = new Player("ps1", 1);
         ps2 = new Player("ps2", 2);

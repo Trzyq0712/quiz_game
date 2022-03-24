@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import server.database.PlayerRepository;
+import server.database.PlayerScoreRepository;
 import commons.Player;
 
 import java.util.List;
@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/playerscore")
 public class PlayerScoreController {
 
-    private final PlayerRepository repo;
+    private final PlayerScoreRepository repo;
 
     @Autowired
-    public PlayerScoreController(PlayerRepository repo) {
+    public PlayerScoreController(PlayerScoreRepository repo) {
         this.repo = repo;
     }
 

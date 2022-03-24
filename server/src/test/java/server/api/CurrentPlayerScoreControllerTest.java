@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CurrentPlayerScoreControllerTest {
 
-    CurrentPlayerController cp;
+    CurrentPlayerScoreController cp;
     Player p1;
     Player p2;
     Game g;
@@ -20,7 +20,7 @@ class CurrentPlayerScoreControllerTest {
     @BeforeEach
     public void setup() {
         g = new Game();
-        cp = new CurrentPlayerController(g);
+        cp = new CurrentPlayerScoreController(g);
         p1 = new Player("Reinier", 50);
         p2 = new Player("Laimonas", 80);
     }

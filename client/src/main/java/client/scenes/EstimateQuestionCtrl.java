@@ -16,24 +16,15 @@ import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
-import static client.Config.timePerQuestion;
 
-public class EstimateQuestionCtrl extends BaseCtrl{
-
-    protected final ServerUtils server;
+public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
     private Activity activity;
 
     @FXML
-    ImageView pointsJoker;
-    @FXML
-    ImageView timeJoker;
-    @FXML
     Label ActivityDescription;
     @FXML
     ImageView questionImage;
-    @FXML
-    ProgressBar pgBar;
     @FXML
     Label questionTracker;
     @FXML
@@ -51,31 +42,9 @@ public class EstimateQuestionCtrl extends BaseCtrl{
 
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(server, mainCtrl, utils);
     }
 
-    public void pointsClick() {
-        mainCtrl.buttonSound();
-        pointsJoker.setVisible(false);
-    }
-
-    public void emote(Event e){
-        server.send("/app/emote/1", mainCtrl.getPlayerScore().getPlayerName());
-    }
-
-    public void timeClick() {
-        mainCtrl.buttonSound();
-        timeJoker.setVisible(false);
-    }
-
-    public void updateTracker() {
-        mainCtrl.updateTracker(questionTracker, scoreLabel, true);
-    }
-
-    public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
-    }
 
     public void generateActivity() {
         activity = server.getActivity();
@@ -124,10 +93,6 @@ public class EstimateQuestionCtrl extends BaseCtrl{
         }
     }
 
-    public void restoreJokers() {
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
-    }
 
     public void restoreSubmit() {
         submit.setDisable(false);

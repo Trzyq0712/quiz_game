@@ -3,9 +3,10 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,15 +15,24 @@ import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
+import static client.Config.timePerQuestion;
 
-public class EstimateQuestionCtrl extends BaseQuestionCtrl {
+public class EstimateQuestionCtrl extends BaseCtrl{
+
+    protected final ServerUtils server;
 
     private Activity activity;
 
     @FXML
+    ImageView pointsJoker;
+    @FXML
+    ImageView timeJoker;
+    @FXML
     Label ActivityDescription;
     @FXML
     ImageView questionImage;
+    @FXML
+    ProgressBar pgBar;
     @FXML
     Label questionTracker;
     @FXML
@@ -33,10 +43,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     StackPane chatAndEmoteHolder;
     @FXML
     TextField textField;
-    @FXML
-    Button submit;
-    @FXML
-    private Label errorLabel;
 
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
@@ -84,10 +90,8 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         mainCtrl.setAnswersForAnswerReveal(points,true);
     }
 
-
-    public void restoreSubmit() {
-        submit.setDisable(false);
-        textField.setText("");
-        errorLabel.setVisible(false);
+    public void restoreJokers() {
+        timeJoker.setVisible(true);
+        pointsJoker.setVisible(true);
     }
 }

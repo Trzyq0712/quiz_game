@@ -11,25 +11,6 @@ public class EditScreenCtrl
 
     private final ServerUtils server;
 
-    @FXML
-    ImageView music;
-    @FXML
-    GridPane activityGrid;
-    @FXML
-    Button previousButton;
-    @FXML
-    Button nextButton;
-    @FXML
-    Button showButton;
-    @FXML
-    Spinner<Integer> pageSpinner;
-    @FXML
-    Label pageLabel;
-
-    List<Activity> activityList;
-    int start, end, activitiesPerPage = 5, pageCount;
-    SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValues;
-
     @Inject
     public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils);

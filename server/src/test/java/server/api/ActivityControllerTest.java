@@ -10,6 +10,8 @@ import server.ActivityService;
 import server.MockActivityRepository;
 import server.database.ActivityRepository;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,15 +34,16 @@ class ActivityControllerTest {
         sut = new ActivityController(serv);
         act1 = new Activity("description", 12L, "path/to/file1");
         act2 = new Activity("a different description", 42L, "path/to/file2");
-        /*File picture;
+        act3 = new Activity("even more different description", 50L,
+                "/activity/00/fridge.png");
+        Path pathToFile = Path.of(sut.imgPath, act3.getPicturePath());
+        System.out.println("trying to fetch image: " + pathToFile);
         try{
-            picture = ResourceUtils.getFile("classpath:static\\00\\fridge.png");
-            act3 = new Activity("even more different description", 50L,
-                    picture.getAbsolutePath());
+            byte[] bytes = Files.readAllBytes(pathToFile);
+            postAct = new PostActivity(act3, bytes);
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        postAct = new PostActivity(act3, "src\\test\\resources\\static\\newActivities\\");*/
     }
 
     @Test
@@ -80,11 +83,13 @@ class ActivityControllerTest {
     }
 
     /*@Test
-    void addPostActivity() {
-        sut.addPostActivity(postAct);
+    void addDeletePostActivity() {
+        Activity serverAct = sut.addPostActivity(postAct).getBody();
         assertTrue(repo.findAll().contains(postAct.getActivity()));
         var res = sut.addActivity(postAct.getActivity());
         assertEquals(ResponseEntity.of(Optional.of(postAct.getActivity())), res);
         assertEquals(2, repo.count());
+        assertTrue(sut.deletePostActivity(serverAct.getId()).getBody());
+        assertEquals(1, repo.count());
     }*/
 }

@@ -1,32 +1,26 @@
 package commons;
 
-import java.io.File;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class PostActivity{
 
     Activity activity;
-    private File picture;
-    String writeTo;
+    private byte[] pictureBuffer;
 
-    public PostActivity(Activity activity, String writeTo) {
+    public PostActivity(Activity activity, byte[] pictureBuffer) {
         this.activity = activity;
-        this.picture = new File(activity.getPicturePath());
-        this.writeTo = writeTo;
+        this.pictureBuffer = pictureBuffer;
     }
 
     public PostActivity() {}
 
-    public File getPicture() {
-        return picture;
+    public byte[] getPictureBuffer() {
+        return pictureBuffer;
     }
 
     public Activity getActivity() {
         return activity;
-    }
-
-    public String getWriteTo() {
-        return writeTo;
     }
 
     @Override
@@ -34,12 +28,14 @@ public class PostActivity{
         if (this == o) return true;
         if (!(o instanceof PostActivity)) return false;
         PostActivity that = (PostActivity) o;
-        return Objects.equals(getActivity(), that.getActivity()) && Objects.equals(getPicture(),
-                that.getPicture()) && Objects.equals(getWriteTo(), that.getWriteTo());
+        return Objects.equals(getActivity(), that.getActivity())
+                && Arrays.equals(getPictureBuffer(), that.getPictureBuffer());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getActivity(), getPicture());
+        int result = Objects.hash(getActivity());
+        result = 31 * result + Arrays.hashCode(getPictureBuffer());
+        return result;
     }
 }

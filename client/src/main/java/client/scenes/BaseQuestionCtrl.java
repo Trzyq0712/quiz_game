@@ -63,6 +63,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
     public void setDoublePoints(Boolean b) {
         doublePoints = b;
+        if (b) {
+            jokerConfirmation.setText("Your want to double your points!");
+            jokerConfirmation.setVisible(true);
+        } else {
+            jokerConfirmation.setVisible(false);
+        }
     }
 
     /**
@@ -81,7 +87,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         firstButton.setVisible(true);
         secondButton.setVisible(true);
         thirdButton.setVisible(true);
-        jokerConfirmation.setVisible(false);
+        setDoublePoints(false);
     }
 
     /**
@@ -112,6 +118,8 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         int earnedPoints = 0;
         if (answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
+        if (doublePoints)
+            earnedPoints *= 2;
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
         mainCtrl.setAnswersforAnswerReveal(earnedPoints, false);
     }
@@ -127,6 +135,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     /**
      * Adds the emote to the chatbox
+     *
      * @param e - emote
      */
     public void emote(Event e) {
@@ -142,8 +151,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.buttonSound();
         pointsJoker.setVisible(false);
         setDoublePoints(true);
-        jokerConfirmation.setText("Your scored points will be doubled!");
-        jokerConfirmation.setVisible(true);
     }
 
     /**

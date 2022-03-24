@@ -41,7 +41,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
-    //Long startTime;
 
     private  List<Activity> activities;
 

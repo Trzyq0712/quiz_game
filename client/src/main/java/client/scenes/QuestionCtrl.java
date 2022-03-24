@@ -42,7 +42,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
     StackPane chatAndEmoteHolder;
 
     //Long startTime;
-    int amountOfMessages = 0;
 
     private  List<Activity> activities;
 

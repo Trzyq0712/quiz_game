@@ -20,10 +20,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     private Activity activity;
 
     @FXML
-    ImageView pointsJoker;
-    @FXML
-    ImageView timeJoker;
-    @FXML
     Label ActivityDescription;
     @FXML
     ImageView questionImage;

@@ -176,7 +176,7 @@ public class QuestionCtrl extends BaseCtrl {
     }
 
     public void emote(Event e){
-        mainCtrl.emote(e);
+        server.send("/app/emote/{gameId}", mainCtrl.getPlayerScore().getPlayerName());
     }
 
     /**

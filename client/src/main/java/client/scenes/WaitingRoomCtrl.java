@@ -18,6 +18,8 @@ import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
 
+    private int gameId = 0;
+
     private final ServerUtils server;
 
     @FXML
@@ -92,6 +94,11 @@ public class WaitingRoomCtrl extends BaseCtrl {
                 mainCtrl.buttonSound();
                 restoreChat();
                 server.unsubscribe();
+                gameId++;
+                server.registerForMessages("/topic/emote/{gameId}", String.class, s -> {
+                    System.out.println(s);
+                });
+
             }
         });
 

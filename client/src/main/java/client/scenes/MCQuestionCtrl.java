@@ -68,7 +68,7 @@ public class MCQuestionCtrl extends BaseCtrl{
     }
 
     public void emote(Event e){
-        mainCtrl.emote(e);
+        server.send("/app/emote/{gameId}", mainCtrl.getPlayerScore().getPlayerName());
     }
 
     public void timeClick() {

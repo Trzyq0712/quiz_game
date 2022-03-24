@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
+
 import static client.Config.timePerQuestion;
 
 public class EstimateQuestionCtrl extends BaseCtrl{
@@ -56,7 +57,7 @@ public class EstimateQuestionCtrl extends BaseCtrl{
     }
 
     public void emote(Event e){
-        mainCtrl.emote(e);
+        server.send("/app/emote/{gameId}", mainCtrl.getPlayerScore().getPlayerName());
     }
 
     public void timeClick() {

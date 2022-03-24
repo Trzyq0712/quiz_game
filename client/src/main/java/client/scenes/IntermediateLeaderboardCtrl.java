@@ -7,8 +7,11 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.util.Arrays;
 
 import static client.Config.*;
 
@@ -45,7 +48,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     }
 
     public void emote(Event e){
-        mainCtrl.emote(e);
+        server.send("/app/emote/{gameId}", mainCtrl.getPlayerScore().getPlayerName());
     }
 
 }

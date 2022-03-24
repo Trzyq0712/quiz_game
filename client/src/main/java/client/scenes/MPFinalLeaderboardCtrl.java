@@ -5,8 +5,11 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
+import java.util.Arrays;
 
 
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
@@ -31,7 +34,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     }
 
     public void emote(Event e){
-        mainCtrl.emote(e);
+        server.send("/app/emote/{gameId}", mainCtrl.getPlayerScore().getPlayerName());
     }
 
 }

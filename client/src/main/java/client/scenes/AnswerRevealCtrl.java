@@ -4,6 +4,7 @@ import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
+import commons.Emote;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,8 +20,6 @@ import java.util.List;
 import static commons.Config.*;
 
 public class AnswerRevealCtrl extends BaseCtrl {
-
-    private final ServerUtils server;
 
     @FXML
     ProgressBar pgBarReveal;
@@ -63,8 +62,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
     @Inject
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     /**
@@ -85,7 +83,9 @@ public class AnswerRevealCtrl extends BaseCtrl {
     }
 
     public void emote(Event e){
-        mainCtrl.emote(e);
+        String path = ((ImageView)e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+        server.send("/app/emote/1", emote);
     }
 
     /**

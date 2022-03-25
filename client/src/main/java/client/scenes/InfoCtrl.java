@@ -10,8 +10,6 @@ import static commons.Config.*;
 
 public class InfoCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
-
     @FXML
     Label hintExplainer;
     @FXML
@@ -22,8 +20,7 @@ public class InfoCtrl extends BaseCtrl {
 
     @Inject
     public InfoCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     public void setHintExplainer() {

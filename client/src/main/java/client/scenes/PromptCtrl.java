@@ -17,8 +17,6 @@ import static commons.Config.*;
 
 public class PromptCtrl extends BaseCtrl implements Initializable {
 
-    private final ServerUtils server;
-
     @FXML
     private TextField nameField;
     @FXML
@@ -30,8 +28,7 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
 
     @Inject
     public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     /**
@@ -91,10 +88,11 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
      */
     public void enterWaitingRoom(){
         if(checkName(nameField, errorLabel)){
-            Player player = new Player(nameField.getText());
-            if(server.enterWaitingRoom(nameField.getText()))
+            if(server.enterWaitingRoom(nameField.getText())) {
+                PlayerScore player = new PlayerScore(0, nameField.getText(), 0);
+                mainCtrl.setPlayerScore(player);
                 mainCtrl.enterWaitingRoom(new Player(nameField.getText()));
-            else{
+            } else{
                 errorLabel.setText("Name is taken!");
                 errorLabel.setVisible(true);
             }

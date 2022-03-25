@@ -249,6 +249,36 @@ public class MainCtrl  {
     }
 
     /**
+     * Hides or shows the points joker in all the question types
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityPointsJoker(Boolean bool){
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        questionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
+     * Hides or shows the points joker in all the question types
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityHintJoker(Boolean bool){
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        questionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
+     * Hides or shows the points joker in all the question types
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityTimeJoker(Boolean bool){
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        questionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
      * Produces the sound of a button when invoked, this function should be called when a button is clicked.
      */
 

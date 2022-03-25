@@ -438,7 +438,7 @@ public class MainCtrl  {
                 } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     estimateQuestionCtrl.restoreSubmit();
                     questionCtrl.restoreAnswers();
-                    estimateQuestionCtrl.restoreSubmitButton();
+                    estimateQuestionCtrl.restoreSubmit();
                     MCQuestionCtrl.restoreAnswers();
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());

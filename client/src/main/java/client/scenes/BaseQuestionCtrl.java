@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 
-import static client.Config.timePerQuestion;
+import static commons.Config.*;
 
 public abstract class BaseQuestionCtrl extends BaseCtrl {
 

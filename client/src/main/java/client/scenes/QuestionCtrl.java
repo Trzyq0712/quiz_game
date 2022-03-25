@@ -84,7 +84,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
         grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
-<<<<<<< HEAD
     /**
      * @param answer - answer the player submitted
      */
@@ -116,8 +115,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
         mainCtrl.buttonSound();
         pointsJoker.setVisible(false);
     }
-=======
->>>>>>> dev
 
 
     /**

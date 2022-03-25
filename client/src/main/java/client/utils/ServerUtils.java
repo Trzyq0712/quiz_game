@@ -216,6 +216,8 @@ public class ServerUtils {
     }
 
     public <T> StompSession.Subscription registerForMessages(String dest, Class<T> type ,Consumer<T> consumer){
+        if(!session.isConnected())
+            session = connect("ws://localhost:8080/websocket");
         return session.subscribe(dest, new StompFrameHandler(){
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -235,5 +237,9 @@ public class ServerUtils {
 
     public void unsubscribe(StompSession.Subscription subscription){
         subscription.unsubscribe();
+    }
+
+    public void disconnect(){
+        session.disconnect();
     }
 }

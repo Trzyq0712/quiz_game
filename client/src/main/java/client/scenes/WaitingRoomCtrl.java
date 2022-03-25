@@ -20,10 +20,7 @@ import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
-
     public StompSession.Subscription waitingroom;
-    public StompSession.Subscription emotes;
 
     @FXML
     private GridPane playerGrid;
@@ -35,8 +32,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     @Inject
     public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     @FXML
@@ -89,7 +85,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         });
         pollingThread.start();
 
-        emotes = server.registerForMessages("/topic/emote/1", Emote.class,e -> {
+        server.registerForMessages("/topic/emote/1", Emote.class,e -> {
             mainCtrl.emote(e.getPath(),e.getName());
         } );
 
@@ -132,9 +128,5 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     public void leaveWaitingroom(Player player){
         server.leaveWaitingroom(player);
-    }
-
-    public StompSession.Subscription getSubscription(){
-        return emotes;
     }
 }

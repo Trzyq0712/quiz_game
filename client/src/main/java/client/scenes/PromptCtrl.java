@@ -16,8 +16,6 @@ import static client.Config.maxCharsUsername;
 
 public class PromptCtrl extends BaseCtrl implements Initializable {
 
-    private final ServerUtils server;
-
     @FXML
     private TextField nameField;
     @FXML
@@ -27,8 +25,7 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
 
     @Inject
     public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     /**

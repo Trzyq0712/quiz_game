@@ -42,12 +42,10 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected boolean doublePoints;
     protected int answerButtonId;
 
-    protected final ServerUtils server;
 
 
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     /**
@@ -100,6 +98,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
+        server.disconnect();
         mainCtrl.showHome();
         restoreAnswers();
         restoreJokers();

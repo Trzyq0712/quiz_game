@@ -21,8 +21,6 @@ import static client.Config.timeAnswerReveal;
 
 public class AnswerRevealCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
-
     @FXML
     ProgressBar pgBarReveal;
     @FXML
@@ -64,8 +62,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
     @Inject
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     /**

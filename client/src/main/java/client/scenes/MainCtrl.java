@@ -37,7 +37,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.Arrays;
 import java.util.List;
@@ -622,7 +621,4 @@ public class MainCtrl  {
         answerRevealCtrl.setAnswer(points,bool);
     }
 
-    public StompSession.Subscription getSubscription() {
-        return waitingCtrl.getSubscription();
-    }
 }

@@ -12,8 +12,6 @@ import javafx.scene.layout.VBox;
 
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
-
     @FXML
     VBox chatbox;
     @FXML
@@ -21,12 +19,11 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
     @Inject
     public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     public void playAgain() {
-        server.unsubscribe(mainCtrl.getSubscription());
+        server.disconnect();
         mainCtrl.enterWaitingRoom();
     }
 

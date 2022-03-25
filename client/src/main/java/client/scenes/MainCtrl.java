@@ -469,6 +469,9 @@ public class MainCtrl  {
                     estimateQuestionCtrl.restoreSubmit();
                     questionCtrl.restoreAnswers();
                     MCQuestionCtrl.restoreAnswers();
+                    if(!estimateQuestionCtrl.getHasPlayerAnswered()){
+                        setAnswersforAnswerReveal(0,true);
+                    }
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {

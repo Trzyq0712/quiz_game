@@ -38,15 +38,18 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     @FXML
     private Label errorLabel;
 
+
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(server, mainCtrl, utils);
     }
 
 
+
     public void generateActivity() {
         activity = server.getActivity();
         displayActivity();
+        setHasPlayerAnswered(false);
     }
 
     private void displayActivity() {
@@ -57,6 +60,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
     public void submitGuess() {
         int earnedPoints = 0;
+        setHasPlayerAnswered(true);
         try {
             long guess = Integer.parseInt(textField.getText());
             long correctAnswer = activity.getEnergyConsumption();
@@ -96,6 +100,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
     public void restoreSubmit() {
         submit.setDisable(false);
+        setHasPlayerAnswered(false);
         textField.setText("");
         errorLabel.setVisible(false);
         setDoublePoints(false);

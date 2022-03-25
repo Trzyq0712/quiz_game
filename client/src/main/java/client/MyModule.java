@@ -15,8 +15,8 @@
  */
 package client;
 
-import client.scenes.HomeScreenCtrl;
 import client.utils.ApplicationUtils;
+import client.utils.ServerUtils;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -29,6 +29,6 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ApplicationUtils.class).in(Scopes.SINGLETON);
-        binder.bind(HomeScreenCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
     }
 }

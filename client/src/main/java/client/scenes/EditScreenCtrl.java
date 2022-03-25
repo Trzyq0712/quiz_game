@@ -20,10 +20,7 @@ import javafx.scene.text.TextAlignment;
 import java.util.List;
 
 
-public class EditScreenCtrl
-        extends BaseCtrl {
-
-    private final ServerUtils server;
+public class EditScreenCtrl extends BaseCtrl {
 
     @FXML
     ImageView music;
@@ -46,8 +43,7 @@ public class EditScreenCtrl
 
     @Inject
     public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     /**

@@ -107,8 +107,13 @@ public class NamePromptCtrl extends BaseCtrl {
     @FXML
     private void confirm() {
         utils.playButtonSound();
-        if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) startGame();
-        else enterWaitingRoom();
+        if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
+            mainCtrl.activateSingleplayer();
+            startGame();
+        } else {
+            mainCtrl.activateMultiplayer();
+            enterWaitingRoom();
+        }
     }
 
 }

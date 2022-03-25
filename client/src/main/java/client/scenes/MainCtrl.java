@@ -377,7 +377,7 @@ public class MainCtrl {
         answerRevealCtrl.updateTracker();
         answerRevealScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(answerRevealScene);
-        new Thread(() -> answerRevealCtrl.activateProgressBar()).start();
+        answerRevealCtrl.activateProgressBar();
     }
 
     public void showMPFinalLeaderboard() {
@@ -389,7 +389,7 @@ public class MainCtrl {
         intermediateLeaderboardCtrl.updateQuestionTracker();
         intermediateLeaderboardScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(intermediateLeaderboardScene);
-        new Thread(() -> intermediateLeaderboardCtrl.activateProgressBar()).start();
+        intermediateLeaderboardCtrl.activateProgressBar();
     }
 
 

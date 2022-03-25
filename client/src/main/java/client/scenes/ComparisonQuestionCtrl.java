@@ -6,7 +6,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import commons.Answer;
-import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,12 +44,12 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
 
     //Long startTime;
 
-    private  List<Activity> activities;
+    private List<Activity> activities;
 
     @Inject
-    public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+    public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl,
+                                  ApplicationUtils utils, GameUtils gameUtils) {
         super(server, mainCtrl, utils, gameUtils);
-
     }
 
     public List<Activity> getActivities() {
@@ -60,6 +59,7 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
 
     /**
      * hides all buttons except for the one that was clicked
+     *
      * @param event button that was clicked, so either A, B or C
      */
     public void answerClick(Event event) {
@@ -73,19 +73,18 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
             i++;
             if (!b.getId().equals(activated.getId())) {
                 b.setVisible(false);
-            } else{
-                buttonNb=i;
+            } else {
+                buttonNb = i;
             }
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
 
-
     /**
      * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
-    public void generateActivity(){
+    public void generateActivity() {
         activities = server.get3Activities();
         long answer = activities.stream().map(Activity::getEnergyConsumption)
                 .sorted().collect(Collectors.toList()).get(2);
@@ -95,15 +94,13 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
     }
 
     private void displayActivities() {
-        Platform.runLater(() -> {
-            ActivityDescription1.setText(activities.get(0).getDescription());
-            ActivityDescription2.setText(activities.get(1).getDescription());
-            ActivityDescription3.setText(activities.get(2).getDescription());
-            questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
-            questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
-            questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
-        });
-        mainCtrl.setAnswersForAnswerReveal(activities,answerButtonId);
+        ActivityDescription1.setText(activities.get(0).getDescription());
+        ActivityDescription2.setText(activities.get(1).getDescription());
+        ActivityDescription3.setText(activities.get(2).getDescription());
+        questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
+        questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
+        questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
+        mainCtrl.setAnswersForAnswerReveal(activities, answerButtonId);
     }
 
 }

@@ -153,7 +153,8 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Disables the player to click on hint joker again
      * and hides one of the wrong answers
      */
-    public void hintClick() {
+    @FXML
+    protected void hintClick() {
         utils.playButtonSound();
         hintJoker.setVisible(false);
         String falseAnswer = server.activateHint();

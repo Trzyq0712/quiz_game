@@ -5,7 +5,6 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -41,8 +40,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     }
 
     public void activateProgressBar() {
-        utils.runProgressBar(pgBarIntermediate, Config.timeForIntermediate,
-                () -> Platform.runLater(mainCtrl::showQuestion));
+        utils.runProgressBar(pgBarIntermediate, Config.timeForIntermediate, mainCtrl::showQuestion);
     }
 
     public void updateQuestionTracker() {

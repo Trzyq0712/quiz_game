@@ -6,7 +6,6 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
-import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -80,16 +79,17 @@ public class AnswerRevealCtrl extends BaseCtrl {
             if (gameUtils.getCurrentQuestion() < Config.totalQuestions) {
                 mainCtrl.restoreQuestions();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer))
-                    Platform.runLater(mainCtrl::showQuestion);
+                    mainCtrl.showQuestion();
                 else
-                    Platform.runLater(mainCtrl::showIntermediateLeaderboard);
+                    mainCtrl.showIntermediateLeaderboard();
                 gameUtils.startTimer();
             } else {
                 mainCtrl.restore();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
                     server.addPlayerToSPLeaderboard(gameUtils.getPlayer());
-                    Platform.runLater(mainCtrl::showSPLeaderboard);
-                } else Platform.runLater(mainCtrl::showMPFinalLeaderboard);
+                    mainCtrl.showSPLeaderboard();
+                } else
+                    mainCtrl.showMPFinalLeaderboard();
             }
         });
     }

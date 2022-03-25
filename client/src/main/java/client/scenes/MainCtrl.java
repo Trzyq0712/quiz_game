@@ -206,7 +206,7 @@ public class MainCtrl  {
 
     public void initializeChatBoxes() {
         listOfChatBoxes = Arrays.asList(questionCtrl.chatbox, intermediateCtrl.chatbox, answerRevealCtrl.chatbox,
-                MPFinal.chatbox);
+                MPFinal.chatbox, estimateQuestionCtrl.chatbox, MCQuestionCtrl.chatbox);
     }
 
     /**
@@ -381,27 +381,27 @@ public class MainCtrl  {
         switch (value%3){
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);
-                questionCtrl.updateTracker();
-                questionCtrl.generateActivity();
-                primaryStage.setScene(questionScene);
-                new Thread(() -> questionCtrl.activateProgressBar()).start();
+                Platform.runLater(() -> questionCtrl.updateTracker());
+                Platform.runLater(() -> questionCtrl.generateActivity());
+                Platform.runLater(() -> primaryStage.setScene(questionScene));
+                Platform.runLater(() -> questionCtrl.activateProgressBar());
                 break;
             }
             case 1: {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
-                estimateQuestionCtrl.updateTracker();
-                estimateQuestionCtrl.generateActivity();
-                primaryStage.setScene(estimateQuestionScene);
-                new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
+                Platform.runLater(() -> estimateQuestionCtrl.updateTracker());
+                Platform.runLater(() -> estimateQuestionCtrl.generateActivity());
+                Platform.runLater(() -> primaryStage.setScene(estimateQuestionScene));
+                Platform.runLater(() -> estimateQuestionCtrl.activateProgressBar());
                 break;
             }
 
             case 2: {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
-                MCQuestionCtrl.updateTracker();
-                MCQuestionCtrl.generateActivity();
-                primaryStage.setScene(MCQuestionScene);
-                new Thread(() -> MCQuestionCtrl.activateProgressBar()).start();
+                Platform.runLater(() -> MCQuestionCtrl.updateTracker());
+                Platform.runLater(() -> MCQuestionCtrl.generateActivity());
+                Platform.runLater(() -> primaryStage.setScene(MCQuestionScene));
+                Platform.runLater(() -> MCQuestionCtrl.activateProgressBar());
                 break;
             }
         }
@@ -513,19 +513,21 @@ public class MainCtrl  {
 
     public void emote(Event e) {
         for (VBox c : listOfChatBoxes) {
-            HBox hbox = new HBox();
-            Image arg = ((ImageView) e.getSource()).getImage();
-            Label user = new Label(" user01:  ");
-            ImageView emote = new ImageView(arg);
-            emote.setFitHeight(50);
-            emote.setFitWidth(50);
-            hbox.getChildren().addAll(user, emote);
-            hbox.setAlignment(Pos.CENTER_LEFT);
-            if (amountOfMessages >= Config.maxChatMessages) {
-                c.getChildren().remove(0);
-            }
-            c.getChildren().add(hbox);
-            c.setSpacing(10);
+            Platform.runLater(() -> {
+                HBox hbox = new HBox();
+                Image arg = ((ImageView) e.getSource()).getImage();
+                Label user = new Label(" " + playerScore.getPlayerName() + ":  ");
+                ImageView emote = new ImageView(arg);
+                emote.setFitHeight(50);
+                emote.setFitWidth(50);
+                hbox.getChildren().addAll(user, emote);
+                hbox.setAlignment(Pos.CENTER_LEFT);
+                if (amountOfMessages > Config.maxChatMessages) {
+                    c.getChildren().remove(0);
+                }
+                c.getChildren().add(hbox);
+                c.setSpacing(10);
+            });
         }
         amountOfMessages++;
         buttonSound();
@@ -575,8 +577,10 @@ public class MainCtrl  {
         if (update) {
             currentQuestion++;
         }
-        question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
-        score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
+        Platform.runLater(() -> {
+            question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
+            score.setText("Score " + playerScore.getScore() + "/" + currentQuestion * 200);
+        });
     }
 
     public void showInfo() {

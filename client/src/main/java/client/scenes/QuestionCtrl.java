@@ -56,12 +56,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
         return activities;
     }
 
-
-
-
-
-
-
     /**
      * hides all buttons except for the one that was clicked
      * @param event button that was clicked, so either A, B or C

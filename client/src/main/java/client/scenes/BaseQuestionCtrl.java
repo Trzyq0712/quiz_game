@@ -26,8 +26,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     Label questionTracker;
     @FXML
     Label scoreLabel;
-    @FXML
-    Label jokerConfirmation;
 
     @FXML
     ProgressBar pgBar;
@@ -80,7 +78,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         firstButton.setVisible(true);
         secondButton.setVisible(true);
         thirdButton.setVisible(true);
-        jokerConfirmation.setVisible(false);
     }
 
     /**
@@ -144,8 +141,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.buttonSound();
         pointsJoker.setVisible(false);
         setDoublePoints(true);
-        jokerConfirmation.setText("Your scored points will be doubled!");
-        jokerConfirmation.setVisible(true);
     }
 
     /**

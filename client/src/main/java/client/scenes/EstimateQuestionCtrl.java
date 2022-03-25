@@ -36,7 +36,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     TextField textField;
     @FXML
     Button submitButton;
-    Button submit;
     @FXML
     private Label errorLabel;
 

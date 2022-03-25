@@ -1,11 +1,11 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,21 +13,22 @@ import javafx.scene.control.TextField;
 import static client.Config.maxCharsUsername;
 
 
-public class NamePromptCtrl extends BaseCtrl implements Initializable {
+public class NamePromptCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-
+    private final GameUtils gameUtils;
+    @FXML
+    public Button startButton;
     @FXML
     private TextField nameField;
     @FXML
     private Label errorLabel;
-    @FXML
-    public Button startButton;
 
     @Inject
-    public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(mainCtrl, utils);
         this.server = server;
+        this.gameUtils = gameUtils;
     }
 
     /**
@@ -37,18 +38,19 @@ public class NamePromptCtrl extends BaseCtrl implements Initializable {
      * A new player is created, the name entered will be used for identification later on
      */
     public void startGame() {
-        if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
-            Player player = new Player( nameField.getText(),0);
-            mainCtrl.setPlayer(player);
+        utils.playButtonSound();
+        if (checkName(nameField, errorLabel) && server.startSingle(nameField.getText())) {
+            Player player = new Player(nameField.getText());
+            gameUtils.setPlayer(player);
+            gameUtils.startTimer();
             mainCtrl.showQuestion();
-            utils.playButtonSound();
         }
     }
 
     /**
      * mane the nameField prompt display this
      */
-    public void setUp(){
+    public void setUp() {
         nameField.clear();
         nameField.setPromptText("Enter your name...");
         errorLabel.setVisible(false);
@@ -60,17 +62,17 @@ public class NamePromptCtrl extends BaseCtrl implements Initializable {
      * (rules for now are now whitespaces and that something must be entered)
      * (we can ignore no whitespaces if we convert the text to base64 because then the url request doesn't mess up)
      */
-    public boolean checkName(TextField nameField, Label errorLabel){
+    public boolean checkName(TextField nameField, Label errorLabel) {
         String name = nameField.getText();
         if (name.length() > maxCharsUsername) {
             errorLabel.setText("Name needs to be 20 characters or less!");
             errorLabel.setVisible(true);
             return false;
-        } else if(name.contains(" ")){
+        } else if (name.contains(" ")) {
             errorLabel.setText("No whitespaces allowed!");
             errorLabel.setVisible(true);
             return false;
-        } else if(name.equals("")){
+        } else if (name.equals("")) {
             errorLabel.setText("You have to enter something!");
             errorLabel.setVisible(true);
             return false;
@@ -84,17 +86,19 @@ public class NamePromptCtrl extends BaseCtrl implements Initializable {
      * to enter the waiting room. If it doesn't then for now I've just written it off that the
      * name is taken but that may not be the case if the connection doesn't go through and so on.
      */
-    public void enterWaitingRoom(){
-        if(checkName(nameField, errorLabel)){
+    public void enterWaitingRoom() {
+        if (checkName(nameField, errorLabel)) {
             Player player = new Player(nameField.getText());
-            if(server.enterWaitingRoom(nameField.getText()))
-                mainCtrl.enterWaitingRoom(new Player(nameField.getText()));
-            else{
-                errorLabel.setText("Name is taken!");
-                errorLabel.setVisible(true);
+            if (server.enterWaitingRoom(nameField.getText())) {
+                gameUtils.setPlayer(player);
+                mainCtrl.showWaitingRoom();
             }
+        } else {
+            errorLabel.setText("Name is taken!");
+            errorLabel.setVisible(true);
         }
     }
+
 
     /**
      * when the player clicks the button, we have to check if the player is in single- or multiplayer
@@ -103,7 +107,7 @@ public class NamePromptCtrl extends BaseCtrl implements Initializable {
     @FXML
     private void confirm() {
         utils.playButtonSound();
-        if (mainCtrl.singlePlayerModeActive) startGame();
+        if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) startGame();
         else enterWaitingRoom();
     }
 

@@ -1,4 +1,4 @@
-package server.api;
+package server;
 
 import commons.Player;
 import org.springframework.data.domain.Example;
@@ -15,12 +15,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TestPlayerScoreScoreRepository implements PlayerScoreRepository {
+public class MockPlayerScoreScoreRepository implements PlayerScoreRepository {
 
     public final List<Player> scores;
     public final List<String> calledMethods;
 
-    public TestPlayerScoreScoreRepository() {
+    public MockPlayerScoreScoreRepository() {
         scores = new ArrayList<>();
         calledMethods = new ArrayList<>();
     }

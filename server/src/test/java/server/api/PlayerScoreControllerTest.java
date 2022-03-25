@@ -4,6 +4,7 @@ import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Example;
+import server.MockPlayerScoreScoreRepository;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerScoreControllerTest {
 
-    private TestPlayerScoreScoreRepository repo;
+    private MockPlayerScoreScoreRepository repo;
     private PlayerScoreController sut;
 
     private Player ps1;
@@ -19,7 +20,7 @@ class PlayerScoreControllerTest {
 
     @BeforeEach
     public void setup() {
-        repo = new TestPlayerScoreScoreRepository();
+        repo = new MockPlayerScoreScoreRepository();
         sut = new PlayerScoreController(repo);
         ps1 = new Player("ps1", 1);
         ps2 = new Player("ps2", 2);

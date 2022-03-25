@@ -18,15 +18,11 @@ package client.scenes;
 
 import client.Config;
 import commons.Activity;
-import commons.Player;
-import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -74,16 +70,6 @@ public class MainCtrl {
 
     // --------------------- to move START
 
-    Long startTime;
-    int currentQuestion = 0;
-    boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
-    clicked the homebutton. So he exited the game
-    at which point the next scene shouldnt be loaded anymore */
-    /**
-     * If true, game knows the player is in singleplayer, if false, the game knows
-     * that the player is in multiplayer.
-     */
-    boolean singlePlayerModeActive;
     /**
      * Amount of messages currently displaying in the chat.
      */
@@ -140,6 +126,7 @@ public class MainCtrl {
 
         this.namePromptCtrl = namePrompt.getKey();
         this.namePromptScene = new Scene(namePrompt.getValue());
+        this.namePromptScene.getStylesheets().add(Config.styleSheet);
 
         this.comparisonQuestionCtrl = comparisonQuestion.getKey();
         this.questionScreenScene = new Scene(comparisonQuestion.getValue());
@@ -158,8 +145,8 @@ public class MainCtrl {
         // TODO Consider refactoring
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
-            if (player != null)
-                waitingRoomCtrl.leaveWaitingroom(player);
+//            if (player != null)
+//                waitingRoomCtrl.leaveWaitingRoom(player);
             primaryStage.close();
         });
 
@@ -215,6 +202,7 @@ public class MainCtrl {
     public void activateMultiplayer() {
         comparisonQuestionCtrl.timeJoker.setVisible(true);
         estimateQuestionCtrl.timeJoker.setVisible(true);
+        MCQuestionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
             s.setVisible(true);
         }
@@ -227,35 +215,13 @@ public class MainCtrl {
      * Shows the home screen.
      */
     public void showHome() {
-        player = null;
         primaryStage.setTitle(Config.title);
         homeScreenScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(homeScreenScene);
-        active = false;
         restore();
     }
 
-
-    // TODO consider refactoring
-
-    /**
-     * Based on which button the player clicked, the player will get the nameprompt for single- or multiplayer.
-     *
-     * @param e The button on which the player has clicked to reach the nameprompt.
-     */
-    public void showNewPrompt(Event e) {
-        String mode = ((Button) e.getSource()).getText();
-        if (mode.equals("Singleplayer")) {
-            singlePlayerModeActive = true;
-            namePromptCtrl.startButton.setPrefWidth(200);
-            namePromptCtrl.startButton.setText("Enter game");
-        } else {
-            singlePlayerModeActive = false;
-            namePromptCtrl.startButton.setPrefWidth(500);
-            namePromptCtrl.startButton.setText("Enter waiting room");
-        }
-        namePromptScene.getStylesheets().add(Config.styleSheet);
-        namePromptCtrl.setUp();
+    public void showNamePromtScene() {
         primaryStage.setScene(namePromptScene);
     }
 
@@ -304,11 +270,10 @@ public class MainCtrl {
      * Function triggers the progressbar to start decreasing.
      */
     public void showQuestion() {
-        active = true;
-        if (singlePlayerModeActive)
-            activateSingleplayer();
-        else
-            activateMultiplayer();
+//        if (singlePlayerModeActive)
+//            activateSingleplayer();
+//        else
+//            activateMultiplayer();
         int value = (int) (Math.random() * 3);
         switch (value % 3) {
             case 0: {
@@ -340,89 +305,18 @@ public class MainCtrl {
     }
     // --- to move END
 
-    // TODO consider refactoring
-
-    /**
-     * Shows the waiting room and adds the player to the waiting room so other clients can be informed about this.
-     *
-     * @param player The player which is added to the waiting room.
-     */
-    public void enterWaitingRoom(Player player) {
-        this.player = player;
+    public void showWaitingRoom() {
         primaryStage.setTitle(Config.titleWaitingRoom);
+        waitingRoomCtrl.setUp();
         waitingRoomScene.getStylesheets().add(Config.styleSheet);
-        waitingRoomCtrl.setUp(player);
         primaryStage.setScene(waitingRoomScene);
-    }
-
-    // TODO consider refactoring
-
-    /**
-     * This is here for reentering a multi game to work without changing a lot of stuff.
-     * When we add a multiplayer controller going to remake it.
-     * Don't want to do it now not to mess up controllers for the future.
-     */
-    public void enterWaitingRoom() {
-        enterWaitingRoom(player);
     }
 
 
     // --- to move START
     // TODO consider refactoring
 
-    /**
-     * Triggers the progressbar to start going down, calls the appropriate function on depletion.
-     *
-     * @param pgBar     The progressbar being modified.
-     * @param totalTime The total time the progress bar should last.
-     * @param call      Indicates what function should be called next.
-     */
-    public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
-        if (!active) {
-            startTime = null;
-            return;
-        }
-        if (startTime == null) startTime = System.currentTimeMillis();
-        double delta = getDelta();
-        double progress = (totalTime - delta) / totalTime;
-        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
-        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
-        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
-        else pgBar.setStyle("-fx-accent: red");
-        if (delta < totalTime) {
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            // your code here
-                            activateGenericProgressBar(pgBar, totalTime, call);
-                        }
-                    },
-                    5
-            );
-        } else {
-            startTime = null;
-            if (active) {
-                if (call == 0) {
-                    Platform.runLater(this::showAnswerReveal);
-                } else if (call == 1 && currentQuestion < Config.totalQuestions) {
-                    comparisonQuestionCtrl.restoreAnswers();
-                    MCQuestionCtrl.restoreAnswers();
-                    if (singlePlayerModeActive) Platform.runLater(this::showQuestion);
-                    else Platform.runLater(this::showIntermediateLeaderboard);
-                } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
-                    restore();
-                    if (singlePlayerModeActive) {
-                        singlePlayerLeaderboardCtrl.addPlayer(player);
-                        player.setScore(0);
-                        Platform.runLater(this::showSPLeaderboard);
-                    } else Platform.runLater(this::showMPFinalLeaderboard);
-                } else if (call == 2) {
-                    Platform.runLater(this::showQuestion);
-                }
-            }
-        }
-    }
+
 
     public void refresh() {
         singlePlayerLeaderboardCtrl.refresh();
@@ -433,11 +327,17 @@ public class MainCtrl {
      * Should be called after a game is done.
      */
     public void restore() {
-        currentQuestion = 0;
         comparisonQuestionCtrl.restoreJokers();
         estimateQuestionCtrl.restoreJokers();
         MCQuestionCtrl.restoreJokers();
         comparisonQuestionCtrl.restoreAnswers();
+        estimateQuestionCtrl.restoreSubmit();
+        MCQuestionCtrl.restoreAnswers();
+    }
+
+    public void restoreQuestions() {
+        comparisonQuestionCtrl.restoreAnswers();
+        estimateQuestionCtrl.restoreSubmit();
         MCQuestionCtrl.restoreAnswers();
     }
 
@@ -466,14 +366,6 @@ public class MainCtrl {
         amountOfMessages++;
     }
 
-    /**
-     * Can be used to keep track of time that has passed since a certain point.
-     *
-     * @return Time passed since startTime variable in milliseconds.
-     */
-    public long getDelta() {
-        return System.currentTimeMillis() - startTime;
-    }
 
     // --- to move END
 
@@ -500,24 +392,6 @@ public class MainCtrl {
         new Thread(() -> intermediateLeaderboardCtrl.activateProgressBar()).start();
     }
 
-    // --- to move START
-
-    /**
-     * Updates the passed in labels to show the current question and score out of the total.
-     *
-     * @param question Label which contains the current question in format "Question X/Y".
-     * @param score    Label which contains the current score in format "Score X/Y".
-     * @param update   Indicates if question counter should be incremented, otherwise, if false it will just update
-     *                 the given label acoording to currentQuestion variable.
-     */
-    public void updateTracker(Label question, Label score, boolean update) {
-        if (update) {
-            currentQuestion++;
-        }
-        question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
-        score.setText("Score " + player.getScore() + "/" + currentQuestion * 200);
-    }
-    // --- to move END
 
     public void showInfo() {
         infoScreenCtrl.setHintExplainer();

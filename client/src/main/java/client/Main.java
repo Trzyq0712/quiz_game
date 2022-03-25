@@ -61,7 +61,7 @@ public class Main extends Application {
         var prompt =
                 FXML.load(NamePromptCtrl.class, "client", "scenes", "NamePrompt.fxml");
         var question =
-                FXML.load(ComparisonQuestionCtrl.class, "client", "scenes", "Question.fxml");
+                FXML.load(ComparisonQuestionCtrl.class, "client", "scenes", "ComparisonQuestion.fxml");
         var editActivity =
                 FXML.load(EditActivityCtrl.class, "client", "scenes", "EditActivity.fxml");
         var estimateQuestion =

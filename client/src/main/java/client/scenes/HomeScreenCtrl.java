@@ -1,20 +1,24 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
-import client.utils.ServerUtils;
+import client.utils.GameUtils;
 import com.google.inject.Inject;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 
 public class HomeScreenCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
+    private final GameUtils gameUtils;
+    private final NamePromptCtrl namePromptCtrl;
 
     @Inject
-    public HomeScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public HomeScreenCtrl(MainCtrl mainCtrl, ApplicationUtils utils,
+                          GameUtils gameUtils, NamePromptCtrl namePromptCtrl) {
         super(mainCtrl, utils);
-        this.server = server;
+        this.gameUtils = gameUtils;
+        this.namePromptCtrl = namePromptCtrl;
     }
 
     @FXML
@@ -29,10 +33,27 @@ public class HomeScreenCtrl extends BaseCtrl {
         mainCtrl.showExitScreen();
     }
 
+    /**
+     * Based on which button the player clicked, the player will get the nameprompt for single- or multiplayer.
+     *
+     * @param e The button on which the player has clicked to reach the nameprompt.
+     */
     @FXML
     private void showPrompt(Event e) {
         utils.playButtonSound();
-        mainCtrl.showNewPrompt(e);
+        gameUtils.resetGame();
+        String mode = ((Button) e.getSource()).getText();
+        if (mode.equals("Singleplayer")) {
+            gameUtils.setGameType(GameUtils.GameType.SinglePlayer);
+            namePromptCtrl.startButton.setPrefWidth(200);
+            namePromptCtrl.startButton.setText("Enter game");
+        } else {
+            gameUtils.setGameType(GameUtils.GameType.MultiPlayer);
+            namePromptCtrl.startButton.setPrefWidth(500);
+            namePromptCtrl.startButton.setText("Enter waiting room");
+        }
+        namePromptCtrl.setUp();
+        mainCtrl.showNamePromtScene();
     }
 
     @FXML

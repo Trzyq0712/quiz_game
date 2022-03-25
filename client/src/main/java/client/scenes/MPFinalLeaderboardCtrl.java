@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.Event;
@@ -12,24 +13,24 @@ import javafx.scene.layout.VBox;
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-
-
+    private final GameUtils gameUtils;
 
     @FXML
-    VBox chatbox;
+    public VBox chatbox;
     @FXML
-    StackPane chatAndEmoteHolder;
+    public StackPane chatAndEmoteHolder;
 
     @Inject
-    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(mainCtrl, utils);
         this.server = server;
+        this.gameUtils = gameUtils;
     }
 
     @FXML
     private void playAgain() {
         utils.playButtonSound();
-        mainCtrl.enterWaitingRoom();
+        mainCtrl.showNamePromtScene();
     }
 
     @FXML

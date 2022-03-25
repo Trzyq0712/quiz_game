@@ -50,6 +50,11 @@
                 <ColorAdjust />
             </effect>
         </ProgressBar>
+        <ImageView id="hintJoker" fx:id="hintJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="300.0"  pickOnBounds="true" preserveRatio="true" styleClass="clickable" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="1700.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="300.0">
+            <image>
+                <Image url="@/images/hint.png" />
+            </image>
+        </ImageView>
         <ImageView id="pointsJoker" fx:id="pointsJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="500.0" onKeyPressed="#pointsClick" onMouseClicked="#pointsClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
             <image>
                 <Image url="@/images/2xpoints.png" />

@@ -1,15 +1,16 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import commons.Answer;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -19,25 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static client.Config.timePerQuestion;
 
-public class ComparisonQuestionCtrl extends BaseCtrl {
+public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
 
-    private final ServerUtils server;
-
-    @FXML
-    ImageView hintJoker;
-    @FXML
-    ImageView pointsJoker;
-    @FXML
-    ImageView timeJoker;
-
-    @FXML
-    Button firstButton;
-    @FXML
-    Button secondButton;
-    @FXML
-    Button thirdButton;
 
     @FXML
     Label ActivityDescription1;
@@ -54,29 +39,17 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
     ImageView questionImage3;
 
     @FXML
-    ProgressBar pgBar;
-
-    @FXML
-    Label questionTracker;
-
-    @FXML
-    Label scoreLabel;
-
-    @FXML
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
 
     //Long startTime;
-    int amountOfMessages = 0;
 
     private  List<Activity> activities;
-    private int answerButtonId;
 
     @Inject
-    public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+    public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+        super(server, mainCtrl, utils, gameUtils);
 
     }
 
@@ -84,24 +57,6 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
         return activities;
     }
 
-    public void showHome() {
-        mainCtrl.showHome();
-        restoreAnswers();
-        restoreJokers();
-        utils.playButtonSound();
-    }
-
-    public void restoreAnswers() {
-        firstButton.setVisible(true);
-        secondButton.setVisible(true);
-        thirdButton.setVisible(true);
-    }
-
-    public void restoreJokers() {
-        hintJoker.setVisible(true);
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
-    }
 
     /**
      * hides all buttons except for the one that was clicked
@@ -109,7 +64,7 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
      */
     public void answerClick(Event event) {
         utils.playButtonSound();
-        long timeToAnswer = mainCtrl.getDelta();
+        long timeToAnswer = gameUtils.stopTimer();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         long i = 0;
@@ -125,60 +80,7 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
         grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
-    /**
-     * @param answer - answer the player submitted
-     */
-    public void grantPoints(Answer answer){
-        int earnedPoints = 0;
-        if(answer.getAnswer() == answerButtonId)
-            earnedPoints = answer.getPoints();
-        mainCtrl.getPlayer().addPoints(earnedPoints);
-        mainCtrl.setAnswersForAnswerReveal(earnedPoints,false);
-    }
 
-    public void hintClick() {
-        utils.playButtonSound();
-        hintJoker.setVisible(false);
-        String falseAnswer = server.activateHint();
-        switch (falseAnswer) {
-            case "a":
-                firstButton.setVisible(false);
-                break;
-            case "b":
-                secondButton.setVisible(false);
-                break;
-            case "c":
-                thirdButton.setVisible(false);
-                break;
-        }
-    }
-
-    public void pointsClick() {
-        utils.playButtonSound();
-        pointsJoker.setVisible(false);
-    }
-
-    public void timeClick() {
-        utils.playButtonSound();
-        timeJoker.setVisible(false);
-    }
-
-    /**
-     * triggers the progressbar of this scene when called, 0 indicates what to do when the bar depletes
-     * see activateGenericProgressBar in mainCtrl for more info
-     */
-    public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
-    }
-
-    public void updateTracker() {
-        mainCtrl.updateTracker(questionTracker, scoreLabel, true);
-    }
-
-    public void emote(Event e){
-        utils.playButtonSound();
-        mainCtrl.emote(e);
-    }
 
     /**
      * gets 3 activities from the server, calculates the correct answer and displays the activities
@@ -193,12 +95,14 @@ public class ComparisonQuestionCtrl extends BaseCtrl {
     }
 
     private void displayActivities() {
-        ActivityDescription1.setText(activities.get(0).getDescription());
-        ActivityDescription2.setText(activities.get(1).getDescription());
-        ActivityDescription3.setText(activities.get(2).getDescription());
-        questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
-        questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
-        questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
+        Platform.runLater(() -> {
+            ActivityDescription1.setText(activities.get(0).getDescription());
+            ActivityDescription2.setText(activities.get(1).getDescription());
+            ActivityDescription3.setText(activities.get(2).getDescription());
+            questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
+            questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
+            questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
+        });
         mainCtrl.setAnswersForAnswerReveal(activities,answerButtonId);
     }
 

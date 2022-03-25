@@ -3,6 +3,8 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class PlayerTest {
 
     public Player ps1;
@@ -13,7 +15,7 @@ class PlayerTest {
     void init() {
         ps1 = new Player("John", 2137);
         ps2 = new Player("Joanna", 3214);
-        ps3 = new Player(0, "Johnny", 5555);
+        ps3 = new Player("Johnny", 5555);
     }
 
     @Test
@@ -23,22 +25,15 @@ class PlayerTest {
         assertEquals(123, ps.getScore());
     }
 
-    @Test
-    void test2ndConstructor() {
-        var ps = new Player(1,"Josh", 123);
-        assertEquals(1,ps.getRank());
-        assertEquals("Josh", ps.getPlayerName());
-        assertEquals(123, ps.getScore());
-    }
 
     @Test
     void testEquals() {
         assertNotEquals(ps1, ps2);
         assertEquals(ps1, ps1);
         assertEquals(ps2, ps2);
-        Player p = new Player(0, "Johnny", 5555);
-        assertEquals(p,ps3);
-        assertNotEquals(ps2,ps3);
+        Player p = new Player("Johnny", 5555);
+        assertEquals(p, ps3);
+        assertNotEquals(ps2, ps3);
     }
 
     @Test

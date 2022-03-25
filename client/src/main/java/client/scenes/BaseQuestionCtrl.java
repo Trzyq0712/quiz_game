@@ -73,7 +73,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * see activateGenericProgressBar in mainCtrl for more info
      */
     public void activateProgressBar() {
-        gameUtils.runProgressBarWithCallback(pgBar, Config.timePerQuestion, mainCtrl::showAnswerReveal);
+        utils.runProgressBar(pgBar, Config.timePerQuestion, mainCtrl::showAnswerReveal);
     }
 
     /**
@@ -102,7 +102,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
-        gameUtils.cancelProgressBar();
         mainCtrl.showHome();
         restoreAnswers();
         restoreJokers();

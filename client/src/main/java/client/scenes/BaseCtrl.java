@@ -28,6 +28,7 @@ public abstract class BaseCtrl implements Initializable {
     @FXML
     public void showHome() {
         utils.playButtonSound();
+        utils.cancelProgressBar();
         mainCtrl.showHome();
     }
 

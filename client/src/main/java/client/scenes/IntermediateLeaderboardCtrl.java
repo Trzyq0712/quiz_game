@@ -41,7 +41,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     }
 
     public void activateProgressBar() {
-        gameUtils.runProgressBarWithCallback(pgBarIntermediate, Config.timeForIntermediate,
+        utils.runProgressBar(pgBarIntermediate, Config.timeForIntermediate,
                 () -> Platform.runLater(mainCtrl::showQuestion));
     }
 

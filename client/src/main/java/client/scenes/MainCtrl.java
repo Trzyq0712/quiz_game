@@ -281,7 +281,7 @@ public class MainCtrl {
                 comparisonQuestionCtrl.updateTracker();
                 comparisonQuestionCtrl.generateActivity();
                 primaryStage.setScene(questionScreenScene);
-                new Thread(() -> comparisonQuestionCtrl.activateProgressBar()).start();
+                comparisonQuestionCtrl.activateProgressBar();
                 break;
             }
             case 1: {
@@ -289,7 +289,7 @@ public class MainCtrl {
                 estimateQuestionCtrl.updateTracker();
                 estimateQuestionCtrl.generateActivity();
                 primaryStage.setScene(estimateQuestionScene);
-                new Thread(() -> estimateQuestionCtrl.activateProgressBar()).start();
+                estimateQuestionCtrl.activateProgressBar();
                 break;
             }
             case 2: {
@@ -297,7 +297,7 @@ public class MainCtrl {
                 MCQuestionCtrl.updateTracker();
                 MCQuestionCtrl.generateActivity();
                 primaryStage.setScene(MCQuestionScene);
-                new Thread(() -> MCQuestionCtrl.activateProgressBar()).start();
+                MCQuestionCtrl.activateProgressBar();
                 break;
             }
         }

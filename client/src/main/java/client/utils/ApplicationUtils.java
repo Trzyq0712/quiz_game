@@ -1,15 +1,20 @@
 package client.utils;
 
 import client.Config;
+import javafx.application.Platform;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -23,9 +28,51 @@ public class ApplicationUtils {
     private final List<ImageView> musicToggles = new ArrayList<>();
     private final AudioClip buttonClickSound = new AudioClip(Config.buttonClickSound);
 
+    private Timer timer;
+
+
     public ApplicationUtils() {
         musicPlayer.play();
         musicPlayer.setOnEndOfMedia(() -> musicPlayer.seek(Duration.ZERO));
+    }
+
+    public void runProgressBar(ProgressBar progressBar, long runTime, Runnable callback) {
+        List<Pair<Double, String>> updates = List.of(
+                new Pair<>(0.0, "green"), new Pair<>(0.5, "orange"), new Pair<>(0.75, "red"));
+
+        progressBar.setProgress(1.0);
+        timer = new Timer();
+        int steps = 200;
+
+        for (var update : updates) {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> progressBar.setStyle("-fx-accent: " + update.getValue()));
+                }
+            }, (long)(update.getKey() * runTime));
+        }
+
+        TimerTask updateProgressBar = new TimerTask() {
+            @Override
+            public void run() {
+                double progress = progressBar.getProgress();
+                Platform.runLater(() -> progressBar.setProgress(progress - 1.0 / (double)steps));
+            }
+        };
+
+        timer.schedule(updateProgressBar, 20, runTime / steps);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                timer.cancel();
+                Platform.runLater(callback::run);
+            }
+        }, runTime);
+    }
+
+    public void cancelProgressBar() {
+        if (timer != null) timer.cancel();
     }
 
     /**

@@ -76,7 +76,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
      * starts the countdown of the progressbar for the answer reveal
      */
     public void activateProgressBar() {
-        gameUtils.runProgressBarWithCallback(pgBarReveal, timeAnswerReveal, () -> {
+        utils.runProgressBar(pgBarReveal, timeAnswerReveal, () -> {
             if (gameUtils.getCurrentQuestion() < Config.totalQuestions) {
                 mainCtrl.restoreQuestions();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer))

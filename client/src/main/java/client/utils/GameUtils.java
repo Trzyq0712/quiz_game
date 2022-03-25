@@ -2,64 +2,18 @@ package client.utils;
 
 import client.Config;
 import commons.Player;
-import javafx.application.Platform;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.util.Pair;
-
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class GameUtils {
     private Player player;
     private int currentQuestion;
-    private Timer timer;
     private GameType gameType;
     private Long currentTimeMillis;
 
     public void resetGame() {
         player = null;
         currentQuestion = 0;
-        cancelProgressBar();
         gameType = null;
-    }
-
-    public void runProgressBarWithCallback(ProgressBar progressBar, long runTime, Runnable callback) {
-        Platform.runLater(() -> progressBar.setProgress(1.0));
-        timer = new Timer();
-        int steps = 200;
-        TimerTask updateProgressBar = new TimerTask() {
-            @Override
-            public void run() {
-                double progress = progressBar.getProgress();
-                if (progress < 0)
-                    System.out.println(progress);
-                Platform.runLater(() -> progressBar.setProgress(progress - 1.0 / (double)steps));
-            }
-        };
-        List<Pair<Double, String>> updates = List.of(
-                new Pair<>(0.0, "green"), new Pair<>(0.5, "orange"), new Pair<>(0.75, "red"));
-        for (var update : updates) {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> progressBar.setStyle("-fx-accent: " + update.getValue()));
-                }
-            }, (long)(update.getKey() * runTime));
-        }
-        timer.schedule(updateProgressBar, 20, runTime / steps);
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                timer.cancel();
-                Platform.runLater(callback::run);
-            }
-        }, runTime);
-    }
-
-    public void cancelProgressBar() {
-        if (timer != null) timer.cancel();
     }
 
     public void startTimer() {

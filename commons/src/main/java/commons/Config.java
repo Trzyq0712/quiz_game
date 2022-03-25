@@ -16,7 +16,7 @@ public class Config {
     public static int timeReductionPercentage = 20; //percentage by which opponents time will decrease if the time
     //joker is played
     public static String edit = "Edit activities";
-    public static int maxChatMessages = 6;//maximum amount of chatmessages that can be in the chat at once
+    public static int maxChatMessages = 5;//maximum amount of chatmessages that can be in the chat at once
     public static String serverImagePath = "server\\src\\main\\resources\\static\\activity\\newActivities\\";
     public static int maxCharsUsername = 20; //maximum amount of characters a name can contain
     public static String port = "8080"; //port for server and client

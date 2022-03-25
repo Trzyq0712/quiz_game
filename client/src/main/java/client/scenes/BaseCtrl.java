@@ -26,6 +26,7 @@ public abstract class BaseCtrl implements Initializable {
     }
 
     public void showHome() {
+        mainCtrl.getSubscription().unsubscribe();
         mainCtrl.showHome();
     }
 

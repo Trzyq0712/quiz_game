@@ -37,6 +37,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.Arrays;
 import java.util.List;
@@ -475,7 +476,8 @@ public class MainCtrl  {
 
     /**
      * Updates all the chatboxes to display the emoji that has been clicked.
-     * @param e The emote that has been clicked.
+     * @param path - The path of the clicked emoji image
+     * @param name - The name of the player
      */
 
     public void emote(String path, String name) {
@@ -620,4 +622,7 @@ public class MainCtrl  {
         answerRevealCtrl.setAnswer(points,bool);
     }
 
+    public StompSession.Subscription getSubscription() {
+        return waitingCtrl.getSubscription();
+    }
 }

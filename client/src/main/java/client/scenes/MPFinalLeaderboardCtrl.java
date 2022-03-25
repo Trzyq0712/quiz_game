@@ -10,13 +10,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-
-
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
     private final ServerUtils server;
-
-
 
     @FXML
     VBox chatbox;
@@ -30,6 +26,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     }
 
     public void playAgain() {
+        server.unsubscribe(mainCtrl.getSubscription());
         mainCtrl.enterWaitingRoom();
     }
 

@@ -102,7 +102,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
                     mainCtrl.buttonSound();
                 });
                 restoreChat();
-                waitingroom.unsubscribe();
+                server.unsubscribe(waitingroom);
             }
         });
     }
@@ -132,5 +132,9 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     public void leaveWaitingroom(Player player){
         server.leaveWaitingroom(player);
+    }
+
+    public StompSession.Subscription getSubscription(){
+        return emotes;
     }
 }

@@ -232,4 +232,8 @@ public class ServerUtils {
     public void send(String dest, Object o){
         session.send(dest, o);
     }
+
+    public void unsubscribe(StompSession.Subscription subscription){
+        subscription.unsubscribe();
+    }
 }

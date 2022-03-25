@@ -14,8 +14,8 @@ public class WebsocketsController {
         return b;
     }
 
-    @MessageMapping("/emote/1") // /app/emote/1
-    @SendTo("/topic/emote/1")
+    @MessageMapping("/emote/{id}") // /app/emote/id
+    @SendTo("/topic/emote/{id}")
     public Emote emote(Emote e){
         return e;
     }

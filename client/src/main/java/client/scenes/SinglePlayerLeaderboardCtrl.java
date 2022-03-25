@@ -17,7 +17,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
-    private final ServerUtils server;
 
     private ObservableList<PlayerScore> data;
 
@@ -37,8 +36,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
 
     @Inject
     public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     @Override

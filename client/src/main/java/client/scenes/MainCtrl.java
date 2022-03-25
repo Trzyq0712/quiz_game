@@ -508,15 +508,16 @@ public class MainCtrl  {
 
     /**
      * Updates all the chatboxes to display the emoji that has been clicked.
-     * @param e The emote that has been clicked.
+     * @param path - The path of the clicked emoji image
+     * @param name - The name of the player
      */
 
-    public void emote(Event e) {
+    public void emote(String path, String name) {
         for (VBox c : listOfChatBoxes) {
             Platform.runLater(() -> {
                 HBox hbox = new HBox();
-                Image arg = ((ImageView) e.getSource()).getImage();
-                Label user = new Label(" " + playerScore.getPlayerName() + ":  ");
+                Image arg = new Image(path);
+                Label user = new Label(name + ":  ");
                 ImageView emote = new ImageView(arg);
                 emote.setFitHeight(50);
                 emote.setFitWidth(50);

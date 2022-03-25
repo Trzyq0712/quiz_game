@@ -9,12 +9,9 @@ import javafx.fxml.FXML;
 
 public class HomeScreenCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
-
     @Inject
     public HomeScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     @FXML

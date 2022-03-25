@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import commons.Answer;
+import commons.Emote;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,12 +44,10 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     protected boolean hasPlayerAnswered;
 
-    protected final ServerUtils server;
 
 
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     public void setHasPlayerAnswered(boolean bool){
@@ -115,6 +114,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
+        server.disconnect();
         mainCtrl.showHome();
         restoreAnswers();
         restoreJokers();
@@ -146,11 +146,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     /**
      * Adds the emote to the chatbox
-     *
      * @param e - emote
      */
     public void emote(Event e) {
-        mainCtrl.emote(e);
+        String path = ((ImageView)e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+        server.send("/app/emote/1", emote);
     }
 
     /**

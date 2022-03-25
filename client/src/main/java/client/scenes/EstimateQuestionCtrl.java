@@ -45,7 +45,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     }
 
 
-
     public void generateActivity() {
         activity = server.getActivity();
         displayActivity();
@@ -62,7 +61,12 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         int earnedPoints = 0;
         setHasPlayerAnswered(true);
         try {
-            long guess = Integer.parseInt(textField.getText());
+            String number = textField.getText();
+            if (number.contains(" ")) {
+                errorLabel.setText("No whitespaces allowed!");
+                errorLabel.setVisible(true);
+            }
+            long guess = Long.parseLong(number);
             long correctAnswer = activity.getEnergyConsumption();
             if (guess == correctAnswer) {
                 earnedPoints = 200;
@@ -85,12 +89,12 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
                     && guess <= correctAnswer + (0.7 * correctAnswer)) {
                 earnedPoints = 50;
             }
-            if(doublePoints)
-                earnedPoints*=2;
+            if (doublePoints)
+                earnedPoints *= 2;
             submit.setDisable(true);
             mainCtrl.getPlayerScore().addPoints(earnedPoints);
             mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
             mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);

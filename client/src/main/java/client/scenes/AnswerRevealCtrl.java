@@ -4,6 +4,7 @@ import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
+import commons.Emote;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -85,7 +86,9 @@ public class AnswerRevealCtrl extends BaseCtrl {
     }
 
     public void emote(Event e){
-        server.send("/app/emote/1", mainCtrl.getPlayerScore().getPlayerName());
+        String path = ((ImageView)e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+        server.send("/app/emote/1", emote);
     }
 
     /**

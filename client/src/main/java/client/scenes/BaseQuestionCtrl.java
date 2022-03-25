@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import commons.Answer;
+import commons.Emote;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -130,7 +131,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * @param e - emote
      */
     public void emote(Event e) {
-        server.send("/app/emote/1", mainCtrl.getPlayerScore().getPlayerName());
+        String path = ((ImageView)e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+        server.send("/app/emote/1", emote);
     }
 
     /**

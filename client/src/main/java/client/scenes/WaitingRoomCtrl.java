@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+import commons.Emote;
 import commons.Player;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
@@ -22,6 +23,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
     private final ServerUtils server;
 
     public StompSession.Subscription waitingroom;
+    public StompSession.Subscription emotes;
 
     @FXML
     private GridPane playerGrid;
@@ -40,10 +42,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
     @FXML
     private void startGame() {
         server.send("/app/waitingroom/start",true);
-        server.registerForMessages("/topic/emote/1", String.class, e -> {
-            System.out.println(e);
-        });
-
     }
 
     /**
@@ -91,6 +89,10 @@ public class WaitingRoomCtrl extends BaseCtrl {
         });
         pollingThread.start();
 
+        emotes = server.registerForMessages("/topic/emote/1", Emote.class,e -> {
+            mainCtrl.emote(e.getPath(),e.getName());
+        } );
+
         waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
             if(b) {
                 threadRun = false;
@@ -103,7 +105,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
                 waitingroom.unsubscribe();
             }
         });
-
     }
 
     /**

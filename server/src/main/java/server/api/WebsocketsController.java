@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Emote;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WebsocketsController {
 
-    @MessageMapping("/waitingroom/start") // app/waitingroom/start
+    @MessageMapping("/waitingroom/start") // /app/waitingroom/start
     @SendTo("/topic/waitingroom/start")
     public Boolean startGame(Boolean b){
         return b;
     }
 
-    @MessageMapping("/emote/1") // app/emote/start
+    @MessageMapping("/emote/1") // /app/emote/1
     @SendTo("/topic/emote/1")
-    public String emote(String s){
-        return s;
+    public Emote emote(Emote e){
+        return e;
     }
 }

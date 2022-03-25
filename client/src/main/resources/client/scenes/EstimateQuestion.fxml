@@ -45,7 +45,7 @@
                 <Font name="Showcard Gothic" size="64.0" />
             </font>
         </Label>
-        <ProgressBar id="timeBar" fx:id="pgBar" layoutX="360.0" layoutY="90.0" prefHeight="30.0" prefWidth="1200.0" progress="0.78">
+        <ProgressBar id="timeBar" fx:id="pgBar" layoutX="360.0" layoutY="90.0" prefHeight="30.0" prefWidth="1200.0" progress="1.0">
             <effect>
                 <ColorAdjust />
             </effect>

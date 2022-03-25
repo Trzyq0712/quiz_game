@@ -26,13 +26,15 @@ public class GameUtils {
     }
 
     public void runProgressBarWithCallback(ProgressBar progressBar, long runTime, Runnable callback) {
+        Platform.runLater(() -> progressBar.setProgress(1.0));
         timer = new Timer();
         int steps = 200;
         TimerTask updateProgressBar = new TimerTask() {
             @Override
             public void run() {
                 double progress = progressBar.getProgress();
-                System.out.println(progress);
+                if (progress < 0)
+                    System.out.println(progress);
                 Platform.runLater(() -> progressBar.setProgress(progress - 1.0 / (double)steps));
             }
         };
@@ -42,16 +44,16 @@ public class GameUtils {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    progressBar.setStyle("-fx-accent: " + update.getValue());
+                    Platform.runLater(() -> progressBar.setStyle("-fx-accent: " + update.getValue()));
                 }
             }, (long)(update.getKey() * runTime));
         }
-        timer.schedule(updateProgressBar, 0, runTime / steps);
+        timer.schedule(updateProgressBar, 20, runTime / steps);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(callback::run);
                 timer.cancel();
+                Platform.runLater(callback::run);
             }
         }, runTime);
     }

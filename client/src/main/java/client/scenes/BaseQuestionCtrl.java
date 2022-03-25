@@ -102,6 +102,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
+        gameUtils.cancelProgressBar();
         mainCtrl.showHome();
         restoreAnswers();
         restoreJokers();

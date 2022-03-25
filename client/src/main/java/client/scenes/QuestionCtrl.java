@@ -78,32 +78,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
         grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
-    /**
-     * @param answer - answer the player submitted
-     */
-    public void grantPoints(Answer answer){
-        int earnedPoints = 0;
-        if(answer.getAnswer() == answerButtonId) earnedPoints = answer.getPoints();
-        mainCtrl.getPlayerScore().addPoints(earnedPoints);
-        mainCtrl.setAnswersforAnswerReveal(earnedPoints,false);
-    }
-
-    public void hintClick() {
-        mainCtrl.buttonSound();
-        hintJoker.setVisible(false);
-        String falseAnswer = server.activateHint();
-        switch (falseAnswer) {
-            case "a":
-                firstButton.setVisible(false);
-                break;
-            case "b":
-                secondButton.setVisible(false);
-                break;
-            case "c":
-                thirdButton.setVisible(false);
-                break;
-        }
-    }
 
     public void pointsClick() {
         mainCtrl.buttonSound();

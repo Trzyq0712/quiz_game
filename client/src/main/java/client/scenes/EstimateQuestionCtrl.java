@@ -93,36 +93,21 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
             if (doublePoints)
                 earnedPoints *= 2;
             submit.setDisable(true);
-<<<<<<< HEAD
-            gameUtils.getPlayer().addPoints(points);
-            mainCtrl.setAnswersForAnswerReveal(points, true);
+            gameUtils.getPlayer().addPoints(earnedPoints);
+            mainCtrl.setAnswersForAnswerReveal(earnedPoints, true);
         } catch (Exception e) {
             errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
-            mainCtrl.setAnswersForAnswerReveal(points, true);
-=======
-            mainCtrl.getPlayerScore().addPoints(earnedPoints);
-            mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);
-        } catch (NumberFormatException e) {
-            errorLabel.setText("Please type a number");
-            errorLabel.setVisible(true);
-            mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);
->>>>>>> dev
+            mainCtrl.setAnswersForAnswerReveal(earnedPoints, true);
         }
     }
 
 
     public void restoreSubmit() {
-<<<<<<< HEAD
-//        submit.setDisable(false);
-        textField.setText("");
-//        errorLabel.setVisible(false);
-=======
         submit.setDisable(false);
         setHasPlayerAnswered(false);
         textField.setText("");
         errorLabel.setVisible(false);
         setDoublePoints(false);
->>>>>>> dev
     }
 }

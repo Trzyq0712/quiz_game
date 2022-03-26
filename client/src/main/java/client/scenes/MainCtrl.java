@@ -18,7 +18,7 @@ package client.scenes;
 
 import client.Config;
 import commons.Activity;
-import javafx.event.Event;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,6 +37,12 @@ import java.util.List;
 
 public class MainCtrl {
 
+    /**
+     * Amount of messages currently displaying in the chat.
+     */
+    int amountOfMessages = 0;
+    List<VBox> listOfChatBoxes;
+    List<StackPane> listOfHolders;
     private Stage primaryStage;
     private Stage secondaryStage;
     private HomeScreenCtrl homeScreenCtrl;
@@ -64,18 +70,11 @@ public class MainCtrl {
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
     private MCQuestionCtrl MCQuestionCtrl;
+
+    // --------------------- to move START
     private Scene MCQuestionScene;
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
-
-    // --------------------- to move START
-
-    /**
-     * Amount of messages currently displaying in the chat.
-     */
-    int amountOfMessages = 0;
-    List<VBox> listOfChatBoxes;
-    List<StackPane> listOfHolders;
 
     // -------------------- to move END
 
@@ -208,42 +207,43 @@ public class MainCtrl {
         }
     }
 
-<<<<<<< HEAD
-=======
+
     /**
      * Hides or shows the points joker in all the question types
+     *
      * @param bool - true if we want to make them visible, false otherwise
      */
-    public void visibilityPointsJoker(Boolean bool){
+    public void visibilityPointsJoker(Boolean bool) {
         estimateQuestionCtrl.pointsJoker.setVisible(bool);
-        questionCtrl.pointsJoker.setVisible(bool);
+        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
         MCQuestionCtrl.pointsJoker.setVisible(bool);
     }
 
     /**
      * Hides or shows the points joker in all the question types
+     *
      * @param bool - true if we want to make them visible, false otherwise
      */
-    public void visibilityHintJoker(Boolean bool){
+    public void visibilityHintJoker(Boolean bool) {
         estimateQuestionCtrl.pointsJoker.setVisible(bool);
-        questionCtrl.pointsJoker.setVisible(bool);
+        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
         MCQuestionCtrl.pointsJoker.setVisible(bool);
     }
 
     /**
      * Hides or shows the points joker in all the question types
+     *
      * @param bool - true if we want to make them visible, false otherwise
      */
-    public void visibilityTimeJoker(Boolean bool){
+    public void visibilityTimeJoker(Boolean bool) {
         estimateQuestionCtrl.pointsJoker.setVisible(bool);
-        questionCtrl.pointsJoker.setVisible(bool);
+        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
         MCQuestionCtrl.pointsJoker.setVisible(bool);
     }
 
     /**
      * Produces the sound of a button when invoked, this function should be called when a button is clicked.
      */
->>>>>>> dev
 
     // --- to move END
 
@@ -349,68 +349,8 @@ public class MainCtrl {
     }
 
 
-<<<<<<< HEAD
     // --- to move START
     // TODO consider refactoring
-=======
-    /**
-     * Triggers the progressbar to start going down, calls the appropriate function on depletion.
-     * @param pgBar The progressbar being modified.
-     * @param totalTime The total time the progress bar should last.
-     * @param call Indicates what function should be called next.
-     */
-    public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
-        if (!active) {
-            startTime = null;
-            return;
-        }
-        if (startTime == null) startTime = System.currentTimeMillis();
-        double delta = getDelta();
-        double progress = (totalTime - delta) / totalTime;
-        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
-        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
-        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
-        else pgBar.setStyle("-fx-accent: red");
-        if (delta < totalTime) {
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            // your code here
-                            activateGenericProgressBar(pgBar, totalTime, call);
-                        }
-                    },
-                    5
-            );
-        } else {
-            startTime = null;
-            if (active) {
-                if (call == 0) {
-                    Platform.runLater(() -> showAnswerReveal());
-                } else if (call == 1 && currentQuestion < Config.totalQuestions) {
-                    estimateQuestionCtrl.restoreSubmit();
-                    questionCtrl.restoreAnswers();
-                    MCQuestionCtrl.restoreAnswers();
-                    if(!estimateQuestionCtrl.getHasPlayerAnswered()){
-                        setAnswersforAnswerReveal(0,true);
-                    }
-                    if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
-                    else Platform.runLater(() -> showIntermediateLeaderboard());
-                } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
-                    restore();
-                    if (singlePlayerModeActive) {
-                        splCtrl.addPlayer(getPlayerScore());
-                        getPlayerScore().setScore(0);
-                        Platform.runLater(() -> showSPLeaderboard());
-                    } else Platform.runLater(() -> showMPFinalLeaderboard());
-                } else if (call == 2) {
-                    Platform.runLater(() -> showQuestion());
-                }
-            }
-        }
-    }
->>>>>>> dev
-
 
 
     public void refresh() {
@@ -438,32 +378,13 @@ public class MainCtrl {
 
     /**
      * Updates all the chatboxes to display the emoji that has been clicked.
-<<<<<<< HEAD
      *
-     * @param e The emote that has been clicked.
-=======
      * @param path - The path of the clicked emoji image
      * @param name - The name of the player
->>>>>>> dev
      */
 
     public void emote(String path, String name) {
         for (VBox c : listOfChatBoxes) {
-<<<<<<< HEAD
-            HBox hbox = new HBox();
-            Image arg = ((ImageView) e.getSource()).getImage();
-            Label user = new Label(" user01:  ");
-            ImageView emote = new ImageView(arg);
-            emote.setFitHeight(50);
-            emote.setFitWidth(50);
-            hbox.getChildren().addAll(user, emote);
-            hbox.setAlignment(Pos.CENTER_LEFT);
-            if (amountOfMessages >= Config.maxChatMessages) {
-                c.getChildren().remove(0);
-            }
-            c.getChildren().add(hbox);
-            c.setSpacing(10);
-=======
             Platform.runLater(() -> {
                 HBox hbox = new HBox();
                 Image arg = new Image(path);
@@ -479,7 +400,6 @@ public class MainCtrl {
                 c.getChildren().add(hbox);
                 c.setSpacing(10);
             });
->>>>>>> dev
         }
         amountOfMessages++;
     }

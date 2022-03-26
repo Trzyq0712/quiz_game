@@ -19,14 +19,8 @@ public class InfoScreenCtrl extends BaseCtrl {
 
 
     @Inject
-<<<<<<< HEAD:client/src/main/java/client/scenes/InfoScreenCtrl.java
     public InfoScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
-=======
-    public InfoCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils, server);
->>>>>>> dev:client/src/main/java/client/scenes/InfoCtrl.java
     }
 
     public void setHintExplainer() {

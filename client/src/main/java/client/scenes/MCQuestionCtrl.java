@@ -81,14 +81,9 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
      * @param event button that was clicked, so either A, B or C
      */
     public void answerClick(Event event) {
-<<<<<<< HEAD
         utils.playButtonSound();
         long timeToAnswer = gameUtils.stopTimer();
-=======
         setHasPlayerAnswered(true);
-        mainCtrl.buttonSound();
-        long timeToAnswer = mainCtrl.getDelta();
->>>>>>> dev
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         long i = 0;

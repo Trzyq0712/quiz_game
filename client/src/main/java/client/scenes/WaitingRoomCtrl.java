@@ -20,43 +20,28 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
-
-<<<<<<< HEAD
     static Boolean threadRun;
-    private final ServerUtils server;
     private final GameUtils gameUtils;
-    Thread pollingThread;
-=======
     public StompSession.Subscription waitingroom;
-
->>>>>>> dev
+    Thread pollingThread;
     @FXML
     private GridPane playerGrid;
     private List<Player> playerList;
 
     @Inject
-<<<<<<< HEAD
     public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils);
-        this.server = server;
-        this.gameUtils = gameUtils;
-=======
-    public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils, server);
->>>>>>> dev
+        this.gameUtils = gameUtils;
     }
 
     @FXML
     private void startGame() {
-<<<<<<< HEAD
         threadRun = false;
         leaveWaitingRoom(gameUtils.getPlayer());
         mainCtrl.showQuestion();
         utils.playButtonSound();
         restoreChat();
-=======
-        server.send("/app/waitingroom/start",true);
->>>>>>> dev
+        server.send("/app/waitingroom/start", true);
     }
 
     /**
@@ -100,26 +85,22 @@ public class WaitingRoomCtrl extends BaseCtrl {
             }
         });
         pollingThread.start();
-<<<<<<< HEAD
-=======
+        server.registerForMessages("/topic/emote/1", Emote.class, e -> {
+            mainCtrl.emote(e.getPath(), e.getName());
+        });
 
-        server.registerForMessages("/topic/emote/1", Emote.class,e -> {
-            mainCtrl.emote(e.getPath(),e.getName());
-        } );
-
-        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
-            if(b) {
+        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b -> {
+            if (b) {
                 threadRun = false;
-                leaveWaitingroom(player);
-                Platform.runLater(()->{
+                leaveWaitingRoom(gameUtils.getPlayer());
+                Platform.runLater(() -> {
                     mainCtrl.showQuestion();
-                    mainCtrl.buttonSound();
+                    utils.playButtonSound();
                 });
                 restoreChat();
                 server.unsubscribe(waitingroom);
             }
         });
->>>>>>> dev
     }
 
     /**

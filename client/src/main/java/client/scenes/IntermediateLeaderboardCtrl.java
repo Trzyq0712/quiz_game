@@ -14,20 +14,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-<<<<<<< HEAD
 public class IntermediateLeaderboardCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
     private final GameUtils gameUtils;
 
-
-=======
-
-import static client.Config.*;
-
-public class IntermediateLeaderboardCtrl extends BaseCtrl {
-
->>>>>>> dev
     @FXML
     ProgressBar pgBarIntermediate;
 
@@ -42,16 +32,10 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     StackPane chatAndEmoteHolder;
 
     @Inject
-<<<<<<< HEAD
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl,
                                        ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils);
-        this.server = server;
-        this.gameUtils = gameUtils;
-=======
-    public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils, server);
->>>>>>> dev
+        this.gameUtils = gameUtils;
     }
 
     public void activateProgressBar() {
@@ -62,17 +46,12 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
         gameUtils.updateTracker(questionTracker, scoreLabel, false);
     }
 
-<<<<<<< HEAD
     @FXML
     private void emote(Event e) {
         utils.playButtonSound();
-        mainCtrl.emote(e);
-=======
-    public void emote(Event e){
         String path = ((ImageView)e.getSource()).getImage().getUrl();
-        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+        Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/1", emote);
->>>>>>> dev
     }
 
 }

@@ -6,15 +6,11 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 
 
-public class EditScreenCtrl
-        extends BaseCtrl {
-
-    private final ServerUtils server;
+public class EditScreenCtrl extends BaseCtrl {
 
     @Inject
     public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     @FXML

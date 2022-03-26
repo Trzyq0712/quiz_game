@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+import commons.Emote;
 import commons.Player;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
@@ -14,33 +15,48 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
 
+<<<<<<< HEAD
     static Boolean threadRun;
     private final ServerUtils server;
     private final GameUtils gameUtils;
     Thread pollingThread;
+=======
+    public StompSession.Subscription waitingroom;
+
+>>>>>>> dev
     @FXML
     private GridPane playerGrid;
     private List<Player> playerList;
 
     @Inject
+<<<<<<< HEAD
     public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(mainCtrl, utils);
         this.server = server;
         this.gameUtils = gameUtils;
+=======
+    public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils, server);
+>>>>>>> dev
     }
 
     @FXML
     private void startGame() {
+<<<<<<< HEAD
         threadRun = false;
         leaveWaitingRoom(gameUtils.getPlayer());
         mainCtrl.showQuestion();
         utils.playButtonSound();
         restoreChat();
+=======
+        server.send("/app/waitingroom/start",true);
+>>>>>>> dev
     }
 
     /**
@@ -84,6 +100,26 @@ public class WaitingRoomCtrl extends BaseCtrl {
             }
         });
         pollingThread.start();
+<<<<<<< HEAD
+=======
+
+        server.registerForMessages("/topic/emote/1", Emote.class,e -> {
+            mainCtrl.emote(e.getPath(),e.getName());
+        } );
+
+        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
+            if(b) {
+                threadRun = false;
+                leaveWaitingroom(player);
+                Platform.runLater(()->{
+                    mainCtrl.showQuestion();
+                    mainCtrl.buttonSound();
+                });
+                restoreChat();
+                server.unsubscribe(waitingroom);
+            }
+        });
+>>>>>>> dev
     }
 
     /**

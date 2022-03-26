@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 
 public class HomeScreenCtrl extends BaseCtrl {
 
+<<<<<<< HEAD
     private final GameUtils gameUtils;
     private final NamePromptCtrl namePromptCtrl;
 
@@ -19,6 +20,11 @@ public class HomeScreenCtrl extends BaseCtrl {
         super(mainCtrl, utils);
         this.gameUtils = gameUtils;
         this.namePromptCtrl = namePromptCtrl;
+=======
+    @Inject
+    public HomeScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils, server);
+>>>>>>> dev
     }
 
     @FXML

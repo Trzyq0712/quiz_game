@@ -15,20 +15,28 @@ import static client.Config.maxCharsUsername;
 
 public class NamePromptCtrl extends BaseCtrl {
 
+<<<<<<< HEAD:client/src/main/java/client/scenes/NamePromptCtrl.java
     private final ServerUtils server;
     private final GameUtils gameUtils;
     @FXML
     public Button startButton;
+=======
+>>>>>>> dev:client/src/main/java/client/scenes/PromptCtrl.java
     @FXML
     private TextField nameField;
     @FXML
     private Label errorLabel;
 
     @Inject
+<<<<<<< HEAD:client/src/main/java/client/scenes/NamePromptCtrl.java
     public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(mainCtrl, utils);
         this.server = server;
         this.gameUtils = gameUtils;
+=======
+    public PromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils, server);
+>>>>>>> dev:client/src/main/java/client/scenes/PromptCtrl.java
     }
 
     /**

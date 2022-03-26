@@ -39,6 +39,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     @FXML
     private Label errorLabel;
 
+
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(server, mainCtrl, utils, gameUtils);
@@ -48,6 +49,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     public void generateActivity() {
         activity = server.getActivity();
         displayActivity();
+        setHasPlayerAnswered(false);
     }
 
     private void displayActivity() {
@@ -57,45 +59,70 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     }
 
     public void submitGuess() {
-        int points = 0;
+        int earnedPoints = 0;
+        setHasPlayerAnswered(true);
         try {
-            long guess = Integer.parseInt(textField.getText());
+            String number = textField.getText();
+            if (number.contains(" ")) {
+                errorLabel.setText("No whitespaces allowed!");
+                errorLabel.setVisible(true);
+            }
+            long guess = Long.parseLong(number);
             long correctAnswer = activity.getEnergyConsumption();
             if (guess == correctAnswer) {
-                points = 200;
+                earnedPoints = 200;
             } else if (correctAnswer - (0.1 * correctAnswer) <= guess
                     && guess <= correctAnswer + (0.1 * correctAnswer)) {
-                points = 180;
+                earnedPoints = 180;
             } else if (correctAnswer - (0.2 * correctAnswer) <= guess
                     && guess <= correctAnswer + (0.2 * correctAnswer)) {
-                points = 160;
+                earnedPoints = 160;
             } else if (correctAnswer - (0.3 * correctAnswer) <= guess
                     && guess <= correctAnswer + (0.3 * correctAnswer)) {
-                points = 140;
+                earnedPoints = 140;
             } else if (correctAnswer - (0.4 * correctAnswer) <= guess
                     && guess <= correctAnswer + (0.4 * correctAnswer)) {
-                points = 120;
+                earnedPoints = 120;
             } else if (correctAnswer - (0.5 * correctAnswer) <= guess
                     && guess <= correctAnswer + (0.5 * correctAnswer)) {
-                points = 100;
+                earnedPoints = 100;
             } else if (correctAnswer - (0.7 * correctAnswer) <= guess
                     && guess <= correctAnswer + (0.7 * correctAnswer)) {
-                points = 50;
+                earnedPoints = 50;
             }
+            if (doublePoints)
+                earnedPoints *= 2;
             submit.setDisable(true);
+<<<<<<< HEAD
             gameUtils.getPlayer().addPoints(points);
             mainCtrl.setAnswersForAnswerReveal(points, true);
         } catch (Exception e) {
             errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
             mainCtrl.setAnswersForAnswerReveal(points, true);
+=======
+            mainCtrl.getPlayerScore().addPoints(earnedPoints);
+            mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Please type a number");
+            errorLabel.setVisible(true);
+            mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);
+>>>>>>> dev
         }
     }
 
 
     public void restoreSubmit() {
+<<<<<<< HEAD
 //        submit.setDisable(false);
         textField.setText("");
 //        errorLabel.setVisible(false);
+=======
+        submit.setDisable(false);
+        setHasPlayerAnswered(false);
+        textField.setText("");
+        errorLabel.setVisible(false);
+        setDoublePoints(false);
+>>>>>>> dev
     }
 }

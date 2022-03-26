@@ -2,6 +2,7 @@ package client.scenes;
 
 
 import client.utils.ApplicationUtils;
+import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -16,19 +17,22 @@ public abstract class BaseCtrl implements Initializable {
 
     protected final MainCtrl mainCtrl;
     protected final ApplicationUtils utils;
+    protected final ServerUtils server;
 
     @FXML
     protected ImageView music;
 
-    public BaseCtrl(MainCtrl mainCtrl, ApplicationUtils utils) {
+    public BaseCtrl(MainCtrl mainCtrl, ApplicationUtils utils, ServerUtils server) {
         this.mainCtrl = mainCtrl;
         this.utils = utils;
+        this.server = server;
     }
 
     @FXML
     public void showHome() {
         utils.playButtonSound();
         utils.cancelProgressBar();
+        server.disconnect();
         mainCtrl.showHome();
     }
 

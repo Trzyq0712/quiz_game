@@ -5,7 +5,7 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
 import javafx.fxml.FXML;
-//import javafx.scene.control.Button;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -34,10 +34,10 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     StackPane chatAndEmoteHolder;
     @FXML
     TextField textField;
-//    @FXML
-//    Button submit;
-//    @FXML
-//    private Label errorLabel;
+    @FXML
+    Button submit;
+    @FXML
+    private Label errorLabel;
 
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
@@ -82,12 +82,12 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
                     && guess <= correctAnswer + (0.7 * correctAnswer)) {
                 points = 50;
             }
-//            submit.setDisable(true);
+            submit.setDisable(true);
             gameUtils.getPlayer().addPoints(points);
             mainCtrl.setAnswersForAnswerReveal(points, true);
         } catch (Exception e) {
-//            errorLabel.setText("Please type a number");
-//            errorLabel.setVisible(true);
+            errorLabel.setText("Please type a number");
+            errorLabel.setVisible(true);
             mainCtrl.setAnswersForAnswerReveal(points, true);
         }
     }

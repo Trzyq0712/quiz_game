@@ -475,8 +475,13 @@ public class MainCtrl  {
                     if(!estimateQuestionCtrl.getHasPlayerAnswered()){
                         setAnswersforAnswerReveal(0,true);
                     }
-                    if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
-                    else Platform.runLater(() -> showIntermediateLeaderboard());
+                    if (singlePlayerModeActive) {
+                        Platform.runLater(() -> {
+                            answerRevealCtrl.pointsGrantedEstimate.setText("You got " + 0 + " points!");
+                            answerRevealCtrl.pointsGrantedMC.setText("You got " + 0 + " points!");
+                            showQuestion();
+                        });
+                    } else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
                     restore();
                     if (singlePlayerModeActive) {

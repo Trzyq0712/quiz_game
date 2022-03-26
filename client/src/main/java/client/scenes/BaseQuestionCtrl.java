@@ -158,9 +158,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     private void pointsClick() {
         mainCtrl.buttonSound();
         mainCtrl.visibilityPointsJoker(false);
-        if (hasPlayerAnswered) mainCtrl.getPlayerScore().addPoints(lastScoredPoints);
-        else doublePointsActive = true;
+        if (hasPlayerAnswered) {
+            mainCtrl.getPlayerScore().addPoints(lastScoredPoints);
+            mainCtrl.setAnswersforAnswerReveal(lastScoredPoints*2, false);
+        } else doublePointsActive = true;
         utils.addNotification("2x points activated", "green");
+
     }
 
     /**

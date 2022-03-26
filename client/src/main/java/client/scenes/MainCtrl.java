@@ -16,7 +16,6 @@
 package client.scenes;
 
 
-import client.utils.ApplicationUtils;
 import commons.PlayerScore;
 import commons.Config;
 import commons.Activity;

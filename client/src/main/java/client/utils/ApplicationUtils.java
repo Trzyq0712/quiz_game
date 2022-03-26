@@ -1,6 +1,5 @@
 package client.utils;
 
-import commons.Config;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

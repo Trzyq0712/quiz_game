@@ -3,8 +3,6 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
-import commons.Answer;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -65,6 +63,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl{
         Collections.shuffle(activities);
         answerButtonId = activities.indexOf(activity)+1;
         displayActivity(activities);
+        setHasPlayerAnswered(false);
     }
 
     private void displayActivity(List<Activity> activities) {
@@ -75,7 +74,6 @@ public class MCQuestionCtrl extends BaseQuestionCtrl{
         thirdButton.setText(String.valueOf(activities.get(2).getEnergyConsumption()));
         mainCtrl.setAnswersforAnswerReveal(activities, answerButtonId);
     }
-
 
 
 

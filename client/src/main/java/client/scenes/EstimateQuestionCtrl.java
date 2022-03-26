@@ -39,6 +39,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     @FXML
     private Label errorLabel;
 
+
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(server, mainCtrl, utils);
@@ -48,6 +49,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     public void generateActivity() {
         activity = server.getActivity();
         displayActivity();
+        setHasPlayerAnswered(false);
     }
 
     private void displayActivity() {
@@ -55,6 +57,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         questionImage.setImage(new Image(ServerUtils.SERVER + activity.getPicturePath()));
         mainCtrl.setAnswersforAnswerReveal(activity);
     }
+
 
     /**
      * Score is calculated in the range from 0 to 2 * the correct answer.

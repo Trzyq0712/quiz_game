@@ -45,10 +45,20 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected boolean doublePoints;
     protected int answerButtonId;
 
+    protected boolean hasPlayerAnswered;
+
 
     @Inject
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils, server);
+    }
+
+    public void setHasPlayerAnswered(boolean bool){
+        hasPlayerAnswered=bool;
+    }
+
+    public boolean getHasPlayerAnswered() {
+        return hasPlayerAnswered;
     }
 
     /**
@@ -59,13 +69,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.updateTracker(questionTracker, scoreLabel, true);
     }
 
-    /**
-     * @param b - true if we are playing for double points
-     *          - false otherwise
-     */
-    public void setDoublePoints(Boolean b) {
-        doublePoints = b;
-    }
 
     /**
      * triggers the progressbar of this scene when called, 0 indicates what to do when the bar depletes
@@ -90,10 +93,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * the jokers are accessible again in the next new game
      */
     public void restoreJokers() {
-        hintJoker.setVisible(true);
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
-        setDoublePoints(false);
+        mainCtrl.visibilityTimeJoker(true);
+        mainCtrl.visibilityHintJoker(true);
+        mainCtrl.visibilityPointsJoker(true);
     }
 
     /**
@@ -111,9 +113,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      *               button the player clicked on
      */
     public void grantPoints(Answer answer) {
+        setHasPlayerAnswered(true);
         int earnedPoints = 0;
         if (answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
+        if (doublePoints)
+            earnedPoints *= 2;
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
         mainCtrl.setAnswersforAnswerReveal(earnedPoints, false);
     }
@@ -144,8 +149,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     private void pointsClick() {
         mainCtrl.buttonSound();
-        pointsJoker.setVisible(false);
-        setDoublePoints(true);
+        mainCtrl.visibilityPointsJoker(false);
         utils.addNotification("2x points activated", "green");
     }
 

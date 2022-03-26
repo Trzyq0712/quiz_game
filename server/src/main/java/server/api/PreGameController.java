@@ -95,11 +95,4 @@ public class PreGameController {
         });
         return output;
     }
-
-
-    @MessageMapping("/waitingroom/start")
-    @SendTo("/topic/waitingroom/start")
-    public Boolean startGame(Boolean b){
-        return b;
-    }
 }

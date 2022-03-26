@@ -66,6 +66,7 @@ public class EditActivityCtrl {
             this.activity = activity;
             questionField.setText(activity.getDescription());
             consumptionField.setText(activity.getEnergyConsumption().toString());
+            pictureBuffer = new byte[0];
             imageView.setImage(new Image(server.SERVER + activity.getPicturePath()));
             imagePath = activity.getPicturePath();
         } else this.activity = new Activity();

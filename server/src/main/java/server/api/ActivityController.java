@@ -212,6 +212,9 @@ public class ActivityController {
      */
     public boolean overWriteImage(PostActivity postActivity) {
         try {
+            if(postActivity.getPictureBuffer().length == 0)
+                return true;
+
             Activity updatedActivity = postActivity.getActivity();
             Activity oldActivity = activityService.getActivityById(updatedActivity.getId()).get();
             deleteImageFromServer(oldActivity);

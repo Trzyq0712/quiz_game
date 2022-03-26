@@ -201,8 +201,7 @@ public class EditScreenCtrl
     public void updateEdit(Activity newActivity) {
         for(int i=0; i<activityList.size(); i++){
             if(activityList.get(i).getId() == newActivity.getId()){
-                activityList.remove(i);
-                activityList.add(i, newActivity);
+                activityList.set(i, newActivity);
                 break;
             }
         }

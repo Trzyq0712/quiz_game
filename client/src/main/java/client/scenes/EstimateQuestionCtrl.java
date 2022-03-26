@@ -76,6 +76,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
             if (guess > start && guess < end) {
                 double deviation = Math.abs(guess - center);
                 double fraction = (center - deviation) / center;
+                fraction = easeOutSinusoidal(fraction);
                 points = (int) (fraction * maxPointsPerQuestion);
                 if (doublePointsActive) {
                     points *= 2;
@@ -89,6 +90,16 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         }
         lastScoredPoints = points;
         mainCtrl.setAnswersforAnswerReveal(points,true);
+    }
+
+    /**
+     * Ease out function to award players who guess close to the correct answer more.
+     * Can be found here: https://foon.uk/easing/
+     * @param fraction The x-value for the function.
+     * @return The y-value.
+     */
+    public double easeOutSinusoidal(double fraction) {
+        return Math.sin(0.5 * fraction * Math.PI);
     }
 
 

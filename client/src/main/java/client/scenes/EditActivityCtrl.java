@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.utils.ActivityBoardUtils;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -22,6 +23,7 @@ public class EditActivityCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private final ApplicationUtils utils;
+    private ActivityBoardUtils actUtils;
 
     @FXML
     ImageView imageView;
@@ -53,7 +55,8 @@ public class EditActivityCtrl {
      * resets the imageView to the placeholder image
      * makes the error label invisible
      */
-    public void setUp(boolean add, Activity activity) {
+    public void setUp(boolean add, Activity activity, ActivityBoardUtils actUtils) {
+        this.actUtils = actUtils;
         fileChooser = new FileChooser();
         imagePath = "images/placeholder.png";
         errorLabel.setVisible(false);
@@ -110,14 +113,14 @@ public class EditActivityCtrl {
             if(add){
                 Activity newActivity = server.addPostActivity(postActivity);
                 if (newActivity != null){
-                    mainCtrl.updateAdd(newActivity);
+                    actUtils.updateAdd(newActivity);
                     Stage stage = (Stage) imageView.getScene().getWindow();
                     stage.close();
                 }  else errorLabel.setText("Server did not allow the activity to be added");
             } else {
                 Activity newActivity = server.updatePostActivity(postActivity);
                 if (newActivity != null){
-                    mainCtrl.updateEdit(newActivity);
+                    actUtils.updateEdit(newActivity);
                     Stage stage = (Stage) imageView.getScene().getWindow();
                     stage.close();
                 }  else errorLabel.setText("Server did not allow the activity to be added");

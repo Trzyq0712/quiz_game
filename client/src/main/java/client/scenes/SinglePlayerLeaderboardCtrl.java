@@ -67,6 +67,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     }
 
     public void playAgain() {
+        utils.clearNotificationBox();
         mainCtrl.restore();
         mainCtrl.showQuestion();
     }

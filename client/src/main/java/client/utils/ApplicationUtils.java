@@ -80,5 +80,13 @@ public class ApplicationUtils {
         }
     }
 
+    public void clearNotificationBox() {
+        for (VBox notificationBox : notificationsBoxes) {
+            if (notificationBox != null) {
+                notificationBox.getChildren().clear();
+            }
+        }
+    }
+
 
 }

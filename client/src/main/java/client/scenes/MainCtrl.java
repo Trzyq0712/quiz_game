@@ -374,7 +374,7 @@ public class MainCtrl  {
         else
             activateMultiplayer();
         int value = (int)(Math.random()*3);
-        switch (0){
+        switch (value) {
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);
                 Platform.runLater(() -> questionCtrl.updateTracker());

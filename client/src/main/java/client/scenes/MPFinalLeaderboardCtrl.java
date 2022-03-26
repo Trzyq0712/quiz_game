@@ -25,6 +25,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     public void playAgain() {
         server.disconnect();
         mainCtrl.enterWaitingRoom();
+        utils.clearNotificationBox();
     }
 
     public void emote(Event e){

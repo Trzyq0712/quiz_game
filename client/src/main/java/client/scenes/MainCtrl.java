@@ -403,19 +403,30 @@ public class MainCtrl {
 
     public void showEditScreen() {
         primaryStage.setTitle(Config.edit);
+        editScreenCtrl.setUp();
         editScreenScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(editScreenScene);
     }
 
-    public void editActivity(boolean add) {
-        if (add) {
-            editActivityCtrl.setUp();
-            editActivityScene.getStylesheets().add(Config.styleSheet);
-            secondaryStage.setScene(editActivityScene);
-            secondaryStage.centerOnScreen();
-            secondaryStage.sizeToScene();
-            secondaryStage.show();
-        }
+    public void editActivity(boolean add, Activity activity) {
+        editActivityCtrl.setUp(add, activity);
+        editActivityScene.getStylesheets().add(Config.styleSheet);
+        secondaryStage.setScene(editActivityScene);
+        secondaryStage.centerOnScreen();
+        secondaryStage.sizeToScene();
+        secondaryStage.show();
+    }
+
+    public void updateEdit(Activity newActivity) {
+        editScreenCtrl.updateEdit(newActivity);
+    }
+
+    public void updateAdd(Activity newActivity) {
+        editScreenCtrl.updateAdd(newActivity);
+    }
+
+    public Stage getSecondaryStage(){
+        return secondaryStage;
     }
 
     // --- to move START

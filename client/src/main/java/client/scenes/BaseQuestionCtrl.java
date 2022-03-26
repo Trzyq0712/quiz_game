@@ -42,10 +42,20 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected boolean doublePoints;
     protected int answerButtonId;
 
+    protected boolean hasPlayerAnswered;
+
 
 
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils, server);
+    }
+
+    public void setHasPlayerAnswered(boolean bool){
+        hasPlayerAnswered=bool;
+    }
+
+    public boolean getHasPlayerAnswered() {
+        return hasPlayerAnswered;
     }
 
     /**
@@ -62,6 +72,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
     public void setDoublePoints(Boolean b) {
         doublePoints = b;
+        if (b) {
+            jokerConfirmation.setText("Your want to double your points!");
+            jokerConfirmation.setVisible(true);
+        } else {
+            jokerConfirmation.setVisible(false);
+        }
     }
 
     /**
@@ -80,7 +96,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         firstButton.setVisible(true);
         secondButton.setVisible(true);
         thirdButton.setVisible(true);
-        jokerConfirmation.setVisible(false);
+        setDoublePoints(false);
     }
 
     /**
@@ -88,9 +104,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * the jokers are accessible again in the next new game
      */
     public void restoreJokers() {
-        hintJoker.setVisible(true);
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
+        mainCtrl.visibilityTimeJoker(true);
+        mainCtrl.visibilityHintJoker(true);
+        mainCtrl.visibilityPointsJoker(true);
         setDoublePoints(false);
     }
 
@@ -109,9 +125,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      *               button the player clicked on
      */
     public void grantPoints(Answer answer) {
+        setHasPlayerAnswered(true);
         int earnedPoints = 0;
         if (answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
+        if (doublePoints)
+            earnedPoints *= 2;
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
         mainCtrl.setAnswersforAnswerReveal(earnedPoints, false);
     }
@@ -142,10 +161,8 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     private void pointsClick() {
         mainCtrl.buttonSound();
-        pointsJoker.setVisible(false);
+        mainCtrl.visibilityPointsJoker(false);
         setDoublePoints(true);
-        jokerConfirmation.setText("Your scored points will be doubled!");
-        jokerConfirmation.setVisible(true);
     }
 
     /**

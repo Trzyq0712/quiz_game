@@ -42,7 +42,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
-    //Long startTime;
 
     private  List<Activity> activities;
 
@@ -67,6 +66,7 @@ public class QuestionCtrl extends BaseQuestionCtrl {
      * @param event button that was clicked, so either A, B or C
      */
     public void answerClick(Event event) {
+        setHasPlayerAnswered(true);
         mainCtrl.buttonSound();
         long timeToAnswer = mainCtrl.getDelta();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
@@ -96,6 +96,7 @@ public class QuestionCtrl extends BaseQuestionCtrl {
         answerButtonId = activities.stream().map(Activity::getEnergyConsumption)
                 .collect(Collectors.toList()).indexOf(answer) + 1;
         displayActivities();
+        setHasPlayerAnswered(false);
     }
 
     private void displayActivities() {

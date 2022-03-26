@@ -249,6 +249,36 @@ public class MainCtrl  {
     }
 
     /**
+     * Hides or shows the points joker in all the question types
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityPointsJoker(Boolean bool){
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        questionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
+     * Hides or shows the points joker in all the question types
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityHintJoker(Boolean bool){
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        questionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
+     * Hides or shows the points joker in all the question types
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityTimeJoker(Boolean bool){
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        questionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
      * Produces the sound of a button when invoked, this function should be called when a button is clicked.
      */
 
@@ -439,6 +469,9 @@ public class MainCtrl  {
                     estimateQuestionCtrl.restoreSubmit();
                     questionCtrl.restoreAnswers();
                     MCQuestionCtrl.restoreAnswers();
+                    if(!estimateQuestionCtrl.getHasPlayerAnswered()){
+                        setAnswersforAnswerReveal(0,true);
+                    }
                     if (singlePlayerModeActive) Platform.runLater(() -> showQuestion());
                     else Platform.runLater(() -> showIntermediateLeaderboard());
                 } else if (call == 1 && currentQuestion >= Config.totalQuestions) {

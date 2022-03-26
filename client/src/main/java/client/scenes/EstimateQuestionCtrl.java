@@ -43,6 +43,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     @Inject
     public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(server, mainCtrl, utils);
+        /*hintJoker.set*/
     }
 
 

@@ -41,6 +41,14 @@ public class ServerUtils {
 
     public static String SERVER = server;
 
+    public Integer getTypeOfQuestion(int round){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/getQuestion") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(round, APPLICATION_JSON), Integer.class);
+    }
+
     /**
      * @param name the name with which the player wants to play singleplayer
      * @return true if the server accepts

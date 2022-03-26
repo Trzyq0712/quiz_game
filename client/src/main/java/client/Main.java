@@ -22,11 +22,14 @@ import java.net.URISyntaxException;
 
 import client.scenes.*;
 import client.utils.ApplicationUtils;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import client.scenes.MainCtrl;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.apache.catalina.Server;
 
 public class Main extends Application {
 
@@ -72,6 +75,7 @@ public class Main extends Application {
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         INJECTOR.getInstance(ApplicationUtils.class);
+        ServerUtils s = INJECTOR.getInstance(ServerUtils.class);
 
         mainCtrl.initialize(primaryStage,
                 home,
@@ -87,6 +91,7 @@ public class Main extends Application {
                 question,
                 editActivity,
                 estimateQuestion,
-                MCQuestion);
+                MCQuestion,
+                s);
     }
 }

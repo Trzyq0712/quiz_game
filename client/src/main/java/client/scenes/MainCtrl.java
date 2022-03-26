@@ -16,6 +16,8 @@
 package client.scenes;
 
 
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.PlayerScore;
 import commons.Config;
 import commons.Activity;
@@ -48,7 +50,6 @@ public class MainCtrl  {
     private Stage secondaryStage;
 
     private Player player;
-
     private PlayerScore playerScore;
 
     private HomeScreenCtrl homeCtrl;
@@ -106,6 +107,7 @@ public class MainCtrl  {
     boolean singlePlayerModeActive;
     List<VBox> listOfChatBoxes;
     List<StackPane> listOfHolders;
+    ServerUtils server;
 
     public void initialize(Stage primaryStage,
                            Pair<HomeScreenCtrl, Parent> home,
@@ -121,7 +123,9 @@ public class MainCtrl  {
                            Pair<QuestionCtrl, Parent> question,
                            Pair<EditActivityCtrl, Parent> editActivity,
                            Pair<EstimateQuestionCtrl, Parent> estimateQuestion,
-                           Pair<MCQuestionCtrl, Parent> MCQuestion) {
+                           Pair<MCQuestionCtrl, Parent> MCQuestion,
+    ServerUtils s) {
+        this.server = s;
         this.primaryStage = primaryStage;
         /*this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
@@ -373,7 +377,7 @@ public class MainCtrl  {
             activateSingleplayer();
         else
             activateMultiplayer();
-        int value = (int)(Math.random()*3);
+        int value = server.getTypeOfQuestion(currentQuestion);
         switch (value) {
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);

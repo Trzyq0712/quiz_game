@@ -77,12 +77,17 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
                 double deviation = Math.abs(guess - center);
                 double fraction = (center - deviation) / center;
                 points = (int) (fraction * maxPointsPerQuestion);
+                if (doublePointsActive) {
+                    points *= 2;
+                    doublePointsActive = false;
+                }
                 mainCtrl.getPlayerScore().addPoints(points);
             }
         } catch (Exception e) {
             errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
         }
+        lastScoredPoints = points;
         mainCtrl.setAnswersforAnswerReveal(points,true);
     }
 

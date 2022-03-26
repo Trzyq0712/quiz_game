@@ -42,10 +42,11 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     Button thirdButton;
 
-    protected boolean doublePoints;
+    protected boolean doublePointsActive;
     protected int answerButtonId;
 
-    protected boolean hasPlayerAnswered;
+    protected boolean hasPlayerAnswered = false;
+    protected int lastScoredPoints; //this will be doubled if the player activates 2x points.
 
 
     @Inject
@@ -76,6 +77,11 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
     public void activateProgressBar() {
         mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
+    }
+
+    public void restoreDoublePoints() {
+        hasPlayerAnswered = false;
+        doublePointsActive = false;
     }
 
     /**
@@ -113,14 +119,16 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      *               button the player clicked on
      */
     public void grantPoints(Answer answer) {
-        setHasPlayerAnswered(true);
         int earnedPoints = 0;
-        if (answer.getAnswer() == answerButtonId)
-            earnedPoints = answer.getPoints();
-        if (doublePoints)
+        if (answer.getAnswer() == answerButtonId) earnedPoints = answer.getPoints();
+        if (!hasPlayerAnswered && doublePointsActive) {
             earnedPoints *= 2;
+            doublePointsActive = false;
+        }
+        lastScoredPoints = earnedPoints;
         mainCtrl.getPlayerScore().addPoints(earnedPoints);
         mainCtrl.setAnswersforAnswerReveal(earnedPoints, false);
+        setHasPlayerAnswered(true);
     }
 
     /**
@@ -150,6 +158,8 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     private void pointsClick() {
         mainCtrl.buttonSound();
         mainCtrl.visibilityPointsJoker(false);
+        if (hasPlayerAnswered) mainCtrl.getPlayerScore().addPoints(lastScoredPoints);
+        else doublePointsActive = true;
         utils.addNotification("2x points activated", "green");
     }
 
@@ -192,6 +202,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
             }
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
+        hasPlayerAnswered = true;
     }
 
 }

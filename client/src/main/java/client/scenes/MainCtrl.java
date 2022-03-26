@@ -461,6 +461,11 @@ public class MainCtrl  {
             startTime = null;
             if (active) {
                 if (call == 0) {
+                    questionCtrl.restoreDoublePoints();
+                    estimateQuestionCtrl.restoreDoublePoints();
+                    MCQuestionCtrl.restoreDoublePoints(); /*these calls need to be refactored, the double points
+                    should be restored in 1 call not 3. we should probably put the functionality in GameUtils.
+                    Couldn't do it myself since GameUtils has yet to be merged to dev :)*/
                     Platform.runLater(() -> showAnswerReveal());
                 } else if (call == 1 && currentQuestion < Config.totalQuestions) {
                     estimateQuestionCtrl.restoreSubmit();

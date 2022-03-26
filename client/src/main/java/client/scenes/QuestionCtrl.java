@@ -42,8 +42,6 @@ public class QuestionCtrl extends BaseQuestionCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
-    //Long startTime;
-
     private  List<Activity> activities;
 
     @Inject
@@ -56,33 +54,9 @@ public class QuestionCtrl extends BaseQuestionCtrl {
         return activities;
     }
 
-    /**
-     * hides all buttons except for the one that was clicked
-     * @param event button that was clicked, so either A, B or C
-     */
-    public void answerClick(Event event) {
-        mainCtrl.buttonSound();
-        long timeToAnswer = mainCtrl.getDelta();
-        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
-        Button activated = (Button) event.getSource();
-        long i = 0;
-        long buttonNb = 0;
-        for (Button b : listOfButtons) {
-            i++;
-            if (!b.getId().equals(activated.getId())) {
-                b.setVisible(false);
-            } else{
-                buttonNb=i;
-            }
-        }
-        grantPoints(new Answer(buttonNb, timeToAnswer));
-    }
 
 
-    public void pointsClick() {
-        mainCtrl.buttonSound();
-        pointsJoker.setVisible(false);
-    }
+
 
 
     /**

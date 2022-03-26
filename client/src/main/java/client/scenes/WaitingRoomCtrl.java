@@ -49,7 +49,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
             VBox k = mainCtrl.listOfChatBoxes.get(i);
             k.getChildren().clear();
         }
-        mainCtrl.amountOfMessages = 0;
     }
 
     /**

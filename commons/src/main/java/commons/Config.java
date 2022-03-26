@@ -22,5 +22,6 @@ public class Config {
     public static String port = "8080"; //port for server and client
     public static String server = "http://localhost:" + port + "/";
     public static int maxPointsPerQuestion = 200;
+    public static int maxAmountOfNotifications = 3;
 
 }

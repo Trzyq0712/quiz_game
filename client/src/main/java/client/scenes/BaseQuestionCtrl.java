@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import commons.Answer;
 import commons.Emote;
 import javafx.event.Event;
@@ -10,6 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static commons.Config.*;
 
@@ -41,7 +46,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected int answerButtonId;
 
 
-
+    @Inject
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         super(mainCtrl, utils, server);
     }
@@ -141,6 +146,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.buttonSound();
         pointsJoker.setVisible(false);
         setDoublePoints(true);
+        utils.addNotification("2x points activated", "green");
     }
 
     /**
@@ -149,19 +155,39 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
     public void hintClick() {
         mainCtrl.buttonSound();
+        utils.addNotification("hint activated", "green");
         hintJoker.setVisible(false);
-        String falseAnswer = server.activateHint();
-        switch (falseAnswer) {
-            case "a":
-                firstButton.setVisible(false);
-                break;
-            case "b":
-                secondButton.setVisible(false);
-                break;
-            case "c":
-                thirdButton.setVisible(false);
-                break;
+        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
+        List<Button> wrongButtons = new ArrayList<>();
+        for (Button b : listOfButtons) {
+            if (listOfButtons.indexOf(b) + 1 != answerButtonId) {
+                wrongButtons.add(b);
+            }
         }
+        int indexToBeRemoved = (int) (Math.random() * 2);
+        wrongButtons.get(indexToBeRemoved).setVisible(false);
+    }
+
+    /**
+     * hides all buttons except for the one that was clicked
+     * @param event button that was clicked, so either A, B or C
+     */
+    public void answerClick(Event event) {
+        mainCtrl.buttonSound();
+        long timeToAnswer = mainCtrl.getDelta();
+        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
+        Button activated = (Button) event.getSource();
+        long i = 0;
+        long buttonNb = 0;
+        for (Button b : listOfButtons) {
+            i++;
+            if (!b.getId().equals(activated.getId())) {
+                b.setVisible(false);
+            } else{
+                buttonNb=i;
+            }
+        }
+        grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
 }

@@ -3,9 +3,11 @@ package client.scenes;
 
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +23,10 @@ public abstract class BaseCtrl implements Initializable {
 
     @FXML
     protected ImageView music;
+    @FXML
+    protected VBox notificationBox;
 
+    @Inject
     public BaseCtrl(MainCtrl mainCtrl, ApplicationUtils utils, ServerUtils server) {
         this.mainCtrl = mainCtrl;
         this.utils = utils;
@@ -41,6 +46,7 @@ public abstract class BaseCtrl implements Initializable {
         utils.toggleSound();
     }
 
+
     /**
      * Initialize is required to register ImageViews as toggles.
      * This is because of injection that happens after class is initialized.
@@ -51,5 +57,6 @@ public abstract class BaseCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         utils.registerMusicToggle(music);
+        utils.registerNotificationBox(notificationBox);
     }
 }

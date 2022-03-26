@@ -16,6 +16,7 @@
 package client.scenes;
 
 
+import client.utils.ApplicationUtils;
 import commons.PlayerScore;
 import commons.Config;
 import commons.Activity;
@@ -104,10 +105,6 @@ public class MainCtrl  {
      * that the player is in multiplayer.
      */
     boolean singlePlayerModeActive;
-    /**
-     * Amount of messages currently displaying in the chat.
-     */
-    int amountOfMessages = 0;
     List<VBox> listOfChatBoxes;
     List<StackPane> listOfHolders;
 
@@ -491,14 +488,13 @@ public class MainCtrl  {
                 emote.setFitWidth(50);
                 hbox.getChildren().addAll(user, emote);
                 hbox.setAlignment(Pos.CENTER_LEFT);
-                if (amountOfMessages > Config.maxChatMessages) {
+                if (c.getChildren().size() >= Config.maxChatMessages) {
                     c.getChildren().remove(0);
                 }
                 c.getChildren().add(hbox);
                 c.setSpacing(10);
             });
         }
-        amountOfMessages++;
         buttonSound();
     }
 

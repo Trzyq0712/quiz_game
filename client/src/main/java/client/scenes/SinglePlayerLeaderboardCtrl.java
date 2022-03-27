@@ -79,7 +79,6 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         utils.clearNotificationBox();
         utils.playButtonSound();
         mainCtrl.restore();
-        mainCtrl.requestGameID();
         server.start();
         mainCtrl.showQuestion();
     }

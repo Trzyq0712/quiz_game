@@ -62,7 +62,7 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
      *
      * @param event button that was clicked, so either A, B or C
      */
-    public void answerClick(Event event) {
+    /*public void answerClick(Event event) {
         utils.playButtonSound();
         long timeToAnswer = gameUtils.stopTimer();
         setHasPlayerAnswered(true);
@@ -79,14 +79,14 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
             }
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
-    }
+    }*/
 
 
     /**
      * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
     public void generateActivity() {
-        activities = server.get3Activities(mainCtrl.currentQuestion, mainCtrl.gameID).getListOfActivities();
+        activities = server.get3Activities(gameUtils.getCurrentQuestion(), gameUtils.getGameID()).getListOfActivities();
         long answer = activities.stream().map(Activity::getEnergyConsumption)
                 .sorted().collect(Collectors.toList()).get(2);
         answerButtonId = activities.stream().map(Activity::getEnergyConsumption)

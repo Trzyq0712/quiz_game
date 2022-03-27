@@ -43,7 +43,7 @@ public class NamePromptCtrl extends BaseCtrl {
         if (checkName(nameField, errorLabel) && server.startSingle(nameField.getText())) {
             Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
-            mainCtrl.requestGameID();
+            gameUtils.requestGameID();
             server.start();
             gameUtils.startTimer();
             mainCtrl.showQuestion();
@@ -97,7 +97,7 @@ public class NamePromptCtrl extends BaseCtrl {
             if (server.enterWaitingRoom(nameField.getText())) {
                 gameUtils.setPlayer(player);
                 mainCtrl.showWaitingRoom();
-                mainCtrl.requestGameID();
+                gameUtils.requestGameID();
             }
         } else {
             errorLabel.setText("Name is taken!");

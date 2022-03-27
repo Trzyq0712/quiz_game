@@ -16,6 +16,7 @@
 package client.scenes;
 
 
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Config;
 import commons.Activity;
@@ -78,8 +79,6 @@ public class MainCtrl {
     private Scene editActivityScene;
 
     Long startTime;
-    int currentQuestion = 0;
-    Long gameID;
 
     boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
@@ -90,6 +89,7 @@ public class MainCtrl {
      */
     boolean singlePlayerModeActive;
     ServerUtils server;
+    GameUtils gameUtils;
     // -------------------- to move END
 
 
@@ -108,8 +108,10 @@ public class MainCtrl {
                            Pair<EditActivityCtrl, Parent> editActivity,
                            Pair<EstimateQuestionCtrl, Parent> estimateQuestion,
                            Pair<MCQuestionCtrl, Parent> MCQuestion,
-                           ServerUtils s) {
+                           ServerUtils s,
+                           GameUtils g) {
         this.server = s;
+        this.gameUtils = g;
 
         this.primaryStage = primaryStage;
 
@@ -178,9 +180,9 @@ public class MainCtrl {
 
     // --- to move START
 
-    public void requestGameID() {
+    /*public void requestGameID() {
         this.gameID = server.requestGameID();
-    }
+    }*/
 
     /**
      * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
@@ -329,8 +331,8 @@ public class MainCtrl {
     public void showQuestion() {
         active = true;
          //APPLY CSS SHEET
-        int value = server.getQuestionType(currentQuestion, gameID);
-        switch (0) {
+        int value = server.getQuestionType(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
+        switch (value) {
             case 0: {
                 questionScreenScene.getStylesheets().add(Config.styleSheet);
                 Platform.runLater(() -> comparisonQuestionCtrl.generateActivity());
@@ -488,9 +490,9 @@ public class MainCtrl {
 
 
     // --- to move END
-    public long getDelta() {
+    /*public long getDelta() {
         return System.currentTimeMillis() - startTime;
-    }
+    }*/
 
     /**
      * Shows the screen where answers are revealed.

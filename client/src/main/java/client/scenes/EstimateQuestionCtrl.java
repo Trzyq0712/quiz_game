@@ -48,7 +48,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
 
     public void generateActivity() {
-        activity = server.getSingleActivity(mainCtrl.currentQuestion, mainCtrl.gameID);
+        activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         displayActivity();
         setHasPlayerAnswered(false);
     }

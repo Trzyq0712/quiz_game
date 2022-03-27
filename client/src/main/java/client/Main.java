@@ -22,6 +22,7 @@ import java.net.URISyntaxException;
 
 import client.scenes.*;
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Injector;
 
@@ -74,6 +75,7 @@ public class Main extends Application {
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         INJECTOR.getInstance(ApplicationUtils.class);
         ServerUtils s = INJECTOR.getInstance(ServerUtils.class);
+        GameUtils g = INJECTOR.getInstance(GameUtils.class);
 
         mainCtrl.initialize(primaryStage,
                 home,
@@ -90,6 +92,7 @@ public class Main extends Application {
                 editActivity,
                 estimateQuestion,
                 MCQuestion,
-                s);
+                s,
+                g);
     }
 }

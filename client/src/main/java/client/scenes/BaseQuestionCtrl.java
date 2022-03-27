@@ -197,7 +197,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
     public void answerClick(Event event) {
         utils.playButtonSound();
-        long timeToAnswer = mainCtrl.getDelta();
+        long timeToAnswer = gameUtils.stopTimer();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         long i = 0;

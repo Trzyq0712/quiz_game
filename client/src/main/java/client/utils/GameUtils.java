@@ -1,14 +1,28 @@
 package client.utils;
 
 import static commons.Config.*;
+
+import com.google.inject.Inject;
 import commons.Player;
 import javafx.scene.control.Label;
 
 public class GameUtils {
+
     private Player player;
     private int currentQuestion;
     private GameType gameType;
     private Long currentTimeMillis;
+    private Long gameID;
+    protected final ServerUtils server;
+
+    @Inject
+    public GameUtils(ServerUtils server) {
+        this.server = server;
+    }
+
+    public void requestGameID() {
+        this.gameID = server.requestGameID();
+    }
 
     public void resetGame() {
         player = null;
@@ -40,7 +54,6 @@ public class GameUtils {
         score.setText("Score " + player.getScore() + "/" + currentQuestion * 200);
     }
 
-
     public Player getPlayer() {
         return player;
     }
@@ -51,6 +64,10 @@ public class GameUtils {
 
     public int getCurrentQuestion() {
         return currentQuestion;
+    }
+
+    public Long getGameID() {
+        return gameID;
     }
 
     public void setCurrentQuestion(int currentQuestion) {

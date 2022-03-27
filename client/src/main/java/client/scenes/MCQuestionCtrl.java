@@ -55,7 +55,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
 
 
     public void generateActivity() {
-        activity = server.getSingleActivity(mainCtrl.currentQuestion, mainCtrl.gameID);
+        activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         long answer = activity.getEnergyConsumption();
         Activity a = new Activity(activity.getDescription(), (long) (answer * 1.5), activity.getPicturePath());
         Activity b = new Activity(activity.getDescription(), (long) (answer * 0.5), activity.getPicturePath());
@@ -80,7 +80,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
      *
      * @param event button that was clicked, so either A, B or C
      */
-    public void answerClick(Event event) {
+   /* public void answerClick(Event event) {
         utils.playButtonSound();
         long timeToAnswer = gameUtils.stopTimer();
         setHasPlayerAnswered(true);
@@ -97,7 +97,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
             }
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
-    }
+    }*/
 
 
 

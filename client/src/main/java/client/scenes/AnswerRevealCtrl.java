@@ -1,6 +1,8 @@
 package client.scenes;
 
+import client.Config;
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
@@ -20,6 +22,8 @@ import java.util.List;
 import static client.Config.timeAnswerReveal;
 
 public class AnswerRevealCtrl extends BaseCtrl {
+
+    private final GameUtils gameUtils;
 
     @FXML
     ProgressBar pgBarReveal;
@@ -61,15 +65,33 @@ public class AnswerRevealCtrl extends BaseCtrl {
     StackPane chatAndEmoteHolder;
 
     @Inject
-    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+
+    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(mainCtrl, utils, server);
+        this.gameUtils = gameUtils;
     }
 
     /**
      * starts the countdown of the progressbar for the answer reveal
      */
     public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBarReveal, timeAnswerReveal, 1);
+        utils.runProgressBar(pgBarReveal, timeAnswerReveal, () -> {
+            if (gameUtils.getCurrentQuestion() < Config.totalQuestions) {
+                mainCtrl.restoreQuestions();
+                if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer))
+                    mainCtrl.showQuestion();
+                else
+                    mainCtrl.showIntermediateLeaderboard();
+                gameUtils.startTimer();
+            } else {
+                mainCtrl.restore();
+                if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
+                    server.addPlayerToSPLeaderboard(gameUtils.getPlayer());
+                    mainCtrl.showSPLeaderboard();
+                } else
+                    mainCtrl.showMPFinalLeaderboard();
+            }
+        });
     }
 
     /**
@@ -79,18 +101,20 @@ public class AnswerRevealCtrl extends BaseCtrl {
      */
 
     public void updateTracker() {
-        mainCtrl.updateTracker(questionTracker, scoreLabel, false);
+        gameUtils.updateTracker(questionTracker, scoreLabel, false);
     }
 
-    public void emote(Event e){
-        String path = ((ImageView)e.getSource()).getImage().getUrl();
-        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+
+    public void emote(Event e) {
+        String path = ((ImageView) e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/1", emote);
     }
 
     /**
      * takes in a list of 3 activities and sets the values next to the answer
-     * @param activities - list of 3 activities passed from the QuestionCtrl
+     *
+     * @param activities     - list of 3 activities passed from the QuestionCtrl
      * @param answerButtonId - numeric id of the correct answer
      */
     public void setAnswers(List<Activity> activities, int answerButtonId) {
@@ -117,6 +141,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
     /**
      * Takes in a boolean, if true, sets the estimate question format, if false, sets the MC question format
+     *
      * @param bool
      */
     private void setEstimateQuestionFormat(Boolean bool) {
@@ -136,6 +161,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
     /**
      * Sets the answer after having an estimate question
+     *
      * @param activity
      */
     public void setAnswer(Activity activity) {
@@ -145,13 +171,14 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
     /**
      * Sets the obtained points
+     *
      * @param points - obtained points
-     * @param bool - indicates which label to set visible
-     *             -> true for estimate related label
-     *             -> false for MC with 3 activities related label
+     * @param bool   - indicates which label to set visible
+     *               -> true for estimate related label
+     *               -> false for MC with 3 activities related label
      */
     public void setAnswer(int points, boolean bool) {
-        if(bool)
+        if (bool)
             pointsGrantedEstimate.setText("You got " + points + " points!");
         else
             pointsGrantedMC.setText("You got " + points + " points!");

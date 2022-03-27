@@ -3,7 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SinglePlayerLeaderboardCtrl">
    <children>
@@ -15,25 +14,25 @@
       </ScrollPane>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="510.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/cup.png" />
+            <Image url="@/images/cup.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="1396.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/cup.png" />
+            <Image url="@/images/cup.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@images/home.png" />
+            <Image url="@/images/home.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMousePressed="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@images/music.png" />
+            <Image url="@/images/music.png" />
          </image>
       </ImageView>
-      <Button layoutX="888.0" fx:id="playAgain" layoutY="946.0" mnemonicParsing="false" onAction="#playAgain" text="play singleplayer again" />
+      <Button layoutX="888.0" fx:id="playAgain" layoutY="946.0" mnemonicParsing="false" onMouseClicked="#playAgain" text="play singleplayer again" />
       <TableView fx:id="table" layoutX="555.0" layoutY="366.0" prefHeight="491.0" prefWidth="923.0">
         <columns>
           <TableColumn fx:id="rank" prefWidth="128.0" text="Rank n°" />
@@ -42,6 +41,6 @@
             <TableColumn fx:id="scoredTime" prefWidth="203.0" text="scored" />
         </columns>
       </TableView>
-      <Button layoutX="590.0" layoutY="946.0" mnemonicParsing="false" onAction="#refresh" prefHeight="84.0" prefWidth="240.0" text="refresh" />
+      <Button layoutX="590.0" layoutY="946.0" mnemonicParsing="false" onMouseClicked="#refreshButton" prefHeight="84.0" prefWidth="240.0" text="refresh" />
    </children>
 </AnchorPane>

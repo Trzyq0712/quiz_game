@@ -12,7 +12,7 @@
       <Label layoutY="139.0" prefHeight="17.0" prefWidth="961.0" text="Are you sure you want  to quit?" textAlignment="CENTER" />
       <StackPane layoutY="248.0" prefHeight="150.0" prefWidth="961.0">
          <children>
-            <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quit" text="Yes">
+            <Button fx:id="quitButton" mnemonicParsing="false" onMouseClicked="#quit" text="Yes">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -20,7 +20,7 @@
                   <Insets right="300.0" />
                </StackPane.margin>
             </Button>
-            <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onAction="#closeButtonAction" text="No">
+            <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onMouseClicked="#closeButtonMouseClicked" text="No">
                <StackPane.margin>
                   <Insets left="300.0" />
                </StackPane.margin>

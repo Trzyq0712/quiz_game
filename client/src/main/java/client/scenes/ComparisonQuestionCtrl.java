@@ -1,11 +1,11 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import commons.Answer;
-import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class QuestionCtrl extends BaseQuestionCtrl {
+public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
 
 
     @FXML
@@ -43,12 +43,12 @@ public class QuestionCtrl extends BaseQuestionCtrl {
     StackPane chatAndEmoteHolder;
 
 
-    private  List<Activity> activities;
+    private List<Activity> activities;
 
     @Inject
-    public QuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(server, mainCtrl, utils);
-
+    public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl,
+                                  ApplicationUtils utils, GameUtils gameUtils) {
+        super(server, mainCtrl, utils, gameUtils);
     }
 
     public List<Activity> getActivities() {
@@ -56,19 +56,15 @@ public class QuestionCtrl extends BaseQuestionCtrl {
     }
 
 
-
-
-
-
-
     /**
      * hides all buttons except for the one that was clicked
+     *
      * @param event button that was clicked, so either A, B or C
      */
     public void answerClick(Event event) {
+        utils.playButtonSound();
+        long timeToAnswer = gameUtils.stopTimer();
         setHasPlayerAnswered(true);
-        mainCtrl.buttonSound();
-        long timeToAnswer = mainCtrl.getDelta();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         long i = 0;
@@ -77,19 +73,18 @@ public class QuestionCtrl extends BaseQuestionCtrl {
             i++;
             if (!b.getId().equals(activated.getId())) {
                 b.setVisible(false);
-            } else{
-                buttonNb=i;
+            } else {
+                buttonNb = i;
             }
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
     }
 
 
-
     /**
      * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
-    public void generateActivity(){
+    public void generateActivity() {
         activities = server.get3Activities();
         long answer = activities.stream().map(Activity::getEnergyConsumption)
                 .sorted().collect(Collectors.toList()).get(2);
@@ -100,15 +95,13 @@ public class QuestionCtrl extends BaseQuestionCtrl {
     }
 
     private void displayActivities() {
-        Platform.runLater(() -> {
-            ActivityDescription1.setText(activities.get(0).getDescription());
-            ActivityDescription2.setText(activities.get(1).getDescription());
-            ActivityDescription3.setText(activities.get(2).getDescription());
-            questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
-            questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
-            questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
-        });
-        mainCtrl.setAnswersforAnswerReveal(activities,answerButtonId);
+        ActivityDescription1.setText(activities.get(0).getDescription());
+        ActivityDescription2.setText(activities.get(1).getDescription());
+        ActivityDescription3.setText(activities.get(2).getDescription());
+        questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
+        questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
+        questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
+        mainCtrl.setAnswersForAnswerReveal(activities, answerButtonId);
     }
 
 }

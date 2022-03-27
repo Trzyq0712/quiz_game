@@ -1,6 +1,6 @@
 package server;
 
-import commons.PlayerScore;
+import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Game {
 
     private final int gameId;
-    private List<PlayerScore> players;
+    private List<Player> players;
 
     /**
      * Constructor of Game
@@ -29,7 +29,7 @@ public class Game {
      *
      * @param player - player that is added
      */
-    public PlayerScore addAPlayer(PlayerScore player) {
+    public Player addAPlayer(Player player) {
         players.add(player);
         return player;
     }
@@ -39,11 +39,11 @@ public class Game {
      *
      * @param name   - name of the player
      * @param amount - amount of points awarded
-     * @return the PlayerScore for confirmation
+     * @return the Player for confirmation
      */
-    public PlayerScore addPointsToAPlayer(String name, int amount) {
+    public Player addPointsToAPlayer(String name, int amount) {
         if (name != null) {
-            PlayerScore p = getByName(name);
+            Player p = getByName(name);
             if (p != null) {
                 p.addPoints(amount);
             }
@@ -89,7 +89,7 @@ public class Game {
      *
      * @return all the players in the game
      */
-    public List<PlayerScore> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -98,22 +98,22 @@ public class Game {
      *
      * @param players - the list of players
      */
-    public void setPlayers(List<PlayerScore> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
     /**
-     * Gets the PlayerScore according to the id
+     * Gets the Player according to the id
      *
-     * @param name - id of the PlayerScore
-     * @return the PlayerScore associated with that id
+     * @param name - id of the Player
+     * @return the Player associated with that id
      * null if id doesn't exist.
      */
-    public PlayerScore getByName(String name) {
+    public Player getByName(String name) {
         if (name == null) {
             return null;
         }
-        for (PlayerScore p : players) {
+        for (Player p : players) {
             if (p.getPlayerName().equals(name)) {
                 return p;
             }

@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
 import javafx.fxml.FXML;
@@ -40,8 +41,8 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
 
     @Inject
-    public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(server, mainCtrl, utils);
+    public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+        super(server, mainCtrl, utils, gameUtils);
     }
 
 
@@ -54,7 +55,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     private void displayActivity() {
         ActivityDescription.setText(activity.getDescription());
         questionImage.setImage(new Image(ServerUtils.SERVER + activity.getPicturePath()));
-        mainCtrl.setAnswersforAnswerReveal(activity);
+        mainCtrl.setAnswersForAnswerReveal(activity);
     }
 
     public void submitGuess() {
@@ -92,12 +93,12 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
             if (doublePoints)
                 earnedPoints *= 2;
             submit.setDisable(true);
-            mainCtrl.getPlayerScore().addPoints(earnedPoints);
-            mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);
-        } catch (NumberFormatException e) {
+            gameUtils.getPlayer().addPoints(earnedPoints);
+            mainCtrl.setAnswersForAnswerReveal(earnedPoints, true);
+        } catch (Exception e) {
             errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
-            mainCtrl.setAnswersforAnswerReveal(earnedPoints, true);
+            mainCtrl.setAnswersForAnswerReveal(earnedPoints, true);
         }
     }
 

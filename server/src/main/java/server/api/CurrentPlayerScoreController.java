@@ -1,6 +1,6 @@
 package server.api;
 
-import commons.PlayerScore;
+import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class CurrentPlayerScoreController {
      * @return - list of all scores
      */
     @GetMapping(path = "")
-    public ResponseEntity<List<PlayerScore>> getAll() {
+    public ResponseEntity<List<Player>> getAll() {
         return ResponseEntity.ok(game.getPlayers());
     }
 
@@ -41,7 +41,7 @@ public class CurrentPlayerScoreController {
      * @return - the requested player
      */
     @GetMapping(path = "{name}")
-    public ResponseEntity<PlayerScore> getByPlayer(@PathVariable("name") String name) {
+    public ResponseEntity<Player> getByPlayer(@PathVariable("name") String name) {
         if (game.getByName(name) == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -55,11 +55,11 @@ public class CurrentPlayerScoreController {
      * @return - the list of results, list may be shorter if not enough results
      */
     @GetMapping(path = "top/{amount}")
-    public ResponseEntity<List<PlayerScore>> getTop(@PathVariable("amount") int amount) {
+    public ResponseEntity<List<Player>> getTop(@PathVariable("amount") int amount) {
         if (amount < 0) {
             return ResponseEntity.badRequest().build();
         }
-        List<PlayerScore> topScores = game.getPlayers()
+        List<Player> topScores = game.getPlayers()
                 .stream()
                 .sorted(Comparator.comparingInt(ps -> -ps.getScore()))
                 .limit(amount)
@@ -71,12 +71,12 @@ public class CurrentPlayerScoreController {
     /**
      * Add a player score to the database
      *
-     * @param playerScore - result to be added to the database
-     * @return - the PlayerScore that was added
+     * @param Player - result to be added to the database
+     * @return - the Player that was added
      */
     @PostMapping(path = "")
-    public ResponseEntity<PlayerScore> add(@RequestBody PlayerScore playerScore) {
-        return ResponseEntity.ok(game.addAPlayer(playerScore));
+    public ResponseEntity<Player> add(@RequestBody Player Player) {
+        return ResponseEntity.ok(game.addAPlayer(Player));
     }
 
     /**
@@ -84,10 +84,10 @@ public class CurrentPlayerScoreController {
      *
      * @param name   - name of the player
      * @param amount - amount of points awarded
-     * @return the PlayerScore for confirmation
+     * @return the Player for confirmation
      */
     @PostMapping(path = {"", "/{name}/{amount}"})
-    public ResponseEntity<PlayerScore> addPointsToAPlayer(@PathVariable String name, @PathVariable int amount) {
+    public ResponseEntity<Player> addPointsToAPlayer(@PathVariable String name, @PathVariable int amount) {
         if (game.getByName(name) == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -95,7 +95,7 @@ public class CurrentPlayerScoreController {
     }
 
     /**
-     * Deletes every temporary PlayerScores in Game
+     * Deletes every temporary Players in Game
      */
     @PostMapping(path = {"", "/"})
     public ResponseEntity<Boolean> deleteAll() {

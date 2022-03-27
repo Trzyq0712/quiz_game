@@ -9,13 +9,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HomeScreenCtrl">
    <children>
-      <Button layoutX="503.0" layoutY="574.0" mnemonicParsing="false" onAction="#showPrompt" prefHeight="84.0" prefWidth="346.0" styleClass="clickable" text="Singleplayer" />
-      <Button layoutX="1074.0" layoutY="570.0" mnemonicParsing="false" onAction="#showPrompt" prefHeight="92.0" prefWidth="340.0" style="-: 21;" styleClass="clickable" text="Multiplayer" />
+      <Button layoutX="503.0" layoutY="574.0" mnemonicParsing="false" onMouseClicked="#showPrompt" prefHeight="84.0" prefWidth="346.0" styleClass="clickable" text="Singleplayer" />
+      <Button layoutX="1074.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#showPrompt" prefHeight="92.0" prefWidth="340.0" style="-: 21;" styleClass="clickable" text="Multiplayer" />
       <Label fx:id="mainTitle" alignment="CENTER" layoutY="221.0" prefHeight="196.0" prefWidth="1920.0" style="-fx-text-alignment: left;" text="The Energy Quiz">
          <font>
             <Font name="Mistral" size="52.0" />
          </font></Label>
-      <ImageView fx:id="leaderboard" fitHeight="140.0" fitWidth="140.0" layoutX="200.0" layoutY="10.0" onMousePressed="#showSPLeaderboard" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView fx:id="leaderboard" fitHeight="140.0" fitWidth="140.0" layoutX="200.0" layoutY="10.0" onMouseClicked="#showSPLeaderboard" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
             <Image url="@/images/leaderboard.png" />
          </image>
@@ -25,7 +25,7 @@
             <Image url="@/images/questionMark.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMousePressed="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
             <Image url="@/images/music.png" />
          </image>
@@ -35,6 +35,6 @@
             <Image url="@/images/exitdoor.png" />
          </image>
       </ImageView>
-      <Button id="edit-button" layoutX="21.0" layoutY="928.0" mnemonicParsing="false" onAction="#showEditScreen" text="EDIT" />
+      <Button id="edit-button" layoutX="21.0" layoutY="928.0" mnemonicParsing="false" onMouseClicked="#showEditScreen" text="EDIT" />
    </children>
 </AnchorPane>

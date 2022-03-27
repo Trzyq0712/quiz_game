@@ -17,20 +17,20 @@ package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import java.lang.reflect.Type;
 
 import commons.Activity;
 import commons.Player;
-import commons.PlayerScore;
 import commons.PostActivity;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
+
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.*;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -103,27 +103,27 @@ public class ServerUtils {
     }
 
     /**
-     * @param playerScore added to the leaderboard
+     * @param Player added to the leaderboard
      * @return the player added
      */
-    public PlayerScore addPlayerToSPLeaderboard(PlayerScore playerScore) {
+    public Player addPlayerToSPLeaderboard(Player Player) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/playerscore") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(playerScore, APPLICATION_JSON), PlayerScore.class);
+                .post(Entity.entity(Player, APPLICATION_JSON), Player.class);
 
     }
 
     /**
      * @return the list of waiting players
      */
-    public List<PlayerScore> getPlayersInSPL() {
+    public List<Player> getPlayersInSPL() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/playerscore") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<PlayerScore>>() {});
+                .get(new GenericType<List<Player>>() {});
     }
 
     public String activateHint() {
@@ -165,17 +165,7 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(Activity.class);
     }
-    /**
-     * @return all activities
-     */
-    public List<Activity> getActivities() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/activity") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Activity>>() {
-                });
-    }
+
 
     /**
      * @param postActivity is the activity and image to be added to the server
@@ -242,4 +232,5 @@ public class ServerUtils {
     public void disconnect(){
         session.disconnect();
     }
+
 }

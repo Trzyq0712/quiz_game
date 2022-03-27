@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -34,7 +35,11 @@ public abstract class BaseCtrl implements Initializable {
     }
 
     public void showHome() {
-        server.disconnect();
+        try {
+            server.disconnect();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
         mainCtrl.showHome();
     }
 

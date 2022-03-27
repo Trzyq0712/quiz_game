@@ -17,14 +17,18 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
+    PromptCtrl promptCtrl;
+
     @Inject
-    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, PromptCtrl promptCtrl) {
         super(mainCtrl, utils, server);
+        this.promptCtrl = promptCtrl;
     }
 
     public void playAgain() {
         server.disconnect();
-        mainCtrl.enterWaitingRoom();
+        promptCtrl.enterWaitingRoom();
+        mainCtrl.restore();
         utils.clearNotificationBox();
     }
 

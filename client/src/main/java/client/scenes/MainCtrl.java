@@ -516,6 +516,7 @@ public class MainCtrl  {
         questionCtrl.restoreJokers();
         estimateQuestionCtrl.restoreJokers();
         MCQuestionCtrl.restoreJokers();
+        MCQuestionCtrl.restoreAnswers();
         questionCtrl.restoreAnswers();
         estimateQuestionCtrl.restoreSubmit();
     }

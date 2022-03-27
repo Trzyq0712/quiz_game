@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.scenes.PromptCtrl;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Binder;
@@ -30,5 +31,6 @@ public class MyModule implements Module {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ApplicationUtils.class).in(Scopes.SINGLETON);
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
+        binder.bind(PromptCtrl.class).in(Scopes.SINGLETON);
     }
 }

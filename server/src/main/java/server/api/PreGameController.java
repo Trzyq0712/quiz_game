@@ -66,7 +66,7 @@ public class PreGameController extends BaseController {
     public ResponseEntity<Boolean> startGame() {
         Game game = new Game();
         game.getPlayers().addAll(waitingPlayers);
-        //waitingPlayers.clear();
+        waitingPlayers.clear();
         for (int i = 0; i < totalQuestions; i++) {
             game.getQuestionTypes().put(i, (int) (Math.random() * 3));
             game.getActivities().put(i, activityService.get3Activities());
@@ -114,7 +114,7 @@ public class PreGameController extends BaseController {
      * @return players that are currently in the waiting room
      */
     @PostMapping(path = "/waitingroom/leave")
-    public ResponseEntity<Boolean> leaveWaitingroom(@RequestBody Player player) {
+    public ResponseEntity<Boolean> leaveWaitingroom(@RequestBody PlayerScore player) {
         waitingPlayers.remove(player);
         return ResponseEntity.ok(true);
     }
@@ -129,7 +129,7 @@ public class PreGameController extends BaseController {
      * Read online that DeferredResult is better for handling poll requests.
      */
     @PostMapping(path = "/waitingroom/poll")
-    public DeferredResult<List<PlayerScore>> updates(@RequestBody List<Player> clientPlayers) {
+    public DeferredResult<List<PlayerScore>> updates(@RequestBody List<PlayerScore> clientPlayers) {
         DeferredResult<List<PlayerScore>> output = new DeferredResult();
         System.out.println(waitingPlayers.equals(clientPlayers));
         pollThreads.execute(() -> {

@@ -49,7 +49,7 @@ public class MainCtrl  {
     private Stage primaryStage;
     private Stage secondaryStage;
 
-    private Player player;
+    private PlayerScore player;
     private PlayerScore playerScore;
 
     private HomeScreenCtrl homeCtrl;
@@ -96,6 +96,7 @@ public class MainCtrl  {
 
     Long startTime;
     int currentQuestion = 0;
+    Long gameID;
 
     boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
     clicked the homebutton. So he exited the game
@@ -197,6 +198,10 @@ public class MainCtrl  {
 
     public void setPlayerScore(PlayerScore playerScore) {
         this.playerScore = playerScore;
+    }
+
+    public void requestGameID() {
+        this.gameID = server.requestGameID();
     }
 
     /**
@@ -377,7 +382,7 @@ public class MainCtrl  {
             activateSingleplayer();
         else
             activateMultiplayer();
-        int value = server.getTypeOfQuestion(currentQuestion);
+        int value = server.getQuestionType(currentQuestion, gameID);
         switch (value) {
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);
@@ -412,7 +417,7 @@ public class MainCtrl  {
      * Shows the waiting room and adds the player to the waiting room so other clients can be informed about this.
      * @param player The player which is added to the waiting room.
      */
-    public void enterWaitingRoom(Player player) {
+    public void enterWaitingRoom(PlayerScore player) {
         this.player = player;
         primaryStage.setTitle(Config.titleWaitingRoom);
         waitingScene.getStylesheets().add(Config.styleSheet); //APPLY CSS SHEET

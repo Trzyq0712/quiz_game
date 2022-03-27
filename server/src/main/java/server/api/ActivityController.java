@@ -1,5 +1,6 @@
 package server.api;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import commons.PostActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,8 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("/api/activity")
-public class ActivityController {
+public class ActivityController extends BaseController {
 
-    private final ActivityService activityService;
     private int currentRound = -1; // -1 means there's no game active
     private int currentQuestionType = -1;
     private List<Activity> currentListOfActivities;
@@ -36,7 +36,7 @@ public class ActivityController {
      */
     @Autowired
     public ActivityController(ActivityService activityService) {
-        this.activityService = activityService;
+        super(activityService);
     }
 
     /**

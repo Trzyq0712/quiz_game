@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Emote;
 import commons.Player;
+import commons.PlayerScore;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -25,8 +26,8 @@ public class WaitingRoomCtrl extends BaseCtrl {
     @FXML
     private GridPane playerGrid;
 
-    private Player player;
-    private List<Player> playerList;
+    private PlayerScore player;
+    private List<PlayerScore> playerList;
     Thread pollingThread;
     static Boolean threadRun;
 
@@ -38,6 +39,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
     @FXML
     private void startGame() {
         server.send("/app/waitingroom/start",true);
+
     }
 
     /**
@@ -63,7 +65,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
      * objects to be manipulated not from the main thread. I don't know how to make
      * a request not time-out.
      */
-    public void setUp(Player player){
+    public void setUp(PlayerScore player){
         this.player = player;
         playerList = server.getWaitingPlayers();
         loadPlayerGrid(playerList);
@@ -73,7 +75,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
             while(threadRun){
                 try{
                     playerList = mapper.convertValue(server.pollWaitingroom(playerList),
-                            new TypeReference<List<Player>>() { });
+                            new TypeReference<List<PlayerScore>>() { });
                     if(threadRun){
                         Platform.runLater(() -> loadPlayerGrid(playerList));
                     }
@@ -88,7 +90,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
             mainCtrl.emote(e.getPath(),e.getName());
         } );
 
-        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b ->{
+        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b -> {
             if(b) {
                 threadRun = false;
                 leaveWaitingroom(player);
@@ -107,14 +109,14 @@ public class WaitingRoomCtrl extends BaseCtrl {
      *
      * Constraints are basically grid formatting.
      */
-    public void loadPlayerGrid(List<Player> loadPlayers) {
+    public void loadPlayerGrid(List<PlayerScore> loadPlayers) {
         playerGrid.getChildren().clear();
         playerGrid.getRowConstraints().clear();
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(149);
         for(int i=0; i < loadPlayers.size(); i++){
             if(i%4==0) playerGrid.getRowConstraints().add(con);
-            playerGrid.add(new Label(loadPlayers.get(i).name), i%4, i/4);
+            playerGrid.add(new Label(loadPlayers.get(i).getPlayerName()), i%4, i/4);
         }
     }
 
@@ -125,7 +127,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         mainCtrl.showHome();
     }
 
-    public void leaveWaitingroom(Player player){
+    public void leaveWaitingroom(PlayerScore player){
         server.leaveWaitingroom(player);
     }
 }

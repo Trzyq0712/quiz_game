@@ -1,27 +1,38 @@
 package server.api;
 
-import commons.Player;
+import com.fasterxml.jackson.databind.ser.Serializers;
+import commons.*;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
+import server.ActivityService;
+import server.Game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import static commons.Config.*;
 
 /**
  * Controller for accessing scores of players
  */
 @RestController
 @RequestMapping("/api/play")
-public class PreGameController {
+public class PreGameController extends BaseController {
 
-    private List<Player> waitingPlayers;
+    private Long gameID = 0L;
+    private List<PlayerScore> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
-    //list of singleplayers?
+    private HashMap<Long, Game> ongoingGames = new HashMap<>();//maps gameID to actual Game instance
 
-    public PreGameController() {
+    @Autowired
+    public PreGameController(ActivityService activityService) {
+        super(activityService);
         waitingPlayers = new ArrayList<>();
     }
 
@@ -41,20 +52,63 @@ public class PreGameController {
      */
     @PostMapping(path = "/join")
     public ResponseEntity<Boolean> playMulti(@RequestBody String name) {
-        Player player = new Player(name);
+        PlayerScore player = new PlayerScore(name, 0);
         if(waitingPlayers.contains(player))
             return ResponseEntity.ok(false);
-
         waitingPlayers.add(0, player);
         System.out.println("added " + name);
         return ResponseEntity.ok(true);
+    }
+
+    @GetMapping(path = "/getGameID")
+    public ResponseEntity<Long> supplyGameID() {
+        return ResponseEntity.ok(gameID);
+    }
+
+    //@GetMapping(path = "/startMultiplayer")
+    public void startGame() {
+        Game game = new Game();
+        game.getPlayers().addAll(waitingPlayers);
+        //waitingPlayers.clear();
+        for (int i = 0; i < totalQuestions; i++) {
+            game.getQuestionTypes().put(i, (int) (Math.random() * 3));
+            game.getActivities().put(i, activityService.get3Activities());
+        }
+        ongoingGames.put(game.getGameId(), game);
+        gameID++;
+        return;
+    }
+
+    @PostMapping(path = "/getQuestionType")
+    public ResponseEntity<Integer> getQuestionType(@RequestBody ClientInfo clientInfo) {
+        int currentQuestion = clientInfo.getCurrentQuestion();
+        Long gameID = clientInfo.getGameID();
+        int questionType = ongoingGames.get(gameID).getQuestionTypes().get(currentQuestion);
+        return ResponseEntity.ok(questionType);
+    }
+
+    @PostMapping(path = "/get3Activities")
+    public ResponseEntity<ActivityList> get3Activities(@RequestBody ClientInfo clientInfo) {
+        int currentQuestion = clientInfo.getCurrentQuestion();
+        Long gameID = clientInfo.getGameID();
+        List<Activity> activities = ongoingGames.get(gameID).getActivities().get(currentQuestion);
+        ActivityList al = new ActivityList(activities);
+        return ResponseEntity.ok(al);
+    }
+
+    @PostMapping(path = "/getSingleActivity")
+    public ResponseEntity<Activity> getSingleActivity(@RequestBody ClientInfo clientInfo) {
+        int currentQuestion = clientInfo.getCurrentQuestion();
+        Long gameID = clientInfo.getGameID();
+        Activity activity = ongoingGames.get(gameID).getActivities().get(currentQuestion).get(0);
+        return ResponseEntity.ok(activity);
     }
 
     /**
      * @return players that are currently in the waiting room
      */
     @GetMapping(path = "/waitingroom")
-    public ResponseEntity<List<Player>> getWaitingroom() {
+    public ResponseEntity<List<PlayerScore>> getWaitingroom() {
         return ResponseEntity.ok(waitingPlayers);
     }
 
@@ -79,8 +133,8 @@ public class PreGameController {
      * Read online that DeferredResult is better for handling poll requests.
      */
     @PostMapping(path = "/waitingroom/poll")
-    public DeferredResult<List<Player>> updates(@RequestBody List<Player> clientPlayers) {
-        DeferredResult<List<Player>> output = new DeferredResult();
+    public DeferredResult<List<PlayerScore>> updates(@RequestBody List<Player> clientPlayers) {
+        DeferredResult<List<PlayerScore>> output = new DeferredResult();
         System.out.println(waitingPlayers.equals(clientPlayers));
         pollThreads.execute(() -> {
             while(waitingPlayers.equals(clientPlayers)){

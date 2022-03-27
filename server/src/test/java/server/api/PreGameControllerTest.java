@@ -2,9 +2,12 @@ package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Player;
+import commons.PlayerScore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.context.request.async.DeferredResult;
+import server.ActivityService;
+import server.MockActivityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +20,16 @@ class PreGameControllerTest {
     Player p1;
     Player p2;
     List<Player> playerList;
-    DeferredResult<List<Player>> updatedList;
+    DeferredResult<List<PlayerScore>> updatedList;
     ObjectMapper mapper;
+    private ActivityService sut2;
+    private MockActivityRepository repo;
 
     @BeforeEach
     public void setup() {
-        sut = new PreGameController();
+        repo = new MockActivityRepository();
+        sut2 = new ActivityService(repo);
+        sut = new PreGameController(sut2);
         p1 = new Player("Reinier");
         p2 = new Player("Mana");
         playerList = new ArrayList<>();

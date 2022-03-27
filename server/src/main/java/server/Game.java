@@ -1,18 +1,23 @@
 package server;
 
+import commons.Activity;
 import commons.PlayerScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 @Component
 public class Game {
 
-    private final int gameId;
+    public static Long gameCounter = 0L;
+    private final Long gameId;
     private List<PlayerScore> players;
+    private HashMap<Integer, Integer> questionTypes = new HashMap<>(); //maps questionNumber to questionType
+    private HashMap<Integer, List<Activity>> activities = new HashMap<>(); //maps questionNumber to activity
 
     /**
      * Constructor of Game
@@ -21,7 +26,16 @@ public class Game {
     @Autowired
     public Game() {
         this.players = new ArrayList<>();
-        this.gameId = 0;
+        this.gameId = gameCounter;
+        gameCounter++;
+    }
+
+    public HashMap<Integer, Integer> getQuestionTypes() {
+        return questionTypes;
+    }
+
+    public HashMap<Integer, List<Activity>> getActivities() {
+        return activities;
     }
 
     /**
@@ -126,7 +140,7 @@ public class Game {
      *
      * @return the game id
      */
-    public int getGameId() {
+    public Long getGameId() {
         return gameId;
     }
 

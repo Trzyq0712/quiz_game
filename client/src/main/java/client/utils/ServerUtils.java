@@ -19,14 +19,13 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static commons.Config.*;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-import commons.Activity;
-import commons.Player;
-import commons.PlayerScore;
-import commons.PostActivity;
+import commons.*;
+import org.apache.catalina.User;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
@@ -40,6 +39,47 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class ServerUtils {
 
     public static String SERVER = server;
+
+    public Long requestGameID() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/getGameID") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Long>() {});
+    }
+
+
+    public Integer getQuestionType(int currentQuestion, Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/getQuestionType") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Integer.class);
+    }
+
+    public ActivityList get3Activities(int currentQuestion, Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/get3Activities") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), ActivityList.class);
+    }
+
+    public Integer getSingleActivity(int currentQuestion, Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/getSingleActivity") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Integer.class);
+    }
+
+    /*public void startMultiplayer() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/startMultiplayer") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<>() {});
+    }*/
 
     public Integer getTypeOfQuestion(int round){
         return ClientBuilder.newClient(new ClientConfig()) //
@@ -80,18 +120,18 @@ public class ServerUtils {
     /**
      * @return the list of waiting players
      */
-    public List<Player> getWaitingPlayers() {
+    public List<PlayerScore> getWaitingPlayers() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/play/waitingroom") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Player>>() {});
+                .get(new GenericType<List<PlayerScore>>() {});
     }
 
     /**
      * @param player that is going to leave
      */
-    public void leaveWaitingroom(Player player) {
+    public void leaveWaitingroom(PlayerScore player) {
          ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/play/waitingroom/leave") //
                 .request(APPLICATION_JSON) //
@@ -103,7 +143,7 @@ public class ServerUtils {
      * @param players is the list of the visible players for the client
      * @return the updated list of the players when something has changed
      */
-    public List<Player> pollWaitingroom(List<Player> players) {
+    public List<PlayerScore> pollWaitingroom(List<PlayerScore> players) {
         return ClientBuilder.newClient(new ClientConfig()) //F
                 .target(SERVER).path("api/play/waitingroom/poll") //
                 .request(APPLICATION_JSON) //

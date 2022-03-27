@@ -78,7 +78,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
             if (gameUtils.getCurrentQuestion() < totalQuestions) {
                 mainCtrl.restoreQuestions();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
-                    gameUtils.startTimer();
+                    //gameUtils.startTimer();
                     mainCtrl.showQuestion();
                 } else mainCtrl.showIntermediateLeaderboard();
             } else {

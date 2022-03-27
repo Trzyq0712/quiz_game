@@ -45,7 +45,7 @@ public class NamePromptCtrl extends BaseCtrl {
             gameUtils.setPlayer(player);
             gameUtils.requestGameID();
             server.start();
-            gameUtils.startTimer();
+            //gameUtils.startTimer();
             mainCtrl.showQuestion();
         }
     }

@@ -337,6 +337,7 @@ public class MainCtrl {
                 questionScreenScene.getStylesheets().add(Config.styleSheet);
                 Platform.runLater(() -> comparisonQuestionCtrl.generateActivity());
                 Platform.runLater(() -> comparisonQuestionCtrl.updateTracker());
+                Platform.runLater(() -> gameUtils.startTimer());
                 Platform.runLater(() -> primaryStage.setScene(questionScreenScene));
                 Platform.runLater(() -> comparisonQuestionCtrl.activateProgressBar());
                 break;
@@ -345,6 +346,7 @@ public class MainCtrl {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
                 estimateQuestionCtrl.generateActivity();
                 estimateQuestionCtrl.updateTracker();
+                Platform.runLater(() -> gameUtils.startTimer());
                 primaryStage.setScene(estimateQuestionScene);
                 estimateQuestionCtrl.activateProgressBar();
                 break;
@@ -353,6 +355,7 @@ public class MainCtrl {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
                 MCQuestionCtrl.generateActivity();
                 MCQuestionCtrl.updateTracker();
+                Platform.runLater(() -> gameUtils.startTimer());
                 primaryStage.setScene(MCQuestionScene);
                 MCQuestionCtrl.activateProgressBar();
                 break;

@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+import commons.Emote;
 import commons.Player;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
@@ -14,14 +15,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import org.springframework.messaging.simp.stomp.StompSession;
 
 import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
-
     static Boolean threadRun;
-    private final ServerUtils server;
     private final GameUtils gameUtils;
+    public StompSession.Subscription waitingroom;
     Thread pollingThread;
     @FXML
     private GridPane playerGrid;
@@ -29,8 +30,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     @Inject
     public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
         this.gameUtils = gameUtils;
     }
 
@@ -41,6 +41,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         mainCtrl.showQuestion();
         utils.playButtonSound();
         restoreChat();
+        server.send("/app/waitingroom/start", true);
     }
 
     /**
@@ -84,6 +85,22 @@ public class WaitingRoomCtrl extends BaseCtrl {
             }
         });
         pollingThread.start();
+        server.registerForMessages("/topic/emote/1", Emote.class, e -> {
+            mainCtrl.emote(e.getPath(), e.getName());
+        });
+
+        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b -> {
+            if (b) {
+                threadRun = false;
+                leaveWaitingRoom(gameUtils.getPlayer());
+                Platform.runLater(() -> {
+                    mainCtrl.showQuestion();
+                    utils.playButtonSound();
+                });
+                restoreChat();
+                server.unsubscribe(waitingroom);
+            }
+        });
     }
 
     /**

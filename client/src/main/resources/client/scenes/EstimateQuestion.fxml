@@ -52,7 +52,7 @@
         </ProgressBar>
         <ImageView id="hintJoker" fx:id="hintJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="300.0"  pickOnBounds="true" preserveRatio="true" styleClass="clickable" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="1700.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="300.0">
             <image>
-                <Image url="@/images/hint.png" />
+                <Image url="@/images/transparent.png" />
             </image>
         </ImageView>
         <ImageView id="pointsJoker" fx:id="pointsJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="500.0" onKeyPressed="#pointsClick" onMouseClicked="#pointsClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
@@ -69,12 +69,12 @@
         <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
           <ImageView id="questionImage" fx:id="questionImage" fitHeight="288.0" fitWidth="352.0" layoutX="783.0" layoutY="486.0" pickOnBounds="true" preserveRatio="true" />
           <Label id="ActivityDescription" fx:id="ActivityDescription" layoutX="783.0" layoutY="349.0" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true" />
-          <Button id="button" fx:id="button" layoutX="804.0" layoutY="926.0" mnemonicParsing="false" onMouseClicked="#submitGuess" text="Submit">
-              <styleClass>
-                  <String fx:value="answer-button" />
-                  <String fx:value="clickable" />
-              </styleClass>
-          </Button>
+        <Button id="button" fx:id="submit" layoutX="804.0" layoutY="926.0" mnemonicParsing="false" onMouseClicked="#submitGuess" text="Submit">
+            <styleClass>
+                <String fx:value="answer-button" />
+                <String fx:value="clickable" />
+            </styleClass>
+        </Button>
         <StackPane fx:id="chatAndEmoteHolder" layoutX="46.0" layoutY="267.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="288.0">
             <children>
                 <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="382.0" prefWidth="290.0">
@@ -122,5 +122,7 @@
             </children>
         </StackPane>
       <TextField id="textField" fx:id="textField" layoutX="873.0" layoutY="846.0" prefHeight="35.0" prefWidth="162.0" promptText="Enter guess" />
+        <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="798.0" layoutY="883.0" text="Error label" visible="false" />
+        <Label fx:id="jokerConfirmation" layoutX="113.0" layoutY="960.0" text="Your asked to double your points!" visible="true" />
     </children>
 </AnchorPane>

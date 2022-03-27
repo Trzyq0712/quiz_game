@@ -5,6 +5,7 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Answer;
+import commons.Emote;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,23 +16,24 @@ import javafx.scene.image.ImageView;
 
 public abstract class BaseQuestionCtrl extends BaseCtrl {
 
+    protected final GameUtils gameUtils;
+    protected boolean doublePoints;
+    protected int answerButtonId;
+    protected boolean hasPlayerAnswered;
     @FXML
     ImageView hintJoker;
     @FXML
     ImageView pointsJoker;
     @FXML
     ImageView timeJoker;
-
     @FXML
     Label questionTracker;
     @FXML
     Label scoreLabel;
-//    @FXML
-//    Label jokerConfirmation;
-
+    @FXML
+    Label jokerConfirmation;
     @FXML
     ProgressBar pgBar;
-
     @FXML
     Button firstButton;
     @FXML
@@ -39,17 +41,17 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     Button thirdButton;
 
-    protected boolean doublePoints;
-    protected int answerButtonId;
-
-    protected final ServerUtils server;
-    protected final GameUtils gameUtils;
-
-
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
         this.gameUtils = gameUtils;
+    }
+
+    public boolean getHasPlayerAnswered() {
+        return hasPlayerAnswered;
+    }
+
+    public void setHasPlayerAnswered(boolean bool) {
+        hasPlayerAnswered = bool;
     }
 
     /**
@@ -66,6 +68,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
     public void setDoublePoints(Boolean b) {
         doublePoints = b;
+        if (b) {
+            jokerConfirmation.setText("Your want to double your points!");
+            jokerConfirmation.setVisible(true);
+        } else {
+            jokerConfirmation.setVisible(false);
+        }
     }
 
     /**
@@ -84,7 +92,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         firstButton.setVisible(true);
         secondButton.setVisible(true);
         thirdButton.setVisible(true);
-//        jokerConfirmation.setVisible(false);
+        setDoublePoints(false);
     }
 
     /**
@@ -92,9 +100,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * the jokers are accessible again in the next new game
      */
     public void restoreJokers() {
-        hintJoker.setVisible(true);
-        timeJoker.setVisible(true);
-        pointsJoker.setVisible(true);
+        mainCtrl.visibilityTimeJoker(true);
+        mainCtrl.visibilityHintJoker(true);
+        mainCtrl.visibilityPointsJoker(true);
         setDoublePoints(false);
     }
 
@@ -102,6 +110,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
+        server.disconnect();
         mainCtrl.showHome();
         restoreAnswers();
         restoreJokers();
@@ -112,11 +121,15 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      *               button the player clicked on
      */
     public void grantPoints(Answer answer) {
+        setHasPlayerAnswered(true);
         int earnedPoints = 0;
         if (answer.getAnswer() == answerButtonId)
             earnedPoints = answer.getPoints();
+        if (doublePoints)
+            earnedPoints *= 2;
         gameUtils.getPlayer().addPoints(earnedPoints);
         mainCtrl.setAnswersForAnswerReveal(earnedPoints, false);
+
     }
 
     /**
@@ -130,10 +143,13 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     /**
      * Adds the emote to the chatbox
+     *
      * @param e - emote
      */
     public void emote(Event e) {
-        mainCtrl.emote(e);
+        String path = ((ImageView) e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
+        server.send("/app/emote/1", emote);
     }
 
     /**
@@ -144,9 +160,8 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected void pointsClick() {
         utils.playButtonSound();
         pointsJoker.setVisible(false);
+        mainCtrl.visibilityPointsJoker(false);
         setDoublePoints(true);
-//        jokerConfirmation.setText("Your scored points will be doubled!");
-//        jokerConfirmation.setVisible(true);
     }
 
     /**
@@ -154,7 +169,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * and hides one of the wrong answers
      */
     @FXML
-    protected void hintClick() {
+    protected void hintClick () {
         utils.playButtonSound();
         hintJoker.setVisible(false);
         String falseAnswer = server.activateHint();

@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -15,8 +16,8 @@ public class HomeScreenCtrl extends BaseCtrl {
 
     @Inject
     public HomeScreenCtrl(MainCtrl mainCtrl, ApplicationUtils utils,
-                          GameUtils gameUtils, NamePromptCtrl namePromptCtrl) {
-        super(mainCtrl, utils);
+                          ServerUtils server, GameUtils gameUtils, NamePromptCtrl namePromptCtrl) {
+        super(mainCtrl, utils, server);
         this.gameUtils = gameUtils;
         this.namePromptCtrl = namePromptCtrl;
     }

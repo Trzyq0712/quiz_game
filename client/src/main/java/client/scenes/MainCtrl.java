@@ -18,7 +18,7 @@ package client.scenes;
 
 import client.Config;
 import commons.Activity;
-import javafx.event.Event;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,6 +37,12 @@ import java.util.List;
 
 public class MainCtrl {
 
+    /**
+     * Amount of messages currently displaying in the chat.
+     */
+    int amountOfMessages = 0;
+    List<VBox> listOfChatBoxes;
+    List<StackPane> listOfHolders;
     private Stage primaryStage;
     private Stage secondaryStage;
     private HomeScreenCtrl homeScreenCtrl;
@@ -64,18 +70,11 @@ public class MainCtrl {
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
     private MCQuestionCtrl MCQuestionCtrl;
+
+    // --------------------- to move START
     private Scene MCQuestionScene;
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
-
-    // --------------------- to move START
-
-    /**
-     * Amount of messages currently displaying in the chat.
-     */
-    int amountOfMessages = 0;
-    List<VBox> listOfChatBoxes;
-    List<StackPane> listOfHolders;
 
     // -------------------- to move END
 
@@ -209,6 +208,43 @@ public class MainCtrl {
     }
 
 
+    /**
+     * Hides or shows the points joker in all the question types
+     *
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityPointsJoker(Boolean bool) {
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
+     * Hides or shows the points joker in all the question types
+     *
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityHintJoker(Boolean bool) {
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
+     * Hides or shows the points joker in all the question types
+     *
+     * @param bool - true if we want to make them visible, false otherwise
+     */
+    public void visibilityTimeJoker(Boolean bool) {
+        estimateQuestionCtrl.pointsJoker.setVisible(bool);
+        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
+        MCQuestionCtrl.pointsJoker.setVisible(bool);
+    }
+
+    /**
+     * Produces the sound of a button when invoked, this function should be called when a button is clicked.
+     */
+
     // --- to move END
 
     /**
@@ -317,7 +353,6 @@ public class MainCtrl {
     // TODO consider refactoring
 
 
-
     public void refresh() {
         singlePlayerLeaderboardCtrl.refresh();
     }
@@ -344,24 +379,27 @@ public class MainCtrl {
     /**
      * Updates all the chatboxes to display the emoji that has been clicked.
      *
-     * @param e The emote that has been clicked.
+     * @param path - The path of the clicked emoji image
+     * @param name - The name of the player
      */
 
-    public void emote(Event e) {
+    public void emote(String path, String name) {
         for (VBox c : listOfChatBoxes) {
-            HBox hbox = new HBox();
-            Image arg = ((ImageView) e.getSource()).getImage();
-            Label user = new Label(" user01:  ");
-            ImageView emote = new ImageView(arg);
-            emote.setFitHeight(50);
-            emote.setFitWidth(50);
-            hbox.getChildren().addAll(user, emote);
-            hbox.setAlignment(Pos.CENTER_LEFT);
-            if (amountOfMessages >= Config.maxChatMessages) {
-                c.getChildren().remove(0);
-            }
-            c.getChildren().add(hbox);
-            c.setSpacing(10);
+            Platform.runLater(() -> {
+                HBox hbox = new HBox();
+                Image arg = new Image(path);
+                Label user = new Label(name + ":  ");
+                ImageView emote = new ImageView(arg);
+                emote.setFitHeight(50);
+                emote.setFitWidth(50);
+                hbox.getChildren().addAll(user, emote);
+                hbox.setAlignment(Pos.CENTER_LEFT);
+                if (amountOfMessages > Config.maxChatMessages) {
+                    c.getChildren().remove(0);
+                }
+                c.getChildren().add(hbox);
+                c.setSpacing(10);
+            });
         }
         amountOfMessages++;
     }

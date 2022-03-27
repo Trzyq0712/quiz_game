@@ -42,7 +42,6 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
-    //Long startTime;
 
     private List<Activity> activities;
 
@@ -65,6 +64,7 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
     public void answerClick(Event event) {
         utils.playButtonSound();
         long timeToAnswer = gameUtils.stopTimer();
+        setHasPlayerAnswered(true);
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         long i = 0;
@@ -91,6 +91,7 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
         answerButtonId = activities.stream().map(Activity::getEnergyConsumption)
                 .collect(Collectors.toList()).indexOf(answer) + 1;
         displayActivities();
+        setHasPlayerAnswered(false);
     }
 
     private void displayActivities() {

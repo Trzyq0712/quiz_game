@@ -6,6 +6,7 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
+import commons.Emote;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +23,6 @@ import static client.Config.timeAnswerReveal;
 
 public class AnswerRevealCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
     private final GameUtils gameUtils;
 
     @FXML
@@ -65,9 +65,9 @@ public class AnswerRevealCtrl extends BaseCtrl {
     StackPane chatAndEmoteHolder;
 
     @Inject
+
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
         this.gameUtils = gameUtils;
     }
 
@@ -104,8 +104,11 @@ public class AnswerRevealCtrl extends BaseCtrl {
         gameUtils.updateTracker(questionTracker, scoreLabel, false);
     }
 
+
     public void emote(Event e) {
-        mainCtrl.emote(e);
+        String path = ((ImageView) e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
+        server.send("/app/emote/1", emote);
     }
 
     /**

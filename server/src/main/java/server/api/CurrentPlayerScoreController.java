@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Controller for accessing scores of players during a game
  */
 @RestController
-@RequestMapping("/api/currentPlayerScore")
+@RequestMapping("/api/currentplayerscore")
 public class CurrentPlayerScoreController {
 
     private Game game;

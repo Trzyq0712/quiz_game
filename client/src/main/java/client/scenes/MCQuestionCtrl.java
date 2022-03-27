@@ -63,6 +63,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
         Collections.shuffle(activities);
         answerButtonId = activities.indexOf(activity) + 1;
         displayActivity(activities);
+        setHasPlayerAnswered(false);
     }
 
     private void displayActivity(List<Activity> activities) {
@@ -82,6 +83,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
     public void answerClick(Event event) {
         utils.playButtonSound();
         long timeToAnswer = gameUtils.stopTimer();
+        setHasPlayerAnswered(true);
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();
         long i = 0;

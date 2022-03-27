@@ -10,8 +10,6 @@ import static client.Config.*;
 
 public class InfoScreenCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
-
     @FXML
     Label hintExplainer;
     @FXML
@@ -22,8 +20,7 @@ public class InfoScreenCtrl extends BaseCtrl {
 
     @Inject
     public InfoScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     public void setHintExplainer() {

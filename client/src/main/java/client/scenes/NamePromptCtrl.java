@@ -15,7 +15,6 @@ import static client.Config.maxCharsUsername;
 
 public class NamePromptCtrl extends BaseCtrl {
 
-    private final ServerUtils server;
     private final GameUtils gameUtils;
     @FXML
     public Button startButton;
@@ -26,8 +25,7 @@ public class NamePromptCtrl extends BaseCtrl {
 
     @Inject
     public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
         this.gameUtils = gameUtils;
     }
 

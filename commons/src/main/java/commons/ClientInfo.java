@@ -1,8 +1,7 @@
 package commons;
 
-import java.io.Serializable;
 
-public class ClientInfo implements Serializable {
+public class ClientInfo {
     private int currentQuestion;
     private Long gameID;
 

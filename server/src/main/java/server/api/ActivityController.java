@@ -1,6 +1,5 @@
 package server.api;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import commons.PostActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

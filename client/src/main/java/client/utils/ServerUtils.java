@@ -19,13 +19,11 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static commons.Config.*;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import commons.*;
-import org.apache.catalina.User;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;

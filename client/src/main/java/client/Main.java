@@ -23,13 +23,11 @@ import java.net.URISyntaxException;
 import client.scenes.*;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import client.scenes.MainCtrl;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.apache.catalina.Server;
 
 public class Main extends Application {
 

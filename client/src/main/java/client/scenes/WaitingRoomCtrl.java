@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Emote;
-import commons.Player;
 import commons.PlayerScore;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;

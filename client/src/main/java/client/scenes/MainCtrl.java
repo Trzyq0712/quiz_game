@@ -17,12 +17,10 @@ package client.scenes;
 
 
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
 import commons.PlayerScore;
 import commons.Config;
 import commons.Activity;
 import javafx.application.Platform;
-import commons.Player;
 import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;

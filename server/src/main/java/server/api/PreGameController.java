@@ -61,7 +61,7 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(Game.gameCounter);
     }
 
-    //@GetMapping(path = "/start")
+    @GetMapping(path = "/start") //this should ONLY be called by singleplayer!
     public ResponseEntity<Boolean> startGame() {
         Game game = new Game();
         game.getPlayers().addAll(waitingPlayers);

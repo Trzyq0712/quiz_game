@@ -19,7 +19,7 @@
    <children>
       <ImageView id="home" fx:id="home" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@/images/home.png" />
+            <Image url="@images/home.png" />
          </image>
          <viewport>
             <Rectangle2D />
@@ -27,7 +27,7 @@
       </ImageView>
       <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@/images/music.png" />
+            <Image url="@images/music.png" />
          </image>
       </ImageView>
       <Pane id="questionBox" layoutY="150.0" prefHeight="100.0" prefWidth="1920.0">
@@ -96,7 +96,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/images/angry.png" />
+                        <Image url="@images/angry.png" />
                      </image>
                      <StackPane.margin>
                         <Insets right="70.0" />
@@ -104,7 +104,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/images/happy.png" />
+                        <Image url="@images/happy.png" />
                      </image>
                      <StackPane.margin>
                         <Insets left="70.0" />
@@ -112,7 +112,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/images/sunglasses.png" />
+                        <Image url="@images/sunglasses.png" />
                      </image>
                      <StackPane.margin>
                         <Insets right="200.0" />
@@ -120,7 +120,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/images/tears.png" />
+                        <Image url="@images/tears.png" />
                      </image>
                      <StackPane.margin>
                         <Insets left="200.0" />
@@ -147,14 +147,5 @@
             </Label>
          </children>
       </StackPane>
-      <Label id="label1" fx:id="label1" layoutX="659.0" layoutY="374.0" text="Label" />
-      <Label id="label2" fx:id="label2" layoutX="659.0" layoutY="553.0" text="Label" />
-      <Label id="label3" fx:id="label3" layoutX="659.0" layoutY="742.0" text="Label" />
-      <ImageView id="checkmark1" fx:id="checkmark1" fitHeight="75.0" fitWidth="79.0" layoutX="1150.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView id="checkmark2" fx:id="checkmark2" fitHeight="75.0" fitWidth="79.0" layoutX="1151.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView id="checkmark3" fx:id="checkmark3" fitHeight="75.0" fitWidth="79.0" layoutX="1149.0" layoutY="724.0" pickOnBounds="true" preserveRatio="true" />
-      <Label id="estimateAnswer" fx:id="estimateAnswer" layoutX="917.0" layoutY="375.0" text="Label" />
-      <Label id="pointsGrantedEstimate" fx:id="pointsGrantedEstimate" layoutX="813.0" layoutY="593.0" text="You got 200 points" />
-      <Label id="pointsGrantedMC" fx:id="pointsGrantedMC" layoutX="812.0" layoutY="925.0" text="You got 200 points" />
-         </children>
+   </children>
 </AnchorPane>

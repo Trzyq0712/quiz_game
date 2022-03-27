@@ -329,18 +329,14 @@ public class MainCtrl {
     public void showQuestion() {
         active = true;
          //APPLY CSS SHEET
-        if (singlePlayerModeActive)
-            activateSingleplayer();
-        else
-            activateMultiplayer();
         int value = server.getQuestionType(currentQuestion, gameID);
-        switch (value) {
+        switch (0) {
             case 0: {
                 questionScreenScene.getStylesheets().add(Config.styleSheet);
-                comparisonQuestionCtrl.updateTracker();
-                comparisonQuestionCtrl.generateActivity();
-                primaryStage.setScene(questionScreenScene);
-                comparisonQuestionCtrl.activateProgressBar();
+                Platform.runLater(() -> comparisonQuestionCtrl.generateActivity());
+                Platform.runLater(() -> comparisonQuestionCtrl.updateTracker());
+                Platform.runLater(() -> primaryStage.setScene(questionScreenScene));
+                Platform.runLater(() -> comparisonQuestionCtrl.activateProgressBar());
                 break;
             }
             case 1: {
@@ -500,6 +496,9 @@ public class MainCtrl {
      * Shows the screen where answers are revealed.
      */
     public void showAnswerReveal() {
+        comparisonQuestionCtrl.restoreDoublePoints();
+        estimateQuestionCtrl.restoreDoublePoints();
+        MCQuestionCtrl.restoreDoublePoints(); //double points are reset after question ends?
         answerRevealCtrl.updateTracker();
         answerRevealScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(answerRevealScene);

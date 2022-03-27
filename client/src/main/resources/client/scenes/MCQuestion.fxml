@@ -68,7 +68,6 @@
         <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
         <ImageView id="questionImage" fx:id="questionImage" fitHeight="288.0" fitWidth="352.0" layoutX="784.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true" />
         <Label id="ActivityDescription" fx:id="ActivityDescription" layoutX="783.0" layoutY="328.0" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true" />
-        <Label fx:id="jokerConfirmation" layoutX="113.0" layoutY="960.0" text="Your asked to double your points!" visible="true" />
         <StackPane layoutX="346.0" layoutY="725.0" prefHeight="150.0" prefWidth="1189.0" AnchorPane.rightAnchor="375.0">
             <children>
             <Button id="firstButton" fx:id="firstButton" mnemonicParsing="false" onMouseClicked="#answerClick" prefHeight="82.0" prefWidth="256.0" text="A">

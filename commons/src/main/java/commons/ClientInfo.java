@@ -1,8 +1,13 @@
 package commons;
 
-public class ClientInfo {
+import java.io.Serializable;
+
+public class ClientInfo implements Serializable {
     private int currentQuestion;
     private Long gameID;
+
+    public ClientInfo() {
+    }
 
     public ClientInfo(int currentQuestion, Long gameID) {
         this.currentQuestion = currentQuestion;

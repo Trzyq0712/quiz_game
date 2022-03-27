@@ -54,7 +54,7 @@ public class QuestionCtrl extends BaseQuestionCtrl {
      * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
     public void generateActivity(){
-        activities = server.get3Activities();
+        activities = server.get3Activities(mainCtrl.currentQuestion, mainCtrl.gameID).getListOfActivities();
         long answer = activities.stream().map(Activity::getEnergyConsumption)
                 .sorted().collect(Collectors.toList()).get(2);
         answerButtonId = activities.stream().map(Activity::getEnergyConsumption)

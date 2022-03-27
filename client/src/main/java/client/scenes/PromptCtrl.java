@@ -41,6 +41,8 @@ public class PromptCtrl extends BaseCtrl implements Initializable {
         if(checkName(nameField, errorLabel) && server.startSingle(nameField.getText())){
             PlayerScore player = new PlayerScore(0, nameField.getText(),0);
             mainCtrl.setPlayerScore(player);
+            mainCtrl.requestGameID();
+            server.start();
             mainCtrl.showQuestion();
             mainCtrl.buttonSound();
         }

@@ -25,7 +25,7 @@ import static commons.Config.*;
 @RequestMapping("/api/play")
 public class PreGameController extends BaseController {
 
-    private Long gameID = 0L;
+    //private Long gameID = 0L;
     private List<PlayerScore> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
     private HashMap<Long, Game> ongoingGames = new HashMap<>();//maps gameID to actual Game instance
@@ -62,11 +62,11 @@ public class PreGameController extends BaseController {
 
     @GetMapping(path = "/getGameID")
     public ResponseEntity<Long> supplyGameID() {
-        return ResponseEntity.ok(gameID);
+        return ResponseEntity.ok(Game.gameCounter);
     }
 
-    //@GetMapping(path = "/startMultiplayer")
-    public void startGame() {
+    @GetMapping(path = "/start")
+    public ResponseEntity<Boolean> startGame() {
         Game game = new Game();
         game.getPlayers().addAll(waitingPlayers);
         //waitingPlayers.clear();
@@ -75,8 +75,7 @@ public class PreGameController extends BaseController {
             game.getActivities().put(i, activityService.get3Activities());
         }
         ongoingGames.put(game.getGameId(), game);
-        gameID++;
-        return;
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping(path = "/getQuestionType")

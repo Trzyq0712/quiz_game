@@ -386,16 +386,16 @@ public class MainCtrl  {
         switch (value) {
             case 0: {
                 questionScene.getStylesheets().add(Config.styleSheet);
-                Platform.runLater(() -> questionCtrl.updateTracker());
                 Platform.runLater(() -> questionCtrl.generateActivity());
+                Platform.runLater(() -> questionCtrl.updateTracker());
                 Platform.runLater(() -> primaryStage.setScene(questionScene));
                 Platform.runLater(() -> questionCtrl.activateProgressBar());
                 break;
             }
             case 1: {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
-                Platform.runLater(() -> estimateQuestionCtrl.updateTracker());
                 Platform.runLater(() -> estimateQuestionCtrl.generateActivity());
+                Platform.runLater(() -> estimateQuestionCtrl.updateTracker());
                 Platform.runLater(() -> primaryStage.setScene(estimateQuestionScene));
                 Platform.runLater(() -> estimateQuestionCtrl.activateProgressBar());
                 break;
@@ -403,8 +403,8 @@ public class MainCtrl  {
 
             case 2: {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
-                Platform.runLater(() -> MCQuestionCtrl.updateTracker());
                 Platform.runLater(() -> MCQuestionCtrl.generateActivity());
+                Platform.runLater(() -> MCQuestionCtrl.updateTracker());
                 Platform.runLater(() -> primaryStage.setScene(MCQuestionScene));
                 Platform.runLater(() -> MCQuestionCtrl.activateProgressBar());
                 break;

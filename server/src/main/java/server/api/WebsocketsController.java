@@ -6,16 +6,15 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import java.net.http.HttpClient;
-
-
-
 @RestController
 public class WebsocketsController {
 
     @Autowired
     PreGameController preGameController;
+
+    public WebsocketsController(PreGameController preGameController) {
+        this.preGameController = preGameController;
+    }
 
     @MessageMapping("/waitingroom/start") // /app/waitingroom/start
     @SendTo("/topic/waitingroom/start")

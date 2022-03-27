@@ -55,7 +55,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl{
 
 
     public void generateActivity() {
-        activity = server.getActivity();
+        activity = server.getSingleActivity(mainCtrl.currentQuestion, mainCtrl.gameID);
         long answer = activity.getEnergyConsumption();
         Activity a = new Activity(activity.getDescription(), (long)(answer*1.5),activity.getPicturePath());
         Activity b = new Activity(activity.getDescription(), (long)(answer*0.5),activity.getPicturePath());

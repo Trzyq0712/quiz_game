@@ -77,11 +77,10 @@ public class AnswerRevealCtrl extends BaseCtrl {
         utils.runProgressBar(pgBarReveal, timeAnswerReveal, () -> {
             if (gameUtils.getCurrentQuestion() < totalQuestions) {
                 mainCtrl.restoreQuestions();
-                if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer))
+                if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
+                    gameUtils.startTimer();
                     mainCtrl.showQuestion();
-                else
-                    mainCtrl.showIntermediateLeaderboard();
-                gameUtils.startTimer();
+                } else mainCtrl.showIntermediateLeaderboard();
             } else {
                 mainCtrl.restore();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {

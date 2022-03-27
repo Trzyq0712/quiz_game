@@ -10,7 +10,7 @@ public class Config {
     public static long timePerQuestion = 2000; //milliseconds
     public static long timeForIntermediate = 500; //milliseconds, time the intermediate leaderboard shows
     public static long timeAnswerReveal = 2000; //milliseconds, time the revealed answers show\
-    public static int totalQuestions = 4; //total amount of questions in the quiz, set to 2 for testing purposes
+    public static int totalQuestions = 2; //total amount of questions in the quiz, set to 2 for testing purposes
     public static int timeReductionPercentage = 20; //percentage by which opponents time will decrease if the time
     //joker is played
     public static String edit = "Edit activities";

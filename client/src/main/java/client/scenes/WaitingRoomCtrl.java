@@ -27,7 +27,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
     @FXML
     private GridPane playerGrid;
 
-    //rivate PlayerScore player;
     private List<Player> playerList;
 
     @Inject
@@ -40,10 +39,12 @@ public class WaitingRoomCtrl extends BaseCtrl {
     private void startGame() {
         threadRun = false;
         leaveWaitingRoom(gameUtils.getPlayer());
+        //server.start();
+        server.send("/app/waitingroom/start", true);
         mainCtrl.showQuestion();
         utils.playButtonSound();
         restoreChat();
-        server.send("/app/waitingroom/start", true);
+
     }
 
     /**

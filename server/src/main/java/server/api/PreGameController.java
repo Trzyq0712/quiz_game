@@ -50,10 +50,9 @@ public class PreGameController extends BaseController {
     @PostMapping(path = "/join")
     public ResponseEntity<Boolean> playMulti(@RequestBody String name) {
         Player player = new Player(name, 0);
-        if(waitingPlayers.contains(player))
-            return ResponseEntity.ok(false);
-        waitingPlayers.add(0, player);
-        System.out.println("added " + name);
+        if(waitingPlayers.contains(player)) return ResponseEntity.ok(false);
+        waitingPlayers.add(player);
+        System.out.println("added " + name + "to the waiting room");
         return ResponseEntity.ok(true);
     }
 
@@ -62,7 +61,7 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(Game.gameCounter);
     }
 
-    @GetMapping(path = "/start")
+    //@GetMapping(path = "/start")
     public ResponseEntity<Boolean> startGame() {
         Game game = new Game();
         game.getPlayers().addAll(waitingPlayers);
@@ -115,8 +114,7 @@ public class PreGameController extends BaseController {
      */
     @PostMapping(path = "/waitingroom/leave")
     public ResponseEntity<Boolean> leaveWaitingroom(@RequestBody Player player) {
-        waitingPlayers.remove(player);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(waitingPlayers.remove(player));
     }
 
     /**

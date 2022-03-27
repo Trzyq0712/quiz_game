@@ -27,7 +27,7 @@ public class Game {
     @Autowired
     public Game() {
         this.players = new ArrayList<>();
-        this.gameId = Long.valueOf(gameCounter);
+        this.gameId = new Long(gameCounter);
         gameCounter++;
     }
 

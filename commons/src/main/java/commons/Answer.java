@@ -1,16 +1,10 @@
 package commons;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Objects;
-import javax.persistence.*;
 
-@Entity
+
 public class Answer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long answer;
     private long timeToAnswer;
 
@@ -26,7 +20,7 @@ public class Answer {
      * @param answer - answer of question
      * @param timeToAnswer - time taken to submit the answer
      */
-    public Answer( long answer, long timeToAnswer) {
+    public Answer(long answer, long timeToAnswer) {
         this.answer = answer;
         this.timeToAnswer = timeToAnswer;
     }
@@ -63,5 +57,10 @@ public class Answer {
     @Override
     public int hashCode() {
         return Objects.hash(answer, timeToAnswer);
+    }
+
+    public int getPoints() {
+        double percentageOfTimeTaken = 1 - (timeToAnswer / 10000.0);
+        return 100 +(int) (percentageOfTimeTaken * 100);
     }
 }

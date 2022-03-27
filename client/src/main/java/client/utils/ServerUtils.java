@@ -18,17 +18,23 @@ package client.utils;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
+import java.lang.reflect.Type;
 
 import commons.Activity;
-import commons.Answer;
 import commons.Player;
-import commons.PlayerScore;
 import commons.PostActivity;
 import org.glassfish.jersey.client.ClientConfig;
 
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
+
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.*;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils {
 
@@ -97,27 +103,27 @@ public class ServerUtils {
     }
 
     /**
-     * @param playerScore added to the leaderboard
+     * @param Player added to the leaderboard
      * @return the player added
      */
-    public PlayerScore addPlayerToSPLeaderboard(PlayerScore playerScore) {
+    public Player addPlayerToSPLeaderboard(Player Player) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/playerscore") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(playerScore, APPLICATION_JSON), PlayerScore.class);
+                .post(Entity.entity(Player, APPLICATION_JSON), Player.class);
 
     }
 
     /**
      * @return the list of waiting players
      */
-    public List<PlayerScore> getPlayersInSPL() {
+    public List<Player> getPlayersInSPL() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/playerscore") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<PlayerScore>>() {});
+                .get(new GenericType<List<Player>>() {});
     }
 
     public String activateHint() {
@@ -139,18 +145,6 @@ public class ServerUtils {
                 .get(new GenericType<List<Activity>>() {});
     }
 
-    /**
-     * Sends the answer of the player to the server for granting points.
-     * @param answer The answer of the player.
-     * @return The amount of points received for the answer sent.
-     */
-    public int grantPoints(Answer answer) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/currentplayerscore/grantpoints")
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .post(Entity.entity(answer, APPLICATION_JSON), Integer.class);
-    }
 
     /**
      * @param activity is the activity to try to add to the database
@@ -162,6 +156,81 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
+    }
+
+    public Activity getActivity() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/1") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(Activity.class);
+    }
+
+
+    /**
+     * @param postActivity is the activity and image to be added to the server
+     * @return the newly added activity
+     */
+    public Activity updatePostActivity(PostActivity postActivity) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/update") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(postActivity, APPLICATION_JSON), Activity.class);
+    }
+
+    /**
+     * @param id is the id of the activity to be deleted and its image from the server files
+     * @return true if successful
+     */
+    public Boolean deletePostActivity(Long id) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/delete") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(id, APPLICATION_JSON), Boolean.class);
+    }
+
+    private StompSession session = connect("ws://localhost:8080/websocket");
+
+    private StompSession connect(String url){
+        var client = new StandardWebSocketClient();
+        var stomp = new WebSocketStompClient(client);
+        stomp.setMessageConverter(new MappingJackson2MessageConverter());
+        try{
+            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalStateException();
+    }
+
+    public <T> StompSession.Subscription registerForMessages(String dest, Class<T> type ,Consumer<T> consumer){
+        if(!session.isConnected())
+            session = connect("ws://localhost:8080/websocket");
+        return session.subscribe(dest, new StompFrameHandler(){
+            @Override
+            public Type getPayloadType(StompHeaders headers) {
+                return type;
+            }
+
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                consumer.accept((T) payload);
+            }
+        });
+    }
+
+    public void send(String dest, Object o){
+        session.send(dest, o);
+    }
+
+    public void unsubscribe(StompSession.Subscription subscription){
+        subscription.unsubscribe();
+    }
+
+    public void disconnect(){
+        session.disconnect();
     }
 
 }

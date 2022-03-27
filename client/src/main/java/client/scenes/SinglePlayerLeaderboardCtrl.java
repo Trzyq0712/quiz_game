@@ -3,47 +3,46 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.PlayerScore;
+import commons.Player;
+import commons.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
-    private final ServerUtils server;
+
+    private ObservableList<Player> data;
 
     @FXML
-    ImageView imageView;
-
-    private ObservableList<PlayerScore> data;
-
+    private TableView<Player> table;
     @FXML
-    private TableView<PlayerScore> table;
+    private TableColumn<Player, String> rank;
     @FXML
-    private TableColumn<PlayerScore, String> rank;
+    private TableColumn<Player, String> player;
     @FXML
-    private TableColumn<PlayerScore, String> player;
+    private TableColumn<Player, String> score;
     @FXML
-    private TableColumn<PlayerScore, String> score;
+    private TableColumn<Player, String> scoredTime;
     @FXML
-    private TableColumn<PlayerScore, String> scoredTime;
+    private Button playAgain;
 
 
     @Inject
     public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+        super(mainCtrl, utils, server);
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         rank.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getRank())));
         player.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPlayerName()));
         score.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getScore())));
@@ -51,27 +50,50 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     }
 
     /**
-     * Adds a playr to the repo
-     * @param p - thre player we want to add to the leaderboard
+     * Adds a player to the repo
+     *
+     * @param p - the player we want to add to the leaderboard
      */
-    public void addPlayer(PlayerScore p){
+    public void addPlayer(Player p) {
         server.addPlayerToSPLeaderboard(p);
+        refresh();
+    }
+
+    @FXML
+    private void refreshButton() {
+        utils.playButtonSound();
         refresh();
     }
 
     /**
      * Update the leaderboard
      */
-    public void refresh(){
+    public void refresh() {
         var players = server.getPlayersInSPL();
-        //A sort should be done to display the PlayerScores in the correct order
+        //A sort should be done to display the Players in the correct order
         data = FXCollections.observableList(players);
         table.setItems(data);
     }
 
     public void playAgain() {
+        utils.playButtonSound();
         mainCtrl.restore();
         mainCtrl.showQuestion();
+    }
+
+    /**
+     * The button "Play a singleplayer again" is made visible
+     */
+    public void showPLayAgain() {
+        playAgain.setVisible(true);
+    }
+
+    /**
+     * The button "Play a singleplayer again" is hidden
+     * Used when leaderboard is accessed from the homescreen
+     */
+    public void hidePlayAgain() {
+        playAgain.setVisible(false);
     }
 
 }

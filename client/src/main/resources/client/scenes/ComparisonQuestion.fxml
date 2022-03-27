@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.QuestionCtrl">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ComparisonQuestionCtrl">
    <children>
       <Pane id="questionBox" layoutY="150.0" prefHeight="100.0" prefWidth="1920.0">
          <children>
@@ -28,15 +28,15 @@
       </Pane>
       <ImageView id="home" fx:id="home" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@images/home.png" />
+            <Image url="@/images/home.png" />
          </image>
          <viewport>
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
       <image>
-         <Image url="@images/placeholder.png" />
+         <Image url="@/images/placeholder.png" />
       </image>
       </ImageView>
       <Label layoutX="793.0" layoutY="10.0" prefHeight="82.0" prefWidth="334.0" text="Time Left" textFill="WHITE">
@@ -44,28 +44,28 @@
             <Font name="Showcard Gothic" size="64.0" />
          </font>
       </Label>
-      <ProgressBar id="timeBar" fx:id="pgBar" layoutX="360.0" layoutY="90.0" prefHeight="30.0" prefWidth="1200.0" progress="0.78">
+      <ProgressBar id="timeBar" fx:id="pgBar" layoutX="360.0" layoutY="90.0" prefHeight="30.0" prefWidth="1200.0" progress="1.0">
          <effect>
             <ColorAdjust />
          </effect>
       </ProgressBar>
       <ImageView id="hintJoker" fx:id="hintJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="300.0" onKeyPressed="#hintClick" onMouseClicked="#hintClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="1700.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="300.0">
          <image>
-            <Image url="@images/hint.png" />
+            <Image url="@/images/hint.png" />
          </image>
       </ImageView>
       <ImageView id="pointsJoker" fx:id="pointsJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="500.0" onKeyPressed="#pointsClick" onMouseClicked="#pointsClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@images/2xpoints.png" />
+            <Image url="@/images/2xpoints.png" />
          </image>
       </ImageView>
       <ImageView id="timeJoker" fx:id="timeJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="700.0" onKeyPressed="#timeClick" onMouseClicked="#timeClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@images/hourglass.png" />
+            <Image url="@/images/hourglass.png" />
          </image>
       </ImageView>
       <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
-      <Label id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
+      <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
       <StackPane layoutX="360.0" layoutY="308.0" prefHeight="439.0" prefWidth="1095.0">
          <children>
             <ImageView id="questionImage1" fx:id="questionImage1" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
@@ -150,24 +150,24 @@
             </Label>
             <StackPane fx:id="emotePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
                      <image>
-                        <Image url="@images/angry.png" />
+                        <Image url="@/images/angry.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
                      <image>
-                        <Image url="@images/happy.png" />
+                        <Image url="@/images/happy.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                      <image>
-                        <Image url="@images/sunglasses.png" />
+                        <Image url="@/images/sunglasses.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                      <image>
-                        <Image url="@images/tears.png" />
+                        <Image url="@/images/tears.png" />
                      </image>
                   </ImageView>
                </children>
@@ -177,5 +177,6 @@
             </StackPane>
          </children>
       </StackPane>
+      <Label fx:id="jokerConfirmation" layoutX="407.0" layoutY="960.0" text="Your asked to double your points!" visible="true" />
          </children>
 </AnchorPane>

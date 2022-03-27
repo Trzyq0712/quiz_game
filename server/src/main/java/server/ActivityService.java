@@ -103,4 +103,26 @@ public class ActivityService {
         list = list.subList(value, value+3);
         return list;
     }
+
+    public Activity getActivity() {
+        List<Activity> list = new ArrayList<>(activityRepository.findAll());
+        int value = (int)(Math.random()* list.size());
+        return list.get(value);
+    }
+
+    /**
+     * @param activity which has the newer fields
+     * @return the new activity if update is successful or null otherwise
+     */
+    public Activity updateActivity(Activity activity) {
+        Optional<Activity> databaseActivity = getActivityById(activity.getId());
+        if(!databaseActivity.isEmpty()) {
+            databaseActivity.get().setDescription(activity.getDescription());
+            databaseActivity.get().setEnergyConsumption(activity.getEnergyConsumption());
+            databaseActivity.get().setPicturePath(activity.getPicturePath());
+            activityRepository.save(databaseActivity.get());
+            return databaseActivity.get();
+        }
+        return null;
+    }
 }

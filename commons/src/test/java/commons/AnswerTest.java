@@ -38,4 +38,14 @@ class AnswerTest {
         Answer b = new Answer(1,5050);
         assertFalse(a.equals(b));
     }
+
+    @Test
+    void testPoints(){
+        Answer a = new Answer(1,5000);
+        assertEquals(150,a.getPoints());
+        Answer b = new Answer(1,0);
+        assertEquals(200,b.getPoints());
+        Answer c = new Answer(1,10000);
+        assertEquals(100,c.getPoints());
+    }
 }

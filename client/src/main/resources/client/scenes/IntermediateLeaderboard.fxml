@@ -17,15 +17,15 @@
    <children>
       <ImageView id="home" fx:id="home" fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
          <image>
-            <Image url="@images/home.png" />
+            <Image url="@/images/home.png" />
          </image>
          <viewport>
             <Rectangle2D />
          </viewport>
       </ImageView>
-      <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleSound" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
+      <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
       <image>
-         <Image url="@images/music.png" />
+         <Image url="@/images/music.png" />
       </image>
       </ImageView>
       <Label layoutX="793.0" layoutY="10.0" prefHeight="82.0" prefWidth="334.0" text="Continuing in..." textFill="WHITE">
@@ -44,7 +44,7 @@
          </content>
       </ScrollPane>
       <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="910.0" text="Question x/y" />
-      <Label id="scoreLabel" layoutX="1450.0" layoutY="970.0" text="Score x/y" />
+      <Label id="scoreLabel" fx:id="scoreLabel"  layoutX="1450.0" layoutY="970.0" text="Score x/y" />
       <StackPane fx:id="chatAndEmoteHolder" layoutX="56.0" layoutY="277.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="288.0">
          <children>
             <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="382.0" prefWidth="290.0">
@@ -64,24 +64,24 @@
             </Label>
             <StackPane fx:id="emotePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
                      <image>
-                        <Image url="@images/angry.png" />
+                        <Image url="@/images/angry.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
                      <image>
-                        <Image url="@images/happy.png" />
+                        <Image url="@/images/happy.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                      <image>
-                        <Image url="@images/sunglasses.png" />
+                        <Image url="@/images/sunglasses.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                  <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                      <image>
-                        <Image url="@images/tears.png" />
+                        <Image url="@/images/tears.png" />
                      </image>
                   </ImageView>
                </children>

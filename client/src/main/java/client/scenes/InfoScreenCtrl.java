@@ -8,9 +8,7 @@ import javafx.scene.control.Label;
 
 import static client.Config.*;
 
-public class InfoCtrl extends BaseCtrl {
-
-    private final ServerUtils server;
+public class InfoScreenCtrl extends BaseCtrl {
 
     @FXML
     Label hintExplainer;
@@ -21,9 +19,8 @@ public class InfoCtrl extends BaseCtrl {
 
 
     @Inject
-    public InfoCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils);
-        this.server = server;
+    public InfoScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        super(mainCtrl, utils, server);
     }
 
     public void setHintExplainer() {

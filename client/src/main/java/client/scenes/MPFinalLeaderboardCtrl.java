@@ -20,7 +20,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     PromptCtrl promptCtrl;
 
     @Inject
-    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, PromptCtrl promptCtrl) {
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, PromptCtrl promptCtrl){
         super(mainCtrl, utils, server);
         this.promptCtrl = promptCtrl;
     }

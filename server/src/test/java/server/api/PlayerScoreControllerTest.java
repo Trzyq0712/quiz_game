@@ -1,9 +1,10 @@
 package server.api;
 
-import commons.PlayerScore;
+import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Example;
+import server.MockPlayerScoreScoreRepository;
 
 import java.util.List;
 
@@ -11,18 +12,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerScoreControllerTest {
 
-    private TestPlayerScoreRepository repo;
+    private MockPlayerScoreScoreRepository repo;
     private PlayerScoreController sut;
 
-    private PlayerScore ps1;
-    private PlayerScore ps2;
+    private Player ps1;
+    private Player ps2;
 
     @BeforeEach
     public void setup() {
-        repo = new TestPlayerScoreRepository();
+        repo = new MockPlayerScoreScoreRepository();
         sut = new PlayerScoreController(repo);
-        ps1 = new PlayerScore("ps1", 1);
-        ps2 = new PlayerScore("ps2", 2);
+        ps1 = new Player("ps1", 1);
+        ps2 = new Player("ps2", 2);
     }
 
     @Test
@@ -56,7 +57,7 @@ class PlayerScoreControllerTest {
 
     @Test
     void testGetTop() {
-        PlayerScore ps3 = new PlayerScore("ps3", 3);
+        Player ps3 = new Player("ps3", 3);
         sut.add(ps1);
         sut.add(ps3);
         sut.add(ps2);

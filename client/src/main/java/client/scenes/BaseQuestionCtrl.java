@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Answer;
@@ -18,15 +19,19 @@ import java.util.List;
 
 import static commons.Config.*;
 
+
 public abstract class BaseQuestionCtrl extends BaseCtrl {
 
+    protected final GameUtils gameUtils;
+    protected boolean doublePoints;
+    protected int answerButtonId;
+    protected boolean hasPlayerAnswered;
     @FXML
     ImageView hintJoker;
     @FXML
     ImageView pointsJoker;
     @FXML
     ImageView timeJoker;
-
     @FXML
     Label questionTracker;
     @FXML
@@ -34,7 +39,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     @FXML
     ProgressBar pgBar;
-
     @FXML
     Button firstButton;
     @FXML
@@ -43,23 +47,21 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     Button thirdButton;
 
     protected boolean doublePointsActive;
-    protected int answerButtonId;
-
-    protected boolean hasPlayerAnswered = false;
     protected int lastScoredPoints; //this will be doubled if the player activates 2x points.
 
 
-    @Inject
-    public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils, server);
-    }
 
-    public void setHasPlayerAnswered(boolean bool){
-        hasPlayerAnswered=bool;
+    public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+        super(mainCtrl, utils, server);
+        this.gameUtils = gameUtils;
     }
 
     public boolean getHasPlayerAnswered() {
         return hasPlayerAnswered;
+    }
+
+    public void setHasPlayerAnswered(boolean bool) {
+        hasPlayerAnswered = bool;
     }
 
     /**
@@ -67,7 +69,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * and how many points we scored
      */
     public void updateTracker() {
-        mainCtrl.updateTracker(questionTracker, scoreLabel, true);
+        gameUtils.updateTracker(questionTracker, scoreLabel, true);
     }
 
 
@@ -76,7 +78,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * see activateGenericProgressBar in mainCtrl for more info
      */
     public void activateProgressBar() {
-        mainCtrl.activateGenericProgressBar(pgBar, timePerQuestion, 0);
+        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal);
     }
 
     public void restoreDoublePoints() {
@@ -126,9 +128,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
             doublePointsActive = false;
         }
         lastScoredPoints = earnedPoints;
-        mainCtrl.getPlayerScore().addPoints(earnedPoints);
-        mainCtrl.setAnswersforAnswerReveal(earnedPoints, false);
+        mainCtrl.setAnswersForAnswerReveal(earnedPoints, false);
         setHasPlayerAnswered(true);
+        gameUtils.getPlayer().addPoints(earnedPoints);
     }
 
     /**
@@ -136,17 +138,18 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
     @FXML
     private void timeClick() {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         timeJoker.setVisible(false);
     }
 
     /**
      * Adds the emote to the chatbox
+     *
      * @param e - emote
      */
     public void emote(Event e) {
-        String path = ((ImageView)e.getSource()).getImage().getUrl();
-        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+        String path = ((ImageView) e.getSource()).getImage().getUrl();
+        Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/1", emote);
     }
 
@@ -155,12 +158,13 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * notifies the player that they activated the joker
      */
     @FXML
-    private void pointsClick() {
-        mainCtrl.buttonSound();
+    protected void pointsClick() {
+        utils.playButtonSound();
+        pointsJoker.setVisible(false);
         mainCtrl.visibilityPointsJoker(false);
         if (hasPlayerAnswered) {
-            mainCtrl.getPlayerScore().addPoints(lastScoredPoints);
-            mainCtrl.setAnswersforAnswerReveal(lastScoredPoints*2, false);
+            gameUtils.getPlayer().addPoints(lastScoredPoints);
+            mainCtrl.setAnswersForAnswerReveal(lastScoredPoints*2, false);
         } else doublePointsActive = true;
         utils.addNotification("2x points activated", "green");
 
@@ -170,8 +174,10 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Disables the player to click on hint joker again
      * and hides one of the wrong answers
      */
-    public void hintClick() {
-        mainCtrl.buttonSound();
+
+    @FXML
+    protected void hintClick () {
+        utils.playButtonSound();
         utils.addNotification("hint activated", "green");
         hintJoker.setVisible(false);
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
@@ -190,7 +196,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * @param event button that was clicked, so either A, B or C
      */
     public void answerClick(Event event) {
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         long timeToAnswer = mainCtrl.getDelta();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         Button activated = (Button) event.getSource();

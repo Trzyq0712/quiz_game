@@ -15,8 +15,9 @@
  */
 package client;
 
-import client.scenes.PromptCtrl;
+import client.scenes.NamePromptCtrl;
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -30,7 +31,8 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ApplicationUtils.class).in(Scopes.SINGLETON);
+        binder.bind(GameUtils.class).in(Scopes.SINGLETON);
+        binder.bind(NamePromptCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
-        binder.bind(PromptCtrl.class).in(Scopes.SINGLETON);
     }
 }

@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
 import javafx.fxml.FXML;
@@ -41,9 +42,8 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
 
     @Inject
-    public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(server, mainCtrl, utils);
-        /*hintJoker.set*/
+    public EstimateQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+        super(server, mainCtrl, utils, gameUtils);
     }
 
 
@@ -56,7 +56,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     private void displayActivity() {
         ActivityDescription.setText(activity.getDescription());
         questionImage.setImage(new Image(ServerUtils.SERVER + activity.getPicturePath()));
-        mainCtrl.setAnswersforAnswerReveal(activity);
+        mainCtrl.setAnswersForAnswerReveal(activity);
     }
 
 
@@ -66,7 +66,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
      * Max amount of points can be configured in the config file.
      */
     public void submitGuess(){
-        mainCtrl.buttonSound();
+        utils.playButtonSound();
         int points = 0;
         try {
             double start = 0;
@@ -83,14 +83,14 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
                     points *= 2;
                     doublePointsActive = false;
                 }
-                mainCtrl.getPlayerScore().addPoints(points);
+                gameUtils.getPlayer().addPoints(points);
             }
         } catch (Exception e) {
             errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
         }
         lastScoredPoints = points;
-        mainCtrl.setAnswersforAnswerReveal(points,true);
+        mainCtrl.setAnswersForAnswerReveal(points,true);
     }
 
     /**

@@ -17,7 +17,7 @@
       <Button id="addButton" layoutX="748.0" layoutY="201.0" mnemonicParsing="false" onMouseClicked="#addImage" text="Add image" />
       <ImageView fx:id="imageView" fitHeight="420.0" fitWidth="560.0" layoutX="200.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/placeholder.png" />
+            <Image url="@/images/placeholder.png" />
          </image></ImageView>
       <Button id="save" layoutX="406.0" layoutY="754.0" mnemonicParsing="false" onMouseClicked="#tryAdd" text="Save" />
       <Label id="errorLabel" fx:id="errorLabel" layoutX="32.0" layoutY="714.0" prefHeight="0.0" prefWidth="902.0" text="Error label" visible="false" />

@@ -23,7 +23,7 @@ import static commons.Config.*;
 public class PreGameController extends BaseController {
 
     //private Long gameID = 0L;
-    private List<PlayerScore> waitingPlayers;
+    private List<Player> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
     private HashMap<Long, Game> ongoingGames = new HashMap<>();//maps gameID to actual Game instance
 
@@ -49,7 +49,7 @@ public class PreGameController extends BaseController {
      */
     @PostMapping(path = "/join")
     public ResponseEntity<Boolean> playMulti(@RequestBody String name) {
-        PlayerScore player = new PlayerScore(name, 0);
+        Player player = new Player(name, 0);
         if(waitingPlayers.contains(player))
             return ResponseEntity.ok(false);
         waitingPlayers.add(0, player);
@@ -104,7 +104,7 @@ public class PreGameController extends BaseController {
      * @return players that are currently in the waiting room
      */
     @GetMapping(path = "/waitingroom")
-    public ResponseEntity<List<PlayerScore>> getWaitingroom() {
+    public ResponseEntity<List<Player>> getWaitingroom() {
         return ResponseEntity.ok(waitingPlayers);
     }
 
@@ -114,7 +114,7 @@ public class PreGameController extends BaseController {
      * @return players that are currently in the waiting room
      */
     @PostMapping(path = "/waitingroom/leave")
-    public ResponseEntity<Boolean> leaveWaitingroom(@RequestBody PlayerScore player) {
+    public ResponseEntity<Boolean> leaveWaitingroom(@RequestBody Player player) {
         waitingPlayers.remove(player);
         return ResponseEntity.ok(true);
     }
@@ -129,8 +129,8 @@ public class PreGameController extends BaseController {
      * Read online that DeferredResult is better for handling poll requests.
      */
     @PostMapping(path = "/waitingroom/poll")
-    public DeferredResult<List<PlayerScore>> updates(@RequestBody List<PlayerScore> clientPlayers) {
-        DeferredResult<List<PlayerScore>> output = new DeferredResult();
+    public DeferredResult<List<Player>> updates(@RequestBody List<Player> clientPlayers) {
+        DeferredResult<List<Player>> output = new DeferredResult();
         System.out.println(waitingPlayers.equals(clientPlayers));
         pollThreads.execute(() -> {
             while(waitingPlayers.equals(clientPlayers)){

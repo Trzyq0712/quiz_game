@@ -1,7 +1,7 @@
 package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import commons.PlayerScore;
+import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -10,16 +10,17 @@ import server.MockActivityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import static commons.Config.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PreGameControllerTest {
 
     PreGameController sut;
-    PlayerScore p1;
-    PlayerScore p2;
-    List<PlayerScore> playerList;
-    DeferredResult<List<PlayerScore>> updatedList;
+    Player p1;
+    Player p2;
+    List<Player> playerList;
+    DeferredResult<List<Player>> updatedList;
     ObjectMapper mapper;
     private ActivityService sut2;
     private MockActivityRepository repo;
@@ -29,8 +30,8 @@ class PreGameControllerTest {
         repo = new MockActivityRepository();
         sut2 = new ActivityService(repo);
         sut = new PreGameController(sut2);
-        p1 = new PlayerScore("Reinier", 0);
-        p2 = new PlayerScore("Mana", 0);
+        p1 = new Player("Reinier", 0);
+        p2 = new Player("Mana", 0);
         playerList = new ArrayList<>();
         updatedList = sut.updates(playerList);
         mapper = new ObjectMapper();
@@ -52,6 +53,7 @@ class PreGameControllerTest {
         sut.playMulti(p2.getPlayerName());
         assertFalse(sut.playMulti(p1.getPlayerName()).getBody());
         assertFalse(sut.playMulti(p2.getPlayerName()).getBody());
+<<<<<<< HEAD
     }*/
 
    /* @Test
@@ -73,10 +75,10 @@ class PreGameControllerTest {
 */
     /*@Test
     void updatesJoinTest() throws InterruptedException {
-        sut.playMulti(p1.name);
+        sut.playMulti(p1.getPlayerName());
         Thread.sleep(6000);
         playerList.add(p1);
-        sut.playMulti(p2.name);
+        sut.playMulti(p2.getPlayerName());
         Thread.sleep(6000);
         playerList.add(0, p2);
         List<Player> result = mapper.convertValue(updatedList.getResult(),new TypeReference<List<Player>>() { });
@@ -85,10 +87,10 @@ class PreGameControllerTest {
 
     @Test
     void updatesLeaveTest() throws InterruptedException {
-        sut.playMulti(p1.name);
+        sut.playMulti(p1.getPlayerName());
         Thread.sleep(6000);
         playerList.add(p1);
-        sut.playMulti(p2.name);
+        sut.playMulti(p2.getPlayerName());
         Thread.sleep(6000);
         playerList.add(0, p2);
         sut.leaveWaitingroom(p2);

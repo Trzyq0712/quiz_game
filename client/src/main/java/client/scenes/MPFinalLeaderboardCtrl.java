@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Emote;
@@ -12,29 +13,37 @@ import javafx.scene.layout.VBox;
 
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
-    @FXML
-    VBox chatbox;
-    @FXML
-    StackPane chatAndEmoteHolder;
+    private final GameUtils gameUtils;
 
-    PromptCtrl promptCtrl;
+    @FXML
+    public VBox chatbox;
+    @FXML
+    public StackPane chatAndEmoteHolder;
+
+    NamePromptCtrl promptCtrl;
 
     @Inject
-    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, PromptCtrl promptCtrl){
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, NamePromptCtrl promptCtrl, GameUtils gameUtils){
         super(mainCtrl, utils, server);
         this.promptCtrl = promptCtrl;
+        this.gameUtils = gameUtils;
     }
 
-    public void playAgain() {
+    @FXML
+    private void playAgain() {
+        utils.playButtonSound();
         server.disconnect();
         promptCtrl.enterWaitingRoom();
         mainCtrl.restore();
         utils.clearNotificationBox();
+        //mainCtrl.showNamePromtScene();
     }
 
-    public void emote(Event e){
+    @FXML
+    private void emote(Event e){
+        utils.playButtonSound();
         String path = ((ImageView)e.getSource()).getImage().getUrl();
-        Emote emote = new Emote(path,mainCtrl.getPlayerScore().getPlayerName());
+        Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/1", emote);
     }
 

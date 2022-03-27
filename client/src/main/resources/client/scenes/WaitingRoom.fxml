@@ -20,15 +20,15 @@
          </font></Label>
       <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/home.png" />
+            <Image url="@/images/home.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" onMousePressed="#toggleSound" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/music.png" />
+            <Image url="@/images/music.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

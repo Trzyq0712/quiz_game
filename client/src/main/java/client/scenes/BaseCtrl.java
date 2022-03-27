@@ -33,12 +33,15 @@ public abstract class BaseCtrl implements Initializable {
         this.server = server;
     }
 
+    @FXML
     public void showHome() {
         try {
             server.disconnect();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
+        utils.playButtonSound();
+        utils.cancelProgressBar();
         mainCtrl.showHome();
     }
 
@@ -46,8 +49,9 @@ public abstract class BaseCtrl implements Initializable {
      * Toggles music in the application.
      */
     @FXML
-    protected void toggleSound() {
-        utils.toggleSound();
+    protected void toggleMusic() {
+        utils.playButtonSound();
+        utils.toggleMusic();
     }
 
 

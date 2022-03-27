@@ -1,6 +1,6 @@
 package server;
 
-import commons.PlayerScore;
+import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     Game g;
-    PlayerScore p1;
-    PlayerScore p2;
+    Player p1;
+    Player p2;
 
     @BeforeEach
     public void setup() {
         g = new Game();
-        p1 = new PlayerScore("Vian",50);
-        p2 = new PlayerScore("Kuba", 70);
+        p1 = new Player("Vian",50);
+        p2 = new Player("Kuba", 70);
     }
 
     @Test
@@ -33,7 +33,7 @@ class GameTest {
     @Test
     void addPointsToAPlayer(){
         g.addAPlayer(p1);
-        PlayerScore ptest= p1;
+        Player ptest= p1;
         p1.addPoints(50);
         assertEquals(ptest,g.addPointsToAPlayer("Vian",50));
     }
@@ -43,9 +43,9 @@ class GameTest {
         g.addAPlayer(p2);
         g.addAPlayer(p1);
         g.removeAPlayerWithName(p1.getPlayerName());
-        List<PlayerScore> playerScoreList = new ArrayList<>();
-        playerScoreList.add(p2);
-        assertEquals(g.getPlayers(), playerScoreList);
+        List<Player> PlayerList = new ArrayList<>();
+        PlayerList.add(p2);
+        assertEquals(g.getPlayers(), PlayerList);
     }
 
 
@@ -54,8 +54,8 @@ class GameTest {
         g.addAPlayer(p1);
         g.addAPlayer(p2);
         g.removeAll();
-        List<PlayerScore> playerScoreList = new ArrayList<>();
-        assertEquals(g.getPlayers(), playerScoreList);
+        List<Player> PlayerList = new ArrayList<>();
+        assertEquals(g.getPlayers(), PlayerList);
     }
 
     @Test
@@ -70,27 +70,27 @@ class GameTest {
     void getPlayers() {
         g.addAPlayer(p1);
         g.addAPlayer(p2);
-        List<PlayerScore> playerScoreList = new ArrayList<>();
-        playerScoreList.add(p1);
-        playerScoreList.add(p2);
-        assertEquals(g.getPlayers(),playerScoreList);
+        List<Player> PlayerList = new ArrayList<>();
+        PlayerList.add(p1);
+        PlayerList.add(p2);
+        assertEquals(g.getPlayers(),PlayerList);
     }
 
     @Test
     void getByName() {
         g.addAPlayer(p2);
         g.addAPlayer(p1);
-        PlayerScore ptest = g.getByName(p1.getPlayerName());
+        Player ptest = g.getByName(p1.getPlayerName());
         assertEquals(p1, ptest);
     }
 
     @Test
     void setPlayers() {
-        List<PlayerScore> playerScoreList = new ArrayList<>();
-        playerScoreList.add(p1);
-        playerScoreList.add(p2);
-        g.setPlayers(playerScoreList);
-        assertEquals(g.getPlayers(),playerScoreList);
+        List<Player> PlayerList = new ArrayList<>();
+        PlayerList.add(p1);
+        PlayerList.add(p2);
+        g.setPlayers(PlayerList);
+        assertEquals(g.getPlayers(),PlayerList);
     }
 
 //    @Test

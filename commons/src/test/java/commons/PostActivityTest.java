@@ -3,24 +3,28 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PostActivityTest {
 
     Activity activity;
-    byte[] pictureBuffer;
+    private File picture;
+    String writeTo;
     PostActivity postActivity;
 
     @BeforeEach
     void setUp() {
         activity = new Activity("Description", 42L, "path\\file.png");
-        pictureBuffer = new byte[10];
-        postActivity = new PostActivity(activity, pictureBuffer);
+        picture = new File(activity.getPicturePath());
+        writeTo = "path\\newFile.png";
+        postActivity = new PostActivity(activity, writeTo);
     }
 
     @Test
-    void getPictureBuffer() {
-        assertEquals(pictureBuffer, postActivity.getPictureBuffer());
+    void getPicture() {
+        assertEquals(picture, postActivity.getPicture());
     }
 
     @Test
@@ -29,8 +33,13 @@ class PostActivityTest {
     }
 
     @Test
+    void getWriteTo() {
+        assertEquals(writeTo, postActivity.writeTo);
+    }
+
+    @Test
     void testEquals() {
-        PostActivity postActivity2 = new PostActivity(activity, pictureBuffer);
+        PostActivity postActivity2 = new PostActivity(activity, writeTo);
         assertEquals(postActivity2, postActivity);
     }
 }

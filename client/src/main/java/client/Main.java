@@ -42,7 +42,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         var home =
-                FXML.load(HomeScreenCtrl.class, "client", "scenes", "Homescreen.fxml");
+                FXML.load(HomeScreenCtrl.class, "client", "scenes", "HomeScreen.fxml");
         var sp =
                 FXML.load(SinglePlayerLeaderboardCtrl.class, "client", "scenes", "SinglePlayerLeaderboard.fxml");
         var exit =
@@ -52,17 +52,17 @@ public class Main extends Application {
         var edit = 
                 FXML.load(EditScreenCtrl.class, "client", "scenes", "EditScreen.fxml");
         var intermediate =
-                FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "intermediateLeaderboard.fxml");
+                FXML.load(IntermediateLeaderboardCtrl.class, "client", "scenes", "IntermediateLeaderboard.fxml");
         var answerReveal =
                 FXML.load(AnswerRevealCtrl.class, "client", "scenes", "AnswerReveal.fxml");
         var MPFinal =
                 FXML.load(MPFinalLeaderboardCtrl.class, "client", "scenes", "MPFinalLeaderboard.fxml");
         var info =
-                FXML.load(InfoCtrl.class, "client", "scenes", "Info.fxml");
+                FXML.load(InfoScreenCtrl.class, "client", "scenes", "InfoScreen.fxml");
         var prompt =
-                FXML.load(PromptCtrl.class, "client", "scenes", "Prompt.fxml");
+                FXML.load(NamePromptCtrl.class, "client", "scenes", "NamePrompt.fxml");
         var question =
-                FXML.load(QuestionCtrl.class, "client", "scenes", "Question.fxml");
+                FXML.load(ComparisonQuestionCtrl.class, "client", "scenes", "ComparisonQuestion.fxml");
         var editActivity =
                 FXML.load(EditActivityCtrl.class, "client", "scenes", "EditActivity.fxml");
         var estimateQuestion =

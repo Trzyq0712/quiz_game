@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.WaitingRoomCtrl">
    <children>
-      <Button layoutX="760.0" layoutY="840.0" mnemonicParsing="false" onMouseClicked="#startGame" prefHeight="67.0" prefWidth="400.0" styleClass="clickable" text="Start game" />
+      <Button layoutX="760.0" layoutY="840.0" mnemonicParsing="false" onMouseClicked="#startMultiplayer" prefHeight="67.0" prefWidth="400.0" styleClass="clickable" text="Start game" />
       <Label fx:id="Title" alignment="CENTER" layoutY="105.0" prefHeight="196.0" prefWidth="1920.0" style="-fx-text-alignment: left;" text="The Waiting Room">
          <font>
             <Font name="Mistral" size="52.0" />

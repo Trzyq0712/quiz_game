@@ -31,7 +31,6 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     private void playAgain() {
         utils.playButtonSound();
         gameUtils.resetGame();
-        //promptCtrl.enterWaitingRoom();
         mainCtrl.showNamePromtScene();
     }
 

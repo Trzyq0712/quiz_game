@@ -36,7 +36,7 @@ public class NamePromptCtrl extends BaseCtrl {
      * to start a singleplayer game
      * A new player is created, the name entered will be used for identification later on
      */
-    public void startGame() {
+    public void startSinglePlayer() {
         utils.playButtonSound();
         if (checkName(nameField, errorLabel) && server.startSingle(nameField.getText())) {
             Player player = new Player(nameField.getText());
@@ -94,8 +94,8 @@ public class NamePromptCtrl extends BaseCtrl {
             Player player = new Player(nameField.getText());
             if (server.enterWaitingRoom(nameField.getText())) {
                 gameUtils.setPlayer(player);
-                mainCtrl.showWaitingRoom();
                 gameUtils.requestGameID();
+                mainCtrl.showWaitingRoom();
             }
         } else {
             errorLabel.setText("Name is taken!");
@@ -112,9 +112,10 @@ public class NamePromptCtrl extends BaseCtrl {
     private void confirm() {
         utils.playButtonSound();
         ServerUtils.SERVER = serverField.getText(); //sets the server to the user input
+        gameUtils.resetGame();
         if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
             mainCtrl.activateSingleplayer();
-            startGame();
+            startSinglePlayer();
         } else {
             mainCtrl.activateMultiplayer();
             enterWaitingRoom();

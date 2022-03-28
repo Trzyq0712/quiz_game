@@ -371,7 +371,6 @@ public class MainCtrl {
         waitingRoomCtrl.setUp();
         waitingRoomScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(waitingRoomScene);
-        return;
     }
 
 

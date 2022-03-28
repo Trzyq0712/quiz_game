@@ -38,13 +38,8 @@ public abstract class BaseCtrl implements Initializable {
 
     @FXML
     public void showHome() {
-        try {
-            server.disconnect();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
         utils.playButtonSound();
-        utils.cancelProgressBar();
+        gameUtils.resetGame();
         mainCtrl.showHome();
     }
 

@@ -77,13 +77,10 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         table.setItems(data);
     }
 
+    @FXML
     public void playAgain() {
-        utils.clearNotificationBox();
         utils.playButtonSound();
-        mainCtrl.restore();
-        //game
-        server.start();
-        mainCtrl.showQuestion();
+        mainCtrl.showNamePromtScene();
     }
 
     /**

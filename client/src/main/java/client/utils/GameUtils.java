@@ -30,7 +30,9 @@ public class GameUtils {
     }
 
     public void resetGame() {
-        server.disconnect();
+        /*if (gameType.equals(GameType.MultiPlayer)) {
+            server.disconnect();
+        }*/
         player = null;
         currentQuestion = 0;
         //gameType = null;
@@ -38,6 +40,7 @@ public class GameUtils {
         gameID = null;
         mainCtrl.restore();
         utils.clearNotificationBox();
+        utils.cancelProgressBar();
     }
 
     public void startTimer() {

@@ -90,8 +90,10 @@ public class ApplicationUtils {
     public void toggleMusic() {
         musicPlayer.setMute(!musicPlayer.isMute());
         musicToggles.forEach(iv -> {
-            if (musicPlayer.isMute()) iv.setImage(musicOff);
-            else iv.setImage(musicOn);
+            if (iv != null) {
+                if (musicPlayer.isMute()) iv.setImage(musicOff);
+                else iv.setImage(musicOn);
+            }
         });
     }
 

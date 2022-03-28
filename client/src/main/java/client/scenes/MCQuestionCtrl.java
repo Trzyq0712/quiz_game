@@ -4,8 +4,6 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
-import commons.Answer;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

@@ -2,6 +2,7 @@ package client.utils;
 
 import static commons.Config.*;
 
+import client.scenes.MainCtrl;
 import com.google.inject.Inject;
 import commons.Player;
 import javafx.scene.control.Label;
@@ -14,10 +15,14 @@ public class GameUtils {
     private Long currentTimeMillis;
     private Long gameID;
     protected final ServerUtils server;
+    protected final MainCtrl mainCtrl;
+    protected final ApplicationUtils utils;
 
     @Inject
-    public GameUtils(ServerUtils server) {
+    public GameUtils(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
         this.server = server;
+        this.mainCtrl = mainCtrl;
+        this.utils = utils;
     }
 
     public void requestGameID() {
@@ -25,9 +30,14 @@ public class GameUtils {
     }
 
     public void resetGame() {
+        server.disconnect();
         player = null;
         currentQuestion = 0;
-        gameType = null;
+        //gameType = null;
+        currentTimeMillis = null;
+        gameID = null;
+        mainCtrl.restore();
+        utils.clearNotificationBox();
     }
 
     public void startTimer() {

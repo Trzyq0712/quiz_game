@@ -21,7 +21,6 @@ import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
     static Boolean threadRun;
-    private final GameUtils gameUtils;
     public StompSession.Subscription waitingroom;
     Thread pollingThread;
     @FXML
@@ -31,8 +30,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     @Inject
     public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     @FXML

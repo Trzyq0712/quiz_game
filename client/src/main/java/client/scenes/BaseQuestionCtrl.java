@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
 import commons.Answer;
 import commons.Emote;
 import javafx.event.Event;
@@ -22,7 +21,6 @@ import static commons.Config.*;
 
 public abstract class BaseQuestionCtrl extends BaseCtrl {
 
-    protected final GameUtils gameUtils;
     protected boolean doublePoints;
     protected int answerButtonId;
     protected boolean hasPlayerAnswered;
@@ -52,8 +50,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
 
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     public boolean getHasPlayerAnswered() {

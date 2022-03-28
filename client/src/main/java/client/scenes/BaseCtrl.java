@@ -2,6 +2,7 @@ package client.scenes;
 
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ public abstract class BaseCtrl implements Initializable {
     protected final MainCtrl mainCtrl;
     protected final ApplicationUtils utils;
     protected final ServerUtils server;
+    protected final GameUtils gameUtils;
 
     @FXML
     protected ImageView music;
@@ -27,10 +29,11 @@ public abstract class BaseCtrl implements Initializable {
     protected VBox notificationBox;
 
     @Inject
-    public BaseCtrl(MainCtrl mainCtrl, ApplicationUtils utils, ServerUtils server) {
+    public BaseCtrl(MainCtrl mainCtrl, ApplicationUtils utils, ServerUtils server, GameUtils gameUtils) {
         this.mainCtrl = mainCtrl;
         this.utils = utils;
         this.server = server;
+        this.gameUtils = gameUtils;
     }
 
     @FXML

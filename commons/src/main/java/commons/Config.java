@@ -1,6 +1,5 @@
 package commons;
 
-import java.io.File;
 
 public class Config {
     public static String styleSheet = "style.css";

@@ -13,8 +13,6 @@ import javafx.scene.layout.VBox;
 
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
-
     @FXML
     public VBox chatbox;
     @FXML
@@ -23,20 +21,18 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     NamePromptCtrl promptCtrl;
 
     @Inject
-    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, NamePromptCtrl promptCtrl, GameUtils gameUtils){
-        super(mainCtrl, utils, server);
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils,
+                                  NamePromptCtrl promptCtrl, GameUtils gameUtils){
+        super(mainCtrl, utils, server, gameUtils);
         this.promptCtrl = promptCtrl;
-        this.gameUtils = gameUtils;
     }
 
     @FXML
     private void playAgain() {
         utils.playButtonSound();
-        server.disconnect();
-        promptCtrl.enterWaitingRoom();
-        mainCtrl.restore();
-        utils.clearNotificationBox();
-        //mainCtrl.showNamePromtScene();
+        gameUtils.resetGame();
+        //promptCtrl.enterWaitingRoom();
+        mainCtrl.showNamePromtScene();
     }
 
     @FXML

@@ -6,17 +6,13 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
 import javafx.application.Platform;
-import commons.Answer;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

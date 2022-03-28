@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
@@ -15,11 +16,7 @@ import java.io.File;
 import static commons.Config.*;
 
 
-public class EditActivityCtrl {
-
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
+public class EditActivityCtrl extends BaseCtrl {
 
     @FXML
     ImageView imageView;
@@ -35,10 +32,8 @@ public class EditActivityCtrl {
     String imagePath;
 
     @Inject
-    public EditActivityCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
+    public EditActivityCtrl(MainCtrl mainCtrl, ApplicationUtils utils, ServerUtils server, GameUtils gameUtils) {
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     /**

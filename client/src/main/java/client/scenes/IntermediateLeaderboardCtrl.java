@@ -19,7 +19,6 @@ import static commons.Config.*;
 
 public class IntermediateLeaderboardCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
 
     @FXML
     ProgressBar pgBarIntermediate;
@@ -37,8 +36,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     @Inject
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl,
                                        ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     public void activateProgressBar() {

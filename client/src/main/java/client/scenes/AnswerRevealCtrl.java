@@ -22,7 +22,6 @@ import static commons.Config.*;
 
 public class AnswerRevealCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
 
     @FXML
     ProgressBar pgBarReveal;
@@ -66,8 +65,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
     @Inject
 
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     /**

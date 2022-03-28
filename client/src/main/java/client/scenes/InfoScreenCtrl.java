@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
@@ -19,8 +20,8 @@ public class InfoScreenCtrl extends BaseCtrl {
 
 
     @Inject
-    public InfoScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils, server);
+    public InfoScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     public void setHintExplainer() {

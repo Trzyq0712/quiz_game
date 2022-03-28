@@ -16,7 +16,6 @@ import static commons.Config.*;
 
 public class NamePromptCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
     @FXML
     public Button startButton;
     @FXML
@@ -28,8 +27,7 @@ public class NamePromptCtrl extends BaseCtrl {
 
     @Inject
     public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     /**

@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
@@ -36,8 +37,9 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
 
 
     @Inject
-    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        super(mainCtrl, utils, server);
+    public SinglePlayerLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils,
+                                       GameUtils gameUtils) {
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     @Override
@@ -79,6 +81,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         utils.clearNotificationBox();
         utils.playButtonSound();
         mainCtrl.restore();
+        //game
         server.start();
         mainCtrl.showQuestion();
     }

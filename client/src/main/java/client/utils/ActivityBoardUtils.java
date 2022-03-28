@@ -1,12 +1,10 @@
 package client.utils;
 
+import client.Config;
 import client.scenes.MainCtrl;
 import commons.Activity;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,32 +17,20 @@ import java.util.List;
 public class ActivityBoardUtils {
 
     private GridPane activityGrid;
-    private Button previousButton;
-    private Button nextButton;
-    private Button showButton;
-    private Spinner<Integer> pageSpinner;
-    Label pageLabel;
 
     private List<Activity> activityList;
-    private int start, end, activitiesPerPage, pageCount;
+    private int start, end, activitiesPerPage = Config.activitiesPerPage, pageCount, currentPage;
     private SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValues;
     private ServerUtils serverUtils;
     private MainCtrl mainCtrl;
 
-    public ActivityBoardUtils(MainCtrl mainCtrl, int activitiesPerPage, GridPane activityGrid, Button previousButton
-            , Button nextButton, Button showButton, Spinner<Integer> pageSpinner, Label pageLabel,
-            ServerUtils serverUtils) {
+    public ActivityBoardUtils(MainCtrl mainCtrl, GridPane activityGrid, ServerUtils serverUtils) {
         this.mainCtrl = mainCtrl;
-        this.activitiesPerPage = activitiesPerPage;
         this.activityGrid = activityGrid;
-        this.previousButton = previousButton;
-        this.nextButton = nextButton;
-        this.showButton = showButton;
-        this.pageSpinner = pageSpinner;
         this.serverUtils = serverUtils;
-        this.pageLabel = pageLabel;
         activityList = serverUtils.getActivities();
         start = 0;
+        currentPage = 1;
         if(activityList.size() - activitiesPerPage < 0) end = activityList.size();
         else end = start + activitiesPerPage;
         pageCount = activityList.size() / activitiesPerPage;
@@ -65,33 +51,14 @@ public class ActivityBoardUtils {
     public void loadGrid(){
         activityGrid.getChildren().clear();
         for(int i=start; i < end; i++) setUpRow(i);
-
-        pageLabel.setText("\\ " + pageCount);
-        pageSpinner.getValueFactory().setValue(start / activitiesPerPage + 1);
-        if(start != 0) previousButton.setVisible(true);
-        else previousButton.setVisible(false);
-        if(end != activityList.size()) nextButton.setVisible(true);
-        else nextButton.setVisible(false);
-
-        Platform.runLater(() -> {
-            nextButton.setDisable(false);
-            previousButton.setDisable(false);
-            showButton.setDisable(false);
-        });
     }
 
     public void loadPrevious() {
-        start -= activitiesPerPage;
-        if(start - activitiesPerPage < 0) start = 0;
-        end = start + activitiesPerPage;
-        loadGrid();
+        loadPage(--currentPage);
     }
 
     public void loadNext() {
-        start += activitiesPerPage;
-        end = start + activitiesPerPage;
-        if(end > activityList.size()) end = activityList.size();
-        loadGrid();
+        loadPage(++currentPage);
     }
 
     /**
@@ -100,8 +67,8 @@ public class ActivityBoardUtils {
      * @param i is the index of the row
      */
     private void setUpRow(int i) {
-        Image editImage = new Image(getClass().getClassLoader().getResourceAsStream("images/gear.png"));
-        Image deleteImage = new Image(getClass().getClassLoader().getResourceAsStream("images/delete.png"));
+        Image editImage = new Image(Config.gearImage);
+        Image deleteImage = new Image(Config.deleteImage);
         setUpImage(i);
         setUpEdit(editImage, i);
         setUpDelete(deleteImage, i);
@@ -182,7 +149,8 @@ public class ActivityBoardUtils {
         if(activityList.size() % activitiesPerPage != 0)
             pageCount++;
         spinnerValues.setMax(pageCount);
-        loadPage();
+        mainCtrl.refreshLabels();
+        loadGrid();
     }
 
     /**
@@ -204,8 +172,11 @@ public class ActivityBoardUtils {
                     pageCount = activityList.size() / activitiesPerPage;
                     if(activityList.size() % activitiesPerPage != 0)
                         pageCount++;
+                    if(currentPage > pageCount)
+                        currentPage = pageCount;
                     spinnerValues.setMax(pageCount);
-                    loadPage();
+                    mainCtrl.refreshLabels();
+                    loadPage(currentPage);
                 }
 
                 event.consume();
@@ -235,12 +206,24 @@ public class ActivityBoardUtils {
      *
      * Platform run later is used to prevent spam clicking
      */
-    public void loadPage() {
-        int page = (Integer) pageSpinner.getValueFactory().getValue();
+    public void loadPage(int page) {
         start = (page - 1) * activitiesPerPage;
         end = start + activitiesPerPage;
         if (end > activityList.size()) end = activityList.size();
 
         loadGrid();
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPageAndLoad(int currentPage) {
+        this.currentPage = currentPage;
+        loadPage(currentPage);
     }
 }

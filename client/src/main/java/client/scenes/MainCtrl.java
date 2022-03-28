@@ -492,6 +492,10 @@ public class MainCtrl {
         answerRevealCtrl.setAnswer(points, bool);
     }
 
+    public void refreshLabels() {
+        editScreenCtrl.updateLabels();
+    }
+
     // --- to move END
 
 }

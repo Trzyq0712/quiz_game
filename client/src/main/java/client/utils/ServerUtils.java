@@ -245,4 +245,8 @@ public class ServerUtils {
         session.disconnect();
     }
 
+    public boolean isConnected() {
+        return session.isConnected();
+    }
+
 }

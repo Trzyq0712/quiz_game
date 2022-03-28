@@ -15,12 +15,12 @@
     <children>
         <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="1760.0" layoutY="10.0" onMouseClicked="#showHome" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
             <image>
-                <Image url="@images/home.png" />
+                <Image url="@/images/home.png" />
             </image>
         </ImageView>
         <ImageView fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
             <image>
-                <Image url="@images/music.png" />
+                <Image url="@/images/music.png" />
             </image>
         </ImageView>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutY="93.0" prefHeight="115.0" prefWidth="1920.0" text="Edit activities" textAlignment="CENTER">

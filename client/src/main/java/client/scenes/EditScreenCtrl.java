@@ -39,6 +39,7 @@ public class EditScreenCtrl extends BaseCtrl {
      * Opens the secondary edit screen from mainCtrl
      */
     public void addActivity() {
+        utils.playButtonSound();
         mainCtrl.editActivity(true, null);
     }
 
@@ -48,11 +49,11 @@ public class EditScreenCtrl extends BaseCtrl {
      * Loads the activity browser on page 1
      */
     public void setUp() {
-        actUtils = new ActivityBoardUtils(mainCtrl, 5, activityGrid, previousButton,
-                nextButton, showButton, pageSpinner, pageLabel, server);
+        actUtils = new ActivityBoardUtils(mainCtrl, activityGrid, server);
         pageSpinner.setEditable(true);
         pageSpinner.setValueFactory(actUtils.getSpinnerValues());
         actUtils.loadGrid();
+        enableButtons();
     }
 
     /**
@@ -60,24 +61,21 @@ public class EditScreenCtrl extends BaseCtrl {
      * Platform run later is used to prevent spam clicking
      */
     public void loadPrevious(){
-        Platform.runLater(() -> {
-            nextButton.setDisable(true);
-            previousButton.setDisable(true);
-        });
+        utils.playButtonSound();
+        disableButtons();
         actUtils.loadPrevious();
+        enableButtons();
     }
-
 
     /**
      * Goes to next page of activities
      * Platform run later is used to prevent spam clicking
      */
     public void loadNext(){
-        Platform.runLater(() -> {
-            nextButton.setDisable(true);
-            previousButton.setDisable(true);
-        });
+        utils.playButtonSound();
+        disableButtons();
         actUtils.loadNext();
+        enableButtons();
     }
 
     /**
@@ -86,11 +84,44 @@ public class EditScreenCtrl extends BaseCtrl {
      * Platform run later is used to prevent spam clicking
      */
     public void loadPage() {
+        utils.playButtonSound();
+        disableButtons();
+        actUtils.setCurrentPageAndLoad(pageSpinner.getValue());
+        enableButtons();
+    }
+
+    /**
+     * Disables buttons to prevent spamming
+     */
+    public void disableButtons(){
         Platform.runLater(() -> {
+            nextButton.setDisable(true);
+            previousButton.setDisable(true);
             showButton.setDisable(true);
         });
+    }
 
-        actUtils.loadPage();
+    /**
+     * Enables buttons back and checks if they should be visible
+     */
+    public void enableButtons(){
+        updateLabels();
+
+        if(actUtils.getCurrentPage() != 1) previousButton.setVisible(true);
+        else previousButton.setVisible(false);
+        if(actUtils.getCurrentPage() != actUtils.getPageCount()) nextButton.setVisible(true);
+        else nextButton.setVisible(false);
+
+        Platform.runLater(() -> {
+            nextButton.setDisable(false);
+            previousButton.setDisable(false);
+            showButton.setDisable(false);
+        });
+    }
+
+    public void updateLabels(){
+        pageLabel.setText("\\ " + actUtils.getPageCount());
+        pageSpinner.getValueFactory().setValue(actUtils.getCurrentPage());
     }
 
     public ActivityBoardUtils getActUtils() {

@@ -81,6 +81,7 @@ public class EditActivityCtrl {
      */
     @FXML
     public void addImage() {
+        utils.playButtonSound();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().add(

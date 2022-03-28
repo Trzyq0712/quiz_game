@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import static commons.Config.*;
 
 public class EditActivityCtrl extends BaseCtrl {
     private ActivityBoardUtils actUtils;

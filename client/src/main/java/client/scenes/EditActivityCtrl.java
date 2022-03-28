@@ -1,6 +1,8 @@
 package client.scenes;
 
+import client.utils.ActivityBoardUtils;
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
@@ -10,17 +12,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-import static client.Config.serverImagePath;
-
-
-public class EditActivityCtrl {
-
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
+public class EditActivityCtrl extends BaseCtrl {
+    private ActivityBoardUtils actUtils;
 
     @FXML
     ImageView imageView;
@@ -34,37 +34,59 @@ public class EditActivityCtrl {
     TextField imagePathField;
 
     String imagePath;
+    boolean add;
+    byte[] pictureBuffer;
+    Activity activity;
+    FileChooser fileChooser;
+
 
     @Inject
-    public EditActivityCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
+    public EditActivityCtrl(MainCtrl mainCtrl, ApplicationUtils utils, ServerUtils server, GameUtils gameUtils) {
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     /**
+     * resets all the fields
      * resets the imageView to the placeholder image
      * makes the error label invisible
      */
-    public void setUp() {
+    public void setUp(boolean add, Activity activity, ActivityBoardUtils actUtils) {
+        this.actUtils = actUtils;
+        fileChooser = new FileChooser();
         imagePath = "images/placeholder.png";
         errorLabel.setVisible(false);
         imageView.setImage(new Image(imagePath));
+        questionField.setText("");
+        consumptionField.setText("");
+        imagePathField.setText("");
+        this.add = add;
+        if(!add){
+            this.activity = activity;
+            questionField.setText(activity.getDescription());
+            consumptionField.setText(activity.getEnergyConsumption().toString());
+            pictureBuffer = new byte[0];
+            imageView.setImage(new Image(server.SERVER + activity.getPicturePath()));
+            imagePath = activity.getPicturePath();
+        } else this.activity = new Activity();
     }
+
 
     /**
      * Opens the file dialog for the user to select the image to be added
      */
     @FXML
-    private void addImage() {
+    public void addImage() {
         utils.playButtonSound();
-        String path = imagePathField.getText();
-        if(path.equals("")){
-            errorLabel.setText("Path can't be empty");
-            errorLabel.setVisible(true);
-        }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedImage = fileChooser.showOpenDialog(mainCtrl.getSecondaryStage());
+        imagePathField.setText(selectedImage.getAbsolutePath());
+        imagePath = selectedImage.getAbsolutePath();
+
         try {
-            imagePath = path.replace('\\', File.separatorChar);
+            pictureBuffer = Files.readAllBytes(Paths.get(imagePath));
             imageView.setImage(new Image(imagePath));
         } catch (Exception ex){
             errorLabel.setText("Can't find image");
@@ -80,13 +102,25 @@ public class EditActivityCtrl {
     private void tryAdd() {
         utils.playButtonSound();
         if (validActivity()) {
-            Activity activity = new Activity(questionField.getText(),
-                    Long.parseLong(consumptionField.getText()), imagePath);
-            PostActivity postActivity = new PostActivity(activity,
-                    serverImagePath);
-
-            if (server.addPostActivity(postActivity) != null) errorLabel.setText("Successfully added!");
-            else errorLabel.setText("Server did not allow the activity to be added");
+            activity.setDescription(questionField.getText());
+            activity.setEnergyConsumption(Long.parseLong(consumptionField.getText()));
+            activity.setPicturePath(imagePath);
+            PostActivity postActivity = new PostActivity(activity, pictureBuffer);
+            if(add){
+                Activity newActivity = server.addPostActivity(postActivity);
+                if (newActivity != null){
+                    actUtils.updateAdd(newActivity);
+                    Stage stage = (Stage) imageView.getScene().getWindow();
+                    stage.close();
+                }  else errorLabel.setText("Server did not allow the activity to be added");
+            } else {
+                Activity newActivity = server.updatePostActivity(postActivity);
+                if (newActivity != null){
+                    actUtils.updateEdit(newActivity);
+                    Stage stage = (Stage) imageView.getScene().getWindow();
+                    stage.close();
+                }  else errorLabel.setText("Server did not allow the activity to be added");
+            }
 
             errorLabel.setVisible(true);
         }

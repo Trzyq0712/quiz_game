@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.Config;
 import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
@@ -19,11 +18,10 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-import static client.Config.timeAnswerReveal;
+import static commons.Config.*;
 
 public class AnswerRevealCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
 
     @FXML
     ProgressBar pgBarReveal;
@@ -67,8 +65,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
     @Inject
 
     public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     /**
@@ -76,13 +73,12 @@ public class AnswerRevealCtrl extends BaseCtrl {
      */
     public void activateProgressBar() {
         utils.runProgressBar(pgBarReveal, timeAnswerReveal, () -> {
-            if (gameUtils.getCurrentQuestion() < Config.totalQuestions) {
+            if (gameUtils.getCurrentQuestion() < totalQuestions) {
                 mainCtrl.restoreQuestions();
-                if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer))
+                if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
+                    //gameUtils.startTimer();
                     mainCtrl.showQuestion();
-                else
-                    mainCtrl.showIntermediateLeaderboard();
-                gameUtils.startTimer();
+                } else mainCtrl.showIntermediateLeaderboard();
             } else {
                 mainCtrl.restore();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {

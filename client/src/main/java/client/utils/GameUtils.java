@@ -1,19 +1,46 @@
 package client.utils;
 
-import client.Config;
+import static commons.Config.*;
+
+import client.scenes.MainCtrl;
+import com.google.inject.Inject;
 import commons.Player;
 import javafx.scene.control.Label;
 
 public class GameUtils {
+
     private Player player;
     private int currentQuestion;
     private GameType gameType;
     private Long currentTimeMillis;
+    private Long gameID;
+    protected final ServerUtils server;
+    protected final MainCtrl mainCtrl;
+    protected final ApplicationUtils utils;
+
+    @Inject
+    public GameUtils(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
+        this.utils = utils;
+    }
+
+    public void requestGameID() {
+        this.gameID = server.requestGameID();
+    }
 
     public void resetGame() {
+        /*if (gameType.equals(GameType.MultiPlayer)) {
+            server.disconnect();
+        }*/
         player = null;
         currentQuestion = 0;
-        gameType = null;
+        //gameType = null;
+        currentTimeMillis = null;
+        gameID = null;
+        mainCtrl.restore();
+        utils.clearNotificationBox();
+        utils.cancelProgressBar();
     }
 
     public void startTimer() {
@@ -36,10 +63,9 @@ public class GameUtils {
         if (update) {
             currentQuestion++;
         }
-        question.setText("Question " + currentQuestion + "/" + Config.totalQuestions);
+        question.setText("Question " + currentQuestion + "/" + totalQuestions);
         score.setText("Score " + player.getScore() + "/" + currentQuestion * 200);
     }
-
 
     public Player getPlayer() {
         return player;
@@ -51,6 +77,10 @@ public class GameUtils {
 
     public int getCurrentQuestion() {
         return currentQuestion;
+    }
+
+    public Long getGameID() {
+        return gameID;
     }
 
     public void setCurrentQuestion(int currentQuestion) {

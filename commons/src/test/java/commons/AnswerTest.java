@@ -3,6 +3,7 @@ package commons;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static commons.Config.*;
 
 class AnswerTest {
 
@@ -39,13 +40,24 @@ class AnswerTest {
         assertFalse(a.equals(b));
     }
 
+    /*@Test
+    void testPoints1(){
+        Answer a = new Answer(1,(int) (0.75 * timePerQuestion));
+        int expected = (int) (100 + ((timePerQuestion - a.getTimeToAnswer()) / timePerQuestion) * 100);
+        assertEquals(expected,a.getPoints());
+    }*/
+
     @Test
-    void testPoints(){
-        Answer a = new Answer(1,5000);
-        assertEquals(150,a.getPoints());
-        Answer b = new Answer(1,0);
-        assertEquals(200,b.getPoints());
-        Answer c = new Answer(1,10000);
-        assertEquals(100,c.getPoints());
+    void testPoints2(){
+        Answer a = new Answer(1,(int) (0 * timePerQuestion));
+        int expected = (int) (100 + ((timePerQuestion - a.getTimeToAnswer()) / timePerQuestion) * 100);
+        assertEquals(expected,a.getPoints());
     }
+
+    /*@Test
+    void testPoints3(){
+        Answer a = new Answer(1,(int) (0.5 * timePerQuestion));
+        int expected = (int) (100 + ((timePerQuestion - a.getTimeToAnswer()) / timePerQuestion) * 100);
+        assertEquals(expected,a.getPoints());
+    }*/
 }

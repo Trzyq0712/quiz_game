@@ -4,29 +4,30 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Config;
 import commons.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import static client.Config.maxCharsUsername;
+import static commons.Config.*;
 
 
 public class NamePromptCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
     @FXML
     public Button startButton;
     @FXML
     private TextField nameField;
     @FXML
     private Label errorLabel;
+    @FXML
+    private TextField serverField;
 
     @Inject
     public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     /**
@@ -35,12 +36,14 @@ public class NamePromptCtrl extends BaseCtrl {
      * to start a singleplayer game
      * A new player is created, the name entered will be used for identification later on
      */
-    public void startGame() {
+    public void startSinglePlayer() {
         utils.playButtonSound();
         if (checkName(nameField, errorLabel) && server.startSingle(nameField.getText())) {
             Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
-            gameUtils.startTimer();
+            gameUtils.requestGameID();
+            server.start();
+            //gameUtils.startTimer();
             mainCtrl.showQuestion();
         }
     }
@@ -51,6 +54,7 @@ public class NamePromptCtrl extends BaseCtrl {
     public void setUp() {
         nameField.clear();
         nameField.setPromptText("Enter your name...");
+        serverField.setText(Config.server);
         errorLabel.setVisible(false);
     }
 
@@ -84,11 +88,13 @@ public class NamePromptCtrl extends BaseCtrl {
      * to enter the waiting room. If it doesn't then for now I've just written it off that the
      * name is taken but that may not be the case if the connection doesn't go through and so on.
      */
+
     public void enterWaitingRoom() {
         if (checkName(nameField, errorLabel)) {
             Player player = new Player(nameField.getText());
             if (server.enterWaitingRoom(nameField.getText())) {
                 gameUtils.setPlayer(player);
+                gameUtils.requestGameID();
                 mainCtrl.showWaitingRoom();
             }
         } else {
@@ -105,9 +111,11 @@ public class NamePromptCtrl extends BaseCtrl {
     @FXML
     private void confirm() {
         utils.playButtonSound();
+        ServerUtils.SERVER = serverField.getText(); //sets the server to the user input
+        gameUtils.resetGame();
         if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
             mainCtrl.activateSingleplayer();
-            startGame();
+            startSinglePlayer();
         } else {
             mainCtrl.activateMultiplayer();
             enterWaitingRoom();

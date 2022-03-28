@@ -16,12 +16,14 @@
 package client.utils;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static commons.Config.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.lang.reflect.Type;
 
+import commons.*;
 import commons.Activity;
 import commons.Player;
 import commons.PostActivity;
@@ -38,7 +40,64 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils {
 
-    public static final String SERVER = "http://localhost:8080/";
+    public static String SERVER = server;
+
+    public Long requestGameID() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/getGameID") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Long>() {});
+    }
+
+    public boolean start() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/start") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<Boolean>() {});
+    }
+
+
+    public Integer getQuestionType(int currentQuestion, Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/getQuestionType") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Integer.class);
+    }
+
+    public ActivityList get3Activities(int currentQuestion, Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/get3Activities") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), ActivityList.class);
+    }
+
+    public Activity getSingleActivity(int currentQuestion, Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/getSingleActivity") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Activity.class);
+    }
+
+    /*public void startMultiplayer() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/startMultiplayer") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<>() {});
+    }*/
+
+    /*public Integer getTypeOfQuestion(int round){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/getQuestion") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(round, APPLICATION_JSON), Integer.class);
+    }*/
 
     /**
      * @param name the name with which the player wants to play singleplayer
@@ -137,13 +196,13 @@ public class ServerUtils {
      * gets a list of 3 activities from the server
      * @return a list of 3 activities
      */
-    public List<Activity> get3Activities() {
+    /*public List<Activity> get3Activities() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/activity/3") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<List<Activity>>() {});
-    }
+    }*/
 
 
     /**
@@ -158,12 +217,24 @@ public class ServerUtils {
                 .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
     }
 
-    public Activity getActivity() {
+    /*public Activity getActivity() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("/api/activity/1") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(Activity.class);
+    }*/
+
+    /**
+     * @return all activities
+     */
+    public List<Activity> getActivities() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/activity") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<List<Activity>>() {
+                });
     }
 
 
@@ -231,6 +302,10 @@ public class ServerUtils {
 
     public void disconnect(){
         session.disconnect();
+    }
+
+    public boolean isConnected() {
+        return session.isConnected();
     }
 
 }

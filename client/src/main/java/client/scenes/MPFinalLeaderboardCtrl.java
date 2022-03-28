@@ -13,22 +13,24 @@ import javafx.scene.layout.VBox;
 
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
-
     @FXML
     public VBox chatbox;
     @FXML
     public StackPane chatAndEmoteHolder;
 
+    NamePromptCtrl promptCtrl;
+
     @Inject
-    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+    public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils,
+                                  NamePromptCtrl promptCtrl, GameUtils gameUtils){
+        super(mainCtrl, utils, server, gameUtils);
+        this.promptCtrl = promptCtrl;
     }
 
     @FXML
     private void playAgain() {
         utils.playButtonSound();
+        gameUtils.resetGame();
         mainCtrl.showNamePromtScene();
     }
 

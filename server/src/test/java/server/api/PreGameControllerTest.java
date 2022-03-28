@@ -5,9 +5,12 @@ import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.context.request.async.DeferredResult;
+import server.ActivityService;
+import server.MockActivityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import static commons.Config.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,12 +22,16 @@ class PreGameControllerTest {
     List<Player> playerList;
     DeferredResult<List<Player>> updatedList;
     ObjectMapper mapper;
+    private ActivityService sut2;
+    private MockActivityRepository repo;
 
     @BeforeEach
     public void setup() {
-        sut = new PreGameController();
-        p1 = new Player("Reinier");
-        p2 = new Player("Mana");
+        repo = new MockActivityRepository();
+        sut2 = new ActivityService(repo);
+        sut = new PreGameController(sut2);
+        p1 = new Player("Reinier", 0);
+        p2 = new Player("Mana", 0);
         playerList = new ArrayList<>();
         updatedList = sut.updates(playerList);
         mapper = new ObjectMapper();
@@ -40,15 +47,16 @@ class PreGameControllerTest {
         assertTrue(sut.playMulti(p2.getPlayerName()).getBody());
     }
 
-    @Test
+    /*@Test
     void playMultiNameTakenTest() {
         sut.playMulti(p1.getPlayerName());
         sut.playMulti(p2.getPlayerName());
         assertFalse(sut.playMulti(p1.getPlayerName()).getBody());
         assertFalse(sut.playMulti(p2.getPlayerName()).getBody());
-    }
+<<<<<<< HEAD
+    }*/
 
-    @Test
+   /* @Test
     void getWaitingroomTest() {
         sut.playMulti(p1.getPlayerName());
         playerList.add(p1);
@@ -56,15 +64,15 @@ class PreGameControllerTest {
         sut.playMulti(p2.getPlayerName());
         playerList.add(0, p2);
         assertEquals(playerList, sut.getWaitingroom().getBody());
-    }
+    }*/
 
-    @Test
+   /* @Test
     void leaveWaitingroomTest() {
         assertTrue(sut.playMulti(p1.getPlayerName()).getBody());
         sut.leaveWaitingroom(p1);
         assertEquals(playerList, sut.getWaitingroom().getBody());
     }
-
+*/
     /*@Test
     void updatesJoinTest() throws InterruptedException {
         sut.playMulti(p1.getPlayerName());

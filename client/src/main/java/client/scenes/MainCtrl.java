@@ -16,7 +16,9 @@
 package client.scenes;
 
 
-import client.Config;
+import client.utils.GameUtils;
+import client.utils.ServerUtils;
+import commons.Config;
 import commons.Activity;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -76,7 +78,20 @@ public class MainCtrl {
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
 
+    Long startTime;
+
+    boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
+    clicked the homebutton. So he exited the game
+    at which point the next scene shouldnt be loaded anymore */
+    /**
+     * If true, game knows the player is in singleplayer, if false, the game knows
+     * that the player is in multiplayer.
+     */
+    boolean singlePlayerModeActive;
+    ServerUtils server;
+    GameUtils gameUtils;
     // -------------------- to move END
+
 
     public void initialize(Stage primaryStage,
                            Pair<HomeScreenCtrl, Parent> homeScreen,
@@ -92,7 +107,11 @@ public class MainCtrl {
                            Pair<ComparisonQuestionCtrl, Parent> comparisonQuestion,
                            Pair<EditActivityCtrl, Parent> editActivity,
                            Pair<EstimateQuestionCtrl, Parent> estimateQuestion,
-                           Pair<MCQuestionCtrl, Parent> MCQuestion) {
+                           Pair<MCQuestionCtrl, Parent> MCQuestion,
+                           ServerUtils s,
+                           GameUtils g) {
+        this.server = s;
+        this.gameUtils = g;
 
         this.primaryStage = primaryStage;
 
@@ -160,6 +179,10 @@ public class MainCtrl {
     }
 
     // --- to move START
+
+    /*public void requestGameID() {
+        this.gameID = server.requestGameID();
+    }*/
 
     /**
      * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
@@ -306,32 +329,33 @@ public class MainCtrl {
      * Function triggers the progressbar to start decreasing.
      */
     public void showQuestion() {
-//        if (singlePlayerModeActive)
-//            activateSingleplayer();
-//        else
-//            activateMultiplayer();
-        int value = (int) (Math.random() * 3);
-        switch (value % 3) {
+        active = true;
+         //APPLY CSS SHEET
+        int value = server.getQuestionType(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
+        switch (value) {
             case 0: {
                 questionScreenScene.getStylesheets().add(Config.styleSheet);
-                comparisonQuestionCtrl.updateTracker();
-                comparisonQuestionCtrl.generateActivity();
-                primaryStage.setScene(questionScreenScene);
-                comparisonQuestionCtrl.activateProgressBar();
+                Platform.runLater(() -> comparisonQuestionCtrl.generateActivity());
+                Platform.runLater(() -> comparisonQuestionCtrl.updateTracker());
+                Platform.runLater(() -> gameUtils.startTimer());
+                Platform.runLater(() -> primaryStage.setScene(questionScreenScene));
+                Platform.runLater(() -> comparisonQuestionCtrl.activateProgressBar());
                 break;
             }
             case 1: {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
-                estimateQuestionCtrl.updateTracker();
                 estimateQuestionCtrl.generateActivity();
+                estimateQuestionCtrl.updateTracker();
+                Platform.runLater(() -> gameUtils.startTimer());
                 primaryStage.setScene(estimateQuestionScene);
                 estimateQuestionCtrl.activateProgressBar();
                 break;
             }
             case 2: {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
-                MCQuestionCtrl.updateTracker();
                 MCQuestionCtrl.generateActivity();
+                MCQuestionCtrl.updateTracker();
+                Platform.runLater(() -> gameUtils.startTimer());
                 primaryStage.setScene(MCQuestionScene);
                 MCQuestionCtrl.activateProgressBar();
                 break;
@@ -340,6 +364,7 @@ public class MainCtrl {
 
     }
     // --- to move END
+
 
     public void showWaitingRoom() {
         primaryStage.setTitle(Config.titleWaitingRoom);
@@ -352,6 +377,68 @@ public class MainCtrl {
     // --- to move START
     // TODO consider refactoring
 
+
+    /*public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
+        if (!active) {
+            startTime = null;
+            return;
+        }
+        if (startTime == null) startTime = System.currentTimeMillis();
+        double delta = getDelta();
+        double progress = (totalTime - delta) / totalTime;
+        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
+        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
+        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
+        else pgBar.setStyle("-fx-accent: red");
+        if (delta < totalTime) {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            // your code here
+                            activateGenericProgressBar(pgBar, totalTime, call);
+                        }
+                    },
+                    5
+            );
+        } else {
+            startTime = null;
+            if (active) {
+                if (call == 0) {
+                    questionCtrl.restoreDoublePoints();
+                    estimateQuestionCtrl.restoreDoublePoints();
+                    MCQuestionCtrl.restoreDoublePoints(); *//*these calls need to be refactored, the double points
+                    should be restored in 1 call not 3. we should probably put the functionality in GameUtils.
+                    Couldn't do it myself since GameUtils has yet to be merged to dev :)*//*
+                    Platform.runLater(() -> showAnswerReveal());
+                } else if (call == 1 && currentQuestion < Config.totalQuestions) {
+                    estimateQuestionCtrl.restoreSubmit();
+                    questionCtrl.restoreAnswers();
+                    estimateQuestionCtrl.restoreSubmit();
+                    MCQuestionCtrl.restoreAnswers();
+                    if(!estimateQuestionCtrl.getHasPlayerAnswered()){
+                        setAnswersforAnswerReveal(0,true);
+                    }
+                    if (singlePlayerModeActive) {
+                        Platform.runLater(() -> {
+                            answerRevealCtrl.pointsGrantedEstimate.setText("You got " + 0 + " points!");
+                            answerRevealCtrl.pointsGrantedMC.setText("You got " + 0 + " points!");
+                            showQuestion();
+                        });
+                    } else Platform.runLater(() -> showIntermediateLeaderboard());
+                } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
+                    restore();
+                    if (singlePlayerModeActive) {
+                        splCtrl.addPlayer(getPlayerScore());
+                        getPlayerScore().setScore(0);
+                        Platform.runLater(() -> showSPLeaderboard());
+                    } else Platform.runLater(() -> showMPFinalLeaderboard());
+                } else if (call == 2) {
+                    Platform.runLater(() -> showQuestion());
+                }
+            }
+        }
+    }*/
 
     public void refresh() {
         singlePlayerLeaderboardCtrl.refresh();
@@ -394,24 +481,28 @@ public class MainCtrl {
                 emote.setFitWidth(50);
                 hbox.getChildren().addAll(user, emote);
                 hbox.setAlignment(Pos.CENTER_LEFT);
-                if (amountOfMessages > Config.maxChatMessages) {
+                if (c.getChildren().size() >= Config.maxChatMessages) {
                     c.getChildren().remove(0);
                 }
                 c.getChildren().add(hbox);
                 c.setSpacing(10);
             });
         }
-        amountOfMessages++;
     }
 
 
     // --- to move END
-
+    /*public long getDelta() {
+        return System.currentTimeMillis() - startTime;
+    }*/
 
     /**
      * Shows the screen where answers are revealed.
      */
     public void showAnswerReveal() {
+        comparisonQuestionCtrl.restoreDoublePoints();
+        estimateQuestionCtrl.restoreDoublePoints();
+        MCQuestionCtrl.restoreDoublePoints(); //double points are reset after question ends?
         answerRevealCtrl.updateTracker();
         answerRevealScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(answerRevealScene);

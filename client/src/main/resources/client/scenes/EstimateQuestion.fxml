@@ -69,60 +69,85 @@
         <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
           <ImageView id="questionImage" fx:id="questionImage" fitHeight="288.0" fitWidth="352.0" layoutX="783.0" layoutY="486.0" pickOnBounds="true" preserveRatio="true" />
           <Label id="ActivityDescription" fx:id="ActivityDescription" layoutX="783.0" layoutY="349.0" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true" />
-        <Button id="button" fx:id="submit" layoutX="804.0" layoutY="926.0" mnemonicParsing="false" onMouseClicked="#submitGuess" text="Submit">
-            <styleClass>
-                <String fx:value="answer-button" />
-                <String fx:value="clickable" />
-            </styleClass>
-        </Button>
-        <StackPane fx:id="chatAndEmoteHolder" layoutX="46.0" layoutY="267.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="288.0">
-            <children>
-                <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="382.0" prefWidth="290.0">
-                    <StackPane.margin>
-                        <Insets bottom="250.0" />
-                    </StackPane.margin>
-                </VBox>
-                <Label fx:id="chatboxTitle" text="chatbox">
-                    <StackPane.margin>
-                        <Insets bottom="700.0" />
-                    </StackPane.margin>
-                </Label>
-                <Label fx:id="emoteTitle" text="pick an emote">
-                    <StackPane.margin>
-                        <Insets top="250.0" />
-                    </StackPane.margin>
-                </Label>
-                <StackPane fx:id="emotePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
-                    <children>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_LEFT">
-                            <image>
-                                <Image url="@/images/angry.png" />
-                            </image>
-                        </ImageView>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_RIGHT">
-                            <image>
-                                <Image url="@/images/happy.png" />
-                            </image>
-                        </ImageView>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-                            <image>
-                                <Image url="@/images/sunglasses.png" />
-                            </image>
-                        </ImageView>
-                        <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#emote" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
-                            <image>
-                                <Image url="@/images/tears.png" />
-                            </image>
-                        </ImageView>
-                    </children>
-                    <StackPane.margin>
-                        <Insets top="500.0" />
-                    </StackPane.margin>
-                </StackPane>
-            </children>
-        </StackPane>
+          <Button id="button" fx:id="submitButton" layoutX="804.0" layoutY="926.0" mnemonicParsing="false" onMouseClicked="#submitGuess" text="Submit">
+              <styleClass>
+                  <String fx:value="answer-button" />
+                  <String fx:value="clickable" />
+              </styleClass>
+          </Button>
       <TextField id="textField" fx:id="textField" layoutX="873.0" layoutY="846.0" prefHeight="35.0" prefWidth="162.0" promptText="Enter guess" />
-        <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="798.0" layoutY="883.0" text="Error label" visible="false" />
-        <Label fx:id="jokerConfirmation" layoutX="113.0" layoutY="960.0" text="Your asked to double your points!" visible="true" />
+      <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="798.0" layoutY="883.0" text="Error label" visible="false" />
+      <StackPane fx:id="chatAndEmoteHolder" layoutX="56.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="288.0">
+         <children>
+            <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="311.0" prefWidth="288.0">
+               <StackPane.margin>
+                  <Insets bottom="100.0" />
+               </StackPane.margin>
+            </VBox>
+            <Label id="chatRelated" fx:id="chatboxTitle" text="chatbox">
+               <StackPane.margin>
+                  <Insets bottom="450.0" />
+               </StackPane.margin>
+            </Label>
+            <Label id="chatRelated" fx:id="emoteTitle" text="pick an emote">
+               <StackPane.margin>
+                  <Insets top="300.0" />
+               </StackPane.margin>
+            </Label>
+            <StackPane fx:id="emotePane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="13.0" prefWidth="260.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/angry.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets right="70.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/happy.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets left="70.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/sunglasses.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets right="200.0" />
+                     </StackPane.margin>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/tears.png" />
+                     </image>
+                     <StackPane.margin>
+                        <Insets left="200.0" />
+                     </StackPane.margin>
+                  </ImageView>
+               </children>
+               <StackPane.margin>
+                  <Insets top="400.0" />
+               </StackPane.margin>
+            </StackPane>
+         </children>
+      </StackPane>
+      <StackPane layoutX="44.0" layoutY="827.0" prefHeight="223.0" prefWidth="313.0">
+         <children>
+            <VBox fx:id="notificationBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="293.0">
+               <StackPane.margin>
+                  <Insets top="45.0" />
+               </StackPane.margin>
+            </VBox>
+            <Label id="chatRelated" text="notification box">
+               <StackPane.margin>
+                  <Insets bottom="170.0" />
+               </StackPane.margin>
+            </Label>
+         </children>
+      </StackPane>
     </children>
 </AnchorPane>

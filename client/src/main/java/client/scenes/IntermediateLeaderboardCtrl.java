@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.Config;
 import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
@@ -14,9 +13,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+
+import static commons.Config.*;
+
+
 public class IntermediateLeaderboardCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
 
     @FXML
     ProgressBar pgBarIntermediate;
@@ -34,12 +36,11 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     @Inject
     public IntermediateLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl,
                                        ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     public void activateProgressBar() {
-        utils.runProgressBar(pgBarIntermediate, Config.timeForIntermediate, mainCtrl::showQuestion);
+        utils.runProgressBar(pgBarIntermediate, timeForIntermediate, mainCtrl::showQuestion);
     }
 
     public void updateQuestionTracker() {

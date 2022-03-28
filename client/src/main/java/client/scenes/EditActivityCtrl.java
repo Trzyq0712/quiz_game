@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ActivityBoardUtils;
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
@@ -17,9 +18,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import static commons.Config.*;
 
-public class EditActivityCtrl {
-
+public class EditActivityCtrl extends BaseCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private final ApplicationUtils utils;
@@ -44,10 +45,8 @@ public class EditActivityCtrl {
 
 
     @Inject
-    public EditActivityCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
-        this.server = server;
-        this.mainCtrl = mainCtrl;
-        this.utils = utils;
+    public EditActivityCtrl(MainCtrl mainCtrl, ApplicationUtils utils, ServerUtils server, GameUtils gameUtils) {
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     /**

@@ -1,6 +1,15 @@
 package client.utils;
 
-import client.Config;
+
+import static commons.Config.*;
+import static client.utils.Config.*;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -22,12 +31,12 @@ import java.util.TimerTask;
  */
 public class ApplicationUtils {
 
-    private final MediaPlayer musicPlayer = new MediaPlayer(new Media(Config.backgroundMusic));
-    private final Image musicOn = new Image(Config.loader.getResourceAsStream("images/music.png"));
-    private final Image musicOff = new Image(Config.loader.getResourceAsStream("images/musicOff.png"));
+    private final MediaPlayer musicPlayer = new MediaPlayer(new Media(backgroundMusic));
+    private final Image musicOn = new Image(loader.getResourceAsStream("images/music.png"));
+    private final Image musicOff = new Image(loader.getResourceAsStream("images/musicOff.png"));
     private final List<ImageView> musicToggles = new ArrayList<>();
+    private final List<VBox> notificationsBoxes = new ArrayList<>();
     private final AudioClip buttonClickSound = new AudioClip(Config.buttonClickSound);
-
     private Timer timer;
 
 
@@ -81,8 +90,10 @@ public class ApplicationUtils {
     public void toggleMusic() {
         musicPlayer.setMute(!musicPlayer.isMute());
         musicToggles.forEach(iv -> {
-            if (musicPlayer.isMute()) iv.setImage(musicOff);
-            else iv.setImage(musicOn);
+            if (iv != null) {
+                if (musicPlayer.isMute()) iv.setImage(musicOff);
+                else iv.setImage(musicOn);
+            }
         });
     }
 
@@ -94,7 +105,45 @@ public class ApplicationUtils {
         musicToggles.add(iv);
     }
 
+    /**
+     * Adds the notification box of the inheriting controller to the list of all notification boxes.
+     * @param notificationBox Notification box to be registered, so notifications can be added later.
+     */
+
+    public void registerNotificationBox(VBox notificationBox) {
+        notificationsBoxes.add(notificationBox);
+    }
+
+    public void addNotification(String message, String color) {
+        for (VBox notificationBox : notificationsBoxes) {
+            if (notificationBox != null) {
+                Platform.runLater(() -> {
+                    HBox hbox = new HBox();
+                    Label notification = new Label("  " + message);
+                    notification.setId(color);
+                    hbox.getChildren().addAll(notification);
+                    hbox.setAlignment(Pos.CENTER_LEFT);
+                    if (notificationBox.getChildren().size() >= maxAmountOfNotifications) {
+                        notificationBox.getChildren().remove(0);
+                    }
+                    notificationBox.getChildren().add(hbox);
+                    notificationBox.setSpacing(10);
+                });
+            }
+        }
+    }
+
+    public void clearNotificationBox() {
+        for (VBox notificationBox : notificationsBoxes) {
+            if (notificationBox != null) {
+                notificationBox.getChildren().clear();
+            }
+        }
+    }
+
+
     public void playButtonSound() {
         buttonClickSound.play();
     }
+
 }

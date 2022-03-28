@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ActivityBoardUtils;
 import client.utils.ApplicationUtils;
+import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.application.Platform;
@@ -31,8 +32,8 @@ public class EditScreenCtrl extends BaseCtrl {
 
 
     @Inject
-    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, ActivityBoardUtils actUtils) {
-        super(mainCtrl, utils, server);
+    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils, ActivityBoardUtils actUtils) {
+        super(mainCtrl, utils, server, gameUtils);
         this.actUtils = actUtils;
     }
 

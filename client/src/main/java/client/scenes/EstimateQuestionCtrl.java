@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 
+import static commons.Config.*;
 
 public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
@@ -35,7 +36,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     @FXML
     TextField textField;
     @FXML
-    Button submit;
+    Button submitButton;
     @FXML
     private Label errorLabel;
 
@@ -47,7 +48,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
 
     public void generateActivity() {
-        activity = server.getActivity();
+        activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         displayActivity();
         setHasPlayerAnswered(false);
     }
@@ -58,56 +59,55 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         mainCtrl.setAnswersForAnswerReveal(activity);
     }
 
-    public void submitGuess() {
-        int earnedPoints = 0;
-        setHasPlayerAnswered(true);
+
+    /**
+     * Score is calculated in the range from 0 to 2 * the correct answer.
+     * Points granted decline in a linear fashion from the correct answer.
+     * Max amount of points can be configured in the config file.
+     */
+    public void submitGuess(){
+        utils.playButtonSound();
+        int points = 0;
         try {
-            String number = textField.getText();
-            if (number.contains(" ")) {
-                errorLabel.setText("No whitespaces allowed!");
-                errorLabel.setVisible(true);
+            double start = 0;
+            double center = activity.getEnergyConsumption();
+            double end = 2 * center;
+            double guess = Double.parseDouble(textField.getText());
+            submitButton.setVisible(false);
+            if (guess > start && guess < end) {
+                double deviation = Math.abs(guess - center);
+                double fraction = (center - deviation) / center;
+                /*fraction = easeOutSinusoidal(fraction); doing this makes it doable to get 200 points,
+                * but maybe this is not desired because players get the same amount of points more frequently?*/
+                points = (int) (fraction * maxPointsPerQuestion);
+                if (doublePointsActive) {
+                    points *= 2;
+                    doublePointsActive = false;
+                }
+                gameUtils.getPlayer().addPoints(points);
             }
-            long guess = Long.parseLong(number);
-            long correctAnswer = activity.getEnergyConsumption();
-            if (guess == correctAnswer) {
-                earnedPoints = 200;
-            } else if (correctAnswer - (0.1 * correctAnswer) <= guess
-                    && guess <= correctAnswer + (0.1 * correctAnswer)) {
-                earnedPoints = 180;
-            } else if (correctAnswer - (0.2 * correctAnswer) <= guess
-                    && guess <= correctAnswer + (0.2 * correctAnswer)) {
-                earnedPoints = 160;
-            } else if (correctAnswer - (0.3 * correctAnswer) <= guess
-                    && guess <= correctAnswer + (0.3 * correctAnswer)) {
-                earnedPoints = 140;
-            } else if (correctAnswer - (0.4 * correctAnswer) <= guess
-                    && guess <= correctAnswer + (0.4 * correctAnswer)) {
-                earnedPoints = 120;
-            } else if (correctAnswer - (0.5 * correctAnswer) <= guess
-                    && guess <= correctAnswer + (0.5 * correctAnswer)) {
-                earnedPoints = 100;
-            } else if (correctAnswer - (0.7 * correctAnswer) <= guess
-                    && guess <= correctAnswer + (0.7 * correctAnswer)) {
-                earnedPoints = 50;
-            }
-            if (doublePoints)
-                earnedPoints *= 2;
-            submit.setDisable(true);
-            gameUtils.getPlayer().addPoints(earnedPoints);
-            mainCtrl.setAnswersForAnswerReveal(earnedPoints, true);
         } catch (Exception e) {
             errorLabel.setText("Please type a number");
             errorLabel.setVisible(true);
-            mainCtrl.setAnswersForAnswerReveal(earnedPoints, true);
         }
+        lastScoredPoints = points;
+        mainCtrl.setAnswersForAnswerReveal(points,true);
+    }
+
+    /**
+     * Ease out function to award players who guess close to the correct answer more.
+     * Can be found here: https://foon.uk/easing/
+     * @param fraction The x-value for the function.
+     * @return The y-value.
+     */
+    public double easeOutSinusoidal(double fraction) {
+        return Math.sin(0.5 * fraction * Math.PI);
     }
 
 
     public void restoreSubmit() {
-        submit.setDisable(false);
-        setHasPlayerAnswered(false);
+        submitButton.setVisible(true);
         textField.setText("");
         errorLabel.setVisible(false);
-        setDoublePoints(false);
     }
 }

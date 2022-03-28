@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.Config;
 import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
@@ -13,10 +12,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static commons.Config.*;
+
 
 public abstract class BaseQuestionCtrl extends BaseCtrl {
 
-    protected final GameUtils gameUtils;
     protected boolean doublePoints;
     protected int answerButtonId;
     protected boolean hasPlayerAnswered;
@@ -30,8 +34,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     Label questionTracker;
     @FXML
     Label scoreLabel;
-    @FXML
-    Label jokerConfirmation;
+
     @FXML
     ProgressBar pgBar;
     @FXML
@@ -41,9 +44,13 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     Button thirdButton;
 
+    protected boolean doublePointsActive;
+    protected int lastScoredPoints; //this will be doubled if the player activates 2x points.
+
+
+
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     public boolean getHasPlayerAnswered() {
@@ -62,26 +69,18 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         gameUtils.updateTracker(questionTracker, scoreLabel, true);
     }
 
-    /**
-     * @param b - true if we are playing for double points
-     *          - false otherwise
-     */
-    public void setDoublePoints(Boolean b) {
-        doublePoints = b;
-        if (b) {
-            jokerConfirmation.setText("Your want to double your points!");
-            jokerConfirmation.setVisible(true);
-        } else {
-            jokerConfirmation.setVisible(false);
-        }
-    }
 
     /**
      * triggers the progressbar of this scene when called, 0 indicates what to do when the bar depletes
      * see activateGenericProgressBar in mainCtrl for more info
      */
     public void activateProgressBar() {
-        utils.runProgressBar(pgBar, Config.timePerQuestion, mainCtrl::showAnswerReveal);
+        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal);
+    }
+
+    public void restoreDoublePoints() {
+        hasPlayerAnswered = false;
+        doublePointsActive = false;
     }
 
     /**
@@ -92,7 +91,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         firstButton.setVisible(true);
         secondButton.setVisible(true);
         thirdButton.setVisible(true);
-        setDoublePoints(false);
     }
 
     /**
@@ -103,7 +101,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.visibilityTimeJoker(true);
         mainCtrl.visibilityHintJoker(true);
         mainCtrl.visibilityPointsJoker(true);
-        setDoublePoints(false);
     }
 
     /**
@@ -121,15 +118,16 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      *               button the player clicked on
      */
     public void grantPoints(Answer answer) {
-        setHasPlayerAnswered(true);
         int earnedPoints = 0;
-        if (answer.getAnswer() == answerButtonId)
-            earnedPoints = answer.getPoints();
-        if (doublePoints)
+        if (answer.getAnswer() == answerButtonId) earnedPoints = answer.getPoints();
+        if (!hasPlayerAnswered && doublePointsActive) {
             earnedPoints *= 2;
-        gameUtils.getPlayer().addPoints(earnedPoints);
+            doublePointsActive = false;
+        }
+        lastScoredPoints = earnedPoints;
         mainCtrl.setAnswersForAnswerReveal(earnedPoints, false);
-
+        setHasPlayerAnswered(true);
+        gameUtils.getPlayer().addPoints(earnedPoints);
     }
 
     /**
@@ -161,29 +159,56 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         utils.playButtonSound();
         pointsJoker.setVisible(false);
         mainCtrl.visibilityPointsJoker(false);
-        setDoublePoints(true);
+        if (hasPlayerAnswered) {
+            gameUtils.getPlayer().addPoints(lastScoredPoints);
+            mainCtrl.setAnswersForAnswerReveal(lastScoredPoints*2, false);
+        } else doublePointsActive = true;
+        utils.addNotification("2x points activated", "green");
+
     }
 
     /**
      * Disables the player to click on hint joker again
      * and hides one of the wrong answers
      */
+
     @FXML
     protected void hintClick () {
         utils.playButtonSound();
+        utils.addNotification("hint activated", "green");
         hintJoker.setVisible(false);
-        String falseAnswer = server.activateHint();
-        switch (falseAnswer) {
-            case "a":
-                firstButton.setVisible(false);
-                break;
-            case "b":
-                secondButton.setVisible(false);
-                break;
-            case "c":
-                thirdButton.setVisible(false);
-                break;
+        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
+        List<Button> wrongButtons = new ArrayList<>();
+        for (Button b : listOfButtons) {
+            if (listOfButtons.indexOf(b) + 1 != answerButtonId) {
+                wrongButtons.add(b);
+            }
         }
+        int indexToBeRemoved = (int) (Math.random() * 2);
+        wrongButtons.get(indexToBeRemoved).setVisible(false);
+    }
+
+    /**
+     * hides all buttons except for the one that was clicked
+     * @param event button that was clicked, so either A, B or C
+     */
+    public void answerClick(Event event) {
+        utils.playButtonSound();
+        long timeToAnswer = gameUtils.stopTimer();
+        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
+        Button activated = (Button) event.getSource();
+        long i = 0;
+        long buttonNb = 0;
+        for (Button b : listOfButtons) {
+            i++;
+            if (!b.getId().equals(activated.getId())) {
+                b.setVisible(false);
+            } else{
+                buttonNb=i;
+            }
+        }
+        grantPoints(new Answer(buttonNb, timeToAnswer));
+        hasPlayerAnswered = true;
     }
 
 }

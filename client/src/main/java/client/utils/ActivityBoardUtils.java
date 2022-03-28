@@ -24,7 +24,7 @@ public class ActivityBoardUtils {
     private ServerUtils serverUtils;
     private MainCtrl mainCtrl;
 
-    public ActivityBoardUtils(MainCtrl mainCtrl, GridPane activityGrid, ServerUtils serverUtils) {
+    public void setUp(MainCtrl mainCtrl, GridPane activityGrid, ServerUtils serverUtils){
         this.mainCtrl = mainCtrl;
         this.activityGrid = activityGrid;
         this.serverUtils = serverUtils;

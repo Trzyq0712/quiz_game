@@ -27,12 +27,13 @@ public class EditScreenCtrl extends BaseCtrl {
     @FXML
     Label pageLabel;
 
-    ActivityBoardUtils actUtils;
+    private final ActivityBoardUtils actUtils;
 
 
     @Inject
-    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils) {
+    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, ActivityBoardUtils actUtils) {
         super(mainCtrl, utils, server);
+        this.actUtils = actUtils;
     }
 
     /**
@@ -49,7 +50,7 @@ public class EditScreenCtrl extends BaseCtrl {
      * Loads the activity browser on page 1
      */
     public void setUp() {
-        actUtils = new ActivityBoardUtils(mainCtrl, activityGrid, server);
+        actUtils.setUp(mainCtrl, activityGrid, server);
         pageSpinner.setEditable(true);
         pageSpinner.setValueFactory(actUtils.getSpinnerValues());
         actUtils.loadGrid();

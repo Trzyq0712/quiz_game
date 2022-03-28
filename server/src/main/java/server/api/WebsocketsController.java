@@ -30,4 +30,10 @@ public class WebsocketsController {
     public Emote emote(Emote e){
         return e;
     }
+
+    @MessageMapping("/leave/{id}") // /app/emote/id
+    @SendTo("/topic/leave/{id}")
+    public String leaveGame(String playerName){
+        return playerName;
+    }
 }

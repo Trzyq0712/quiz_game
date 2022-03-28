@@ -93,6 +93,10 @@ public class WaitingRoomCtrl extends BaseCtrl {
             mainCtrl.emote(e.getPath(), e.getName());
         });
 
+        server.registerForMessages("/topic/leave/1", String.class, e -> {
+            utils.addNotification(e, "red");
+        });
+
         waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b -> {
             if (b) {
                 threadRun = false;

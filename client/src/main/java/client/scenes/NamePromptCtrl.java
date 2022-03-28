@@ -96,10 +96,10 @@ public class NamePromptCtrl extends BaseCtrl {
                 gameUtils.setPlayer(player);
                 gameUtils.requestGameID();
                 mainCtrl.showWaitingRoom();
+            } else {
+                errorLabel.setText("Name is taken!");
+                errorLabel.setVisible(true);
             }
-        } else {
-            errorLabel.setText("Name is taken!");
-            errorLabel.setVisible(true);
         }
     }
 

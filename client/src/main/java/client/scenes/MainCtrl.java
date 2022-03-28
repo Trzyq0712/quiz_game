@@ -532,19 +532,22 @@ public class MainCtrl {
 
     public void showEditScreen() {
         primaryStage.setTitle(Config.edit);
+        editScreenCtrl.setUp();
         editScreenScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(editScreenScene);
     }
 
-    public void editActivity(boolean add) {
-        if (add) {
-            editActivityCtrl.setUp();
-            editActivityScene.getStylesheets().add(Config.styleSheet);
-            secondaryStage.setScene(editActivityScene);
-            secondaryStage.centerOnScreen();
-            secondaryStage.sizeToScene();
-            secondaryStage.show();
-        }
+    public void editActivity(boolean add, Activity activity) {
+        editActivityCtrl.setUp(add, activity, editScreenCtrl.getActUtils());
+        editActivityScene.getStylesheets().add(Config.styleSheet);
+        secondaryStage.setScene(editActivityScene);
+        secondaryStage.centerOnScreen();
+        secondaryStage.sizeToScene();
+        secondaryStage.show();
+    }
+
+    public Stage getSecondaryStage(){
+        return secondaryStage;
     }
 
     // --- to move START
@@ -578,6 +581,10 @@ public class MainCtrl {
      */
     public void setAnswersForAnswerReveal(int points, boolean bool) {
         answerRevealCtrl.setAnswer(points, bool);
+    }
+
+    public void refreshLabels() {
+        editScreenCtrl.updateLabels();
     }
 
     // --- to move END

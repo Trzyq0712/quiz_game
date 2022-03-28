@@ -224,6 +224,7 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(Activity.class);
     }*/
+
     /**
      * @return all activities
      */
@@ -235,6 +236,7 @@ public class ServerUtils {
                 .get(new GenericType<List<Activity>>() {
                 });
     }
+
 
     /**
      * @param postActivity is the activity and image to be added to the server
@@ -300,6 +302,10 @@ public class ServerUtils {
 
     public void disconnect(){
         session.disconnect();
+    }
+
+    public boolean isConnected() {
+        return session.isConnected();
     }
 
 }

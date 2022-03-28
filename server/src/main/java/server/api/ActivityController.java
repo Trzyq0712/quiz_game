@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import commons.Activity;
 import server.ActivityService;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -57,6 +58,7 @@ public class ActivityController extends BaseController {
 
     /**
      * Endpoint for getting 3 activities
+     *
      * @return The list containing 3 activities
      */
     @GetMapping(path = "3")
@@ -77,10 +79,11 @@ public class ActivityController extends BaseController {
 
     /**
      * Endpoint for getting an activities
+     *
      * @return The activity
      */
     @GetMapping(path = "1")
-    public ResponseEntity<Activity> getActivity(){
+    public ResponseEntity<Activity> getActivity() {
         return ResponseEntity.ok(activityService.getActivity());
     }
 
@@ -126,17 +129,54 @@ public class ActivityController extends BaseController {
     }
 
     /**
-     * Endpoint for adding new activities.
+     * Endpoint for adding new activities and their image.
      *
      * @param postActivity The activity with an image to be added.
      * @return The activity added to the database.
      */
     @PostMapping(path = "/add")
     public ResponseEntity<Activity> addPostActivity(@RequestBody PostActivity postActivity) {
-        if(writeImageToFile(postActivity))
+        if (writeImageToFile(postActivity))
             return ResponseEntity.ok(activityService.addActivity(postActivity.getActivity()));
 
         return ResponseEntity.ok(null);
+    }
+
+    /**
+     * Endpoint for updating new activities.
+     *
+     * @param postActivity The activity with an image to be updated
+     * @return The activity added to the database.
+     */
+    @PostMapping(path = "/update")
+    public ResponseEntity<Activity> updatePostActivity(@RequestBody PostActivity postActivity) {
+        if (overWriteImage(postActivity))
+            return ResponseEntity.ok(activityService.updateActivity(postActivity.getActivity()));
+
+        return ResponseEntity.ok(null);
+    }
+
+    /**
+     * Endpoint for deleting activities and their images
+     *
+     * @param id of the activity to be deleted
+     * @return the image file if it is found
+     */
+    @PostMapping(path = "/delete")
+    public ResponseEntity<Boolean> deletePostActivity(@RequestBody Long id) {
+        Optional<Activity> activity = activityService.getActivityById(id);
+        if (activity.isEmpty())
+            return ResponseEntity.ok(false);
+
+        try {
+            if (activityService.removeActivity(id).isPresent()) {
+                deleteImageFromServer(activity.get());
+                return ResponseEntity.ok(true);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return ResponseEntity.ok(false);
     }
 
     /**
@@ -145,19 +185,53 @@ public class ActivityController extends BaseController {
      * @param postActivity activity that has the image to be written to the folder newActivities
      * @return true if written successfully
      */
-    public boolean writeImageToFile(PostActivity postActivity){
+    public boolean writeImageToFile(PostActivity postActivity) {
         try {
-            BufferedImage image = ImageIO.read(postActivity.getPicture());
             Activity activity = postActivity.getActivity();
-            String extension = activity.getPicturePath().substring(activity.getPicturePath().length()-3);
+            String extension = activity.getPicturePath().substring(activity.getPicturePath().length() - 3);
 
-            String path;
-            do path = new File(postActivity.getWriteTo()
-                    + new Random().nextInt() + "." + extension).getAbsolutePath();
-            while (new File(path).isFile());
+            Path pathToFile;
+            String fileName;
+            do {
+                fileName = new Random().nextInt() + "." + extension;
+                pathToFile = Path.of(imgPath, "activity", "newActivities", fileName);
+            }
+            while (new File(pathToFile.toString()).isFile());
 
-            activity.setPicturePath(path);
-            ImageIO.write(image, extension, new File(path));
+            System.out.println("trying to write: " + pathToFile);
+            Files.write(pathToFile, postActivity.getPictureBuffer());
+            activity.setPicturePath("activity/newActivities/" + fileName);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+        return true;
+    }
+
+    public void deleteImageFromServer(Activity activity) {
+        Path pathToFile = Path.of(imgPath, activity.getPicturePath());
+        File toBeDeleted = new File(pathToFile.toString());
+        System.out.println("trying to delete: " + pathToFile);
+        toBeDeleted.delete();
+    }
+
+    /**
+     * Rewrites the image to the folder by deleting the old one and writing a new one.
+     * Decided to do so due to having different file types just overwriting the old path
+     * may have conflicts if file extensions are different.
+     *
+     * @param postActivity activity that has the image to be rewritten
+     * @return true if rewritten successfully
+     */
+    public boolean overWriteImage(PostActivity postActivity) {
+        try {
+            if(postActivity.getPictureBuffer().length == 0)
+                return true;
+
+            Activity updatedActivity = postActivity.getActivity();
+            Activity oldActivity = activityService.getActivityById(updatedActivity.getId()).get();
+            deleteImageFromServer(oldActivity);
+            writeImageToFile(postActivity);
         } catch (Exception ex) {
             System.out.println(ex);
             return false;

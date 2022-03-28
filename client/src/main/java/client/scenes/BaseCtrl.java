@@ -39,6 +39,7 @@ public abstract class BaseCtrl implements Initializable {
     @FXML
     public void showHome() {
         utils.playButtonSound();
+        if (server.isConnected()) server.disconnect();
         gameUtils.resetGame();
         mainCtrl.showHome();
     }

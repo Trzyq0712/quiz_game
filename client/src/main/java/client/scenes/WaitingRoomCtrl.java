@@ -21,27 +21,29 @@ import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
     static Boolean threadRun;
-    private final GameUtils gameUtils;
     public StompSession.Subscription waitingroom;
     Thread pollingThread;
     @FXML
     private GridPane playerGrid;
+
     private List<Player> playerList;
 
     @Inject
     public WaitingRoomCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
     }
 
     @FXML
-    private void startGame() {
+    private void startMultiplayer() {
         threadRun = false;
-        leaveWaitingRoom(gameUtils.getPlayer());
-        mainCtrl.showQuestion();
+        /*leaveWaitingRoom(gameUtils.getPlayer());*/ /*line 42 causes all clients to leave already, aren't we
+        leaving twice now?*/
+        //server.start();
+        server.send("/app/waitingroom/start", true);
+        //mainCtrl.showQuestion();
         utils.playButtonSound();
         restoreChat();
-        server.send("/app/waitingroom/start", true);
+
     }
 
     /**
@@ -65,6 +67,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
      * objects to be manipulated not from the main thread. I don't know how to make
      * a request not time-out.
      */
+
     public void setUp() {
         playerList = server.getWaitingPlayers();
         loadPlayerGrid(playerList);
@@ -85,6 +88,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
             }
         });
         pollingThread.start();
+
         server.registerForMessages("/topic/emote/1", Emote.class, e -> {
             mainCtrl.emote(e.getPath(), e.getName());
         });
@@ -97,7 +101,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
                     mainCtrl.showQuestion();
                     utils.playButtonSound();
                 });
-                restoreChat();
+                //restoreChat(); this should be done in gameUtils class
                 server.unsubscribe(waitingroom);
             }
         });
@@ -125,6 +129,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         leaveWaitingRoom(gameUtils.getPlayer());
         super.showHome();
     }
+
 
     public void leaveWaitingRoom(Player player) {
         server.leaveWaitingroom(player);

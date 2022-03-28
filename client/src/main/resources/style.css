@@ -153,3 +153,21 @@ VBox Label {/*text within the chatbox*/
     -fx-tile-alignment: left;
 }
 
+/*StackPane > Label {
+    -fx-alignment: center;
+    -fx-font-size: 10;
+    -fx-text-fill: blue;
+    -fx-font-family: "Arial"; !* feel free to change it to watever you like *!
+}*/
+
+#chatRelated {
+    -fx-alignment: center;
+    -fx-font-size: 23;
+    -fx-text-fill: white;
+    -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
+}
+
+#green {
+    -fx-text-fill: green;
+    -fx-font-size: 20;
+}

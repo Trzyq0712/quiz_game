@@ -18,12 +18,19 @@ package server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import static commons.Config.*;
+
+import java.util.Collections;
 
 @SpringBootApplication
 @EntityScan(basePackages = { "commons", "server" })
 public class Main {
 
     public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+        SpringApplication app = new SpringApplication(Main.class);
+        app.setDefaultProperties(Collections
+                .singletonMap("server.port", port));
+        app.run(args);
+        /*SpringApplication.run(Main.class, args);*/
     }
 }

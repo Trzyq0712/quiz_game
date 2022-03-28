@@ -18,9 +18,14 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("/api/activity")
-public class ActivityController {
+public class ActivityController extends BaseController {
 
-    private final ActivityService activityService;
+    private int currentRound = -1; // -1 means there's no game active
+    private int currentQuestionType = -1;
+    private List<Activity> currentListOfActivities;
+    public String imgPath = getClass().getClassLoader().getResource("static/")
+            .toString().substring(6).replace("%20", " ");
+
 
     /**
      * Endpoint for ActivityController.
@@ -29,7 +34,7 @@ public class ActivityController {
      */
     @Autowired
     public ActivityController(ActivityService activityService) {
-        this.activityService = activityService;
+        super(activityService);
     }
 
     /**
@@ -56,7 +61,18 @@ public class ActivityController {
      */
     @GetMapping(path = "3")
     public ResponseEntity<List<Activity>> get3Activities(){
-         return ResponseEntity.ok(activityService.get3Activities());
+         return ResponseEntity.ok(currentListOfActivities);
+    }
+
+
+    @PostMapping(path = "getQuestion")
+    public ResponseEntity<Integer> getQuestionType(@RequestBody int round) {
+        if (currentRound == -1 || round == currentRound + 1) {//either the first request or a request for a new round
+            currentQuestionType = (int)(Math.random()*3);
+            currentRound = round;
+            currentListOfActivities = activityService.get3Activities();
+        }
+        return ResponseEntity.ok(currentQuestionType);
     }
 
     /**

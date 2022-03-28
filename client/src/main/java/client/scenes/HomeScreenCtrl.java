@@ -11,14 +11,12 @@ import javafx.scene.control.Button;
 
 public class HomeScreenCtrl extends BaseCtrl {
 
-    private final GameUtils gameUtils;
     private final NamePromptCtrl namePromptCtrl;
 
     @Inject
     public HomeScreenCtrl(MainCtrl mainCtrl, ApplicationUtils utils,
                           ServerUtils server, GameUtils gameUtils, NamePromptCtrl namePromptCtrl) {
-        super(mainCtrl, utils, server);
-        this.gameUtils = gameUtils;
+        super(mainCtrl, utils, server, gameUtils);
         this.namePromptCtrl = namePromptCtrl;
     }
 
@@ -42,7 +40,7 @@ public class HomeScreenCtrl extends BaseCtrl {
     @FXML
     private void showPrompt(Event e) {
         utils.playButtonSound();
-        gameUtils.resetGame();
+        //gameUtils.resetGame();
         String mode = ((Button) e.getSource()).getText();
         if (mode.equals("Singleplayer")) {
             gameUtils.setGameType(GameUtils.GameType.SinglePlayer);

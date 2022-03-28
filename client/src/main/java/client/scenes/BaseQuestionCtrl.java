@@ -147,7 +147,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     public void emote(Event e) {
         String path = ((ImageView) e.getSource()).getImage().getUrl();
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
-        server.send("/app/emote/1", emote);
+        server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
     /**

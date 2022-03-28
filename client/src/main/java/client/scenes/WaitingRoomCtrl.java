@@ -89,7 +89,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         });
         pollingThread.start();
 
-        server.registerForMessages("/topic/emote/1", Emote.class, e -> {
+        server.registerForMessages("/topic/emote/" + gameUtils.getGameID(), Emote.class, e -> {
             mainCtrl.emote(e.getPath(), e.getName());
         });
 

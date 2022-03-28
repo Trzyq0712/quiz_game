@@ -1,13 +1,14 @@
 package server.api;
 
+import commons.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import server.database.PlayerScoreRepository;
-import commons.Player;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,17 +70,18 @@ public class PlayerScoreController {
     }
 
     /**
-     * Add a player score to the database.
+     * Add a player score to the database. The time of achieved score is assigned by the server.
      *
-     * @param Player result to be added to the database.
+     * @param player result to be added to the database.
      * @return the score that was created.
      */
     @PostMapping(path = "")
-    public ResponseEntity<Player> add(@RequestBody Player Player) {
-        if(Player.getPlayerName()==null){
+    public ResponseEntity<Player> add(@RequestBody Player player) {
+        if (player.getPlayerName() == null) {
             return ResponseEntity.badRequest().build();
         }
-        Player p = repo.save(Player);
+        player.setTime(Timestamp.from(Instant.now()));
+        Player p = repo.save(player);
         return ResponseEntity.ok(p);
     }
 

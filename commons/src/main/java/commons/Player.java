@@ -21,13 +21,12 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Transient
-    private int rank;
-
     private String playerName;
     private Integer score;
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp time;
+
+    @Transient
+    private int rank;
 
     @SuppressWarnings("unused")
     private Player() {
@@ -111,6 +110,15 @@ public class Player {
      */
     public Timestamp getTime() {
         return time;
+    }
+
+    /**
+     * Setter for time the player's score was achieved.
+     *
+     * @param time The new time to set.
+     */
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     public int getRank() {

@@ -21,9 +21,6 @@ import java.nio.file.Paths;
 import static commons.Config.*;
 
 public class EditActivityCtrl extends BaseCtrl {
-    private final ServerUtils server;
-    private final MainCtrl mainCtrl;
-    private final ApplicationUtils utils;
     private ActivityBoardUtils actUtils;
 
     @FXML

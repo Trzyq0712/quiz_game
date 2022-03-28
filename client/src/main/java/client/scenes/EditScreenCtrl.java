@@ -32,7 +32,8 @@ public class EditScreenCtrl extends BaseCtrl {
 
 
     @Inject
-    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils, ActivityBoardUtils actUtils) {
+    public EditScreenCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils
+            , ActivityBoardUtils actUtils) {
         super(mainCtrl, utils, server, gameUtils);
         this.actUtils = actUtils;
     }

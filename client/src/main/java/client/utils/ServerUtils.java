@@ -224,17 +224,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(Activity.class);
     }*/
-    /**
-     * @return all activities
-     */
-    public List<Activity> getActivities() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/activity") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Activity>>() {
-                });
-    }
 
     /**
      * @return all activities

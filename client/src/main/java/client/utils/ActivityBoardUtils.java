@@ -1,6 +1,5 @@
 package client.utils;
 
-import client.Config;
 import client.scenes.MainCtrl;
 import commons.Activity;
 import javafx.event.EventHandler;

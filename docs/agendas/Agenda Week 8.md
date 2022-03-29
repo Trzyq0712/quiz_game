@@ -1,7 +1,7 @@
 # Agenda
 ## Meeting details
 - Location: TU Delft, Building 35, Drebbleweg
-- Date:	22.03.2022
+- Date:	29.03.2022
 - Time: 15:45
 - Attendees: **Damla Ortaç**, Reinier Schep, Laimonas Lipinskas, Mana Mahmoudi, Vian Robotin, Kuba Trzykowski
 - Meeting chairman: Jakub Trzykowski
@@ -17,5 +17,7 @@
 - 16:15 - Task division - who does what and when?
 - 16:20 - Summary
 - 16:23 - Question Round
+    - Is the python code allowed for repopulating the database?
+    - What grade can we expect to get for the course?
 - 16:27 - Feedback Round
 - 16:30 - Closure

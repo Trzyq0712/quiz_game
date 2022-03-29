@@ -34,25 +34,29 @@ public class PreGameController extends BaseController {
     }
 
     /**
-     * @param name the name with which the player wants to enter the singleplayer game
+     * @param player the name with which the player wants to enter the singleplayer game
      * @return random confirmation for now
      */
     @PostMapping(path = "/single")
-    public ResponseEntity<Boolean> playSingle(@RequestBody String name) {
+    public ResponseEntity<Boolean> playSingle(@RequestBody Player player) {
         return ResponseEntity.ok(true);
     }
 
     /**
-     * @param name the name with which the player wants to join the waiting room
+     * @param player the name with which the player wants to join the waiting room
      * @return false if name is taken
      *         true if name is not taken
      */
     @PostMapping(path = "/join")
-    public ResponseEntity<Boolean> playMulti(@RequestBody String name) {
-        Player player = new Player(name, 0);
-        if(waitingPlayers.contains(player)) return ResponseEntity.ok(false);
+    public ResponseEntity<Boolean> playMulti(@RequestBody Player player) {
+        //Player player = new Player(name, 0);
+        for (Player p : waitingPlayers) {
+            if (p.getPlayerName().equals(player.getPlayerName())) {
+                return ResponseEntity.ok(false);
+            }
+        }
         waitingPlayers.add(player);
-        System.out.println("added " + name + "to the waiting room");
+        System.out.println("added " + player.getPlayerName() + "to the waiting room");
         return ResponseEntity.ok(true);
     }
 
@@ -153,7 +157,7 @@ public class PreGameController extends BaseController {
         pollThreads.execute(() -> {
             while(waitingPlayers.equals(clientPlayers)){
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

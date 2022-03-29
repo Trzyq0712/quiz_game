@@ -3,7 +3,6 @@ package server.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.web.context.request.async.DeferredResult;
 import server.ActivityService;
 import server.MockActivityRepository;
@@ -11,7 +10,6 @@ import server.MockActivityRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static org.junit.jupiter.api.Assertions.*;
 
 class PreGameControllerTest {
 

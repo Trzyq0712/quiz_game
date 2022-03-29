@@ -38,7 +38,7 @@ class GameTest {
         assertEquals(ptest,g.addPointsToAPlayer("Vian",50));
     }
 
-    @Test
+    /*@Test
     void removeAPlayerWithId() {
         g.addAPlayer(p2);
         g.addAPlayer(p1);
@@ -46,27 +46,27 @@ class GameTest {
         List<Player> PlayerList = new ArrayList<>();
         PlayerList.add(p2);
         assertEquals(g.getPlayers(), PlayerList);
-    }
+    }*/
 
 
-    @Test
+    /*@Test
     void removeAll() {
         g.addAPlayer(p1);
         g.addAPlayer(p2);
         g.removeAll();
         List<Player> PlayerList = new ArrayList<>();
         assertEquals(g.getPlayers(), PlayerList);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void getSize() {
         g.addAPlayer(p1);
         assertTrue(g.getSize()==1);
         g.addAPlayer(p2);
         assertTrue(g.getSize()==2);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void getPlayers() {
         g.addAPlayer(p1);
         g.addAPlayer(p2);
@@ -74,7 +74,7 @@ class GameTest {
         PlayerList.add(p1);
         PlayerList.add(p2);
         assertEquals(g.getPlayers(),PlayerList);
-    }
+    }*/
 
     @Test
     void getByName() {
@@ -84,14 +84,14 @@ class GameTest {
         assertEquals(p1, ptest);
     }
 
-    @Test
+    /*@Test
     void setPlayers() {
         List<Player> PlayerList = new ArrayList<>();
         PlayerList.add(p1);
         PlayerList.add(p2);
         g.setPlayers(PlayerList);
         assertEquals(g.getPlayers(),PlayerList);
-    }
+    }*/
 
 //    @Test
 //    void getGameId() {

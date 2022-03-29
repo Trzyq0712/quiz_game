@@ -19,7 +19,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private final Long id;
+    private Long id;
 
     private String playerName;
     private Integer score;
@@ -86,9 +86,9 @@ public class Player {
      *
      * @param id new id to be set.
      */
-    /*public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-    }*/
+    }
 
     /**
      * Getter for player's name.

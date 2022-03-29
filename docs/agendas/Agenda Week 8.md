@@ -17,5 +17,7 @@
 - 16:15 - Task division - who does what and when?
 - 16:20 - Summary
 - 16:23 - Question Round
+    - Is the python code allowed for repopulating the database?
+    - What grade can we expect to get for the course?
 - 16:27 - Feedback Round
 - 16:30 - Closure

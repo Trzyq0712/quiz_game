@@ -52,7 +52,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
         utils.playButtonSound();
         String path = ((ImageView)e.getSource()).getImage().getUrl();
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
-        server.send("/app/emote/1", emote);
+        server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
 }

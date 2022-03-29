@@ -1,7 +1,7 @@
 # Agenda
 ## Meeting details
 - Location: TU Delft, Building 35, Drebbleweg
-- Date:	22.03.2022
+- Date:	29.03.2022
 - Time: 15:45
 - Attendees: **Damla Ortaç**, Reinier Schep, Laimonas Lipinskas, Mana Mahmoudi, Vian Robotin, Kuba Trzykowski
 - Meeting chairman: Jakub Trzykowski

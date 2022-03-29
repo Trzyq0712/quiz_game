@@ -83,6 +83,22 @@ public class ServerUtils {
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Activity.class);
     }
 
+    public Boolean updateScore(Long gameID, Player player) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/updateScore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(gameID, player), APPLICATION_JSON), Boolean.class);
+    }
+
+    public PlayerList getPlayers(Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/getPlayers") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(gameID), APPLICATION_JSON), PlayerList.class);
+    }
+
     /*public void startMultiplayer() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/play/startMultiplayer") //

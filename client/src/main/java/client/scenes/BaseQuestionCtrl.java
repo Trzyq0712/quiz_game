@@ -5,6 +5,7 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Answer;
 import commons.Emote;
+import commons.Player;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -128,6 +129,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.setAnswersForAnswerReveal(earnedPoints, false);
         setHasPlayerAnswered(true);
         gameUtils.getPlayer().addPoints(earnedPoints);
+        Long gameID = gameUtils.getGameID();
+        Player player = gameUtils.getPlayer();
+        server.updateScore(gameID, player);
     }
 
     /**

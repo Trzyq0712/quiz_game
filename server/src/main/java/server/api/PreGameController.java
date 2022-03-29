@@ -64,7 +64,9 @@ public class PreGameController extends BaseController {
     @GetMapping(path = "/start") //this should ONLY be called by singleplayer!
     public ResponseEntity<Boolean> startGame() {
         Game game = new Game();
-        game.getPlayers().addAll(waitingPlayers);
+        for (Player p : waitingPlayers) {
+            game.addAPlayer(p);
+        }
         waitingPlayers.clear();
         for (int i = 0; i < totalQuestions; i++) {
             game.getQuestionTypes().put(i, (int) (Math.random() * 3));
@@ -97,6 +99,24 @@ public class PreGameController extends BaseController {
         Long gameID = clientInfo.getGameID();
         Activity activity = ongoingGames.get(gameID).getActivities().get(currentQuestion).get(0);
         return ResponseEntity.ok(activity);
+    }
+
+    @PostMapping(path = "/getPlayers")
+    public ResponseEntity<PlayerList> getPlayers(@RequestBody ClientInfo clientInfo) {
+        Long gameID = clientInfo.getGameID();
+        Game currentGame = ongoingGames.get(gameID);
+        List<Player> listOfPlayers = currentGame.getPlayers();
+        PlayerList playerList = new PlayerList(listOfPlayers);
+        return ResponseEntity.ok(playerList);
+    }
+
+    @PostMapping(path = "/updateScore")
+    public ResponseEntity<Boolean> updateScore(@RequestBody ClientInfo clientInfo) {
+        Player player = clientInfo.getPlayer();
+        Long gameID = clientInfo.getGameID();
+        Game currentGame = ongoingGames.get(gameID);
+        currentGame.updateScore(player);
+        return ResponseEntity.ok(true);
     }
 
     /**

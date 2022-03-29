@@ -19,11 +19,13 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id = new Long(playerID);
 
     private String playerName;
     private Integer score;
     private Timestamp time;
+
+    public static Long playerID = 0L;
 
     @Transient
     private int rank;

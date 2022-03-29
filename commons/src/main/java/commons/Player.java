@@ -19,7 +19,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id = new Long(playerID);
+    private Long id;
 
     private String playerName;
     private Integer score;
@@ -33,6 +33,7 @@ public class Player {
     @SuppressWarnings("unused")
     private Player() {
         // for object mapper
+        generateId();
     }
 
     /**
@@ -44,11 +45,18 @@ public class Player {
     public Player(String playerName, int score) {
         this.playerName = playerName;
         this.score = score;
+        generateId();
     }
 
     public Player(String playerName) {
         this.playerName = playerName;
         this.score = 0;
+        generateId();
+    }
+
+    public void generateId() {
+        this.id = new Long(playerID);
+        playerID++;
     }
 
     /**

@@ -52,7 +52,7 @@ public class PreGameController extends BaseController {
         Player player = new Player(name, 0);
         if(waitingPlayers.contains(player)) return ResponseEntity.ok(false);
         waitingPlayers.add(player);
-        System.out.println("added " + name + "to the waiting room");
+        System.out.println("added " + name + " to the waiting room");
         return ResponseEntity.ok(true);
     }
 
@@ -66,6 +66,17 @@ public class PreGameController extends BaseController {
         Game game = new Game();
         game.getPlayers().addAll(waitingPlayers);
         waitingPlayers.clear();
+        for (int i = 0; i < totalQuestions; i++) {
+            game.getQuestionTypes().put(i, (int) (Math.random() * 3));
+            game.getActivities().put(i, activityService.get3Activities());
+        }
+        ongoingGames.put(game.getGameId(), game);
+        return ResponseEntity.ok(true);
+    }
+
+    @GetMapping(path = "/start/single") //this should ONLY be called by singleplayer!
+    public ResponseEntity<Boolean> startSinglePLayerGame() {
+        Game game = new Game();
         for (int i = 0; i < totalQuestions; i++) {
             game.getQuestionTypes().put(i, (int) (Math.random() * 3));
             game.getActivities().put(i, activityService.get3Activities());

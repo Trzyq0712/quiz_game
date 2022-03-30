@@ -52,7 +52,7 @@ public class ServerUtils {
 
     public boolean start() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/play/start") //
+                .target(SERVER).path("api/play/start/single") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<Boolean>() {});
@@ -82,22 +82,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Activity.class);
     }
-
-    /*public void startMultiplayer() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/play/startMultiplayer") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<>() {});
-    }*/
-
-    /*public Integer getTypeOfQuestion(int round){
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/activity/getQuestion") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .post(Entity.entity(round, APPLICATION_JSON), Integer.class);
-    }*/
 
     /**
      * @param name the name with which the player wants to play singleplayer
@@ -192,17 +176,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<String>() {});
     }
-    /**
-     * gets a list of 3 activities from the server
-     * @return a list of 3 activities
-     */
-    /*public List<Activity> get3Activities() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/activity/3") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Activity>>() {});
-    }*/
 
 
     /**
@@ -216,14 +189,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
     }
-
-    /*public Activity getActivity() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/activity/1") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(Activity.class);
-    }*/
 
     /**
      * @return all activities

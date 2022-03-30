@@ -40,6 +40,7 @@ public abstract class BaseCtrl implements Initializable {
     public void showHome() {
         utils.playButtonSound();
         if (server.isConnected()) server.disconnect();
+        utils.cancelProgressBar();
         gameUtils.resetGame();
         mainCtrl.showHome();
     }

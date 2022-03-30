@@ -108,8 +108,10 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
-        server.disconnect();
+        if(server.isConnected())
+            server.disconnect();
         mainCtrl.showHome();
+        utils.cancelProgressBar();
         restoreAnswers();
         restoreJokers();
     }

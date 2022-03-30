@@ -76,7 +76,6 @@ public class AnswerRevealCtrl extends BaseCtrl {
             if (gameUtils.getCurrentQuestion() < totalQuestions) {
                 mainCtrl.restoreQuestions();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
-                    //gameUtils.startTimer();
                     mainCtrl.showQuestion();
                 } else mainCtrl.showIntermediateLeaderboard();
             } else {
@@ -102,6 +101,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
 
     public void emote(Event e) {
+        utils.playButtonSound();
         String path = ((ImageView) e.getSource()).getImage().getUrl();
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/" + gameUtils.getGameID(), emote);

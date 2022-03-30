@@ -30,12 +30,8 @@ public class GameUtils {
     }
 
     public void resetGame() {
-        /*if (gameType.equals(GameType.MultiPlayer)) {
-            server.disconnect();
-        }*/
         player = null;
         currentQuestion = 0;
-        //gameType = null;
         currentTimeMillis = null;
         gameID = null;
         mainCtrl.restore();

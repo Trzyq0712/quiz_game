@@ -42,6 +42,7 @@ public class NamePromptCtrl extends BaseCtrl {
             Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
             gameUtils.requestGameID();
+            client.utils.Config.playerName = nameField.getText();
             server.start();
             //gameUtils.startTimer();
             mainCtrl.showQuestion();
@@ -96,6 +97,7 @@ public class NamePromptCtrl extends BaseCtrl {
                 gameUtils.setPlayer(player);
                 gameUtils.requestGameID();
                 mainCtrl.showWaitingRoom();
+                client.utils.Config.playerName = nameField.getText();
             } else {
                 errorLabel.setText("Name is taken!");
                 errorLabel.setVisible(true);

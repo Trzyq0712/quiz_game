@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Emote;
+import commons.NotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -31,9 +32,9 @@ public class WebsocketsController {
         return e;
     }
 
-    @MessageMapping("/leave/{id}") // /app/emote/id
+    @MessageMapping("/leave/{id}") // /app/leave/id
     @SendTo("/topic/leave/{id}")
-    public String leaveGame(String playerName){
-        return playerName;
+    public NotificationMessage leaveGame(NotificationMessage e){
+        return e;
     }
 }

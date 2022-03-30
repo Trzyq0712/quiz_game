@@ -2,9 +2,11 @@ package client.scenes;
 
 
 import client.utils.ApplicationUtils;
+import client.utils.Config;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.NotificationMessage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -40,7 +42,7 @@ public abstract class BaseCtrl implements Initializable {
     public void showHome() {
         utils.playButtonSound();
         if (server.isConnected()) {
-            server.send("/app/leave/1", "darius");
+            server.send("/app/leave/" + gameUtils.getGameID(), new NotificationMessage(Config.playerName + " left"));
             server.disconnect();
         }
         gameUtils.resetGame();

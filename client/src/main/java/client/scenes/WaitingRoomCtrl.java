@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Emote;
+import commons.NotificationMessage;
 import commons.Player;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
@@ -89,12 +90,12 @@ public class WaitingRoomCtrl extends BaseCtrl {
         });
         pollingThread.start();
 
-        server.registerForMessages("/topic/emote/1", Emote.class, e -> {
+        server.registerForMessages("/topic/emote/1", Emote.class, e -> { //Hard coded ID for now
             mainCtrl.emote(e.getPath(), e.getName());
         });
 
-        server.registerForMessages("/topic/leave/1", String.class, e -> {
-            utils.addNotification(e, "red");
+        server.registerForMessages("/topic/leave/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
+            utils.addNotification(e.getMessage(), "red");
         });
 
         waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b -> {

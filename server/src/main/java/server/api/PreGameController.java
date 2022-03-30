@@ -25,12 +25,13 @@ public class PreGameController extends BaseController {
     //private Long gameID = 0L;
     private List<Player> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
-    private HashMap<Long, Game> ongoingGames = new HashMap<>();//maps gameID to actual Game instance
+    private HashMap<Long, Game> ongoingGames;
 
     @Autowired
     public PreGameController(ActivityService activityService) {
         super(activityService);
         waitingPlayers = new ArrayList<>();
+        ongoingGames = new HashMap<>();
     }
 
     /**
@@ -61,8 +62,8 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(Game.gameCounter);
     }
 
-    @GetMapping(path = "/start") //this should ONLY be called by singleplayer!
-    public ResponseEntity<Boolean> startGame() {
+    @GetMapping(path = "/start")
+    public Long startMultiplayerGame() {
         Game game = new Game();
         game.getPlayers().addAll(waitingPlayers);
         waitingPlayers.clear();
@@ -71,7 +72,7 @@ public class PreGameController extends BaseController {
             game.getActivities().put(i, activityService.get3Activities());
         }
         ongoingGames.put(game.getGameId(), game);
-        return ResponseEntity.ok(true);
+        return game.getGameId();
     }
 
     @GetMapping(path = "/start/single") //this should ONLY be called by singleplayer!

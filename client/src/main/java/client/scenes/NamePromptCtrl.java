@@ -43,7 +43,6 @@ public class NamePromptCtrl extends BaseCtrl {
             gameUtils.setPlayer(player);
             gameUtils.requestGameID();
             server.start();
-            //gameUtils.startTimer();
             mainCtrl.showQuestion();
         }
     }
@@ -94,7 +93,6 @@ public class NamePromptCtrl extends BaseCtrl {
             Player player = new Player(nameField.getText());
             if (server.enterWaitingRoom(nameField.getText())) {
                 gameUtils.setPlayer(player);
-                gameUtils.requestGameID();
                 mainCtrl.showWaitingRoom();
             }
         } else {

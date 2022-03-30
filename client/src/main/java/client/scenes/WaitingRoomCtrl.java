@@ -88,6 +88,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
         waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b -> {
             if (b) {
+                gameUtils.requestGameID();
                 threadRun = false;
                 leaveWaitingRoom(gameUtils.getPlayer());
                 Platform.runLater(() -> {

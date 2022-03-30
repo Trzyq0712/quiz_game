@@ -25,12 +25,13 @@ public class PreGameController extends BaseController {
     //private Long gameID = 0L;
     private List<Player> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
-    private HashMap<Long, Game> ongoingGames = new HashMap<>();//maps gameID to actual Game instance
+    private HashMap<Long, Game> ongoingGames;
 
     @Autowired
     public PreGameController(ActivityService activityService) {
         super(activityService);
         waitingPlayers = new ArrayList<>();
+        ongoingGames = new HashMap<>();
     }
 
     /**

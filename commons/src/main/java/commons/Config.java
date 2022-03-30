@@ -6,9 +6,9 @@ public class Config {
     public static String title = "The Energy Quiz";
     public static String quit = "Sure you want to quit?";
     public static String titleWaitingRoom = "The Waiting Room";
-    public static long timePerQuestion = 2000; //milliseconds
-    public static long timeForIntermediate = 500; //milliseconds, time the intermediate leaderboard shows
-    public static long timeAnswerReveal = 2000; //milliseconds, time the revealed answers show\
+    public static long timePerQuestion = 5000; //milliseconds
+    public static long timeForIntermediate = 5000; //milliseconds, time the intermediate leaderboard shows
+    public static long timeAnswerReveal = 5000; //milliseconds, time the revealed answers show\
     public static int totalQuestions = 3; //total amount of questions in the quiz, set to 2 for testing purposes
     public static int timeReductionPercentage = 20; //percentage by which opponents time will decrease if the time
     //joker is played

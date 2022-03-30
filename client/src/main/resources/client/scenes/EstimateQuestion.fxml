@@ -50,9 +50,9 @@
                 <ColorAdjust />
             </effect>
         </ProgressBar>
-        <ImageView id="hintJoker" fx:id="hintJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="300.0"  pickOnBounds="true" preserveRatio="true" styleClass="clickable" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="1700.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="300.0">
+        <ImageView id="hintJoker" fx:id="hintJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="300.0" onKeyPressed="#estimateHintClick" onMouseClicked="#estimateHintClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable" AnchorPane.bottomAnchor="580.0" AnchorPane.leftAnchor="1700.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="300.0">
             <image>
-                <Image url="@/images/transparent.png" />
+                <Image url="@/images/hint.png" />
             </image>
         </ImageView>
         <ImageView id="pointsJoker" fx:id="pointsJoker" fitHeight="200.0" fitWidth="200.0" layoutX="1700.0" layoutY="500.0" onKeyPressed="#pointsClick" onMouseClicked="#pointsClick" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
@@ -98,7 +98,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/angry.png" />
+                        <Image url="@/images/angry.png" />
                      </image>
                      <StackPane.margin>
                         <Insets right="70.0" />
@@ -106,7 +106,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/happy.png" />
+                        <Image url="@/images/happy.png" />
                      </image>
                      <StackPane.margin>
                         <Insets left="70.0" />
@@ -114,7 +114,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/sunglasses.png" />
+                        <Image url="@/images/sunglasses.png" />
                      </image>
                      <StackPane.margin>
                         <Insets right="200.0" />
@@ -122,7 +122,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/tears.png" />
+                        <Image url="@/images/tears.png" />
                      </image>
                      <StackPane.margin>
                         <Insets left="200.0" />
@@ -137,7 +137,7 @@
       </StackPane>
       <StackPane layoutX="44.0" layoutY="827.0" prefHeight="223.0" prefWidth="313.0">
          <children>
-            <VBox fx:id="notificationBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="293.0">
+            <VBox fx:id="notificationBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="400.0">
                <StackPane.margin>
                   <Insets top="45.0" />
                </StackPane.margin>

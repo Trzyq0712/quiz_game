@@ -35,15 +35,8 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     @FXML
     private void startMultiplayer() {
-        threadRun = false;
-        /*leaveWaitingRoom(gameUtils.getPlayer());*/ /*line 42 causes all clients to leave already, aren't we
-        leaving twice now?*/
-        //server.start();
         server.send("/app/waitingroom/start", true);
-        //mainCtrl.showQuestion();
-        utils.playButtonSound();
         restoreChat();
-
     }
 
     /**
@@ -89,7 +82,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         });
         pollingThread.start();
 
-        server.registerForMessages("/topic/emote/1", Emote.class, e -> {
+        server.registerForMessages("/topic/emote/" + gameUtils.getGameID(), Emote.class, e -> {
             mainCtrl.emote(e.getPath(), e.getName());
         });
 
@@ -101,7 +94,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
                     mainCtrl.showQuestion();
                     utils.playButtonSound();
                 });
-                //restoreChat(); this should be done in gameUtils class
                 server.unsubscribe(waitingroom);
             }
         });

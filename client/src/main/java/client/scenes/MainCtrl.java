@@ -72,8 +72,6 @@ public class MainCtrl {
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
     private MCQuestionCtrl MCQuestionCtrl;
-
-    // --------------------- to move START
     private Scene MCQuestionScene;
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
@@ -90,7 +88,6 @@ public class MainCtrl {
     boolean singlePlayerModeActive;
     ServerUtils server;
     GameUtils gameUtils;
-    // -------------------- to move END
 
 
     public void initialize(Stage primaryStage,
@@ -160,29 +157,15 @@ public class MainCtrl {
 
         secondaryStage = new Stage();
 
-        // TODO Consider refactoring
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
-//            if (player != null)
-//                waitingRoomCtrl.leaveWaitingRoom(player);
             primaryStage.close();
         });
-
         showHome();
-
-        // ----- to move START
         initializeChatBoxes();
         initializeHolders();
-        // ----- to move END
-
         primaryStage.show();
     }
-
-    // --- to move START
-
-    /*public void requestGameID() {
-        this.gameID = server.requestGameID();
-    }*/
 
     /**
      * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
@@ -190,7 +173,8 @@ public class MainCtrl {
      */
     public void initializeChatBoxes() {
         listOfChatBoxes = Arrays.asList(comparisonQuestionCtrl.chatbox, intermediateLeaderboardCtrl.chatbox,
-                answerRevealCtrl.chatbox, MPFinalLeaderboardCtrl.chatbox);
+                answerRevealCtrl.chatbox, MPFinalLeaderboardCtrl.chatbox,
+                estimateQuestionCtrl.chatbox, MCQuestionCtrl.chatbox);
     }
 
     /**
@@ -265,12 +249,6 @@ public class MainCtrl {
     }
 
     /**
-     * Produces the sound of a button when invoked, this function should be called when a button is clicked.
-     */
-
-    // --- to move END
-
-    /**
      * Shows the home screen.
      */
     public void showHome() {
@@ -283,9 +261,6 @@ public class MainCtrl {
     public void showNamePromtScene() {
         primaryStage.setScene(namePromptScene);
     }
-
-
-    // TODO consider refactoring START
 
     /**
      * Shows the singleplayer leaderboard.
@@ -318,10 +293,6 @@ public class MainCtrl {
         secondaryStage.show();
     }
 
-
-    // --- to move START
-    // TODO consider refactoring
-
     /**
      * Shows the question screen, sets
      * active = true
@@ -330,23 +301,22 @@ public class MainCtrl {
      */
     public void showQuestion() {
         active = true;
-         //APPLY CSS SHEET
         int value = server.getQuestionType(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         switch (value) {
             case 0: {
                 questionScreenScene.getStylesheets().add(Config.styleSheet);
-                Platform.runLater(() -> comparisonQuestionCtrl.generateActivity());
-                Platform.runLater(() -> comparisonQuestionCtrl.updateTracker());
-                Platform.runLater(() -> gameUtils.startTimer());
-                Platform.runLater(() -> primaryStage.setScene(questionScreenScene));
-                Platform.runLater(() -> comparisonQuestionCtrl.activateProgressBar());
+                comparisonQuestionCtrl.generateActivity();
+                comparisonQuestionCtrl.updateTracker();
+                gameUtils.startTimer();
+                primaryStage.setScene(questionScreenScene);
+                comparisonQuestionCtrl.activateProgressBar();
                 break;
             }
             case 1: {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
                 estimateQuestionCtrl.generateActivity();
                 estimateQuestionCtrl.updateTracker();
-                Platform.runLater(() -> gameUtils.startTimer());
+                gameUtils.startTimer();
                 primaryStage.setScene(estimateQuestionScene);
                 estimateQuestionCtrl.activateProgressBar();
                 break;
@@ -355,7 +325,7 @@ public class MainCtrl {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
                 MCQuestionCtrl.generateActivity();
                 MCQuestionCtrl.updateTracker();
-                Platform.runLater(() -> gameUtils.startTimer());
+                gameUtils.startTimer();
                 primaryStage.setScene(MCQuestionScene);
                 MCQuestionCtrl.activateProgressBar();
                 break;
@@ -363,7 +333,6 @@ public class MainCtrl {
         }
 
     }
-    // --- to move END
 
 
     public void showWaitingRoom() {
@@ -372,73 +341,6 @@ public class MainCtrl {
         waitingRoomScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(waitingRoomScene);
     }
-
-
-    // --- to move START
-    // TODO consider refactoring
-
-
-    /*public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
-        if (!active) {
-            startTime = null;
-            return;
-        }
-        if (startTime == null) startTime = System.currentTimeMillis();
-        double delta = getDelta();
-        double progress = (totalTime - delta) / totalTime;
-        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
-        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
-        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
-        else pgBar.setStyle("-fx-accent: red");
-        if (delta < totalTime) {
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            // your code here
-                            activateGenericProgressBar(pgBar, totalTime, call);
-                        }
-                    },
-                    5
-            );
-        } else {
-            startTime = null;
-            if (active) {
-                if (call == 0) {
-                    questionCtrl.restoreDoublePoints();
-                    estimateQuestionCtrl.restoreDoublePoints();
-                    MCQuestionCtrl.restoreDoublePoints(); *//*these calls need to be refactored, the double points
-                    should be restored in 1 call not 3. we should probably put the functionality in GameUtils.
-                    Couldn't do it myself since GameUtils has yet to be merged to dev :)*//*
-                    Platform.runLater(() -> showAnswerReveal());
-                } else if (call == 1 && currentQuestion < Config.totalQuestions) {
-                    estimateQuestionCtrl.restoreSubmit();
-                    questionCtrl.restoreAnswers();
-                    estimateQuestionCtrl.restoreSubmit();
-                    MCQuestionCtrl.restoreAnswers();
-                    if(!estimateQuestionCtrl.getHasPlayerAnswered()){
-                        setAnswersforAnswerReveal(0,true);
-                    }
-                    if (singlePlayerModeActive) {
-                        Platform.runLater(() -> {
-                            answerRevealCtrl.pointsGrantedEstimate.setText("You got " + 0 + " points!");
-                            answerRevealCtrl.pointsGrantedMC.setText("You got " + 0 + " points!");
-                            showQuestion();
-                        });
-                    } else Platform.runLater(() -> showIntermediateLeaderboard());
-                } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
-                    restore();
-                    if (singlePlayerModeActive) {
-                        splCtrl.addPlayer(getPlayerScore());
-                        getPlayerScore().setScore(0);
-                        Platform.runLater(() -> showSPLeaderboard());
-                    } else Platform.runLater(() -> showMPFinalLeaderboard());
-                } else if (call == 2) {
-                    Platform.runLater(() -> showQuestion());
-                }
-            }
-        }
-    }*/
 
     public void refresh() {
         singlePlayerLeaderboardCtrl.refresh();
@@ -489,12 +391,6 @@ public class MainCtrl {
             });
         }
     }
-
-
-    // --- to move END
-    /*public long getDelta() {
-        return System.currentTimeMillis() - startTime;
-    }*/
 
     /**
      * Shows the screen where answers are revealed.
@@ -550,8 +446,6 @@ public class MainCtrl {
         return secondaryStage;
     }
 
-    // --- to move START
-
     /**
      * Used to prepare the answer reveal screen for a multiple choice question with 3 activities as answers
      *
@@ -586,7 +480,5 @@ public class MainCtrl {
     public void refreshLabels() {
         editScreenCtrl.updateLabels();
     }
-
-    // --- to move END
 
 }

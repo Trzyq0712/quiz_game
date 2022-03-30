@@ -23,6 +23,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     protected boolean doublePoints;
     protected int answerButtonId;
+    protected long answer;
     protected boolean hasPlayerAnswered;
     @FXML
     ImageView hintJoker;
@@ -145,9 +146,10 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * @param e - emote
      */
     public void emote(Event e) {
+        utils.playButtonSound();
         String path = ((ImageView) e.getSource()).getImage().getUrl();
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
-        server.send("/app/emote/1", emote);
+        server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
     /**
@@ -186,6 +188,18 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         }
         int indexToBeRemoved = (int) (Math.random() * 2);
         wrongButtons.get(indexToBeRemoved).setVisible(false);
+    }
+
+    /**
+     * Gives a hint for the estimate question
+     * and disables the player to click on hint joker again
+     */
+    @FXML
+    protected void estimateHintClick () {
+        utils.playButtonSound();
+        hintJoker.setVisible(false);
+        int nbOfDigits = (answer+"").length(); //transform the long into a String
+        utils.addNotification("There are "+nbOfDigits+" digits in the answer","green");
     }
 
     /**

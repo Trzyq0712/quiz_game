@@ -49,6 +49,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
+        answer = activity.getEnergyConsumption();
         displayActivity();
         setHasPlayerAnswered(false);
     }
@@ -70,7 +71,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         int points = 0;
         try {
             double start = 0;
-            double center = activity.getEnergyConsumption();
+            double center = answer;
             double end = 2 * center;
             double guess = Double.parseDouble(textField.getText());
             submitButton.setVisible(false);

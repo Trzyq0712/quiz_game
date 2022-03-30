@@ -62,8 +62,8 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(Game.gameCounter);
     }
 
-    @GetMapping(path = "/start") //this should ONLY be called by singleplayer!
-    public ResponseEntity<Boolean> startGame() {
+    @GetMapping(path = "/start")
+    public Long startMultiplayerGame() {
         Game game = new Game();
         game.getPlayers().addAll(waitingPlayers);
         waitingPlayers.clear();
@@ -72,7 +72,7 @@ public class PreGameController extends BaseController {
             game.getActivities().put(i, activityService.get3Activities());
         }
         ongoingGames.put(game.getGameId(), game);
-        return ResponseEntity.ok(true);
+        return game.getGameId();
     }
 
     @GetMapping(path = "/start/single") //this should ONLY be called by singleplayer!

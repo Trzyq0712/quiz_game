@@ -279,7 +279,6 @@ public class MainCtrl {
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.hidePlayAgain();
     }
-    // TODO consider refactoring END
 
     /**
      * Shows the exitscreen when the user wants to quit the application.

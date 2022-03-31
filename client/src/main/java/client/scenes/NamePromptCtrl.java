@@ -52,9 +52,8 @@ public class NamePromptCtrl extends BaseCtrl {
     }
 
     /**
-     * make the nameField prompt display:
-     * the default server example
-     * the player name if there was one saved
+     * make the server field prompt display the default server example
+     * the player name display the old player name if there was one saved
      * if not then empty field with the prompt text
      * set focus makes it so nameField is not clicked on when loaded for the prompt to display
      */

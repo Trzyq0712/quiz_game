@@ -75,6 +75,10 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         List<Player> players = server.getPlayersInSPL();
         //A sort should be done to display the Players in the correct order
         Collections.sort(players,Player.Comparators.SCORE);
+        Collections.reverse(players);
+        for(Player p : players){
+            p.setRank(players.indexOf(p)+1);
+        }
         data = FXCollections.observableList(players);
         table.setItems(data);
     }

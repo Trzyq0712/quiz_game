@@ -62,28 +62,30 @@ public class ApplicationUtils {
         this.startTime = System.currentTimeMillis();
         this.runTime = runTime;
         this.reducedTime = 0;
+        progressBar.progressProperty().unbind();
         progress = new SimpleDoubleProperty(1.0);
+        progress.addListener((observable, oldValue, newValue) -> {
+            double val = newValue.doubleValue();
+            if (val < 0) {
+                Platform.runLater(callback::run);
+                cancelProgressBar();
+            } else if (val < 0.25) {
+                Platform.runLater(() -> progressBar.setStyle("-fx-accent: red"));
+            } else if (val < 0.5) {
+                Platform.runLater(() -> progressBar.setStyle("-fx-accent: orange"));
+            } else {
+                Platform.runLater(() -> progressBar.setStyle("-fx-accent: green"));
+            }
+        });
         progressBar.progressProperty().bind(progress);
-        progress.lessThanOrEqualTo(0.0)
-                .addListener((observable, oldValue, newValue) -> {
-                    System.out.println("Calling the callback");
-                    Platform.runLater(callback::run);
-                    cancelProgressBar();
-                });
-        for (var p : colorUpdates) {
-            progress.lessThanOrEqualTo(p.getKey())
-                    .addListener((observable, oldValue, newValue) ->
-                            Platform.runLater(() -> progressBar.setStyle("-fx-accent: " + p.getValue())));
-        }
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 long timePassed = System.currentTimeMillis() - startTime + reducedTime;
                 Platform.runLater(() -> progress.set(1.0 - (double) timePassed / (double) runTime));
-                System.out.println(progress.getValue());
             }
-        }, 10, 100);
+        }, 0, 20);
     }
 
     /**

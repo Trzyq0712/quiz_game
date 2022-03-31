@@ -55,7 +55,9 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
      */
     public void generateActivity() {
         activities = server.get4Activities(gameUtils.getCurrentQuestion(), gameUtils.getGameID())
-                .getListOfActivities().subList(0,3);
+                .getListOfActivities();
+        Activity activity = activities.stream().max(Activity.Comparators.ENERGY).get();
+        activities.remove(activity);
         long answer = activities.stream().map(Activity::getEnergyConsumption)
                 .sorted().collect(Collectors.toList()).get(2);
         answerButtonId = activities.stream().map(Activity::getEnergyConsumption)

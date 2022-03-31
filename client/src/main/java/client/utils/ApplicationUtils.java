@@ -10,10 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -120,7 +117,7 @@ public class ApplicationUtils {
                 Platform.runLater(() -> {
                     HBox hbox = new HBox();
                     Label notification = new Label("  " + message);
-                    notification.setId(color);
+                    notification.setStyle(notificationStyle + color);
                     hbox.getChildren().addAll(notification);
                     hbox.setAlignment(Pos.CENTER_LEFT);
                     if (notificationBox.getChildren().size() >= maxAmountOfNotifications) {

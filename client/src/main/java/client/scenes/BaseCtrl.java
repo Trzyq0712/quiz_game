@@ -5,6 +5,7 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.NotificationMessage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -39,8 +40,11 @@ public abstract class BaseCtrl implements Initializable {
     @FXML
     public void showHome() {
         utils.playButtonSound();
-        if (server.isConnected()) server.disconnect();
-        utils.cancelProgressBar();
+        if (server.isConnected()) {
+            server.send("/app/leave/" + gameUtils.getGameID(),
+                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
+            server.disconnect();
+        }
         gameUtils.resetGame();
         mainCtrl.showHome();
     }

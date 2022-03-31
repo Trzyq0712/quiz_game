@@ -108,12 +108,17 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
-        if(server.isConnected())
-            server.disconnect();
-        mainCtrl.showHome();
-        utils.cancelProgressBar();
         restoreAnswers();
         restoreJokers();
+        super.showHome();
+    }
+
+    /**
+     * Goes to the home screen and doesn't crash because of restore answers
+     */
+    protected void showHomeEstimate() {
+        restoreJokers();
+        super.showHome();
     }
 
     /**
@@ -148,7 +153,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * @param e - emote
      */
     public void emote(Event e) {
-        utils.playButtonSound();
         String path = ((ImageView) e.getSource()).getImage().getUrl();
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/" + gameUtils.getGameID(), emote);

@@ -166,8 +166,3 @@ VBox Label {/*text within the chatbox*/
     -fx-text-fill: white;
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
 }
-
-#green {
-    -fx-text-fill: green;
-    -fx-font-size: 20;
-}

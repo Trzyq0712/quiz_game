@@ -232,9 +232,9 @@ public class MainCtrl {
      * @param bool - true if we want to make them visible, false otherwise
      */
     public void visibilityHintJoker(Boolean bool) {
-        estimateQuestionCtrl.pointsJoker.setVisible(bool);
-        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
-        MCQuestionCtrl.pointsJoker.setVisible(bool);
+        estimateQuestionCtrl.hintJoker.setVisible(bool);
+        comparisonQuestionCtrl.hintJoker.setVisible(bool);
+        MCQuestionCtrl.hintJoker.setVisible(bool);
     }
 
     /**
@@ -243,9 +243,9 @@ public class MainCtrl {
      * @param bool - true if we want to make them visible, false otherwise
      */
     public void visibilityTimeJoker(Boolean bool) {
-        estimateQuestionCtrl.pointsJoker.setVisible(bool);
-        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
-        MCQuestionCtrl.pointsJoker.setVisible(bool);
+        estimateQuestionCtrl.timeJoker.setVisible(bool);
+        comparisonQuestionCtrl.timeJoker.setVisible(bool);
+        MCQuestionCtrl.timeJoker.setVisible(bool);
     }
 
     /**

@@ -22,7 +22,7 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
-    static Boolean threadRun;
+    public static Boolean threadRun;
     public StompSession.Subscription waitingroom;
     Thread pollingThread;
     @FXML
@@ -67,10 +67,10 @@ public class WaitingRoomCtrl extends BaseCtrl {
     public void setUp() {
         playerList = server.getWaitingPlayers();
         loadPlayerGrid(playerList);
+        Config.isWaiting = true;
         pollingThread = new Thread(() -> {
             threadRun = true;
             ObjectMapper mapper = new ObjectMapper();
-            Config.isWaiting = true;
             while (threadRun) {
                 try {
                     playerList = mapper.convertValue(server.pollWaitingroom(playerList),

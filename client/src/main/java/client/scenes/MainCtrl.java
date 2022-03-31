@@ -164,8 +164,10 @@ public class MainCtrl {
                 if(gameUtils.getPlayer() != null){
                     server.send("/app/leave/" + gameUtils.getGameID(),
                         new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
-                    if(client.utils.Config.isWaiting)
+                    if(client.utils.Config.isWaiting){
+                        waitingRoomCtrl.threadRun = false;
                         server.leaveWaitingroom(gameUtils.getPlayer());
+                    }
                 }
                 server.disconnect();
             }

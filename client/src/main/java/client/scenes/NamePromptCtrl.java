@@ -7,9 +7,13 @@ import com.google.inject.Inject;
 import commons.Config;
 import commons.Player;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.io.File;
+import java.util.Scanner;
 
 import static commons.Config.*;
 
@@ -56,6 +60,24 @@ public class NamePromptCtrl extends BaseCtrl {
         nameField.setPromptText("Enter your name...");
         serverField.setText(Config.server);
         errorLabel.setVisible(false);
+        if(client.utils.Config.playerName == null)
+            getSavedName();
+        nameField.setText(client.utils.Config.playerName);
+    }
+
+    private void getSavedName() {
+        try {
+            Scanner sc = new Scanner(new File(client.utils.Config.nameFile));
+            if(sc.hasNext())
+                client.utils.Config.playerName = sc.next();
+            else
+                client.utils.Config.playerName = "";
+
+            sc.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+            client.utils.Config.playerName = "";
+        }
     }
 
     /**

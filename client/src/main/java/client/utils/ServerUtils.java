@@ -68,9 +68,9 @@ public class ServerUtils {
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Integer.class);
     }
 
-    public ActivityList get3Activities(int currentQuestion, Long gameID) {
+    public ActivityList get4Activities(int currentQuestion, Long gameID) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/play/get3Activities") //
+                .target(SERVER).path("/api/play/get4Activities") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), ActivityList.class);

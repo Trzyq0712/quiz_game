@@ -55,8 +55,25 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         long answer = activity.getEnergyConsumption();
-        Activity a = new Activity(activity.getDescription(), (long) (answer * 1.5), activity.getPicturePath());
-        Activity b = new Activity(activity.getDescription(), (long) (answer * 0.5), activity.getPicturePath());
+        long option1;
+        long option2;
+        int random = (int)(Math.random()*10);
+        switch (random%4){
+            case 0:
+                option1= (long) (answer * 1.5);
+                option2= (long) (answer * 0.5);
+                break;
+            case 1:
+                option1= (long) (answer * 1.5);
+                option2= (long) (answer * 2.0);
+                break;
+            default:
+                option1= (long) (answer * 0.75);
+                option2= (long) (answer * 0.5);
+                break;
+        }
+        Activity a = new Activity(activity.getDescription(), option1, activity.getPicturePath());
+        Activity b = new Activity(activity.getDescription(), option2, activity.getPicturePath());
         List<Activity> activities = Arrays.asList(activity, a, b);
         Collections.shuffle(activities);
         answerButtonId = activities.indexOf(activity) + 1;

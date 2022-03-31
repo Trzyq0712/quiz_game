@@ -144,7 +144,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     private void timeClick() {
         utils.playButtonSound();
-        timeJoker.setVisible(false);
+        mainCtrl.visibilityTimeJoker(false);
     }
 
     /**
@@ -165,7 +165,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     protected void pointsClick() {
         utils.playButtonSound();
-        pointsJoker.setVisible(false);
         mainCtrl.visibilityPointsJoker(false);
         if (hasPlayerAnswered) {
             gameUtils.getPlayer().addPoints(lastScoredPoints);
@@ -184,7 +183,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected void hintClick () {
         utils.playButtonSound();
         utils.addNotification("hint activated", "green");
-        hintJoker.setVisible(false);
+        mainCtrl.visibilityHintJoker(false);
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         List<Button> wrongButtons = new ArrayList<>();
         for (Button b : listOfButtons) {
@@ -203,7 +202,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     protected void estimateHintClick () {
         utils.playButtonSound();
-        hintJoker.setVisible(false);
+        mainCtrl.visibilityHintJoker(false);
         int nbOfDigits = (answer+"").length(); //transform the long into a String
         utils.addNotification("There are "+nbOfDigits+" digits in the answer","green");
     }

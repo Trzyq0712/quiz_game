@@ -68,8 +68,8 @@ public class PreGameController extends BaseController {
         game.getPlayers().addAll(waitingPlayers);
         waitingPlayers.clear();
         for (int i = 0; i < totalQuestions; i++) {
-            game.getQuestionTypes().put(i, (int) (Math.random() * 3));
-            game.getActivities().put(i, activityService.get3Activities());
+            game.getQuestionTypes().put(i, (int) (Math.random() * 4));
+            game.getActivities().put(i, activityService.get4Activities());
         }
         ongoingGames.put(game.getGameId(), game);
         return game.getGameId();
@@ -79,8 +79,8 @@ public class PreGameController extends BaseController {
     public ResponseEntity<Boolean> startSinglePLayerGame() {
         Game game = new Game();
         for (int i = 0; i < totalQuestions; i++) {
-            game.getQuestionTypes().put(i, (int) (Math.random() * 3));
-            game.getActivities().put(i, activityService.get3Activities());
+            game.getQuestionTypes().put(i, (int) (Math.random() * 4));
+            game.getActivities().put(i, activityService.get4Activities());
         }
         ongoingGames.put(game.getGameId(), game);
         return ResponseEntity.ok(true);
@@ -94,8 +94,8 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(questionType);
     }
 
-    @PostMapping(path = "/get3Activities")
-    public ResponseEntity<ActivityList> get3Activities(@RequestBody ClientInfo clientInfo) {
+    @PostMapping(path = "/get4Activities")
+    public ResponseEntity<ActivityList> get4Activities(@RequestBody ClientInfo clientInfo) {
         int currentQuestion = clientInfo.getCurrentQuestion();
         Long gameID = clientInfo.getGameID();
         List<Activity> activities = ongoingGames.get(gameID).getActivities().get(currentQuestion);

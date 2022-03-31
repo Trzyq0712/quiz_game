@@ -34,7 +34,6 @@ public class GameUtils {
         currentQuestion = 0;
         currentTimeMillis = null;
         gameID = null;
-        mainCtrl.restore();
         utils.clearNotificationBox();
         utils.cancelProgressBar();
     }

@@ -71,6 +71,8 @@ public class MainCtrl {
     private Scene questionScreenScene;
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
+    private SimilarQuestionCtrl similarQuestionCtrl;
+    private Scene similarQuestionScene;
     private MCQuestionCtrl MCQuestionCtrl;
     private Scene MCQuestionScene;
     private EditActivityCtrl editActivityCtrl;
@@ -105,6 +107,7 @@ public class MainCtrl {
                            Pair<EditActivityCtrl, Parent> editActivity,
                            Pair<EstimateQuestionCtrl, Parent> estimateQuestion,
                            Pair<MCQuestionCtrl, Parent> MCQuestion,
+                           Pair<SimilarQuestionCtrl, Parent> similarQuestion,
                            ServerUtils s,
                            GameUtils g) {
         this.server = s;
@@ -152,6 +155,9 @@ public class MainCtrl {
         this.MCQuestionCtrl = MCQuestion.getKey();
         this.MCQuestionScene = new Scene(MCQuestion.getValue());
 
+        this.similarQuestionCtrl = similarQuestion.getKey();
+        this.similarQuestionScene = new Scene(similarQuestion.getValue());
+
         this.editActivityCtrl = editActivity.getKey();
         this.editActivityScene = new Scene(editActivity.getValue());
 
@@ -174,7 +180,7 @@ public class MainCtrl {
     public void initializeChatBoxes() {
         listOfChatBoxes = Arrays.asList(comparisonQuestionCtrl.chatbox, intermediateLeaderboardCtrl.chatbox,
                 answerRevealCtrl.chatbox, MPFinalLeaderboardCtrl.chatbox,
-                estimateQuestionCtrl.chatbox, MCQuestionCtrl.chatbox);
+                estimateQuestionCtrl.chatbox, MCQuestionCtrl.chatbox, similarQuestionCtrl.chatbox);
     }
 
     /**
@@ -185,7 +191,8 @@ public class MainCtrl {
     public void initializeHolders() {
         listOfHolders = Arrays.asList(comparisonQuestionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
                 intermediateLeaderboardCtrl.chatAndEmoteHolder, MPFinalLeaderboardCtrl.chatAndEmoteHolder,
-                estimateQuestionCtrl.chatAndEmoteHolder, MCQuestionCtrl.chatAndEmoteHolder);
+                estimateQuestionCtrl.chatAndEmoteHolder, MCQuestionCtrl.chatAndEmoteHolder,
+                similarQuestionCtrl.chatAndEmoteHolder);
     }
 
     /**
@@ -196,6 +203,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.timeJoker.setVisible(false);
         estimateQuestionCtrl.timeJoker.setVisible(false);
         MCQuestionCtrl.timeJoker.setVisible(false);
+        similarQuestionCtrl.timeJoker.setVisible(false);
         for (StackPane s : listOfHolders) {
             s.setVisible(false);
         }
@@ -209,6 +217,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.timeJoker.setVisible(true);
         estimateQuestionCtrl.timeJoker.setVisible(true);
         MCQuestionCtrl.timeJoker.setVisible(true);
+        similarQuestionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
             s.setVisible(true);
         }
@@ -224,6 +233,7 @@ public class MainCtrl {
         estimateQuestionCtrl.pointsJoker.setVisible(bool);
         comparisonQuestionCtrl.pointsJoker.setVisible(bool);
         MCQuestionCtrl.pointsJoker.setVisible(bool);
+        similarQuestionCtrl.pointsJoker.setVisible(bool);
     }
 
     /**
@@ -235,6 +245,7 @@ public class MainCtrl {
         estimateQuestionCtrl.hintJoker.setVisible(bool);
         comparisonQuestionCtrl.hintJoker.setVisible(bool);
         MCQuestionCtrl.hintJoker.setVisible(bool);
+        similarQuestionCtrl.hintJoker.setVisible(bool);
     }
 
     /**
@@ -246,6 +257,7 @@ public class MainCtrl {
         estimateQuestionCtrl.timeJoker.setVisible(bool);
         comparisonQuestionCtrl.timeJoker.setVisible(bool);
         MCQuestionCtrl.timeJoker.setVisible(bool);
+        similarQuestionCtrl.timeJoker.setVisible(bool);
     }
 
     /**
@@ -333,6 +345,15 @@ public class MainCtrl {
                 MCQuestionCtrl.activateProgressBar();
                 break;
             }
+            case 3:{
+                similarQuestionScene.getStylesheets().add(Config.styleSheet);
+                similarQuestionCtrl.generateActivity();
+                similarQuestionCtrl.updateTracker();
+                gameUtils.startTimer();
+                primaryStage.setScene(similarQuestionScene);
+                similarQuestionCtrl.activateProgressBar();
+                break;
+            }
         }
 
     }
@@ -357,6 +378,8 @@ public class MainCtrl {
         comparisonQuestionCtrl.restoreJokers();
         estimateQuestionCtrl.restoreJokers();
         MCQuestionCtrl.restoreJokers();
+        similarQuestionCtrl.restoreJokers();
+        similarQuestionCtrl.restoreAnswers();
         comparisonQuestionCtrl.restoreAnswers();
         estimateQuestionCtrl.restoreSubmit();
         MCQuestionCtrl.restoreAnswers();
@@ -366,6 +389,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.restoreAnswers();
         estimateQuestionCtrl.restoreSubmit();
         MCQuestionCtrl.restoreAnswers();
+        similarQuestionCtrl.restoreAnswers();
     }
 
     /**
@@ -399,9 +423,6 @@ public class MainCtrl {
      * Shows the screen where answers are revealed.
      */
     public void showAnswerReveal() {
-        comparisonQuestionCtrl.restoreDoublePoints();
-        estimateQuestionCtrl.restoreDoublePoints();
-        MCQuestionCtrl.restoreDoublePoints(); //double points are reset after question ends?
         answerRevealCtrl.updateTracker();
         answerRevealScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(answerRevealScene);

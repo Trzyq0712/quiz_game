@@ -105,23 +105,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     }
 
     /**
-     * Goes to the home screen
-     */
-    public void showHome() {
-        restoreAnswers();
-        restoreJokers();
-        super.showHome();
-    }
-
-    /**
-     * Goes to the home screen and doesn't crash because of restore answers
-     */
-    protected void showHomeEstimate() {
-        restoreJokers();
-        super.showHome();
-    }
-
-    /**
      * @param answer - answer the player submitted,
      *               button the player clicked on
      */

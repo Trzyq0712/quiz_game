@@ -5,10 +5,8 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Activity;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -17,31 +15,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
-    @FXML
-    Label ActivityDescription1;
-    @FXML
-    Label ActivityDescription2;
-    @FXML
-    Label ActivityDescription3;
+public class SimilarQuestionCtrl extends BaseQuestionCtrl {
+
 
     @FXML
-    ImageView questionImage1;
+    Label ActivityDescription;
     @FXML
-    ImageView questionImage2;
-    @FXML
-    ImageView questionImage3;
-
+    ImageView questionImage;
     @FXML
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
 
+    private Activity activity;
 
     private List<Activity> activities;
 
     @Inject
-    public ComparisonQuestionCtrl(ServerUtils server, MainCtrl mainCtrl,
+    public SimilarQuestionCtrl(ServerUtils server, MainCtrl mainCtrl,
                                   ApplicationUtils utils, GameUtils gameUtils) {
         super(server, mainCtrl, utils, gameUtils);
     }
@@ -64,14 +55,7 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
     }
 
     private void displayActivities() {
-        Platform.runLater(() -> {
-            ActivityDescription1.setText(activities.get(0).getDescription());
-            ActivityDescription2.setText(activities.get(1).getDescription());
-            ActivityDescription3.setText(activities.get(2).getDescription());
-            questionImage1.setImage(new Image(ServerUtils.SERVER + activities.get(0).getPicturePath()));
-            questionImage2.setImage(new Image(ServerUtils.SERVER + activities.get(1).getPicturePath()));
-            questionImage3.setImage(new Image(ServerUtils.SERVER + activities.get(2).getPicturePath()));
-        });
+
         mainCtrl.setAnswersForAnswerReveal(activities, answerButtonId);
     }
 

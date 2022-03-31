@@ -230,4 +230,5 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         grantPoints(new Answer(buttonNb, timeToAnswer));
         hasPlayerAnswered = true;
     }
+
 }

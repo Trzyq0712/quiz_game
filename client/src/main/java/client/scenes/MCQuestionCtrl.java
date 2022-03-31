@@ -73,30 +73,6 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
         mainCtrl.setAnswersForAnswerReveal(activities, answerButtonId);
     }
 
-    /**
-     * hides all buttons except for the one that was clicked
-     *
-     * @param event button that was clicked, so either A, B or C
-     */
-   /* public void answerClick(Event event) {
-        utils.playButtonSound();
-        long timeToAnswer = gameUtils.stopTimer();
-        setHasPlayerAnswered(true);
-        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
-        Button activated = (Button) event.getSource();
-        long i = 0;
-        long buttonNb = 0;
-        for (Button b : listOfButtons) {
-            i++;
-            if (!b.getId().equals(activated.getId())) {
-                b.setVisible(false);
-            } else {
-                buttonNb = i;
-            }
-        }
-        grantPoints(new Answer(buttonNb, timeToAnswer));
-    }*/
-
 
 
 }

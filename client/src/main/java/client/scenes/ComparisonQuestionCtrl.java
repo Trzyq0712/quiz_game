@@ -58,7 +58,7 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
         long answer = activities.stream().map(Activity::getEnergyConsumption)
                 .sorted().collect(Collectors.toList()).get(2);
         answerButtonId = activities.stream().map(Activity::getEnergyConsumption)
-                .collect(Collectors.toList()).indexOf(answer) + 1;
+                .collect(Collectors.toList()).indexOf(answer);
         displayActivities();
         setHasPlayerAnswered(false);
     }

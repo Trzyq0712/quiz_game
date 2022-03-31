@@ -101,15 +101,13 @@ public class ActivityService {
      */
     public List<Activity> get4Activities() {
         List<Activity> list = new ArrayList<>(activityRepository.findAll());
-        int value = (int)(Math.random()* (list.size()-41));
-        Activity referenceActivity = list.get(value);
         Collections.sort(list, Activity.Comparators.ENERGY); //sorts the list according to the energy consumption
+        int value = (int)(Math.random()* (list.size()-42));
         List<Activity> smartList = new ArrayList<>();
-        int reference = list.indexOf(referenceActivity);
-        smartList.add(list.get(reference));
-        smartList.add(list.get(reference+20));
-        smartList.add(list.get(reference+40));
-        smartList.add(list.get(reference+41));
+        smartList.add(list.get(value));
+        smartList.add(list.get(value+20));
+        smartList.add(list.get(value+40));
+        smartList.add(list.get(value+41));
         Collections.shuffle(smartList); //shuffle the list so that the last button is not always the answer
         return smartList;
     }

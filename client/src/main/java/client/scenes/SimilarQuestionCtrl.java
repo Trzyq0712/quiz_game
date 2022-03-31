@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import commons.Activity;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -18,6 +19,12 @@ import java.util.stream.Collectors;
 public class SimilarQuestionCtrl extends BaseQuestionCtrl {
 
 
+    @FXML
+    Label ActivityDescription1;
+    @FXML
+    Label ActivityDescription2;
+    @FXML
+    Label ActivityDescription3;
     @FXML
     Label ActivityDescription;
     @FXML
@@ -45,17 +52,22 @@ public class SimilarQuestionCtrl extends BaseQuestionCtrl {
      * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
     public void generateActivity() {
-        activities = server.get3Activities(gameUtils.getCurrentQuestion(), gameUtils.getGameID()).getListOfActivities();
-        long answer = activities.stream().map(Activity::getEnergyConsumption)
-                .sorted().collect(Collectors.toList()).get(2);
-        answerButtonId = activities.stream().map(Activity::getEnergyConsumption)
-                .collect(Collectors.toList()).indexOf(answer) + 1;
+        activities = server.get4Activities(gameUtils.getCurrentQuestion(), gameUtils.getGameID()).getListOfActivities();
+        activity = activities.stream().max(Activity.Comparators.ENERGY).get();
+        activities.remove(activity);
+        String description = activities.stream().max(Activity.Comparators.ENERGY).get().getDescription();
+        answerButtonId = activities.stream().map(Activity::getDescription)
+                .collect(Collectors.toList()).indexOf(description) + 1;
         displayActivities();
         setHasPlayerAnswered(false);
     }
 
     private void displayActivities() {
-
+        questionImage.setImage(new Image(ServerUtils.SERVER + activity.getPicturePath()));
+        ActivityDescription.setText(activity.getDescription());
+        ActivityDescription1.setText(activities.get(0).getDescription());
+        ActivityDescription2.setText(activities.get(1).getDescription());
+        ActivityDescription3.setText(activities.get(2).getDescription());
         mainCtrl.setAnswersForAnswerReveal(activities, answerButtonId);
     }
 

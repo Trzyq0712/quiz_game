@@ -19,10 +19,9 @@ public class WebsocketsController {
 
     @MessageMapping("/waitingroom/start") // /app/waitingroom/start
     @SendTo("/topic/waitingroom/start")
-    public Boolean startGame(Boolean b){
+    public Long startGame(Boolean b){
         //make game
-        preGameController.startGame();
-        return b;
+        return preGameController.startMultiplayerGame();
     }
 
 

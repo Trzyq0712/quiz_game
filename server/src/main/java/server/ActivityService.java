@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import server.database.ActivityRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -95,13 +96,21 @@ public class ActivityService {
 
     /**
      * Method for getting 3 activities.
+     * The activities are selected ina  smart way.
      * @return The list containing 3 activities
      */
     public List<Activity> get3Activities() {
         List<Activity> list = new ArrayList<>(activityRepository.findAll());
-        int value = (int)(Math.random()* (list.size()-2));
-        list = list.subList(value, value+3);
-        return list;
+        int value = (int)(Math.random()* (list.size()-20));
+        Activity referenceActivity = list.get(value);
+        Collections.sort(list, Activity.Comparators.ENERGY); //sorts the list according to the energy consumption
+        List<Activity> smartList = new ArrayList<>();
+        int reference = list.indexOf(referenceActivity);
+        smartList.add(list.get(reference));
+        smartList.add(list.get(reference+10));
+        smartList.add(list.get(reference+20));
+        Collections.shuffle(smartList); //shuffle the list so that the last button is not always the answer
+        return smartList;
     }
 
     public Activity getActivity() {

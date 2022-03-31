@@ -6,10 +6,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 
+import java.util.Comparator;
+
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
-public class Activity {
+public class Activity implements Comparable<Activity> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -144,4 +146,21 @@ public class Activity {
         this.picturePath = picturePath;
     }
 
+    @Override
+    public int compareTo(Activity o) {
+        return Comparators.ENERGY.compare(this, o);
+    }
+
+    //class used by the Collections.sort of PreGameController line 103
+    //to be able to sort the list of activities according to their
+    //energy consumptions
+    public static class Comparators {
+
+        public static Comparator<Activity> ENERGY = new Comparator<Activity>() {
+            @Override
+            public int compare(Activity a1, Activity a2) {
+                return a1.getEnergyConsumption().compareTo(a2.getEnergyConsumption());
+            }
+        };
+    }
 }

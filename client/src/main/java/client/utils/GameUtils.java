@@ -30,12 +30,8 @@ public class GameUtils {
     }
 
     public void resetGame() {
-        /*if (gameType.equals(GameType.MultiPlayer)) {
-            server.disconnect();
-        }*/
         player = null;
         currentQuestion = 0;
-        //gameType = null;
         currentTimeMillis = null;
         gameID = null;
         mainCtrl.restore();
@@ -69,6 +65,10 @@ public class GameUtils {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void setGameID(Long gameID) {
+        this.gameID = gameID;
     }
 
     public void setPlayer(Player player) {

@@ -33,8 +33,6 @@ public class ApplicationUtils {
     private final MediaPlayer musicPlayer = new MediaPlayer(new Media(backgroundMusic));
     private final Image musicOn = new Image(loader.getResourceAsStream("images/music.png"));
     private final Image musicOff = new Image(loader.getResourceAsStream("images/musicOff.png"));
-    private final List<Pair<Double, String>> colorUpdates = List.of(
-            new Pair<>(.99999, "green"), new Pair<>(0.5, "orange"), new Pair<>(0.25, "red"));
     private final List<ImageView> musicToggles = new ArrayList<>();
     private final List<VBox> notificationsBoxes = new ArrayList<>();
     private final AudioClip buttonClickSound = new AudioClip(Config.buttonClickSound);

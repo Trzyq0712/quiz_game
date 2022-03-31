@@ -11,6 +11,7 @@ public class Config {
     public static int activitiesPerPage = 5;
 
     public static String playerName = "placeholder";
+    public static boolean isWaiting = false;
     /*public static String backgroundMusic = new File("music.mp3").toURI().toString();
     public static String buttonClickSound = new File("button.mp3").toURI().toString();*/
 }

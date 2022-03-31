@@ -20,6 +20,7 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Config;
 import commons.Activity;
+import commons.NotificationMessage;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -159,6 +160,15 @@ public class MainCtrl {
 
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
+            if (server.isConnected()) {
+                if(gameUtils.getPlayer() != null){
+                    server.send("/app/leave/" + gameUtils.getGameID(),
+                        new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
+                    if(client.utils.Config.isWaiting)
+                        server.leaveWaitingroom(gameUtils.getPlayer());
+                }
+                server.disconnect();
+            }
             primaryStage.close();
         });
         showHome();

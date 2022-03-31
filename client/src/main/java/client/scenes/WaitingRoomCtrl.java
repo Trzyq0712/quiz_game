@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.Config;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,6 +37,8 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     @FXML
     private void startMultiplayer() {
+        threadRun = false;
+        Config.isWaiting = false;
         server.send("/app/waitingroom/start", true);
     }
 
@@ -67,6 +70,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         pollingThread = new Thread(() -> {
             threadRun = true;
             ObjectMapper mapper = new ObjectMapper();
+            Config.isWaiting = true;
             while (threadRun) {
                 try {
                     playerList = mapper.convertValue(server.pollWaitingroom(playerList),
@@ -120,6 +124,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
     @Override
     public void showHome() {
         threadRun = false;
+        Config.isWaiting = false;
         leaveWaitingRoom(gameUtils.getPlayer());
         super.showHome();
     }

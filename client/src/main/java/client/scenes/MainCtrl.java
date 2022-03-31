@@ -270,6 +270,7 @@ public class MainCtrl {
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.showPLayAgain();
         singlePlayerLeaderboardCtrl.refresh();
+        singlePlayerLeaderboardCtrl.indicatePlayerRanking();
     }
 
     /**
@@ -280,6 +281,7 @@ public class MainCtrl {
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.hidePlayAgain();
         singlePlayerLeaderboardCtrl.refresh();
+        singlePlayerLeaderboardCtrl.hideRankingInfo();
     }
 
     /**

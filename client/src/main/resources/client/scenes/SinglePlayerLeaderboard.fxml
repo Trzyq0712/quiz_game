@@ -32,7 +32,7 @@
             <Image url="@/images/music.png" />
          </image>
       </ImageView>
-      <Button layoutX="888.0" fx:id="playAgain" layoutY="946.0" mnemonicParsing="false" onMouseClicked="#playAgain" text="play singleplayer again" />
+      <Button fx:id="playAgain" layoutX="888.0" layoutY="946.0" mnemonicParsing="false" onMouseClicked="#playAgain" text="play singleplayer again" />
       <TableView fx:id="table" layoutX="555.0" layoutY="366.0" prefHeight="491.0" prefWidth="923.0">
         <columns>
           <TableColumn fx:id="rank" prefWidth="128.0" text="Rank n°" />
@@ -42,5 +42,6 @@
         </columns>
       </TableView>
       <Button layoutX="590.0" layoutY="946.0" mnemonicParsing="false" onMouseClicked="#refreshButton" prefHeight="84.0" prefWidth="240.0" text="refresh" />
+      <Label fx:id="rankInfo" layoutX="43.0" layoutY="503.0" prefHeight="84.0" prefWidth="445.0" text="Label" visible="false" />
    </children>
 </AnchorPane>

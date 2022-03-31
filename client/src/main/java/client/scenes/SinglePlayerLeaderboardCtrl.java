@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
 
     private ObservableList<Player> data;
+    List<Player> players;
 
     @FXML
     private TableView<Player> table;
@@ -35,6 +37,8 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     private TableColumn<Player, String> scoredTime;
     @FXML
     private Button playAgain;
+    @FXML
+    private Label rankInfo;
 
 
     @Inject
@@ -72,7 +76,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
      * Update the leaderboard
      */
     public void refresh() {
-        List<Player> players = server.getPlayersInSPL();
+        players = server.getPlayersInSPL();
         //A sort should be done to display the Players in the correct order
         Collections.sort(players,Player.Comparators.SCORE);
         Collections.reverse(players);
@@ -83,6 +87,16 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         table.setItems(data);
     }
 
+    public void indicatePlayerRanking(){
+        Player currentPlayer = gameUtils.getPlayer();
+        int ranking = players.indexOf(currentPlayer)+1;
+        rankInfo.setText("you are n°"+ranking+"!");
+        rankInfo.setVisible(true);
+    }
+
+    public void hideRankingInfo(){
+        rankInfo.setVisible(false);
+    }
     @FXML
     public void playAgain() {
         utils.playButtonSound();

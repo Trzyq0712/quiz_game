@@ -34,6 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -166,23 +167,47 @@ public class MainCtrl {
 
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
-            if (server.isConnected()) {
-                if(gameUtils.getPlayer() != null){
-                    server.send("/app/leave/" + gameUtils.getGameID(),
-                        new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
-                    if(client.utils.Config.isWaiting){
-                        waitingRoomCtrl.threadRun = false;
-                        server.leaveWaitingroom(gameUtils.getPlayer());
-                    }
-                }
-                server.disconnect();
-            }
-            primaryStage.close();
+            beforeExit();
+            Platform.exit();
         });
         showHome();
         initializeChatBoxes();
         initializeHolders();
         primaryStage.show();
+    }
+
+    /**
+     * Does these things before exiting:
+     * If it called from the waiting room, it warns the server that it is leaving and to be removed from
+     * the waiting room
+     * If it is called from the game, it sends the notification that this player is leaving
+     * Finally disconnects from the server
+     */
+    public void beforeExit() {
+        if (server.isConnected()) {
+            if (gameUtils.getPlayer() != null) {
+                if(client.utils.Config.isWaiting){
+                    waitingRoomCtrl.threadRun = false;
+                    server.leaveWaitingroom(gameUtils.getPlayer());
+                } else server.send("/app/leave/" + gameUtils.getGameID(),
+                            new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
+            }
+            server.disconnect();
+        }
+        if(client.utils.Config.playerName != null) saveNameToFile();
+    }
+
+    /**
+     * Saves the player name to file
+     */
+    private void saveNameToFile() {
+        try {
+            PrintWriter pw = new PrintWriter(client.utils.Config.nameFile);
+            pw.print(client.utils.Config.playerName);
+            pw.flush();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     /**

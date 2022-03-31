@@ -37,8 +37,6 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     @FXML
     private void startMultiplayer() {
-        threadRun = false;
-        Config.isWaiting = false;
         server.send("/app/waitingroom/start", true);
     }
 
@@ -89,6 +87,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
         waitingroom = server.registerForMessages("/topic/waitingroom/start", Integer.class, l -> {
             threadRun = false;
+            Config.isWaiting = false;
             gameUtils.setGameID((long)l);
             server.registerForMessages("/topic/leave/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
                 utils.addNotification(e.getMessage(), "red");

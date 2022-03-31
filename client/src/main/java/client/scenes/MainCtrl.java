@@ -203,6 +203,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.timeJoker.setVisible(false);
         estimateQuestionCtrl.timeJoker.setVisible(false);
         MCQuestionCtrl.timeJoker.setVisible(false);
+        similarQuestionCtrl.timeJoker.setVisible(false);
         for (StackPane s : listOfHolders) {
             s.setVisible(false);
         }
@@ -216,6 +217,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.timeJoker.setVisible(true);
         estimateQuestionCtrl.timeJoker.setVisible(true);
         MCQuestionCtrl.timeJoker.setVisible(true);
+        similarQuestionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
             s.setVisible(true);
         }

@@ -108,10 +108,17 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * Goes to the home screen
      */
     public void showHome() {
-        server.disconnect();
-        mainCtrl.showHome();
         restoreAnswers();
         restoreJokers();
+        super.showHome();
+    }
+
+    /**
+     * Goes to the home screen and doesn't crash because of restore answers
+     */
+    protected void showHomeEstimate() {
+        restoreJokers();
+        super.showHome();
     }
 
     /**
@@ -223,5 +230,4 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         grantPoints(new Answer(buttonNb, timeToAnswer));
         hasPlayerAnswered = true;
     }
-
 }

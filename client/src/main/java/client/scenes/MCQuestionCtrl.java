@@ -57,8 +57,8 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
         long answer = activity.getEnergyConsumption();
         long option1;
         long option2;
-        int random = (int)(Math.random()*10);
-        switch (random%4){
+        int random = (int)(Math.random()*3);
+        switch (random){
             case 0:
                 option1= (long) (answer * 1.5);
                 option2= (long) (answer * 0.5);
@@ -76,7 +76,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
         Activity b = new Activity(activity.getDescription(), option2, activity.getPicturePath());
         List<Activity> activities = Arrays.asList(activity, a, b);
         Collections.shuffle(activities);
-        answerButtonId = activities.indexOf(activity) + 1;
+        answerButtonId = activities.indexOf(activity);
         displayActivity(activities);
         setHasPlayerAnswered(false);
     }

@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import static commons.Config.*;
+import  client.utils.Config;
 
 public class InfoScreenCtrl extends BaseCtrl {
 
@@ -29,7 +29,7 @@ public class InfoScreenCtrl extends BaseCtrl {
     }
 
     public void setTimeExplainer() {
-        timeExplainer.setText(String.format("Reduces opponents\ntime by %d%%", timeReductionPercentage));
+        timeExplainer.setText(String.format("Reduces opponents\ntime by %d%%", Config.timeReductionPercentage));
     }
 
     public void setDoublePointsExplainerExplainer() {

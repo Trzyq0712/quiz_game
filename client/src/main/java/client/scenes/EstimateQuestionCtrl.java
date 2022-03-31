@@ -105,11 +105,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         return Math.sin(0.5 * fraction * Math.PI);
     }
 
-    @Override
-    public void showHome() {
-        super.showHomeEstimate();
-    }
-
     public void restoreSubmit() {
         submitButton.setVisible(true);
         textField.setText("");

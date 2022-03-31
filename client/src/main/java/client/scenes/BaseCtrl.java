@@ -41,8 +41,10 @@ public abstract class BaseCtrl implements Initializable {
     public void showHome() {
         utils.playButtonSound();
         if (server.isConnected()) {
-            server.send("/app/leave/" + gameUtils.getGameID(),
-                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
+            if(gameUtils.getPlayer() != null)
+                server.send("/app/leave/" + gameUtils.getGameID(),
+                        new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
+
             server.disconnect();
         }
         gameUtils.resetGame();

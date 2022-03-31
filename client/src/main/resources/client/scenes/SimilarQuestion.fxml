@@ -36,7 +36,7 @@
         </ImageView>
         <ImageView id="sound" fx:id="music" fitHeight="140.0" fitWidth="140.0" layoutX="5.0" layoutY="10.0" onMouseClicked="#toggleMusic" pickOnBounds="true" preserveRatio="true" styleClass="clickable">
             <image>
-                <Image url="@/images/placeholder.png" />
+                <Image url="@/images/music.png" />
             </image>
         </ImageView>
         <Label layoutX="793.0" layoutY="10.0" prefHeight="82.0" prefWidth="334.0" text="Time Left" textFill="WHITE">
@@ -64,8 +64,8 @@
                 <Image url="@/images/hourglass.png" />
             </image>
         </ImageView>
-        <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1440.0" layoutY="900.0" text="Question x/y" />
-        <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1440.0" layoutY="960.0" text="Score x/y" />
+        <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="900.0" text="Question x/y" />
+        <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1450.0" layoutY="960.0" text="Score x/y" />
         <ImageView id="questionImage" fx:id="questionImage" fitHeight="265.0" fitWidth="346.0" layoutX="784.0" layoutY="405.0" pickOnBounds="true" preserveRatio="true" />
         <Label id="ActivityDescription" fx:id="ActivityDescription" layoutX="780.0" layoutY="290.0" prefHeight="103.0" prefWidth="368.0" text="Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt" wrapText="true" />
         <StackPane layoutX="346.0" layoutY="725.0" prefHeight="150.0" prefWidth="1189.0" AnchorPane.rightAnchor="375.0">
@@ -154,7 +154,7 @@
                 </StackPane>
             </children>
         </StackPane>
-        <StackPane layoutX="34.0" layoutY="817.0" prefHeight="223.0" prefWidth="313.0">
+        <StackPane layoutX="50.0" layoutY="830.0" prefHeight="223.0" prefWidth="313.0">
             <children>
                 <VBox fx:id="notificationBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="400.0">
                     <StackPane.margin>

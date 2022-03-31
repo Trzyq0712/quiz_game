@@ -133,7 +133,7 @@ public class NamePromptCtrl extends BaseCtrl {
     @FXML
     private void confirm() {
         utils.playButtonSound();
-        ServerUtils.SERVER = serverField.getText(); //sets the server to the user input
+        ServerUtils.setSERVER(serverField.getText()); //sets the server to the user input
         gameUtils.resetGame();
         if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
             mainCtrl.activateSingleplayer();

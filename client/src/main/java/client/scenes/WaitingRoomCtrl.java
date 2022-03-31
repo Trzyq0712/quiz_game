@@ -68,6 +68,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
         playerList = server.getWaitingPlayers();
         loadPlayerGrid(playerList);
         Config.isWaiting = true;
+        server.connect();
         pollingThread = new Thread(() -> {
             threadRun = true;
             ObjectMapper mapper = new ObjectMapper();

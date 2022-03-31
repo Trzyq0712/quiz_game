@@ -5,7 +5,6 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
-import commons.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +15,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
@@ -71,8 +72,9 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
      * Update the leaderboard
      */
     public void refresh() {
-        var players = server.getPlayersInSPL();
+        List<Player> players = server.getPlayersInSPL();
         //A sort should be done to display the Players in the correct order
+        Collections.sort(players,Player.Comparators.SCORE);
         data = FXCollections.observableList(players);
         table.setItems(data);
     }

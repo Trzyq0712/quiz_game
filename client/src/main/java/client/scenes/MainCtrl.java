@@ -269,6 +269,7 @@ public class MainCtrl {
         singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.showPLayAgain();
+        singlePlayerLeaderboardCtrl.refresh();
     }
 
     /**
@@ -278,6 +279,7 @@ public class MainCtrl {
         singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.hidePlayAgain();
+        singlePlayerLeaderboardCtrl.refresh();
     }
 
     /**

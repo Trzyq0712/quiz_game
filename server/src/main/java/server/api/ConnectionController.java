@@ -18,12 +18,6 @@ public class ConnectionController extends BaseController {
         super(activityService);
     }
 
-
-    /*@PostMapping(path = "/join")
-    public ResponseEntity<Boolean> playMulti(@RequestBody Player player) {
-        return ResponseEntity.ok(true);
-    }*/
-
     @GetMapping(path = "/ping")
     public ResponseEntity<String> ping() {
         return ResponseEntity.ok("pong");

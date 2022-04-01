@@ -66,7 +66,8 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
     @Inject
 
-    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils, SinglePlayerLeaderboardCtrl splCtrl) {
+    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils,
+                            SinglePlayerLeaderboardCtrl splCtrl) {
         super(mainCtrl, utils, server, gameUtils);
         this.splCtrl = splCtrl;
     }

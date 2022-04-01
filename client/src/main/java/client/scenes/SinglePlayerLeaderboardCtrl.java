@@ -16,7 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 

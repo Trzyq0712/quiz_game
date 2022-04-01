@@ -4,6 +4,8 @@ import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
@@ -34,43 +36,82 @@ class GameTest {
         assertEquals(ptest,g.addPointsToAPlayer("Vian",50));
     }
 
-    /*@Test
-    void removeAPlayerWithId() {
-        g.addAPlayer(p2);
+    @Test
+    void updateScore(){
         g.addAPlayer(p1);
+        p1.setScore(200);
+        g.updateScore(p1);
+        var expected = p1.getScore();
+        Long playerID = p1.getId();
+        var actual = g.getHashMapOfPlayers().get(playerID).getScore();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void removeAPlayerWithName(){
+        g.addAPlayer(p1);
+        var before = g.getHashMapOfPlayers().keySet().size();
         g.removeAPlayerWithName(p1.getPlayerName());
-        List<Player> PlayerList = new ArrayList<>();
-        PlayerList.add(p2);
-        assertEquals(g.getPlayers(), PlayerList);
-    }*/
+        var expected = before - 1 >= 0 ? before - 1 : 0;
+        var actual = g.getHashMapOfPlayers().keySet().size();
+        assertEquals(expected, actual);
+    }
 
+    @Test
+    void removeAPlayerWithName2(){
+        g.addAPlayer(p1);
+        g.addAPlayer(p2);
+        var before = g.getHashMapOfPlayers().keySet().size();
+        g.removeAPlayerWithName(p2.getPlayerName());
+        var expected = before - 1 >= 0 ? before - 1 : 0;
+        var actual = g.getHashMapOfPlayers().keySet().size();
+        assertEquals(expected, actual);
+    }
 
-    /*@Test
-    void removeAll() {
+    @Test
+    void removeAll(){
         g.addAPlayer(p1);
         g.addAPlayer(p2);
         g.removeAll();
-        List<Player> PlayerList = new ArrayList<>();
-        assertEquals(g.getPlayers(), PlayerList);
-    }*/
+        var expected = 0;
+        var actual = g.getHashMapOfPlayers().keySet().size();
+        assertEquals(expected, actual);
+    }
 
-    /*@Test
-    void getSize() {
-        g.addAPlayer(p1);
-        assertTrue(g.getSize()==1);
-        g.addAPlayer(p2);
-        assertTrue(g.getSize()==2);
-    }*/
-
-    /*@Test
-    void getPlayers() {
+    @Test
+    void getSize(){
         g.addAPlayer(p1);
         g.addAPlayer(p2);
-        List<Player> PlayerList = new ArrayList<>();
-        PlayerList.add(p1);
-        PlayerList.add(p2);
-        assertEquals(g.getPlayers(),PlayerList);
-    }*/
+        var expected = 2;
+        var actual = g.getSize();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getPlayers(){
+        g.addAPlayer(p1);
+        g.addAPlayer(p2);
+        var expected = List.of(p1, p2);
+        var actual = g.getPlayers();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void setPlayers(){
+        var list = List.of(p1 ,p2);
+        g.setPlayers(list);
+        var expected = List.of(p1, p2);
+        var actual = g.getPlayers();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getGameId(){
+        var expected = 6L;
+        var actual = g.getGameId();
+        assertEquals(expected, actual);
+    }
+
 
     @Test
     void getByName() {
@@ -80,19 +121,6 @@ class GameTest {
         assertEquals(p1, ptest);
     }
 
-    /*@Test
-    void setPlayers() {
-        List<Player> PlayerList = new ArrayList<>();
-        PlayerList.add(p1);
-        PlayerList.add(p2);
-        g.setPlayers(PlayerList);
-        assertEquals(g.getPlayers(),PlayerList);
-    }*/
-
-//    @Test
-//    void getGameId() {
-//        assertTrue(g.getGameId()==1);
-//    }
 
     @Test
     void testEquals() {
@@ -118,14 +146,4 @@ class GameTest {
         assertNotEquals(g.hashCode(), g2.hashCode());
     }
 
-    /*@Test test is not relevant?
-    void testToString() {
-        g.addAPlayer(p2);
-        g.addAPlayer(p1);
-        List<PlayerScore> playerScoreList = new ArrayList<>();
-        playerScoreList.add(p2);
-        playerScoreList.add(p1);
-        String outcome = "Game 1{players=" + playerScoreList + '}';
-        assertEquals(outcome,g.toString());
-    }*/
 }

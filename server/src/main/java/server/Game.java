@@ -39,6 +39,7 @@ public class Game {
         return true;
     }
 
+
     public HashMap<Integer, Integer> getQuestionTypes() {
         return questionTypes;
     }
@@ -56,6 +57,10 @@ public class Game {
         //players.add(player);
         players.put(player.getId(), player);
         return player;
+    }
+
+    public HashMap<Long, Player> getHashMapOfPlayers() {
+        return this.players;
     }
 
     /**
@@ -85,7 +90,7 @@ public class Game {
      */
     public boolean removeAPlayerWithName(String name) {
         if (name != null) {
-            players.remove(getByName(name));
+            players.remove(getByName(name).getId());
             return true;
         }
         return false;
@@ -94,7 +99,7 @@ public class Game {
     public boolean removeAll() {
         int size = players.size();
         for (int index = size - 1; index >= 0; index--) {
-            players.remove(index);
+            players.clear();
         }
         return true;
     }

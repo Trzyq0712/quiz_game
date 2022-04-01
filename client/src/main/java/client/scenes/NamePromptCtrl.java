@@ -44,9 +44,10 @@ public class NamePromptCtrl extends BaseCtrl {
         if (checkName(nameField, errorLabel) && server.startSingle(player)) {
             //Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
-            gameUtils.requestGameID();
+            //gameUtils.requestGameID();
             client.utils.Config.playerName = nameField.getText();
-            server.start();
+            Long gameID = server.start(player);
+            this.gameUtils.setGameID(gameID);
             mainCtrl.showQuestion();
         }
     }

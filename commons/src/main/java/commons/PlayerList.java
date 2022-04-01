@@ -11,6 +11,8 @@ public class PlayerList {
         this.listOfPlayers = listOfPlayers;
     }
 
+    public PlayerList(){}
+
     public List<Player> getListOfPlayers() {
         return listOfPlayers;
     }

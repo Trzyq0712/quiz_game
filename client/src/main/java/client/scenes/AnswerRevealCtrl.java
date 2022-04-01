@@ -62,10 +62,14 @@ public class AnswerRevealCtrl extends BaseCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
+    protected final SinglePlayerLeaderboardCtrl splCtrl;
+
     @Inject
 
-    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils,
+                            SinglePlayerLeaderboardCtrl splCtrl) {
         super(mainCtrl, utils, server, gameUtils);
+        this.splCtrl = splCtrl;
     }
 
     /**
@@ -82,6 +86,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
                 mainCtrl.restore();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
                     gameUtils.setPlayer(server.addPlayerToSPLeaderboard(gameUtils.getPlayer()));
+                    splCtrl.refresh();
                     mainCtrl.showSPLeaderboard();
                 } else
                     mainCtrl.showMPFinalLeaderboard();

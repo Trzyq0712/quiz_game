@@ -428,12 +428,14 @@ public class MainCtrl {
 
     public void showMPFinalLeaderboard() {
         MPFinalLeaderboardScene.getStylesheets().add(Config.styleSheet);
+        MPFinalLeaderboardCtrl.refresh();
         primaryStage.setScene(MPFinalLeaderboardScene);
     }
 
     public void showIntermediateLeaderboard() {
         intermediateLeaderboardCtrl.updateQuestionTracker();
         intermediateLeaderboardScene.getStylesheets().add(Config.styleSheet);
+        intermediateLeaderboardCtrl.refresh();
         primaryStage.setScene(intermediateLeaderboardScene);
         intermediateLeaderboardCtrl.activateProgressBar();
     }

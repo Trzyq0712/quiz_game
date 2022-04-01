@@ -6,12 +6,17 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Config;
 import commons.Player;
+import jakarta.ws.rs.ProcessingException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.lang.reflect.InvocationTargetException;
+import java.net.ConnectException;
+
 import static commons.Config.*;
+import static client.utils.Config.*;
 
 
 public class NamePromptCtrl extends BaseCtrl {
@@ -123,6 +128,19 @@ public class NamePromptCtrl extends BaseCtrl {
             mainCtrl.activateMultiplayer();
             enterWaitingRoom();
         }
+    }
+
+    @FXML
+    private void testConnection() throws InterruptedException {
+        ServerUtils.setSERVER(serverField.getText());
+        try {
+            server.ping();
+            utils.addNotification("connection successful", "green");
+        }
+        catch (ProcessingException e) {
+            utils.addNotification("connection failed", "red");
+        }
+
     }
 
 }

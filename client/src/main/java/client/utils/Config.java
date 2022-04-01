@@ -9,7 +9,8 @@ public class Config {
     public static String deleteImage = loader.getResource("images/delete.png").toExternalForm();
     public static String notificationStyle = "-fx-font-size: 20; -fx-text-fill: ";
     public static int activitiesPerPage = 5;
-
+    public static Long allowedPing = 200L; /*ping in ms that is allowed for the client, if server takes longer than this
+    then client will report a failed connection*/
     public static String playerName = "placeholder";
     /*public static String backgroundMusic = new File("music.mp3").toURI().toString();
     public static String buttonClickSound = new File("button.mp3").toURI().toString();*/

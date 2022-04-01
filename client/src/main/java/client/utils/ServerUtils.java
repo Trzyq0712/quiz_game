@@ -51,6 +51,14 @@ public class ServerUtils {
                 .get(new GenericType<Long>() {});
     }
 
+    public String ping() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/connection/ping") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<String>() {});
+    }
+
     public boolean start() {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/play/start/single") //

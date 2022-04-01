@@ -81,7 +81,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
             } else {
                 mainCtrl.restore();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
-                    server.addPlayerToSPLeaderboard(gameUtils.getPlayer());
+                    gameUtils.setPlayer(server.addPlayerToSPLeaderboard(gameUtils.getPlayer()));
                     mainCtrl.showSPLeaderboard();
                 } else
                     mainCtrl.showMPFinalLeaderboard();

@@ -41,6 +41,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 public class ServerUtils {
 
     public static String SERVER = server;
+    public static String wsSERVER;
 
     public Long requestGameID() {
         return ClientBuilder.newClient(new ClientConfig()) //
@@ -52,7 +53,7 @@ public class ServerUtils {
 
     public boolean start() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/play/start") //
+                .target(SERVER).path("api/play/start/single") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<Boolean>() {});
@@ -67,9 +68,9 @@ public class ServerUtils {
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Integer.class);
     }
 
-    public ActivityList get3Activities(int currentQuestion, Long gameID) {
+    public ActivityList get4Activities(int currentQuestion, Long gameID) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/play/get3Activities") //
+                .target(SERVER).path("/api/play/get4Activities") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), ActivityList.class);
@@ -124,7 +125,7 @@ public class ServerUtils {
     }*/
 
     /**
-     * @param name the name with which the player wants to play singleplayer
+     * @param player the name with which the player wants to play singleplayer
      * @return true if the server accepts
      */
     public boolean startSingle(Player player) {
@@ -216,17 +217,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<String>() {});
     }
-    /**
-     * gets a list of 3 activities from the server
-     * @return a list of 3 activities
-     */
-    /*public List<Activity> get3Activities() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/activity/3") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Activity>>() {});
-    }*/
 
 
     /**
@@ -240,14 +230,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
     }
-
-    /*public Activity getActivity() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/activity/1") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(Activity.class);
-    }*/
 
     /**
      * @return all activities
@@ -286,23 +268,22 @@ public class ServerUtils {
                 .post(Entity.entity(id, APPLICATION_JSON), Boolean.class);
     }
 
-    private StompSession session = connect("ws://localhost:8080/websocket");
+    private StompSession session;
 
-    private StompSession connect(String url){
+    public void connect(){
         var client = new StandardWebSocketClient();
         var stomp = new WebSocketStompClient(client);
         stomp.setMessageConverter(new MappingJackson2MessageConverter());
         try{
-            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+            session = stomp.connect(wsSERVER, new StompSessionHandlerAdapter() {}).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        throw new IllegalStateException();
     }
 
     public <T> StompSession.Subscription registerForMessages(String dest, Class<T> type ,Consumer<T> consumer){
-        if(!session.isConnected())
-            session = connect("ws://localhost:8080/websocket");
+        if(!isConnected())
+            connect();
         return session.subscribe(dest, new StompFrameHandler(){
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -329,7 +310,14 @@ public class ServerUtils {
     }
 
     public boolean isConnected() {
+        if(session == null)
+            return false;
+
         return session.isConnected();
     }
 
+    public static void setSERVER(String url) {
+        SERVER = url;
+        wsSERVER = "ws" + url.substring(4) + "websocket";
+    }
 }

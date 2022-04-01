@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Emote;
+import commons.NotificationMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -18,16 +19,21 @@ public class WebsocketsController {
 
     @MessageMapping("/waitingroom/start") // /app/waitingroom/start
     @SendTo("/topic/waitingroom/start")
-    public Boolean startGame(Boolean b){
+    public Long startGame(Boolean b){
         //make game
-        preGameController.startGame();
-        return b;
+        return preGameController.startMultiplayerGame();
     }
 
 
     @MessageMapping("/emote/{id}") // /app/emote/id
     @SendTo("/topic/emote/{id}")
     public Emote emote(Emote e){
+        return e;
+    }
+
+    @MessageMapping("/leave/{id}") // /app/leave/id
+    @SendTo("/topic/leave/{id}")
+    public NotificationMessage leaveGame(NotificationMessage e){
         return e;
     }
 }

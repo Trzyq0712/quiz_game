@@ -44,8 +44,8 @@ public class NamePromptCtrl extends BaseCtrl {
             //Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
             gameUtils.requestGameID();
+            client.utils.Config.playerName = nameField.getText();
             server.start();
-            //gameUtils.startTimer();
             mainCtrl.showQuestion();
         }
     }
@@ -97,12 +97,12 @@ public class NamePromptCtrl extends BaseCtrl {
             Player player = server.generatePlayer(name); //new Player(nameField.getText());
             if (server.enterWaitingRoom(player)) {
                 gameUtils.setPlayer(player);
-                gameUtils.requestGameID();
                 mainCtrl.showWaitingRoom();
+                client.utils.Config.playerName = nameField.getText();
+            } else {
+                errorLabel.setText("Name is taken!");
+                errorLabel.setVisible(true);
             }
-        } else {
-            errorLabel.setText("Name is taken!");
-            errorLabel.setVisible(true);
         }
     }
 
@@ -114,7 +114,7 @@ public class NamePromptCtrl extends BaseCtrl {
     @FXML
     private void confirm() {
         utils.playButtonSound();
-        ServerUtils.SERVER = serverField.getText(); //sets the server to the user input
+        ServerUtils.setSERVER(serverField.getText()); //sets the server to the user input
         gameUtils.resetGame();
         if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
             mainCtrl.activateSingleplayer();

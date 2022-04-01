@@ -44,7 +44,7 @@ public class ClientInfo {
     }
 
     public void setRound(int round) {
-        this.currentQuestion = currentQuestion;
+        this.currentQuestion = round;
     }
 
     public void setGameID(Long gameID) {

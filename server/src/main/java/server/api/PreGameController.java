@@ -25,12 +25,13 @@ public class PreGameController extends BaseController {
     //private Long gameID = 0L;
     private List<Player> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
-    private HashMap<Long, Game> ongoingGames = new HashMap<>();//maps gameID to actual Game instance
+    private HashMap<Long, Game> ongoingGames;
 
     @Autowired
     public PreGameController(ActivityService activityService) {
         super(activityService);
         waitingPlayers = new ArrayList<>();
+        ongoingGames = new HashMap<>();
     }
 
     /**
@@ -65,16 +66,27 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(Game.gameCounter);
     }
 
-    @GetMapping(path = "/start") //this should ONLY be called by singleplayer!
-    public ResponseEntity<Boolean> startGame() {
+    @GetMapping(path = "/start")
+    public Long startMultiplayerGame() {
         Game game = new Game();
         for (Player p : waitingPlayers) {
             game.addAPlayer(p);
         }
         waitingPlayers.clear();
         for (int i = 0; i < totalQuestions; i++) {
-            game.getQuestionTypes().put(i, (int) (Math.random() * 3));
-            game.getActivities().put(i, activityService.get3Activities());
+            game.getQuestionTypes().put(i, (int) (Math.random() * 4));
+            game.getActivities().put(i, activityService.get4Activities());
+        }
+        ongoingGames.put(game.getGameId(), game);
+        return game.getGameId();
+    }
+
+    @GetMapping(path = "/start/single") //this should ONLY be called by singleplayer!
+    public ResponseEntity<Boolean> startSinglePLayerGame() {
+        Game game = new Game();
+        for (int i = 0; i < totalQuestions; i++) {
+            game.getQuestionTypes().put(i, (int) (Math.random() * 4));
+            game.getActivities().put(i, activityService.get4Activities());
         }
         ongoingGames.put(game.getGameId(), game);
         return ResponseEntity.ok(true);
@@ -88,8 +100,8 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(questionType);
     }
 
-    @PostMapping(path = "/get3Activities")
-    public ResponseEntity<ActivityList> get3Activities(@RequestBody ClientInfo clientInfo) {
+    @PostMapping(path = "/get4Activities")
+    public ResponseEntity<ActivityList> get4Activities(@RequestBody ClientInfo clientInfo) {
         int currentQuestion = clientInfo.getCurrentQuestion();
         Long gameID = clientInfo.getGameID();
         List<Activity> activities = ongoingGames.get(gameID).getActivities().get(currentQuestion);

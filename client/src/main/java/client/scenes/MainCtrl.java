@@ -71,9 +71,9 @@ public class MainCtrl {
     private Scene questionScreenScene;
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
+    private SimilarQuestionCtrl similarQuestionCtrl;
+    private Scene similarQuestionScene;
     private MCQuestionCtrl MCQuestionCtrl;
-
-    // --------------------- to move START
     private Scene MCQuestionScene;
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
@@ -90,7 +90,6 @@ public class MainCtrl {
     boolean singlePlayerModeActive;
     ServerUtils server;
     GameUtils gameUtils;
-    // -------------------- to move END
 
 
     public void initialize(Stage primaryStage,
@@ -108,6 +107,7 @@ public class MainCtrl {
                            Pair<EditActivityCtrl, Parent> editActivity,
                            Pair<EstimateQuestionCtrl, Parent> estimateQuestion,
                            Pair<MCQuestionCtrl, Parent> MCQuestion,
+                           Pair<SimilarQuestionCtrl, Parent> similarQuestion,
                            ServerUtils s,
                            GameUtils g) {
         this.server = s;
@@ -155,34 +155,23 @@ public class MainCtrl {
         this.MCQuestionCtrl = MCQuestion.getKey();
         this.MCQuestionScene = new Scene(MCQuestion.getValue());
 
+        this.similarQuestionCtrl = similarQuestion.getKey();
+        this.similarQuestionScene = new Scene(similarQuestion.getValue());
+
         this.editActivityCtrl = editActivity.getKey();
         this.editActivityScene = new Scene(editActivity.getValue());
 
         secondaryStage = new Stage();
 
-        // TODO Consider refactoring
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
-//            if (player != null)
-//                waitingRoomCtrl.leaveWaitingRoom(player);
             primaryStage.close();
         });
-
         showHome();
-
-        // ----- to move START
         initializeChatBoxes();
         initializeHolders();
-        // ----- to move END
-
         primaryStage.show();
     }
-
-    // --- to move START
-
-    /*public void requestGameID() {
-        this.gameID = server.requestGameID();
-    }*/
 
     /**
      * Initializes an array of all the chatboxes in the application, this way they can be easily accessed and all kept
@@ -190,7 +179,8 @@ public class MainCtrl {
      */
     public void initializeChatBoxes() {
         listOfChatBoxes = Arrays.asList(comparisonQuestionCtrl.chatbox, intermediateLeaderboardCtrl.chatbox,
-                answerRevealCtrl.chatbox, MPFinalLeaderboardCtrl.chatbox);
+                answerRevealCtrl.chatbox, MPFinalLeaderboardCtrl.chatbox,
+                estimateQuestionCtrl.chatbox, MCQuestionCtrl.chatbox, similarQuestionCtrl.chatbox);
     }
 
     /**
@@ -201,7 +191,8 @@ public class MainCtrl {
     public void initializeHolders() {
         listOfHolders = Arrays.asList(comparisonQuestionCtrl.chatAndEmoteHolder, answerRevealCtrl.chatAndEmoteHolder,
                 intermediateLeaderboardCtrl.chatAndEmoteHolder, MPFinalLeaderboardCtrl.chatAndEmoteHolder,
-                estimateQuestionCtrl.chatAndEmoteHolder, MCQuestionCtrl.chatAndEmoteHolder);
+                estimateQuestionCtrl.chatAndEmoteHolder, MCQuestionCtrl.chatAndEmoteHolder,
+                similarQuestionCtrl.chatAndEmoteHolder);
     }
 
     /**
@@ -212,6 +203,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.timeJoker.setVisible(false);
         estimateQuestionCtrl.timeJoker.setVisible(false);
         MCQuestionCtrl.timeJoker.setVisible(false);
+        similarQuestionCtrl.timeJoker.setVisible(false);
         for (StackPane s : listOfHolders) {
             s.setVisible(false);
         }
@@ -225,6 +217,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.timeJoker.setVisible(true);
         estimateQuestionCtrl.timeJoker.setVisible(true);
         MCQuestionCtrl.timeJoker.setVisible(true);
+        similarQuestionCtrl.timeJoker.setVisible(true);
         for (StackPane s : listOfHolders) {
             s.setVisible(true);
         }
@@ -240,6 +233,7 @@ public class MainCtrl {
         estimateQuestionCtrl.pointsJoker.setVisible(bool);
         comparisonQuestionCtrl.pointsJoker.setVisible(bool);
         MCQuestionCtrl.pointsJoker.setVisible(bool);
+        similarQuestionCtrl.pointsJoker.setVisible(bool);
     }
 
     /**
@@ -248,9 +242,10 @@ public class MainCtrl {
      * @param bool - true if we want to make them visible, false otherwise
      */
     public void visibilityHintJoker(Boolean bool) {
-        estimateQuestionCtrl.pointsJoker.setVisible(bool);
-        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
-        MCQuestionCtrl.pointsJoker.setVisible(bool);
+        estimateQuestionCtrl.hintJoker.setVisible(bool);
+        comparisonQuestionCtrl.hintJoker.setVisible(bool);
+        MCQuestionCtrl.hintJoker.setVisible(bool);
+        similarQuestionCtrl.hintJoker.setVisible(bool);
     }
 
     /**
@@ -259,16 +254,11 @@ public class MainCtrl {
      * @param bool - true if we want to make them visible, false otherwise
      */
     public void visibilityTimeJoker(Boolean bool) {
-        estimateQuestionCtrl.pointsJoker.setVisible(bool);
-        comparisonQuestionCtrl.pointsJoker.setVisible(bool);
-        MCQuestionCtrl.pointsJoker.setVisible(bool);
+        estimateQuestionCtrl.timeJoker.setVisible(bool);
+        comparisonQuestionCtrl.timeJoker.setVisible(bool);
+        MCQuestionCtrl.timeJoker.setVisible(bool);
+        similarQuestionCtrl.timeJoker.setVisible(bool);
     }
-
-    /**
-     * Produces the sound of a button when invoked, this function should be called when a button is clicked.
-     */
-
-    // --- to move END
 
     /**
      * Shows the home screen.
@@ -283,9 +273,6 @@ public class MainCtrl {
     public void showNamePromtScene() {
         primaryStage.setScene(namePromptScene);
     }
-
-
-    // TODO consider refactoring START
 
     /**
      * Shows the singleplayer leaderboard.
@@ -304,7 +291,6 @@ public class MainCtrl {
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.hidePlayAgain();
     }
-    // TODO consider refactoring END
 
     /**
      * Shows the exitscreen when the user wants to quit the application.
@@ -318,10 +304,6 @@ public class MainCtrl {
         secondaryStage.show();
     }
 
-
-    // --- to move START
-    // TODO consider refactoring
-
     /**
      * Shows the question screen, sets
      * active = true
@@ -330,23 +312,22 @@ public class MainCtrl {
      */
     public void showQuestion() {
         active = true;
-         //APPLY CSS SHEET
         int value = server.getQuestionType(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         switch (value) {
             case 0: {
                 questionScreenScene.getStylesheets().add(Config.styleSheet);
-                Platform.runLater(() -> comparisonQuestionCtrl.generateActivity());
-                Platform.runLater(() -> comparisonQuestionCtrl.updateTracker());
-                Platform.runLater(() -> gameUtils.startTimer());
-                Platform.runLater(() -> primaryStage.setScene(questionScreenScene));
-                Platform.runLater(() -> comparisonQuestionCtrl.activateProgressBar());
+                comparisonQuestionCtrl.generateActivity();
+                comparisonQuestionCtrl.updateTracker();
+                gameUtils.startTimer();
+                primaryStage.setScene(questionScreenScene);
+                comparisonQuestionCtrl.activateProgressBar();
                 break;
             }
             case 1: {
                 estimateQuestionScene.getStylesheets().add(Config.styleSheet);
                 estimateQuestionCtrl.generateActivity();
                 estimateQuestionCtrl.updateTracker();
-                Platform.runLater(() -> gameUtils.startTimer());
+                gameUtils.startTimer();
                 primaryStage.setScene(estimateQuestionScene);
                 estimateQuestionCtrl.activateProgressBar();
                 break;
@@ -355,15 +336,23 @@ public class MainCtrl {
                 MCQuestionScene.getStylesheets().add(Config.styleSheet);
                 MCQuestionCtrl.generateActivity();
                 MCQuestionCtrl.updateTracker();
-                Platform.runLater(() -> gameUtils.startTimer());
+                gameUtils.startTimer();
                 primaryStage.setScene(MCQuestionScene);
                 MCQuestionCtrl.activateProgressBar();
+                break;
+            }
+            case 3:{
+                similarQuestionScene.getStylesheets().add(Config.styleSheet);
+                similarQuestionCtrl.generateActivity();
+                similarQuestionCtrl.updateTracker();
+                gameUtils.startTimer();
+                primaryStage.setScene(similarQuestionScene);
+                similarQuestionCtrl.activateProgressBar();
                 break;
             }
         }
 
     }
-    // --- to move END
 
 
     public void showWaitingRoom() {
@@ -372,73 +361,6 @@ public class MainCtrl {
         waitingRoomScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(waitingRoomScene);
     }
-
-
-    // --- to move START
-    // TODO consider refactoring
-
-
-    /*public void activateGenericProgressBar(ProgressBar pgBar, double totalTime, int call) {
-        if (!active) {
-            startTime = null;
-            return;
-        }
-        if (startTime == null) startTime = System.currentTimeMillis();
-        double delta = getDelta();
-        double progress = (totalTime - delta) / totalTime;
-        if (progress >= 0 && progress <= 1) pgBar.setProgress(progress);
-        if (progress > 0.7) pgBar.setStyle("-fx-accent: green");
-        else if (progress > 0.4) pgBar.setStyle("-fx-accent: orange");
-        else pgBar.setStyle("-fx-accent: red");
-        if (delta < totalTime) {
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            // your code here
-                            activateGenericProgressBar(pgBar, totalTime, call);
-                        }
-                    },
-                    5
-            );
-        } else {
-            startTime = null;
-            if (active) {
-                if (call == 0) {
-                    questionCtrl.restoreDoublePoints();
-                    estimateQuestionCtrl.restoreDoublePoints();
-                    MCQuestionCtrl.restoreDoublePoints(); *//*these calls need to be refactored, the double points
-                    should be restored in 1 call not 3. we should probably put the functionality in GameUtils.
-                    Couldn't do it myself since GameUtils has yet to be merged to dev :)*//*
-                    Platform.runLater(() -> showAnswerReveal());
-                } else if (call == 1 && currentQuestion < Config.totalQuestions) {
-                    estimateQuestionCtrl.restoreSubmit();
-                    questionCtrl.restoreAnswers();
-                    estimateQuestionCtrl.restoreSubmit();
-                    MCQuestionCtrl.restoreAnswers();
-                    if(!estimateQuestionCtrl.getHasPlayerAnswered()){
-                        setAnswersforAnswerReveal(0,true);
-                    }
-                    if (singlePlayerModeActive) {
-                        Platform.runLater(() -> {
-                            answerRevealCtrl.pointsGrantedEstimate.setText("You got " + 0 + " points!");
-                            answerRevealCtrl.pointsGrantedMC.setText("You got " + 0 + " points!");
-                            showQuestion();
-                        });
-                    } else Platform.runLater(() -> showIntermediateLeaderboard());
-                } else if (call == 1 && currentQuestion >= Config.totalQuestions) {
-                    restore();
-                    if (singlePlayerModeActive) {
-                        splCtrl.addPlayer(getPlayerScore());
-                        getPlayerScore().setScore(0);
-                        Platform.runLater(() -> showSPLeaderboard());
-                    } else Platform.runLater(() -> showMPFinalLeaderboard());
-                } else if (call == 2) {
-                    Platform.runLater(() -> showQuestion());
-                }
-            }
-        }
-    }*/
 
     public void refresh() {
         singlePlayerLeaderboardCtrl.refresh();
@@ -452,6 +374,8 @@ public class MainCtrl {
         comparisonQuestionCtrl.restoreJokers();
         estimateQuestionCtrl.restoreJokers();
         MCQuestionCtrl.restoreJokers();
+        similarQuestionCtrl.restoreJokers();
+        similarQuestionCtrl.restoreAnswers();
         comparisonQuestionCtrl.restoreAnswers();
         estimateQuestionCtrl.restoreSubmit();
         MCQuestionCtrl.restoreAnswers();
@@ -461,6 +385,7 @@ public class MainCtrl {
         comparisonQuestionCtrl.restoreAnswers();
         estimateQuestionCtrl.restoreSubmit();
         MCQuestionCtrl.restoreAnswers();
+        similarQuestionCtrl.restoreAnswers();
     }
 
     /**
@@ -490,19 +415,10 @@ public class MainCtrl {
         }
     }
 
-
-    // --- to move END
-    /*public long getDelta() {
-        return System.currentTimeMillis() - startTime;
-    }*/
-
     /**
      * Shows the screen where answers are revealed.
      */
     public void showAnswerReveal() {
-        comparisonQuestionCtrl.restoreDoublePoints();
-        estimateQuestionCtrl.restoreDoublePoints();
-        MCQuestionCtrl.restoreDoublePoints(); //double points are reset after question ends?
         answerRevealCtrl.updateTracker();
         answerRevealScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(answerRevealScene);
@@ -550,8 +466,6 @@ public class MainCtrl {
         return secondaryStage;
     }
 
-    // --- to move START
-
     /**
      * Used to prepare the answer reveal screen for a multiple choice question with 3 activities as answers
      *
@@ -586,7 +500,5 @@ public class MainCtrl {
     public void refreshLabels() {
         editScreenCtrl.updateLabels();
     }
-
-    // --- to move END
 
 }

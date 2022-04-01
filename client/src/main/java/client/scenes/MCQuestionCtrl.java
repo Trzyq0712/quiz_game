@@ -55,11 +55,28 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         long answer = activity.getEnergyConsumption();
-        Activity a = new Activity(activity.getDescription(), (long) (answer * 1.5), activity.getPicturePath());
-        Activity b = new Activity(activity.getDescription(), (long) (answer * 0.5), activity.getPicturePath());
+        long option1;
+        long option2;
+        int random = (int)(Math.random()*3);
+        switch (random){
+            case 0:
+                option1= (long) (answer * 1.5);
+                option2= (long) (answer * 0.5);
+                break;
+            case 1:
+                option1= (long) (answer * 1.5);
+                option2= (long) (answer * 2.0);
+                break;
+            default:
+                option1= (long) (answer * 0.75);
+                option2= (long) (answer * 0.5);
+                break;
+        }
+        Activity a = new Activity(activity.getDescription(), option1, activity.getPicturePath());
+        Activity b = new Activity(activity.getDescription(), option2, activity.getPicturePath());
         List<Activity> activities = Arrays.asList(activity, a, b);
         Collections.shuffle(activities);
-        answerButtonId = activities.indexOf(activity) + 1;
+        answerButtonId = activities.indexOf(activity);
         displayActivity(activities);
         setHasPlayerAnswered(false);
     }
@@ -72,30 +89,6 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
         thirdButton.setText(String.valueOf(activities.get(2).getEnergyConsumption()));
         mainCtrl.setAnswersForAnswerReveal(activities, answerButtonId);
     }
-
-    /**
-     * hides all buttons except for the one that was clicked
-     *
-     * @param event button that was clicked, so either A, B or C
-     */
-   /* public void answerClick(Event event) {
-        utils.playButtonSound();
-        long timeToAnswer = gameUtils.stopTimer();
-        setHasPlayerAnswered(true);
-        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
-        Button activated = (Button) event.getSource();
-        long i = 0;
-        long buttonNb = 0;
-        for (Button b : listOfButtons) {
-            i++;
-            if (!b.getId().equals(activated.getId())) {
-                b.setVisible(false);
-            } else {
-                buttonNb = i;
-            }
-        }
-        grantPoints(new Answer(buttonNb, timeToAnswer));
-    }*/
 
 
 

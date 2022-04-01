@@ -18,6 +18,10 @@ public class ClientInfo {
         this.player = player;
     }
 
+    public ClientInfo(Player player) {
+        this.player = player;
+    }
+
     public void setCurrentQuestion(int currentQuestion) {
         this.currentQuestion = currentQuestion;
     }

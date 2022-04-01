@@ -16,7 +16,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
 
@@ -74,7 +76,14 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         var players = server.getPlayersInSPL();
         //A sort should be done to display the Players in the correct order
         data = FXCollections.observableList(players);
-        table.setItems(data);
+        int currentRank = 1;
+        var listOfPlayers = data.stream().sorted().collect(Collectors.toList());
+        for (Player p : listOfPlayers) {
+            p.setRank(currentRank++);
+        }
+        var result = listOfPlayers.stream()
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        table.setItems(result);
     }
 
     @FXML

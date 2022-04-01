@@ -59,12 +59,12 @@ public class ServerUtils {
                 .get(new GenericType<String>() {});
     }
 
-    public boolean start() {
+    public Long start(Player player) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/play/start/single") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<Boolean>() {});
+                .post(Entity.entity(player, APPLICATION_JSON), Long.class);
     }
 
 

@@ -94,15 +94,16 @@ public class PreGameController extends BaseController {
         return game.getGameId();
     }
 
-    @GetMapping(path = "/start/single") //this should ONLY be called by singleplayer!
-    public ResponseEntity<Boolean> startSinglePLayerGame() {
+    @PostMapping(path = "/start/single") //this should ONLY be called by singleplayer!
+    public ResponseEntity<Long> startSinglePLayerGame(@RequestBody Player player) {
         Game game = new Game();
+        game.addAPlayer(player);
         for (int i = 0; i < totalQuestions; i++) {
             game.getQuestionTypes().put(i, (int) (Math.random() * 4));
             game.getActivities().put(i, activityService.get4Activities());
         }
         ongoingGames.put(game.getGameId(), game);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(game.getGameId());
     }
 
     @PostMapping(path = "/getQuestionType")

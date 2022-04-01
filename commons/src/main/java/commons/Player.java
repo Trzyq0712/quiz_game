@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Comparator;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
@@ -15,7 +16,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
  */
 @Table
 @Entity
-public class Player {
+public class Player implements Comparable<Player> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -175,5 +176,10 @@ public class Player {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        return o.getScore() - this.getScore();
     }
 }

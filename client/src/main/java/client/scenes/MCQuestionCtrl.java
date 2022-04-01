@@ -76,7 +76,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
         Activity b = new Activity(activity.getDescription(), option2, activity.getPicturePath());
         List<Activity> activities = Arrays.asList(activity, a, b);
         Collections.shuffle(activities);
-        answerButtonId = activities.indexOf(activity);
+        answerButtonId = activities.indexOf(activity) + 1;
         displayActivity(activities);
         setHasPlayerAnswered(false);
     }

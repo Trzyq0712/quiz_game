@@ -85,4 +85,11 @@ public class PlayerScoreController {
         return ResponseEntity.ok(p);
     }
 
+
+    @PostMapping(path = "generatePlayer")
+    public ResponseEntity<Player> generatePlayer(@RequestBody String name) {
+        Player p = new Player(name);
+        return ResponseEntity.ok(p);
+    }
+
 }

@@ -17,7 +17,8 @@ public class Game {
     private final Long gameId;
     private HashMap<Integer, Integer> questionTypes = new HashMap<>(); //maps questionNumber to questionType
     private HashMap<Integer, List<Activity>> activities = new HashMap<>(); //maps questionNumber to activity
-    private List<Player> players;
+    private HashMap<Long, Player> players = new HashMap<>(); //maps playerID to Player object
+    //private List<Player> players;
 
 
     /**
@@ -26,10 +27,18 @@ public class Game {
      */
     @Autowired
     public Game() {
-        this.players = new ArrayList<>();
-        this.gameId = gameCounter;
+        //this.players = new ArrayList<>();
+        this.gameId = new Long(gameCounter);
         gameCounter++;
     }
+
+    public boolean updateScore(Player player) {
+        Long playerID = player.getId();
+        Integer score = player.getScore();
+        players.get(playerID).setScore(score);
+        return true;
+    }
+
 
     public HashMap<Integer, Integer> getQuestionTypes() {
         return questionTypes;
@@ -45,8 +54,13 @@ public class Game {
      * @param player - player that is added
      */
     public Player addAPlayer(Player player) {
-        players.add(player);
+        //players.add(player);
+        players.put(player.getId(), player);
         return player;
+    }
+
+    public HashMap<Long, Player> getHashMapOfPlayers() {
+        return this.players;
     }
 
     /**
@@ -76,7 +90,7 @@ public class Game {
      */
     public boolean removeAPlayerWithName(String name) {
         if (name != null) {
-            players.remove(getByName(name));
+            players.remove(getByName(name).getId());
             return true;
         }
         return false;
@@ -85,7 +99,7 @@ public class Game {
     public boolean removeAll() {
         int size = players.size();
         for (int index = size - 1; index >= 0; index--) {
-            players.remove(index);
+            players.clear();
         }
         return true;
     }
@@ -105,7 +119,11 @@ public class Game {
      * @return all the players in the game
      */
     public List<Player> getPlayers() {
-        return players;
+        List<Player> res = new ArrayList<>();
+        for (Player p : players.values()) {
+            res.add(p);
+        }
+        return res;
     }
 
     /**
@@ -114,7 +132,10 @@ public class Game {
      * @param players - the list of players
      */
     public void setPlayers(List<Player> players) {
-        this.players = players;
+        for (Player p : players) {
+            this.players.put(p.getId(), p);
+        }
+        //this.players = players;
     }
 
     /**
@@ -128,7 +149,7 @@ public class Game {
         if (name == null) {
             return null;
         }
-        for (Player p : players) {
+        for (Player p : players.values()) {
             if (p.getPlayerName().equals(name)) {
                 return p;
             }

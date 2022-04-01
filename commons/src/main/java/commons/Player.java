@@ -26,12 +26,17 @@ public class Player implements Comparable<Player> {
     private Integer score;
     private Timestamp time;
 
+    public static Long playerID = 0L;
+
     @Transient
     private int rank;
 
     @SuppressWarnings("unused")
     private Player() {
         // for object mapper
+        //generateId();
+        this.id = new Long(playerID);
+        playerID++;
     }
 
     /**
@@ -43,12 +48,21 @@ public class Player implements Comparable<Player> {
     public Player(String playerName, int score) {
         this.playerName = playerName;
         this.score = score;
+        this.id = new Long(playerID);
+        playerID++;
     }
 
     public Player(String playerName) {
         this.playerName = playerName;
         this.score = 0;
+        this.id = new Long(playerID);
+        playerID++;
     }
+
+    /*public void generateId() {
+        this.id = new Long(playerID);
+        playerID++;
+    }*/
 
     /**
      * Updating the score by adding points to it.

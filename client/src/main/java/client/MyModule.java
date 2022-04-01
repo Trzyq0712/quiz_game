@@ -15,15 +15,13 @@
  */
 package client;
 
-import client.scenes.NamePromptCtrl;
+import client.scenes.*;
 import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
-
-import client.scenes.MainCtrl;
 
 public class MyModule implements Module {
 
@@ -34,5 +32,19 @@ public class MyModule implements Module {
         binder.bind(GameUtils.class).in(Scopes.SINGLETON);
         binder.bind(NamePromptCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
+        binder.bind(SinglePlayerLeaderboardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(AnswerRevealCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ComparisonQuestionCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(EditActivityCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ExitScreenCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(EstimateQuestionCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(HomeScreenCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(InfoScreenCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(IntermediateLeaderboardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(MCQuestionCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(MPFinalLeaderboardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(NamePromptCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(SimilarQuestionCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(WaitingRoomCtrl.class).in(Scopes.SINGLETON);
     }
 }

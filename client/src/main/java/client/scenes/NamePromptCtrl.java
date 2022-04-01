@@ -38,8 +38,10 @@ public class NamePromptCtrl extends BaseCtrl {
      */
     public void startSinglePlayer() {
         utils.playButtonSound();
-        if (checkName(nameField, errorLabel) && server.startSingle(nameField.getText())) {
-            Player player = new Player(nameField.getText());
+        String name = nameField.getText();
+        Player player = server.generatePlayer(name);
+        if (checkName(nameField, errorLabel) && server.startSingle(player)) {
+            //Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
             gameUtils.requestGameID();
             client.utils.Config.playerName = nameField.getText();
@@ -91,8 +93,9 @@ public class NamePromptCtrl extends BaseCtrl {
 
     public void enterWaitingRoom() {
         if (checkName(nameField, errorLabel)) {
-            Player player = new Player(nameField.getText());
-            if (server.enterWaitingRoom(nameField.getText())) {
+            String name = nameField.getText();
+            Player player = server.generatePlayer(name); //new Player(nameField.getText());
+            if (server.enterWaitingRoom(player)) {
                 gameUtils.setPlayer(player);
                 mainCtrl.showWaitingRoom();
                 client.utils.Config.playerName = nameField.getText();

@@ -3,16 +3,13 @@ package server.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.web.context.request.async.DeferredResult;
 import server.ActivityService;
 import server.MockActivityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import static commons.Config.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class PreGameControllerTest {
 
@@ -36,16 +33,16 @@ class PreGameControllerTest {
         updatedList = sut.updates(playerList);
         mapper = new ObjectMapper();
     }
-    @Test
+    /*@Test
     void playSingleTest() {
         assertTrue(sut.playSingle(p1.getPlayerName()).getBody());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void playMultiNameNotTakenTest() {
         assertTrue(sut.playMulti(p1.getPlayerName()).getBody());
         assertTrue(sut.playMulti(p2.getPlayerName()).getBody());
-    }
+    }*/
 
     /*@Test
     void playMultiNameTakenTest() {

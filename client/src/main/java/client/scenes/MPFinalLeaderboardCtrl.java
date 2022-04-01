@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
@@ -38,6 +39,9 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     public VBox chatbox;
     @FXML
     public StackPane chatAndEmoteHolder;
+
+    @FXML
+    private Label rankInfo;
 
     NamePromptCtrl promptCtrl;
 

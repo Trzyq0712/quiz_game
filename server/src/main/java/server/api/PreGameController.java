@@ -22,6 +22,7 @@ import static commons.Config.*;
 @RequestMapping("/api/play")
 public class PreGameController extends BaseController {
 
+
     //private Long gameID = 0L;
     private List<Player> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
@@ -34,26 +35,42 @@ public class PreGameController extends BaseController {
         ongoingGames = new HashMap<>();
     }
 
+    public List<Player> getWaitingPlayers() {
+        return waitingPlayers;
+    }
+
+    public ExecutorService getPollThreads() {
+        return pollThreads;
+    }
+
+    public HashMap<Long, Game> getOngoingGames() {
+        return ongoingGames;
+    }
+
     /**
-     * @param name the name with which the player wants to enter the singleplayer game
+     * @param player the name with which the player wants to enter the singleplayer game
      * @return random confirmation for now
      */
     @PostMapping(path = "/single")
-    public ResponseEntity<Boolean> playSingle(@RequestBody String name) {
+    public ResponseEntity<Boolean> playSingle(@RequestBody Player player) {
         return ResponseEntity.ok(true);
     }
 
     /**
-     * @param name the name with which the player wants to join the waiting room
+     * @param player the name with which the player wants to join the waiting room
      * @return false if name is taken
      *         true if name is not taken
      */
     @PostMapping(path = "/join")
-    public ResponseEntity<Boolean> playMulti(@RequestBody String name) {
-        Player player = new Player(name, 0);
-        if(waitingPlayers.contains(player)) return ResponseEntity.ok(false);
+    public ResponseEntity<Boolean> playMulti(@RequestBody Player player) {
+        //Player player = new Player(name, 0);
+        for (Player p : waitingPlayers) {
+            if (p.getPlayerName().equals(player.getPlayerName())) {
+                return ResponseEntity.ok(false);
+            }
+        }
         waitingPlayers.add(player);
-        System.out.println("added " + name + " to the waiting room");
+        System.out.println("added " + player.getPlayerName() + "to the waiting room");
         return ResponseEntity.ok(true);
     }
 
@@ -65,25 +82,28 @@ public class PreGameController extends BaseController {
     @GetMapping(path = "/start")
     public Long startMultiplayerGame() {
         Game game = new Game();
-        game.getPlayers().addAll(waitingPlayers);
+        for (Player p : waitingPlayers) {
+            game.addAPlayer(p);
+        }
         waitingPlayers.clear();
         for (int i = 0; i < totalQuestions; i++) {
-            game.getQuestionTypes().put(i, (int) (Math.random() * 3));
-            game.getActivities().put(i, activityService.get3Activities());
+            game.getQuestionTypes().put(i, (int) (Math.random() * 4));
+            game.getActivities().put(i, activityService.get4Activities());
         }
         ongoingGames.put(game.getGameId(), game);
         return game.getGameId();
     }
 
-    @GetMapping(path = "/start/single") //this should ONLY be called by singleplayer!
-    public ResponseEntity<Boolean> startSinglePLayerGame() {
+    @PostMapping(path = "/start/single") //this should ONLY be called by singleplayer!
+    public ResponseEntity<Long> startSinglePLayerGame(@RequestBody Player player) {
         Game game = new Game();
+        game.addAPlayer(player);
         for (int i = 0; i < totalQuestions; i++) {
-            game.getQuestionTypes().put(i, (int) (Math.random() * 3));
-            game.getActivities().put(i, activityService.get3Activities());
+            game.getQuestionTypes().put(i, (int) (Math.random() * 4));
+            game.getActivities().put(i, activityService.get4Activities());
         }
         ongoingGames.put(game.getGameId(), game);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(game.getGameId());
     }
 
     @PostMapping(path = "/getQuestionType")
@@ -94,8 +114,8 @@ public class PreGameController extends BaseController {
         return ResponseEntity.ok(questionType);
     }
 
-    @PostMapping(path = "/get3Activities")
-    public ResponseEntity<ActivityList> get3Activities(@RequestBody ClientInfo clientInfo) {
+    @PostMapping(path = "/get4Activities")
+    public ResponseEntity<ActivityList> get4Activities(@RequestBody ClientInfo clientInfo) {
         int currentQuestion = clientInfo.getCurrentQuestion();
         Long gameID = clientInfo.getGameID();
         List<Activity> activities = ongoingGames.get(gameID).getActivities().get(currentQuestion);
@@ -109,6 +129,24 @@ public class PreGameController extends BaseController {
         Long gameID = clientInfo.getGameID();
         Activity activity = ongoingGames.get(gameID).getActivities().get(currentQuestion).get(0);
         return ResponseEntity.ok(activity);
+    }
+
+    @PostMapping(path = "/getPlayers")
+    public ResponseEntity<PlayerList> getPlayers(@RequestBody ClientInfo clientInfo) {
+        Long gameID = clientInfo.getGameID();
+        Game currentGame = ongoingGames.get(gameID);
+        List<Player> listOfPlayers = currentGame.getPlayers();
+        PlayerList playerList = new PlayerList(listOfPlayers);
+        return ResponseEntity.ok(playerList);
+    }
+
+    @PostMapping(path = "/updateScore")
+    public ResponseEntity<Boolean> updateScore(@RequestBody ClientInfo clientInfo) {
+        Player player = clientInfo.getPlayer();
+        Long gameID = clientInfo.getGameID();
+        Game currentGame = ongoingGames.get(gameID);
+        currentGame.updateScore(player);
+        return ResponseEntity.ok(true);
     }
 
     /**
@@ -145,7 +183,7 @@ public class PreGameController extends BaseController {
         pollThreads.execute(() -> {
             while(waitingPlayers.equals(clientPlayers)){
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

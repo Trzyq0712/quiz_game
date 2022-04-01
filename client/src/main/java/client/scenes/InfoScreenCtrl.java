@@ -29,7 +29,8 @@ public class InfoScreenCtrl extends BaseCtrl {
     }
 
     public void setTimeExplainer() {
-        timeExplainer.setText(String.format("Reduces opponents\ntime by %d%%", Config.timeReductionPercentage));
+        timeExplainer.setText(
+                String.format("Reduces opponents\ntime by %d%%", (int)(Config.timeReductionPercentage * 100)));
     }
 
     public void setDoublePointsExplainerExplainer() {

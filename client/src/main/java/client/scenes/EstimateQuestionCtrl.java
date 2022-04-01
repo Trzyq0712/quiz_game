@@ -4,6 +4,7 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
+import commons.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -86,6 +87,9 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
                     doublePointsActive = false;
                 }
                 gameUtils.getPlayer().addPoints(points);
+                Long gameID = gameUtils.getGameID();
+                Player player = gameUtils.getPlayer();
+                server.updateScore(gameID, player);
             }
         } catch (Exception e) {
             errorLabel.setText("Please type a number");

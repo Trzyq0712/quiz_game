@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Config;
 import commons.Player;
+import jakarta.ws.rs.ProcessingException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,12 +39,15 @@ public class NamePromptCtrl extends BaseCtrl {
      */
     public void startSinglePlayer() {
         utils.playButtonSound();
-        if (checkName(nameField, errorLabel) && server.startSingle(nameField.getText())) {
-            Player player = new Player(nameField.getText());
+        String name = nameField.getText();
+        Player player = server.generatePlayer(name);
+        if (checkName(nameField, errorLabel) && server.startSingle(player)) {
+            //Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
-            gameUtils.requestGameID();
+            //gameUtils.requestGameID();
             client.utils.Config.playerName = nameField.getText();
-            server.start();
+            Long gameID = server.start(player);
+            this.gameUtils.setGameID(gameID);
             mainCtrl.showQuestion();
         }
     }
@@ -91,8 +95,9 @@ public class NamePromptCtrl extends BaseCtrl {
 
     public void enterWaitingRoom() {
         if (checkName(nameField, errorLabel)) {
-            Player player = new Player(nameField.getText());
-            if (server.enterWaitingRoom(nameField.getText())) {
+            String name = nameField.getText();
+            Player player = server.generatePlayer(name); //new Player(nameField.getText());
+            if (server.enterWaitingRoom(player)) {
                 gameUtils.setPlayer(player);
                 mainCtrl.showWaitingRoom();
                 client.utils.Config.playerName = nameField.getText();
@@ -120,6 +125,19 @@ public class NamePromptCtrl extends BaseCtrl {
             mainCtrl.activateMultiplayer();
             enterWaitingRoom();
         }
+    }
+
+    @FXML
+    private void testConnection() throws InterruptedException {
+        utils.playButtonSound();
+        ServerUtils.setSERVER(serverField.getText());
+        try {
+            server.ping();
+            utils.addNotification("connection successful", "green");
+        } catch (ProcessingException e) {
+            utils.addNotification("connection failed", "red");
+        }
+
     }
 
 }

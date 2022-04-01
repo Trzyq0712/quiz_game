@@ -51,12 +51,20 @@ public class ServerUtils {
                 .get(new GenericType<Long>() {});
     }
 
-    public boolean start() {
+    public String ping() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/connection/ping") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<String>() {});
+    }
+
+    public Long start(Player player) {
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path("api/play/start/single") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<Boolean>() {});
+                .post(Entity.entity(player, APPLICATION_JSON), Long.class);
     }
 
 
@@ -68,9 +76,9 @@ public class ServerUtils {
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Integer.class);
     }
 
-    public ActivityList get3Activities(int currentQuestion, Long gameID) {
+    public ActivityList get4Activities(int currentQuestion, Long gameID) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/play/get3Activities") //
+                .target(SERVER).path("/api/play/get4Activities") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), ActivityList.class);
@@ -84,32 +92,72 @@ public class ServerUtils {
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Activity.class);
     }
 
+    public Boolean updateScore(Long gameID, Player player) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/updateScore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(gameID, player), APPLICATION_JSON), Boolean.class);
+    }
+
+    public PlayerList getPlayers(Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/getPlayers") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(gameID), APPLICATION_JSON), PlayerList.class);
+    }
+
+    public Player generatePlayer(String name) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/playerscore/generatePlayer") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(name, APPLICATION_JSON), Player.class);
+    }
+
+    /*public void startMultiplayer() {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/startMultiplayer") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .get(new GenericType<>() {});
+    }*/
+
+    /*public Integer getTypeOfQuestion(int round){
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/activity/getQuestion") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(round, APPLICATION_JSON), Integer.class);
+    }*/
+
     /**
-     * @param name the name with which the player wants to play singleplayer
+     * @param player the name with which the player wants to play singleplayer
      * @return true if the server accepts
      */
-    public boolean startSingle(String name) {
-        return askConfirmation("api/play/single", name);
+    public boolean startSingle(Player player) {
+        return askConfirmation("api/play/single", player);
     }
 
     /**
-     * @param name the name with which the player wants to join the waiting room
+     * @param player the name with which the player wants to join the waiting room
      * @return true if the server accepts
      */
-    public boolean enterWaitingRoom(String name) {
-        return askConfirmation("api/play/join", name);
+    public boolean enterWaitingRoom(Player player) {
+        return askConfirmation("api/play/join", player);
     }
 
     /**
      * @param path where to send the request
      * @return true if request is ok
      */
-    public boolean askConfirmation(String path, String name){
+    public boolean askConfirmation(String path, Player player){
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path(path) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(name, APPLICATION_JSON), Boolean.class);
+                .post(Entity.entity(player, APPLICATION_JSON), Boolean.class);
     }
 
     /**

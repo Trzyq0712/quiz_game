@@ -202,12 +202,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         long i = 0;
         long buttonNb = 0;
         for (Button b : listOfButtons) {
+            i++;
             if (!b.getId().equals(activated.getId())) {
                 b.setVisible(false);
             } else{
                 buttonNb=i;
             }
-            i++;
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
         hasPlayerAnswered = true;

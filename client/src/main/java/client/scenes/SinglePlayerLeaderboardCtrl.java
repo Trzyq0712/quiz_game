@@ -85,12 +85,16 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         }
         data = FXCollections.observableList(players);
         table.setItems(data);
+        System.out.println(players);
     }
 
     public void indicatePlayerRanking(){
         Player currentPlayer = gameUtils.getPlayer();
+        System.out.println(currentPlayer);
         int ranking = players.indexOf(currentPlayer)+1;
-        rankInfo.setText("you are n°"+ranking+"!");
+        rankInfo.setText("you are number "+ranking+"!");
+        System.out.println("hello");
+        System.out.println(ranking);
         rankInfo.setVisible(true);
     }
 

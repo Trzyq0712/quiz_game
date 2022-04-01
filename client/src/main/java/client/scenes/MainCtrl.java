@@ -366,9 +366,6 @@ public class MainCtrl {
         primaryStage.setScene(waitingRoomScene);
     }
 
-    public void refresh() {
-        singlePlayerLeaderboardCtrl.refresh();
-    }
 
     /**
      * Resets the question to 0 and makes jokers and answers visible again.

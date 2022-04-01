@@ -128,6 +128,7 @@ public class NamePromptCtrl extends BaseCtrl {
 
     @FXML
     private void testConnection() throws InterruptedException {
+        utils.playButtonSound();
         ServerUtils.setSERVER(serverField.getText());
         try {
             server.ping();

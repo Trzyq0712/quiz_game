@@ -12,11 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.lang.reflect.InvocationTargetException;
-import java.net.ConnectException;
-
 import static commons.Config.*;
-import static client.utils.Config.*;
 
 
 public class NamePromptCtrl extends BaseCtrl {
@@ -136,8 +132,7 @@ public class NamePromptCtrl extends BaseCtrl {
         try {
             server.ping();
             utils.addNotification("connection successful", "green");
-        }
-        catch (ProcessingException e) {
+        } catch (ProcessingException e) {
             utils.addNotification("connection failed", "red");
         }
 

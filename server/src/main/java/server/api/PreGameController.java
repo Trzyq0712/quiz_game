@@ -22,6 +22,7 @@ import static commons.Config.*;
 @RequestMapping("/api/play")
 public class PreGameController extends BaseController {
 
+
     //private Long gameID = 0L;
     private List<Player> waitingPlayers;
     private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
@@ -32,6 +33,18 @@ public class PreGameController extends BaseController {
         super(activityService);
         waitingPlayers = new ArrayList<>();
         ongoingGames = new HashMap<>();
+    }
+
+    public List<Player> getWaitingPlayers() {
+        return waitingPlayers;
+    }
+
+    public ExecutorService getPollThreads() {
+        return pollThreads;
+    }
+
+    public HashMap<Long, Game> getOngoingGames() {
+        return ongoingGames;
     }
 
     /**

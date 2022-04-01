@@ -1,14 +1,10 @@
 package server.api;
 
-import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.ActivityService;
-import server.Game;
 import server.MockActivityRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

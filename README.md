@@ -21,6 +21,35 @@ Add your own name (do not add the names for others!) to the section below.
 
 ## How to run it
 
+This tutorial assumes you've cloned this repo to a local folder.
+
+1. Open the project in Intellij.
+2. Navigate to server/src/main/java/server/Main.java and setup JDK.
+3. Click 'Add Configuration' (located top right to the right of the green hammer icon)
+4. Click 'Add New Configuration' (the '+' sign top left)
+5. Set the name to Main and Main class to server.Main
+6. Click OK.
+7. Now you can start the server with the green play button.
+
+Adding activities
+1. Navigate to repository-template/helper-scripts and open your terminal in that directory.
+2. Copy the absolute path of the activities.json file, it can be found in server/src/main/resources/activities.json
+3. Execute the following command in your terminal:
+python3 add_activities.py "C:\Users\YourPath\activities.json"
+4. You should see a bunch of <Response [200]> printing to your terminal, once this finishes the database 
+has been populated with activities
+
+Running the client
+1. Click on the Gradle logo located on the right.
+2. Navigate to quizzzz/client/Tasks/application
+3. Once here, double click run, this will load the client.
+
+
+ 
+
+Running the client
+1. 
+
 ## How to contribute to it
 
 ## Copyright / License (opt.)

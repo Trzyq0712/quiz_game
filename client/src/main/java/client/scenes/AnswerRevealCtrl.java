@@ -107,7 +107,8 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
     public void emote(Event e) {
         utils.playButtonSound();
-        String path = ((ImageView) e.getSource()).getImage().getUrl();
+        String url = ((ImageView) e.getSource()).getImage().getUrl();
+        String path = ServerUtils.SERVER + "emotes" + url.substring(url.lastIndexOf('/'));
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }

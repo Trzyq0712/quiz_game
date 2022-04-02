@@ -44,6 +44,11 @@ Running the client
 2. Navigate to quizzzz/client/Tasks/application
 3. Once here, double click run, this will load the client.
 
+Issues for laptop users:
+The application is bigger than your screen?
+This could be caused by your laptop having the setting to zoom applications to 125%.
+This can be fixed by going to your settings on Windows and setting this to 100%.
+
 
  
 

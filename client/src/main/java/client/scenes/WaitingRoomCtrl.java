@@ -3,8 +3,6 @@ package client.scenes;
 import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Emote;
 import commons.Player;
@@ -73,12 +71,9 @@ public class WaitingRoomCtrl extends BaseCtrl {
         loadPlayerGrid(playerList);
         pollingThread = new Thread(() -> {
             threadRun = true;
-            ObjectMapper mapper = new ObjectMapper();
             while (threadRun) {
                 try {
-                    playerList = mapper.convertValue(server.pollWaitingroom(playerList),
-                            new TypeReference<List<Player>>() {
-                            });
+                    playerList = server.pollWaitingroom();
                     if (threadRun) {
                         Platform.runLater(() -> loadPlayerGrid(playerList));
                     }

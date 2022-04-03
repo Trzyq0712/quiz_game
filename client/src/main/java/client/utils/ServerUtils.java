@@ -150,15 +150,14 @@ public class ServerUtils {
     }
 
     /**
-     * @param players is the list of the visible players for the client
      * @return the updated list of the players when something has changed
      */
-    public List<Player> pollWaitingroom(List<Player> players) {
+    public List<Player> pollWaitingroom() {
         return ClientBuilder.newClient(new ClientConfig()) //F
                 .target(SERVER).path("api/play/waitingroom/poll") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(players, APPLICATION_JSON), List.class);
+                .get(new GenericType<List<Player>>() {});
     }
 
     /**

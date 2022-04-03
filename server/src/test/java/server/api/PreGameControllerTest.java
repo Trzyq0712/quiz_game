@@ -4,13 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.http.ResponseEntity;
 import server.ActivityService;
 import server.MockActivityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import static commons.Config.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +19,7 @@ class PreGameControllerTest {
     Player p1;
     Player p2;
     List<Player> playerList;
-    DeferredResult<List<Player>> updatedList;
+    ResponseEntity<List<Player>> updatedList;
     ObjectMapper mapper;
     private ActivityService sut2;
     private MockActivityRepository repo;
@@ -33,7 +32,7 @@ class PreGameControllerTest {
         p1 = new Player("Reinier", 0);
         p2 = new Player("Mana", 0);
         playerList = new ArrayList<>();
-        updatedList = sut.updates(playerList);
+        updatedList = sut.updates();
         mapper = new ObjectMapper();
     }
     @Test

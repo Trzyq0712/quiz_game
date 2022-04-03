@@ -6,10 +6,14 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Config;
 import commons.Player;
+import jakarta.ws.rs.ProcessingException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.io.File;
+import java.util.Scanner;
 
 import static commons.Config.*;
 
@@ -38,24 +42,49 @@ public class NamePromptCtrl extends BaseCtrl {
      */
     public void startSinglePlayer() {
         utils.playButtonSound();
-        if (checkName(nameField, errorLabel) && server.startSingle(nameField.getText())) {
-            Player player = new Player(nameField.getText());
+        String name = nameField.getText();
+        Player player = server.generatePlayer(name);
+        if (checkName(nameField, errorLabel) && server.startSingle(player)) {
+            //Player player = new Player(nameField.getText());
             gameUtils.setPlayer(player);
-            gameUtils.requestGameID();
-            server.start();
-            //gameUtils.startTimer();
+            //gameUtils.requestGameID();
+            client.utils.Config.playerName = nameField.getText();
+            Long gameID = server.start(player);
+            this.gameUtils.setGameID(gameID);
             mainCtrl.showQuestion();
         }
     }
 
     /**
-     * mane the nameField prompt display this
+     * make the server field prompt display the default server example
+     * the player name display the old player name if there was one saved
+     * if not then empty field with the prompt text
+     * set focus makes it so nameField is not clicked on when loaded for the prompt to display
      */
     public void setUp() {
         nameField.clear();
-        nameField.setPromptText("Enter your name...");
         serverField.setText(Config.server);
         errorLabel.setVisible(false);
+        nameField.setPromptText("Enter your name...");
+        if (client.utils.Config.playerName == null) loadSavedName();
+        nameField.setText(client.utils.Config.playerName);
+        nameField.setFocusTraversable(false);
+    }
+
+    /**
+     * Sets the old player name if there is one
+     * If not then makes it empty
+     */
+    private void loadSavedName() {
+        try {
+            Scanner sc = new Scanner(new File(client.utils.Config.nameFile));
+            if (sc.hasNext()) client.utils.Config.playerName = sc.next();
+            else client.utils.Config.playerName = "";
+            sc.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+            client.utils.Config.playerName = "";
+        }
     }
 
     /**
@@ -91,18 +120,18 @@ public class NamePromptCtrl extends BaseCtrl {
 
     public void enterWaitingRoom() {
         if (checkName(nameField, errorLabel)) {
-            Player player = new Player(nameField.getText());
-            if (server.enterWaitingRoom(nameField.getText())) {
+            String name = nameField.getText();
+            Player player = server.generatePlayer(name); //new Player(nameField.getText());
+            if (server.enterWaitingRoom(player)) {
                 gameUtils.setPlayer(player);
-                gameUtils.requestGameID();
                 mainCtrl.showWaitingRoom();
+                client.utils.Config.playerName = nameField.getText();
+            } else {
+                errorLabel.setText("Name is taken!");
+                errorLabel.setVisible(true);
             }
-        } else {
-            errorLabel.setText("Name is taken!");
-            errorLabel.setVisible(true);
         }
     }
-
 
     /**
      * when the player clicks the button, we have to check if the player is in single- or multiplayer
@@ -111,7 +140,7 @@ public class NamePromptCtrl extends BaseCtrl {
     @FXML
     private void confirm() {
         utils.playButtonSound();
-        ServerUtils.SERVER = serverField.getText(); //sets the server to the user input
+        ServerUtils.setSERVER(serverField.getText()); //sets the server to the user input
         gameUtils.resetGame();
         if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
             mainCtrl.activateSingleplayer();
@@ -120,6 +149,20 @@ public class NamePromptCtrl extends BaseCtrl {
             mainCtrl.activateMultiplayer();
             enterWaitingRoom();
         }
+        client.utils.Config.playerName = nameField.getText();
+    }
+
+    @FXML
+    private void testConnection() throws InterruptedException {
+        utils.playButtonSound();
+        ServerUtils.setSERVER(serverField.getText());
+        try {
+            server.ping();
+            utils.addNotification("connection successful", "green");
+        } catch (ProcessingException e) {
+            utils.addNotification("connection failed", "red");
+        }
+
     }
 
 }

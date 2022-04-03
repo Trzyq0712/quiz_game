@@ -15,23 +15,27 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
  */
 @Table
 @Entity
-public class Player {
+public class Player implements Comparable<Player> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Transient
-    private int rank;
-
     private String playerName;
     private Integer score;
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp time;
+
+    public static Long playerID = 0L;
+
+    @Transient
+    private int rank;
 
     @SuppressWarnings("unused")
     private Player() {
         // for object mapper
+        //generateId();
+        this.id = new Long(playerID);
+        playerID++;
     }
 
     /**
@@ -43,12 +47,21 @@ public class Player {
     public Player(String playerName, int score) {
         this.playerName = playerName;
         this.score = score;
+        this.id = new Long(playerID);
+        playerID++;
     }
 
     public Player(String playerName) {
         this.playerName = playerName;
         this.score = 0;
+        this.id = new Long(playerID);
+        playerID++;
     }
+
+    /*public void generateId() {
+        this.id = new Long(playerID);
+        playerID++;
+    }*/
 
     /**
      * Updating the score by adding points to it.
@@ -113,6 +126,15 @@ public class Player {
         return time;
     }
 
+    /**
+     * Setter for time the player's score was achieved.
+     *
+     * @param time The new time to set.
+     */
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
     public int getRank() {
         return rank;
     }
@@ -153,5 +175,10 @@ public class Player {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        return o.getScore() - this.getScore();
     }
 }

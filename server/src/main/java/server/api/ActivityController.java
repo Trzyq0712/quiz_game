@@ -57,12 +57,12 @@ public class ActivityController extends BaseController {
     }
 
     /**
-     * Endpoint for getting 3 activities
+     * Endpoint for getting 4 activities
      *
-     * @return The list containing 3 activities
+     * @return The list containing 4 activities
      */
-    @GetMapping(path = "3")
-    public ResponseEntity<List<Activity>> get3Activities(){
+    @GetMapping(path = "4")
+    public ResponseEntity<List<Activity>> get4Activities(){
          return ResponseEntity.ok(currentListOfActivities);
     }
 
@@ -70,9 +70,9 @@ public class ActivityController extends BaseController {
     @PostMapping(path = "getQuestion")
     public ResponseEntity<Integer> getQuestionType(@RequestBody int round) {
         if (currentRound == -1 || round == currentRound + 1) {//either the first request or a request for a new round
-            currentQuestionType = (int)(Math.random()*3);
+            currentQuestionType = (int)(Math.random()*4);
             currentRound = round;
-            currentListOfActivities = activityService.get3Activities();
+            currentListOfActivities = activityService.get4Activities();
         }
         return ResponseEntity.ok(currentQuestionType);
     }

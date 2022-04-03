@@ -1,10 +1,12 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.Config;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Emote;
+import commons.NotificationMessage;
 import commons.Player;
 import jakarta.ws.rs.ServiceUnavailableException;
 import javafx.application.Platform;
@@ -18,7 +20,7 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
-    static Boolean threadRun;
+    public static Boolean threadRun;
     public StompSession.Subscription waitingroom;
     Thread pollingThread;
     @FXML
@@ -33,15 +35,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
     @FXML
     private void startMultiplayer() {
-        threadRun = false;
-        /*leaveWaitingRoom(gameUtils.getPlayer());*/ /*line 42 causes all clients to leave already, aren't we
-        leaving twice now?*/
-        //server.start();
         server.send("/app/waitingroom/start", true);
-        //mainCtrl.showQuestion();
-        utils.playButtonSound();
-        restoreChat();
-
     }
 
     /**
@@ -69,6 +63,8 @@ public class WaitingRoomCtrl extends BaseCtrl {
     public void setUp() {
         playerList = server.getWaitingPlayers();
         loadPlayerGrid(playerList);
+        Config.isWaiting = true;
+        server.connect();
         pollingThread = new Thread(() -> {
             threadRun = true;
             while (threadRun) {
@@ -84,21 +80,23 @@ public class WaitingRoomCtrl extends BaseCtrl {
         });
         pollingThread.start();
 
-        server.registerForMessages("/topic/emote/1", Emote.class, e -> {
-            mainCtrl.emote(e.getPath(), e.getName());
-        });
-
-        waitingroom = server.registerForMessages("/topic/waitingroom/start", Boolean.class, b -> {
-            if (b) {
-                threadRun = false;
-                leaveWaitingRoom(gameUtils.getPlayer());
-                Platform.runLater(() -> {
-                    mainCtrl.showQuestion();
-                    utils.playButtonSound();
-                });
-                //restoreChat(); this should be done in gameUtils class
-                server.unsubscribe(waitingroom);
-            }
+        waitingroom = server.registerForMessages("/topic/waitingroom/start", Integer.class, l -> {
+            threadRun = false;
+            Config.isWaiting = false;
+            gameUtils.setGameID((long)l);
+            server.registerForMessages("/topic/leave/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
+                utils.addNotification(e.getMessage(), "red");
+            });
+            server.registerForMessages("/topic/emote/" + gameUtils.getGameID(), Emote.class, e -> {
+                mainCtrl.emote(e.getPath(), e.getName());
+            });
+            leaveWaitingRoom(gameUtils.getPlayer());
+            Platform.runLater(() -> {
+                mainCtrl.showQuestion();
+                utils.playButtonSound();
+            });
+            restoreChat();
+            server.unsubscribe(waitingroom);
         });
     }
 
@@ -121,6 +119,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
     @Override
     public void showHome() {
         threadRun = false;
+        Config.isWaiting = false;
         leaveWaitingRoom(gameUtils.getPlayer());
         super.showHome();
     }

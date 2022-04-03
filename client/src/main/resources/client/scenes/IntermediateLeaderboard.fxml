@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -43,9 +45,9 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
          </content>
       </ScrollPane>
-      <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="910.0" text="Question x/y" />
-      <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1450.0" layoutY="970.0" text="Score x/y" />
-      <StackPane fx:id="chatAndEmoteHolder" layoutX="56.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="288.0">
+      <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="900.0" text="Question x/y" />
+      <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1450.0" layoutY="960.0" text="Score x/y" />
+      <StackPane fx:id="chatAndEmoteHolder" layoutX="50.0" layoutY="275.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="288.0">
          <children>
             <VBox id="chatbox1" fx:id="chatbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="311.0" prefWidth="288.0">
                <StackPane.margin>
@@ -103,9 +105,9 @@
             </StackPane>
          </children>
       </StackPane>
-      <StackPane layoutX="44.0" layoutY="827.0" prefHeight="223.0" prefWidth="313.0">
+      <StackPane layoutX="50.0" layoutY="830.0" prefHeight="223.0" prefWidth="313.0">
          <children>
-            <VBox fx:id="notificationBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="293.0">
+            <VBox fx:id="notificationBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="400.0">
                <StackPane.margin>
                   <Insets top="45.0" />
                </StackPane.margin>
@@ -117,5 +119,12 @@
             </Label>
          </children>
       </StackPane>
+      <TableView fx:id="table" layoutX="484.0" layoutY="265.0" prefHeight="538.0" prefWidth="942.0">
+         <columns>
+            <TableColumn fx:id="rank" prefWidth="206.0" text="Rank n°" />
+            <TableColumn fx:id="player" prefWidth="353.0" text="Player's name" />
+            <TableColumn fx:id="score" prefWidth="380.0" text="Score" />
+         </columns>
+      </TableView>
          </children>
 </AnchorPane>

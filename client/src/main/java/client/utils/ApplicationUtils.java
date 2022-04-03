@@ -1,29 +1,27 @@
 package client.utils;
 
 
-import static commons.Config.*;
-import static client.utils.Config.*;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.application.Platform;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static client.utils.Config.*;
+import static commons.Config.maxAmountOfNotifications;
 
 
 /**
@@ -37,7 +35,11 @@ public class ApplicationUtils {
     private final List<ImageView> musicToggles = new ArrayList<>();
     private final List<VBox> notificationsBoxes = new ArrayList<>();
     private final AudioClip buttonClickSound = new AudioClip(Config.buttonClickSound);
+    private long startTime;
+    private long runTime;
+    private long reducedTime;
     private Timer timer;
+    private SimpleDoubleProperty progress;
 
 
     public ApplicationUtils() {
@@ -45,43 +47,60 @@ public class ApplicationUtils {
         musicPlayer.setOnEndOfMedia(() -> musicPlayer.seek(Duration.ZERO));
     }
 
+    /**
+     * A method for starting a progress bar with a countdown.
+     * After the time runs out the callback function is executed.
+     *
+     * @param progressBar The progress bar that is to be modified.
+     * @param runTime     Time given in milliseconds. Defines how long the progress bar should run for.
+     * @param callback    The function to be executed after the progress bar runs out i.e. the runTime time passes.
+     */
     public void runProgressBar(ProgressBar progressBar, long runTime, Runnable callback) {
-        List<Pair<Double, String>> updates = List.of(
-                new Pair<>(0.0, "green"), new Pair<>(0.5, "orange"), new Pair<>(0.75, "red"));
-
-        progressBar.setProgress(1.0);
-        timer = new Timer();
-        int steps = 200;
-
-        for (var update : updates) {
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> progressBar.setStyle("-fx-accent: " + update.getValue()));
-                }
-            }, (long)(update.getKey() * runTime));
-        }
-
-        TimerTask updateProgressBar = new TimerTask() {
-            @Override
-            public void run() {
-                double progress = progressBar.getProgress();
-                Platform.runLater(() -> progressBar.setProgress(progress - 1.0 / (double)steps));
+        this.startTime = System.currentTimeMillis();
+        this.runTime = runTime;
+        this.reducedTime = 0;
+        progressBar.progressProperty().unbind();
+        progress = new SimpleDoubleProperty(1.0);
+        progress.addListener((observable, oldValue, newValue) -> {
+            double val = newValue.doubleValue();
+            if (val < 0) {
+                Platform.runLater(callback::run);
+                cancelProgressBar();
+            } else if (val < 0.25) {
+                Platform.runLater(() -> progressBar.setStyle("-fx-accent: red"));
+            } else if (val < 0.5) {
+                Platform.runLater(() -> progressBar.setStyle("-fx-accent: orange"));
+            } else {
+                Platform.runLater(() -> progressBar.setStyle("-fx-accent: green"));
             }
-        };
-
-        timer.schedule(updateProgressBar, 20, runTime / steps);
+        });
+        progressBar.progressProperty().bind(progress);
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                timer.cancel();
-                Platform.runLater(callback::run);
+                long timePassed = System.currentTimeMillis() - startTime + reducedTime;
+                Platform.runLater(() -> progress.set(1.0 - (double) timePassed / (double) runTime));
             }
-        }, runTime);
+        }, 0, 20);
     }
 
+    /**
+     * Cancel the currently executing progress bar by interrupting the thread responsible for setting the progress.
+     */
     public void cancelProgressBar() {
         if (timer != null) timer.cancel();
+        reducedTime = 0;
+    }
+
+    /**
+     * Reduce the progress bar runtime by adding to the total reduced time.
+     *
+     * @param reductionFactor The reduction factor i.e. 0.2 would mean the remaining time is reduced by 20%.
+     */
+    public void reduceTime(double reductionFactor) {
+        long remainingTime = runTime - (System.currentTimeMillis() - startTime);
+        reducedTime += (long) ((double) remainingTime * reductionFactor);
     }
 
     /**
@@ -99,6 +118,7 @@ public class ApplicationUtils {
 
     /**
      * Register a music indicators for changes when sound is being toggled.
+     *
      * @param iv The ImageView which should be registered for changes. The image will change between an on and off.
      */
     public void registerMusicToggle(ImageView iv) {
@@ -107,6 +127,7 @@ public class ApplicationUtils {
 
     /**
      * Adds the notification box of the inheriting controller to the list of all notification boxes.
+     *
      * @param notificationBox Notification box to be registered, so notifications can be added later.
      */
 
@@ -120,7 +141,7 @@ public class ApplicationUtils {
                 Platform.runLater(() -> {
                     HBox hbox = new HBox();
                     Label notification = new Label("  " + message);
-                    notification.setId(color);
+                    notification.setStyle(notificationStyle + color);
                     hbox.getChildren().addAll(notification);
                     hbox.setAlignment(Pos.CENTER_LEFT);
                     if (notificationBox.getChildren().size() >= maxAmountOfNotifications) {

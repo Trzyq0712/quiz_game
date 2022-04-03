@@ -4,6 +4,7 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
+import commons.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -49,6 +50,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
+        answer = activity.getEnergyConsumption();
         displayActivity();
         setHasPlayerAnswered(false);
     }
@@ -70,7 +72,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         int points = 0;
         try {
             double start = 0;
-            double center = activity.getEnergyConsumption();
+            double center = answer;
             double end = 2 * center;
             double guess = Double.parseDouble(textField.getText());
             submitButton.setVisible(false);
@@ -85,6 +87,9 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
                     doublePointsActive = false;
                 }
                 gameUtils.getPlayer().addPoints(points);
+                Long gameID = gameUtils.getGameID();
+                Player player = gameUtils.getPlayer();
+                server.updateScore(gameID, player);
             }
         } catch (Exception e) {
             errorLabel.setText("Please type a number");
@@ -103,7 +108,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     public double easeOutSinusoidal(double fraction) {
         return Math.sin(0.5 * fraction * Math.PI);
     }
-
 
     public void restoreSubmit() {
         submitButton.setVisible(true);

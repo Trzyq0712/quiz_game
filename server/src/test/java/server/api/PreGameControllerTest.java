@@ -1,6 +1,7 @@
 package server.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import commons.ClientInfo;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +14,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class PreGameControllerTest {
 
-    PreGameController sut;
+    PreGameController preGameController;
     Player p1;
     Player p2;
     List<Player> playerList;
@@ -23,28 +25,90 @@ class PreGameControllerTest {
     ObjectMapper mapper;
     private ActivityService sut2;
     private MockActivityRepository repo;
+    Long gameID;
+    ClientInfo clientInfo;
 
     @BeforeEach
     public void setup() {
         repo = new MockActivityRepository();
         sut2 = new ActivityService(repo);
-        sut = new PreGameController(sut2);
+        preGameController = new PreGameController(sut2);
         p1 = new Player("Reinier", 0);
         p2 = new Player("Mana", 0);
         playerList = new ArrayList<>();
-        //updatedList = sut.updates();
+        updatedList = preGameController.updates(playerList);
         mapper = new ObjectMapper();
-    }
-    @Test
-    void playSingleTest() {
-        assertTrue(sut.playSingle(p1.getPlayerName()).getBody());
+        gameID = 22L;
+        clientInfo = new ClientInfo(gameID, p1);
     }
 
     @Test
-    void playMultiNameNotTakenTest() {
-        assertTrue(sut.playMulti(p1.getPlayerName()).getBody());
-        assertTrue(sut.playMulti(p2.getPlayerName()).getBody());
+    void testSingle() {
+        assertTrue(preGameController.playSingle(p1).getBody());
     }
+
+    @Test
+    void testJoin() {
+        preGameController.playMulti(p1);
+        preGameController.playMulti(p2);
+        List<Player> expected = List.of(p1, p2);
+        assertEquals(expected, preGameController.getWaitingPlayers());
+    }
+
+    @Test
+    void testJoin2() {
+        preGameController.playMulti(p1);
+        preGameController.playMulti(p2);
+        List<Player> expected = List.of(p1, p2);
+        assertTrue(preGameController.playMulti(new Player("Jake", 2)).getBody());
+    }
+
+    @Test
+    void testJoin3() {
+        preGameController.playMulti(p1);
+        preGameController.playMulti(p2);
+        List<Player> expected = List.of(p1, p2);
+        assertFalse(preGameController.playMulti(p1).getBody());
+    }
+
+    /*@Test //not possible to test this properly?
+    void testGetGameID() {
+        var actual = preGameController.supplyGameID();
+        var expected = 0L;
+        assertEquals(expected, actual.getBody());
+    }
+
+    @Test
+    void testGetGameID2() {
+        var actual = preGameController.supplyGameID();
+        var expected = 0L;
+        assertEquals(expected, actual.getBody());
+    }*/
+
+    /*@Test
+    void testStartMultiplayerGame() {
+        var actual = preGameController.startMultiplayerGame();
+        var expected = 0L;
+        assertEquals(expected, actual);
+    }*/
+
+
+    @Test
+    void testGetWaitingroom() {
+        preGameController.playMulti(p1);
+        preGameController.playMulti(p2);
+        var actual = preGameController.getWaitingroom();
+        List<Player> expected = List.of(p1, p2);
+        assertEquals(expected, actual.getBody());
+    }
+
+
+    @Test
+    void updateScore() {
+        //preGameController.updateScore(clientInfo);
+        assertTrue(true);
+    }
+
 
     /*@Test
     void playMultiNameTakenTest() {

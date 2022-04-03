@@ -5,6 +5,7 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Answer;
 import commons.Emote;
+import commons.Player;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,6 +24,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     protected boolean doublePoints;
     protected int answerButtonId;
+    protected long answer;
     protected boolean hasPlayerAnswered;
     @FXML
     ImageView hintJoker;
@@ -104,16 +106,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     }
 
     /**
-     * Goes to the home screen
-     */
-    public void showHome() {
-        server.disconnect();
-        mainCtrl.showHome();
-        restoreAnswers();
-        restoreJokers();
-    }
-
-    /**
      * @param answer - answer the player submitted,
      *               button the player clicked on
      */
@@ -128,6 +120,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.setAnswersForAnswerReveal(earnedPoints, false);
         setHasPlayerAnswered(true);
         gameUtils.getPlayer().addPoints(earnedPoints);
+        Long gameID = gameUtils.getGameID();
+        Player player = gameUtils.getPlayer();
+        server.updateScore(gameID, player);
     }
 
     /**
@@ -136,7 +131,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     private void timeClick() {
         utils.playButtonSound();
-        timeJoker.setVisible(false);
+        mainCtrl.visibilityTimeJoker(false);
     }
 
     /**
@@ -147,7 +142,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     public void emote(Event e) {
         String path = ((ImageView) e.getSource()).getImage().getUrl();
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
-        server.send("/app/emote/1", emote);
+        server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
     /**
@@ -157,7 +152,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     protected void pointsClick() {
         utils.playButtonSound();
-        pointsJoker.setVisible(false);
         mainCtrl.visibilityPointsJoker(false);
         if (hasPlayerAnswered) {
             gameUtils.getPlayer().addPoints(lastScoredPoints);
@@ -176,7 +170,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected void hintClick () {
         utils.playButtonSound();
         utils.addNotification("hint activated", "green");
-        hintJoker.setVisible(false);
+        mainCtrl.visibilityHintJoker(false);
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         List<Button> wrongButtons = new ArrayList<>();
         for (Button b : listOfButtons) {
@@ -186,6 +180,18 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         }
         int indexToBeRemoved = (int) (Math.random() * 2);
         wrongButtons.get(indexToBeRemoved).setVisible(false);
+    }
+
+    /**
+     * Gives a hint for the estimate question
+     * and disables the player to click on hint joker again
+     */
+    @FXML
+    protected void estimateHintClick () {
+        utils.playButtonSound();
+        mainCtrl.visibilityHintJoker(false);
+        int nbOfDigits = (answer+"").length(); //transform the long into a String
+        utils.addNotification("There are "+nbOfDigits+" digits in the answer","green");
     }
 
     /**

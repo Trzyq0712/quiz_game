@@ -62,10 +62,14 @@ public class AnswerRevealCtrl extends BaseCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
+    protected final SinglePlayerLeaderboardCtrl splCtrl;
+
     @Inject
 
-    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils,
+                            SinglePlayerLeaderboardCtrl splCtrl) {
         super(mainCtrl, utils, server, gameUtils);
+        this.splCtrl = splCtrl;
     }
 
     /**
@@ -76,13 +80,13 @@ public class AnswerRevealCtrl extends BaseCtrl {
             if (gameUtils.getCurrentQuestion() < totalQuestions) {
                 mainCtrl.restoreQuestions();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
-                    //gameUtils.startTimer();
                     mainCtrl.showQuestion();
                 } else mainCtrl.showIntermediateLeaderboard();
             } else {
                 mainCtrl.restore();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
                     server.addPlayerToSPLeaderboard(gameUtils.getPlayer());
+                    splCtrl.refresh();
                     mainCtrl.showSPLeaderboard();
                 } else
                     mainCtrl.showMPFinalLeaderboard();
@@ -102,9 +106,10 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
 
     public void emote(Event e) {
+        utils.playButtonSound();
         String path = ((ImageView) e.getSource()).getImage().getUrl();
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
-        server.send("/app/emote/1", emote);
+        server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
     /**

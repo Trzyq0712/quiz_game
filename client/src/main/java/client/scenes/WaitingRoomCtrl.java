@@ -89,8 +89,8 @@ public class WaitingRoomCtrl extends BaseCtrl {
             threadRun = false;
             Config.isWaiting = false;
             gameUtils.setGameID((long)l);
-            server.registerForMessages("/topic/leave/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
-                utils.addNotification(e.getMessage(), "red");
+            server.registerForMessages("/topic/notification/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
+                utils.addNotification(e.getMessage(),e.getMessage().contains("left")?"red":"yellow");
             });
             server.registerForMessages("/topic/emote/" + gameUtils.getGameID(), Emote.class, e -> {
                 mainCtrl.emote(e.getPath(), e.getName());

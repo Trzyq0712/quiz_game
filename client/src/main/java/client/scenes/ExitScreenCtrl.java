@@ -29,6 +29,7 @@ public class ExitScreenCtrl {
 
     public void quit() {
         utils.playButtonSound();
+        mainCtrl.beforeExit();
         Platform.exit();
     }
 

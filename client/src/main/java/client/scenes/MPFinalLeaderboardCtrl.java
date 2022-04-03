@@ -69,7 +69,8 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     @FXML
     private void emote(Event e){
         utils.playButtonSound();
-        String path = ((ImageView)e.getSource()).getImage().getUrl();
+        String url = ((ImageView) e.getSource()).getImage().getUrl();
+        String path = url.substring(url.lastIndexOf('/'));
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
         server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }

@@ -12,6 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.File;
+import java.util.Scanner;
+
 import static commons.Config.*;
 
 
@@ -53,13 +56,35 @@ public class NamePromptCtrl extends BaseCtrl {
     }
 
     /**
-     * mane the nameField prompt display this
+     * make the server field prompt display the default server example
+     * the player name display the old player name if there was one saved
+     * if not then empty field with the prompt text
+     * set focus makes it so nameField is not clicked on when loaded for the prompt to display
      */
     public void setUp() {
         nameField.clear();
-        nameField.setPromptText("Enter your name...");
         serverField.setText(Config.server);
         errorLabel.setVisible(false);
+        nameField.setPromptText("Enter your name...");
+        if (client.utils.Config.playerName == null) loadSavedName();
+        nameField.setText(client.utils.Config.playerName);
+        nameField.setFocusTraversable(false);
+    }
+
+    /**
+     * Sets the old player name if there is one
+     * If not then makes it empty
+     */
+    private void loadSavedName() {
+        try {
+            Scanner sc = new Scanner(new File(client.utils.Config.nameFile));
+            if (sc.hasNext()) client.utils.Config.playerName = sc.next();
+            else client.utils.Config.playerName = "";
+            sc.close();
+        } catch (Exception ex) {
+            System.out.println(ex);
+            client.utils.Config.playerName = "";
+        }
     }
 
     /**
@@ -108,7 +133,6 @@ public class NamePromptCtrl extends BaseCtrl {
         }
     }
 
-
     /**
      * when the player clicks the button, we have to check if the player is in single- or multiplayer
      * depending on this we call the appropriate function
@@ -125,6 +149,7 @@ public class NamePromptCtrl extends BaseCtrl {
             mainCtrl.activateMultiplayer();
             enterWaitingRoom();
         }
+        client.utils.Config.playerName = nameField.getText();
     }
 
     @FXML

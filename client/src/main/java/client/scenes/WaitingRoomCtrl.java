@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.Config;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,7 +22,7 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import java.util.List;
 
 public class WaitingRoomCtrl extends BaseCtrl {
-    static Boolean threadRun;
+    public static Boolean threadRun;
     public StompSession.Subscription waitingroom;
     Thread pollingThread;
     @FXML
@@ -64,6 +65,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
     public void setUp() {
         playerList = server.getWaitingPlayers();
         loadPlayerGrid(playerList);
+        Config.isWaiting = true;
         server.connect();
         pollingThread = new Thread(() -> {
             threadRun = true;
@@ -85,6 +87,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
 
         waitingroom = server.registerForMessages("/topic/waitingroom/start", Integer.class, l -> {
             threadRun = false;
+            Config.isWaiting = false;
             gameUtils.setGameID((long)l);
             server.registerForMessages("/topic/leave/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
                 utils.addNotification(e.getMessage(), "red");
@@ -121,6 +124,7 @@ public class WaitingRoomCtrl extends BaseCtrl {
     @Override
     public void showHome() {
         threadRun = false;
+        Config.isWaiting = false;
         leaveWaitingRoom(gameUtils.getPlayer());
         super.showHome();
     }

@@ -35,10 +35,6 @@ public class PreGameController extends BaseController {
         return waitingPlayers;
     }
 
-    public ExecutorService getPollThreads() {
-        return pollThreads;
-    }
-
     public HashMap<Long, Game> getOngoingGames() {
         return ongoingGames;
     }
@@ -58,7 +54,7 @@ public class PreGameController extends BaseController {
      *         true if name is not taken
      */
     @PostMapping(path = "/join")
-    public ResponseEntity<Boolean> playMulti(@RequestBody Player player) {
+    public synchronized ResponseEntity<Boolean> playMulti(@RequestBody Player player) {
         //Player player = new Player(name, 0);
         for (Player p : waitingPlayers) {
             if (p.getPlayerName().equals(player.getPlayerName())) {
@@ -170,7 +166,6 @@ public class PreGameController extends BaseController {
      *      * the waiting room. Once it is notified the return fires off.
      * @return The players that the server has
      */
-    @PostMapping(path = "/waitingroom/poll")
     @GetMapping(path = "/waitingroom/poll")
     public synchronized ResponseEntity<List<Player>> updates() {
         try {

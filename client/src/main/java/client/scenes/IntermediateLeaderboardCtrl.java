@@ -53,6 +53,8 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
+    @FXML
+    private Label rankInfo;
     List<Player> players;
 
     @Override
@@ -94,6 +96,31 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
         }
         data = FXCollections.observableList(players);
         table.setItems(data);
+        indicatePlayerRanking();
     }
 
+    public void indicatePlayerRanking(){
+        Player currentPlayer = gameUtils.getPlayer();
+        int ranking = players.indexOf(currentPlayer)+1;
+        int difference;
+        switch(ranking){
+            case 1:
+                rankInfo.setText("You are first, keep scoring!");
+                break;
+            case 2:
+                int first = players.get(0).getScore();
+                difference = first - currentPlayer.getScore();
+                rankInfo.setText("You are second, " + difference + " more points and you are first!");
+                break;
+            default:
+                String namePrevious = players.get(ranking-2).getPlayerName();
+                int previousScore = players.get(ranking-2).getScore();
+                difference = previousScore - currentPlayer.getScore();
+                rankInfo.setText("You are number " + ranking
+                                    + ", behind " + namePrevious
+                                    +" by "+difference+" points");
+                break;
+        }
+        rankInfo.setVisible(true);
+    }
 }

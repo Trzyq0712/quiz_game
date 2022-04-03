@@ -113,6 +113,6 @@
             <TableColumn fx:id="score" prefWidth="275.0" text="Score" />
          </columns>
       </TableView>
-      <Label fx:id="rankInfo" layoutX="795.0" layoutY="210.0" prefHeight="35.0" prefWidth="434.0" text="Label" visible="false" />
+      <Label fx:id="rankInfo" layoutX="673.0" layoutY="210.0" prefHeight="35.0" prefWidth="674.0" text="Waw, you are the gold medalist🥇" visible="true" />
    </children>
 </AnchorPane>

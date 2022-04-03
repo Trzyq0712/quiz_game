@@ -87,6 +87,27 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
         }
         data = FXCollections.observableList(players);
         table.setItems(data);
+        indicatePlayerRanking();
+    }
+
+    public void indicatePlayerRanking(){
+        Player currentPlayer = gameUtils.getPlayer();
+        int ranking = players.indexOf(currentPlayer)+1;
+        switch(ranking){
+            case 1:
+                rankInfo.setText("Waw, you are the gold medalist🥇!!");
+                break;
+            case 2:
+                rankInfo.setText("Waw, you are second🥈! Nice job!");
+                break;
+            case 3:
+                rankInfo.setText("You are in the top 3🥉!");
+                break;
+            default:
+                rankInfo.setText("You are number " + ranking + "!");
+                break;
+        }
+        rankInfo.setVisible(true);
     }
 
 }

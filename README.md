@@ -37,11 +37,13 @@ This tutorial assumes that:
 6. Select `Spring Boot` from the list.
 7. Set the name to `Main` and Main class to `server.Main`.
 8. Click `OK`.
-9. Navigate to `repository-template/helper-scripts` and open your terminal in that directory.
-10. Copy the absolute path of the activities.json file, it can be found in `repository-template/server/src/main/resources/activities.json`
-11. Execute the following command in your terminal:
+9. Run the server by selecting the `Main` configuration and clicking the green play button, this is necessary
+for the following step! 
+10. Navigate to `repository-template/helper-scripts` and open your terminal in that directory.
+11. Copy the absolute path of the activities.json file, it can be found in `repository-template/server/src/main/resources/activities.json`
+12. Execute the following command in your terminal:
 ```python3 add_activities.py "C:\Users\YourPath\activities.json"```
-12. You should see a bunch of `<Response [200]>` printing to your terminal, once this finishes the database 
+13. You should see a bunch of `<Response [200]>` printing to your terminal, once this finishes the database 
 has been successfully populated with activities
 
 ### Running the server

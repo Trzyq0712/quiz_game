@@ -5,23 +5,25 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Player;
-import commons.Player;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializable {
 
     private ObservableList<Player> data;
+    List<Player> players;
 
     @FXML
     private TableView<Player> table;
@@ -35,6 +37,8 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
     private TableColumn<Player, String> scoredTime;
     @FXML
     private Button playAgain;
+    @FXML
+    private Label rankInfo;
 
 
     @Inject
@@ -72,19 +76,27 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
      * Update the leaderboard
      */
     public void refresh() {
-        var players = server.getPlayersInSPL();
+        players = server.getPlayersInSPL();
         //A sort should be done to display the Players in the correct order
-        data = FXCollections.observableList(players);
-        int currentRank = 1;
-        var listOfPlayers = data.stream().sorted().collect(Collectors.toList());
-        for (Player p : listOfPlayers) {
-            p.setRank(currentRank++);
+        Collections.sort(players,Player.Comparators.SCORE);
+        Collections.reverse(players);
+        for(Player p : players){
+            p.setRank(players.indexOf(p)+1);
         }
-        var result = listOfPlayers.stream()
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-        table.setItems(result);
+        data = FXCollections.observableList(players);
+        table.setItems(data);
     }
 
+    public void indicatePlayerRanking(){
+        Player currentPlayer = gameUtils.getPlayer();
+        int ranking = players.indexOf(currentPlayer)+1;
+        rankInfo.setText("you are number "+ranking+"!");
+        rankInfo.setVisible(true);
+    }
+
+    public void hideRankingInfo(){
+        rankInfo.setVisible(false);
+    }
     @FXML
     public void playAgain() {
         utils.playButtonSound();

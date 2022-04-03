@@ -1,11 +1,12 @@
 package commons;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Comparator;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
@@ -104,7 +105,7 @@ public class Player implements Comparable<Player> {
      *
      * @return the score of the player.
      */
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
@@ -148,12 +149,16 @@ public class Player implements Comparable<Player> {
      * Compare whether two instances of a Player are equal.
      * All fields have to be equal for equality.
      *
-     * @param obj to be compared with.
+     * @param o to be compared with.
      * @return whether the two objects are equal.
      */
     @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id) && Objects.equals(playerName, player.playerName)
+                && Objects.equals(score, player.score) && Objects.equals(time, player.time);
     }
 
     /**
@@ -179,6 +184,16 @@ public class Player implements Comparable<Player> {
 
     @Override
     public int compareTo(Player o) {
-        return o.getScore() - this.getScore();
+        return Comparators.SCORE.compare(this,o);
+    }
+
+    public static class Comparators {
+
+        public static Comparator<Player> SCORE = new Comparator<Player>() {
+            @Override
+            public int compare(Player p1, Player p2) {
+                return p1.getScore().compareTo(p2.getScore());
+            }
+        };
     }
 }

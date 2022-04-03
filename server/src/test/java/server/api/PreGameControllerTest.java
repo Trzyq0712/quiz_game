@@ -32,7 +32,7 @@ class PreGameControllerTest {
         p1 = new Player("Reinier", 0);
         p2 = new Player("Mana", 0);
         playerList = new ArrayList<>();
-        updatedList = sut.updates();
+        //updatedList = sut.updates();
         mapper = new ObjectMapper();
     }
     @Test

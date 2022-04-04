@@ -134,17 +134,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         server.updateScore(gameID, player);
     }
 
-    /**
-     * Disables the player to click on the time joker
-     */
-    @FXML
-    private void timeClick() {
-        utils.playButtonSound();
-        mainCtrl.visibilityTimeJoker(false);
-        if(server.isConnected())
-            server.send("/app/notification/" + gameUtils.getGameID(),
-                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used time joker!"));
-    }
 
     /**
      * Adds the emote to the chatbox
@@ -211,6 +200,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         utils.addNotification("There are "+nbOfDigits+" digits in the answer","green");
     }
 
+    /**
+     * Reduces the time for all other players in a game and hides the joker so it cannot be used again.
+     */
     @FXML
     private void timeClick() {
         utils.playButtonSound();

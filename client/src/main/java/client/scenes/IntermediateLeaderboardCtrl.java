@@ -114,12 +114,14 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
                 rankInfo.setText("You are second, " + difference + " more points and you are first!");
                 break;
             default:
-                String namePrevious = players.get(ranking-2).getPlayerName();
-                int previousScore = players.get(ranking-2).getScore();
-                difference = previousScore - currentPlayer.getScore();
-                rankInfo.setText("You are number " + ranking
-                                    + ", behind " + namePrevious
-                                    +" by "+difference+" points");
+                if(ranking>=2) {
+                    String namePrevious = players.get(ranking - 2).getPlayerName();
+                    int previousScore = players.get(ranking - 2).getScore();
+                    difference = previousScore - currentPlayer.getScore();
+                    rankInfo.setText("You are number " + ranking
+                            + ", behind " + namePrevious
+                            + " by " + difference + " points");
+                }
                 break;
         }
         rankInfo.setVisible(true);

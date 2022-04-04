@@ -58,7 +58,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
     @Inject
     public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils,
-                                  NamePromptCtrl promptCtrl, GameUtils gameUtils){
+                                  NamePromptCtrl promptCtrl, GameUtils gameUtils) {
         super(mainCtrl, utils, server, gameUtils);
         this.promptCtrl = promptCtrl;
     }
@@ -71,7 +71,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     }
 
     @FXML
-    private void emote(Event e){
+    private void emote(Event e) {
         utils.playButtonSound();
         String url = ((ImageView) e.getSource()).getImage().getUrl();
         String path = url.substring(url.lastIndexOf('/'));
@@ -79,30 +79,30 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
         server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
-    public void refresh(){
+    public void refresh() {
         players = server.getPlayers(gameUtils.getGameID()).getListOfPlayers();
-        Collections.sort(players,Player.Comparators.SCORE);
+        Collections.sort(players, Player.Comparators.SCORE);
         Collections.reverse(players);
-        for(Player p : players){
-            p.setRank(players.indexOf(p)+1);
+        for (Player p : players) {
+            p.setRank(players.indexOf(p) + 1);
         }
         data = FXCollections.observableList(players);
         table.setItems(data);
         indicatePlayerRanking();
     }
 
-    public void indicatePlayerRanking(){
+    public void indicatePlayerRanking() {
         Player currentPlayer = gameUtils.getPlayer();
-        int ranking = players.indexOf(currentPlayer)+1;
-        switch(ranking){
+        int ranking = players.indexOf(currentPlayer) + 1;
+        switch (ranking) {
             case 1:
-                rankInfo.setText("Waw, you are the gold medalist🥇!!");
+                rankInfo.setText("Wow, you are the gold medalist!!");
                 break;
             case 2:
-                rankInfo.setText("Waw, you are second🥈! Nice job!");
+                rankInfo.setText("Wow, you are second! Nice job!");
                 break;
             case 3:
-                rankInfo.setText("You are in the top 3🥉!");
+                rankInfo.setText("You are in the top 3!");
                 break;
             default:
                 rankInfo.setText("You are number " + ranking + "!");

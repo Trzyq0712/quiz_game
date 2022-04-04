@@ -32,8 +32,8 @@ public class WebsocketsController {
         return e;
     }
 
-    @MessageMapping("/leave/{id}") // /app/leave/id
-    @SendTo("/topic/leave/{id}")
+    @MessageMapping("/notification/{id}") // /app/notification/id
+    @SendTo("/topic/notification/{id}")
     public NotificationMessage leaveGame(NotificationMessage e){
         return e;
     }

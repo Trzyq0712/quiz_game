@@ -4,15 +4,12 @@ import commons.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.async.DeferredResult;
 import server.ActivityService;
 import server.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import static commons.Config.*;
 
 /**
@@ -25,8 +22,7 @@ public class PreGameController extends BaseController {
 
     //private Long gameID = 0L;
     private List<Player> waitingPlayers;
-    private ExecutorService pollThreads = Executors.newFixedThreadPool(4);
-    private HashMap<Long, Game> ongoingGames;
+    private HashMap<Long, Game> ongoingGames = new HashMap<>();//maps gameID to actual Game instance
 
     @Autowired
     public PreGameController(ActivityService activityService) {
@@ -37,10 +33,6 @@ public class PreGameController extends BaseController {
 
     public List<Player> getWaitingPlayers() {
         return waitingPlayers;
-    }
-
-    public ExecutorService getPollThreads() {
-        return pollThreads;
     }
 
     public HashMap<Long, Game> getOngoingGames() {
@@ -62,7 +54,7 @@ public class PreGameController extends BaseController {
      *         true if name is not taken
      */
     @PostMapping(path = "/join")
-    public ResponseEntity<Boolean> playMulti(@RequestBody Player player) {
+    public synchronized ResponseEntity<Boolean> playMulti(@RequestBody Player player) {
         //Player player = new Player(name, 0);
         for (Player p : waitingPlayers) {
             if (p.getPlayerName().equals(player.getPlayerName())) {
@@ -71,6 +63,7 @@ public class PreGameController extends BaseController {
         }
         waitingPlayers.add(player);
         System.out.println("added " + player.getPlayerName() + "to the waiting room");
+        notifyAll();
         return ResponseEntity.ok(true);
     }
 
@@ -163,33 +156,23 @@ public class PreGameController extends BaseController {
      * @return players that are currently in the waiting room
      */
     @PostMapping(path = "/waitingroom/leave")
-    public ResponseEntity<Boolean> leaveWaitingroom(@RequestBody Player player) {
+    public synchronized ResponseEntity<Boolean> leaveWaitingroom(@RequestBody Player player) {
+        notifyAll();
         return ResponseEntity.ok(waitingPlayers.remove(player));
     }
 
     /**
-     * @param clientPlayers The players that the client sees
+     * makes the response thread sleep until it is notified by either a new player joining or leaving
+     *      * the waiting room. Once it is notified the return fires off.
      * @return The players that the server has
-     * This method checks if the client and server waiting room players are the same. If
-     * not then it sends over the server version for the client. Tried to do it with long
-     * polling. The threads are there to hopefully make it non-blocking. For small scale it
-     * seems that it works. Haven't tested it with more than 4 clients at the same time yet though.
-     * Read online that DeferredResult is better for handling poll requests.
      */
-    @PostMapping(path = "/waitingroom/poll")
-    public DeferredResult<List<Player>> updates(@RequestBody List<Player> clientPlayers) {
-        DeferredResult<List<Player>> output = new DeferredResult();
-        System.out.println(waitingPlayers.equals(clientPlayers));
-        pollThreads.execute(() -> {
-            while(waitingPlayers.equals(clientPlayers)){
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            output.setResult(waitingPlayers);
-        });
-        return output;
+    @GetMapping(path = "/waitingroom/poll")
+    public synchronized ResponseEntity<List<Player>> updates() {
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(waitingPlayers);
     }
 }

@@ -4,8 +4,6 @@ import client.utils.ApplicationUtils;
 import client.utils.Config;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Emote;
 import commons.NotificationMessage;
@@ -69,12 +67,9 @@ public class WaitingRoomCtrl extends BaseCtrl {
         server.connect();
         pollingThread = new Thread(() -> {
             threadRun = true;
-            ObjectMapper mapper = new ObjectMapper();
             while (threadRun) {
                 try {
-                    playerList = mapper.convertValue(server.pollWaitingroom(playerList),
-                            new TypeReference<List<Player>>() {
-                            });
+                    playerList = server.pollWaitingroom();
                     if (threadRun) {
                         Platform.runLater(() -> loadPlayerGrid(playerList));
                     }
@@ -89,8 +84,8 @@ public class WaitingRoomCtrl extends BaseCtrl {
             threadRun = false;
             Config.isWaiting = false;
             gameUtils.setGameID((long)l);
-            server.registerForMessages("/topic/leave/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
-                utils.addNotification(e.getMessage(), "red");
+            server.registerForMessages("/topic/notification/" + gameUtils.getGameID(), NotificationMessage.class, e -> {
+                utils.addNotification(e.getMessage(),e.getMessage().contains("left")?"red":"yellow");
             });
             server.registerForMessages("/topic/emote/" + gameUtils.getGameID(), Emote.class, e -> {
                 mainCtrl.emote(e.getPath(), e.getName());

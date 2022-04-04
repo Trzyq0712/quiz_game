@@ -424,7 +424,7 @@ public class MainCtrl {
         for (VBox c : listOfChatBoxes) {
             Platform.runLater(() -> {
                 HBox hbox = new HBox();
-                Image arg = new Image(path);
+                Image arg = new Image(ServerUtils.SERVER + "emotes" + path);
                 Label user = new Label(name + ":  ");
                 ImageView emote = new ImageView(arg);
                 emote.setFitHeight(50);

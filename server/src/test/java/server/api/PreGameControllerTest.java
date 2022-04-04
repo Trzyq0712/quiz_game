@@ -5,7 +5,7 @@ import commons.ClientInfo;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.http.ResponseEntity;
 import server.ActivityService;
 import server.MockActivityRepository;
 
@@ -21,12 +21,13 @@ class PreGameControllerTest {
     Player p1;
     Player p2;
     List<Player> playerList;
-    DeferredResult<List<Player>> updatedList;
+    ResponseEntity<List<Player>> updatedList;
     ObjectMapper mapper;
     private ActivityService sut2;
     private MockActivityRepository repo;
     Long gameID;
     ClientInfo clientInfo;
+    Thread pollingThread;
 
     @BeforeEach
     public void setup() {
@@ -36,7 +37,9 @@ class PreGameControllerTest {
         p1 = new Player("Reinier", 0);
         p2 = new Player("Mana", 0);
         playerList = new ArrayList<>();
-        updatedList = preGameController.updates(playerList);
+        pollingThread = new Thread(() -> {
+            while(true) updatedList = preGameController.updates();
+        });
         mapper = new ObjectMapper();
         gameID = 22L;
         clientInfo = new ClientInfo(gameID, p1);

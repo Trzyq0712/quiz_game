@@ -10,8 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +29,6 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
     ImageView questionImage2;
     @FXML
     ImageView questionImage3;
-
-    @FXML
-    VBox chatbox;
-    @FXML
-    StackPane chatAndEmoteHolder;
-
 
     private List<Activity> activities;
 

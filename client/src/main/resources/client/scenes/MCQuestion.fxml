@@ -117,7 +117,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/angry.png" />
+                        <Image url="@/images/angry.png" />
                      </image>
                      <StackPane.margin>
                         <Insets right="70.0" />
@@ -125,7 +125,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/happy.png" />
+                        <Image url="@/images/happy.png" />
                      </image>
                      <StackPane.margin>
                         <Insets left="70.0" />
@@ -133,7 +133,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/sunglasses.png" />
+                        <Image url="@/images/sunglasses.png" />
                      </image>
                      <StackPane.margin>
                         <Insets right="200.0" />
@@ -141,7 +141,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMousePressed="#emote" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@images/tears.png" />
+                        <Image url="@/images/tears.png" />
                      </image>
                      <StackPane.margin>
                         <Insets left="200.0" />

@@ -4,6 +4,7 @@ package client.utils;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -54,8 +55,9 @@ public class ApplicationUtils {
      * @param progressBar The progress bar that is to be modified.
      * @param runTime     Time given in milliseconds. Defines how long the progress bar should run for.
      * @param callback    The function to be executed after the progress bar runs out i.e. the runTime time passes.
+     * @param toDisable   List of buttons to disable after the progress bar runs out. Can be null.
      */
-    public void runProgressBar(ProgressBar progressBar, long runTime, Runnable callback) {
+    public void runProgressBar(ProgressBar progressBar, long runTime, Runnable callback, List<Button> toDisable) {
         this.startTime = System.currentTimeMillis();
         this.runTime = runTime;
         this.reducedTime = 0;
@@ -64,8 +66,11 @@ public class ApplicationUtils {
         progress.addListener((observable, oldValue, newValue) -> {
             double val = newValue.doubleValue();
             if (val < 0) {
-                Platform.runLater(callback::run);
-                cancelProgressBar();
+                Platform.runLater(() -> progress.set(0));
+                if (toDisable == null) return;
+                toDisable.forEach(btn -> {
+                    btn.setDisable(true);
+                });
             } else if (val < 0.25) {
                 Platform.runLater(() -> progressBar.setStyle("-fx-accent: red"));
             } else if (val < 0.5) {
@@ -83,6 +88,13 @@ public class ApplicationUtils {
                 Platform.runLater(() -> progress.set(1.0 - (double) timePassed / (double) runTime));
             }
         }, 0, 20);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(callback::run);
+                cancelProgressBar();
+            }
+        }, runTime);
     }
 
     /**

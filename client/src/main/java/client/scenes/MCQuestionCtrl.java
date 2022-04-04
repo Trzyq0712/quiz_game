@@ -5,12 +5,10 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -21,27 +19,9 @@ import java.util.List;
 public class MCQuestionCtrl extends BaseQuestionCtrl {
 
     @FXML
-    ImageView hintJoker;
-    @FXML
-    ImageView pointsJoker;
-    @FXML
-    ImageView timeJoker;
-    @FXML
     Label ActivityDescription;
     @FXML
     ImageView questionImage;
-    @FXML
-    Button firstButton;
-    @FXML
-    Button secondButton;
-    @FXML
-    Button thirdButton;
-    @FXML
-    Label questionTracker;
-    @FXML
-    Label scoreLabel;
-    @FXML
-    VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
     private Activity activity;

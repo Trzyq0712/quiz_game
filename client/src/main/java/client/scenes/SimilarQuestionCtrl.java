@@ -9,8 +9,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,10 +27,6 @@ public class SimilarQuestionCtrl extends BaseQuestionCtrl {
     Label ActivityDescription;
     @FXML
     ImageView questionImage;
-    @FXML
-    VBox chatbox;
-    @FXML
-    StackPane chatAndEmoteHolder;
 
     private Activity activity;
 

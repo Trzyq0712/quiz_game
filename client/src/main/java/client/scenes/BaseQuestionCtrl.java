@@ -5,6 +5,7 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Answer;
 import commons.Emote;
+import commons.NotificationMessage;
 import commons.Player;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -132,6 +133,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     private void timeClick() {
         utils.playButtonSound();
         mainCtrl.visibilityTimeJoker(false);
+        if(server.isConnected())
+            server.send("/app/notification/" + gameUtils.getGameID(),
+                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used time joker!"));
     }
 
     /**
@@ -159,8 +163,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
             gameUtils.getPlayer().addPoints(lastScoredPoints);
             mainCtrl.setAnswersForAnswerReveal(lastScoredPoints*2, false);
         } else doublePointsActive = true;
-        utils.addNotification("2x points activated", "green");
-
+        if(server.isConnected())
+            server.send("/app/notification/" + gameUtils.getGameID(),
+                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used 2x points joker!"));
     }
 
     /**
@@ -171,7 +176,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     protected void hintClick () {
         utils.playButtonSound();
-        utils.addNotification("hint activated", "green");
+        if(server.isConnected())
+            server.send("/app/notification/" + gameUtils.getGameID(),
+                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used hint joker!"));
         mainCtrl.visibilityHintJoker(false);
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         List<Button> wrongButtons = new ArrayList<>();

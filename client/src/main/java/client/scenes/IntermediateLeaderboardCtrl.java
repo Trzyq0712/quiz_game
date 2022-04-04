@@ -68,7 +68,7 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     }
 
     public void activateProgressBar() {
-        utils.runProgressBar(pgBarIntermediate, timeForIntermediate, mainCtrl::showQuestion);
+        utils.runProgressBar(pgBarIntermediate, timeForIntermediate, mainCtrl::showQuestion, null);
     }
 
     public void updateQuestionTracker() {

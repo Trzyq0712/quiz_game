@@ -95,6 +95,12 @@ public class WaitingRoomCtrl extends BaseCtrl {
             server.registerForMessages("/topic/emote/" + gameUtils.getGameID(), Emote.class, e -> {
                 mainCtrl.emote(e.getPath(), e.getName());
             });
+            server.registerForMessages("/topic/timeJokerUsed/" + gameUtils.getGameID(), Player.class, player -> {
+                System.out.println("Joker used");
+                if (gameUtils.getPlayer().getPlayerName().equals(player.getPlayerName())) return;
+                utils.reduceTime(Config.timeReductionPercentage);
+                utils.addNotification(player.getPlayerName() + " used their time joker!", "green");
+            });
             leaveWaitingRoom(gameUtils.getPlayer());
             Platform.runLater(() -> {
                 mainCtrl.showQuestion();

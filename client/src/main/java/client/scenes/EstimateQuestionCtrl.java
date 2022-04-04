@@ -11,10 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
+
+import java.util.List;
 
 import static commons.Config.*;
 
@@ -26,14 +26,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     Label ActivityDescription;
     @FXML
     ImageView questionImage;
-    @FXML
-    Label questionTracker;
-    @FXML
-    Label scoreLabel;
-    @FXML
-    VBox chatbox;
-    @FXML
-    StackPane chatAndEmoteHolder;
     @FXML
     TextField textField;
     @FXML
@@ -61,6 +53,11 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         mainCtrl.setAnswersForAnswerReveal(activity);
     }
 
+    @Override
+    public void activateProgressBar() {
+        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal,
+                List.of(submitButton));
+    }
 
     /**
      * Score is calculated in the range from 0 to 2 * the correct answer.

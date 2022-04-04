@@ -44,7 +44,6 @@ public class MainCtrl {
     /**
      * Amount of messages currently displaying in the chat.
      */
-    int amountOfMessages = 0;
     List<VBox> listOfChatBoxes;
     List<StackPane> listOfHolders;
     private Stage primaryStage;
@@ -80,16 +79,6 @@ public class MainCtrl {
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
 
-    Long startTime;
-
-    boolean active = true; /* if true progressbar will load the next scene on depletion, if false, it means the user has
-    clicked the homebutton. So he exited the game
-    at which point the next scene shouldnt be loaded anymore */
-    /**
-     * If true, game knows the player is in singleplayer, if false, the game knows
-     * that the player is in multiplayer.
-     */
-    boolean singlePlayerModeActive;
     ServerUtils server;
     GameUtils gameUtils;
 
@@ -348,7 +337,6 @@ public class MainCtrl {
      * Function triggers the progressbar to start decreasing.
      */
     public void showQuestion() {
-        active = true;
         int value = server.getQuestionType(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         switch (value) {
             case 0: {

@@ -91,7 +91,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
                 } else
                     mainCtrl.showMPFinalLeaderboard();
             }
-        });
+        }, null);
     }
 
     /**

@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,15 +38,18 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     Label questionTracker;
     @FXML
     Label scoreLabel;
-
     @FXML
-    ProgressBar pgBar;
+    protected VBox chatbox;
     @FXML
-    Button firstButton;
+    protected StackPane chatAndEmoteHolder;
     @FXML
-    Button secondButton;
+    protected ProgressBar pgBar;
     @FXML
-    Button thirdButton;
+    protected Button firstButton;
+    @FXML
+    protected Button secondButton;
+    @FXML
+    protected Button thirdButton;
 
     protected boolean doublePointsActive;
     protected int lastScoredPoints; //this will be doubled if the player activates 2x points.
@@ -77,7 +82,8 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * see activateGenericProgressBar in mainCtrl for more info
      */
     public void activateProgressBar() {
-        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal);
+        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal,
+                List.of(firstButton, secondButton, thirdButton));
     }
 
     public void restoreDoublePoints() {
@@ -90,9 +96,11 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * then all the buttons are visible again for the new question
      */
     public void restoreAnswers() {
-        firstButton.setVisible(true);
-        secondButton.setVisible(true);
-        thirdButton.setVisible(true);
+        List<Button> buttons = List.of(firstButton, secondButton, thirdButton);
+        buttons.forEach(btn -> {
+            btn.setVisible(true);
+            btn.setDisable(false);
+        });
     }
 
     /**
@@ -125,14 +133,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         server.updateScore(gameID, player);
     }
 
-    /**
-     * Disables the player to click on the time joker
-     */
-    @FXML
-    private void timeClick() {
-        utils.playButtonSound();
-        mainCtrl.visibilityTimeJoker(false);
-    }
 
     /**
      * Adds the emote to the chatbox
@@ -194,11 +194,20 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         utils.addNotification("There are "+nbOfDigits+" digits in the answer","green");
     }
 
+    @FXML
+    private void timeClick() {
+        utils.playButtonSound();
+        mainCtrl.visibilityTimeJoker(false);
+        server.send("/app/useTimeJoker/" + gameUtils.getGameID() , gameUtils.getPlayer());
+        utils.addNotification("You used your time joker!", "green");
+    }
+
     /**
      * hides all buttons except for the one that was clicked
      * @param event button that was clicked, so either A, B or C
      */
-    public void answerClick(Event event) {
+    @FXML
+    private void answerClick(Event event) {
         utils.playButtonSound();
         long timeToAnswer = gameUtils.stopTimer();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);

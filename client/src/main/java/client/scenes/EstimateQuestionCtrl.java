@@ -65,7 +65,8 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
      * Points granted decline in a linear fashion from the correct answer.
      * Max amount of points can be configured in the config file.
      */
-    public void submitGuess(){
+    @FXML
+    private void submitGuess(){
         utils.playButtonSound();
         int points = 0;
         try {

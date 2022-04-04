@@ -31,7 +31,7 @@ public class MCQuestionCtrl extends BaseQuestionCtrl {
         super(server, mainCtrl, utils, gameUtils);
     }
 
-
+    @Override
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         long answer = activity.getEnergyConsumption();

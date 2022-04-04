@@ -18,8 +18,8 @@ package client.scenes;
 
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
-import commons.Config;
 import commons.Activity;
+import commons.Config;
 import commons.NotificationMessage;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -46,6 +46,8 @@ public class MainCtrl {
      */
     List<VBox> listOfChatBoxes;
     List<StackPane> listOfHolders;
+    ServerUtils server;
+    GameUtils gameUtils;
     private Stage primaryStage;
     private Stage secondaryStage;
     private HomeScreenCtrl homeScreenCtrl;
@@ -69,7 +71,7 @@ public class MainCtrl {
     private NamePromptCtrl namePromptCtrl;
     private Scene namePromptScene;
     private ComparisonQuestionCtrl comparisonQuestionCtrl;
-    private Scene questionScreenScene;
+    private Scene comparisonQuestionScene;
     private EstimateQuestionCtrl estimateQuestionCtrl;
     private Scene estimateQuestionScene;
     private SimilarQuestionCtrl similarQuestionCtrl;
@@ -78,10 +80,6 @@ public class MainCtrl {
     private Scene MCQuestionScene;
     private EditActivityCtrl editActivityCtrl;
     private Scene editActivityScene;
-
-    ServerUtils server;
-    GameUtils gameUtils;
-
 
     public void initialize(Stage primaryStage,
                            Pair<HomeScreenCtrl, Parent> homeScreen,
@@ -138,7 +136,7 @@ public class MainCtrl {
         this.namePromptScene.getStylesheets().add(Config.styleSheet);
 
         this.comparisonQuestionCtrl = comparisonQuestion.getKey();
-        this.questionScreenScene = new Scene(comparisonQuestion.getValue());
+        this.comparisonQuestionScene = new Scene(comparisonQuestion.getValue());
 
         this.estimateQuestionCtrl = estimateQuestion.getKey();
         this.estimateQuestionScene = new Scene(estimateQuestion.getValue());
@@ -175,15 +173,15 @@ public class MainCtrl {
     public void beforeExit() {
         if (server.isConnected()) {
             if (gameUtils.getPlayer() != null) {
-                if(client.utils.Config.isWaiting){
+                if (client.utils.Config.isWaiting) {
                     waitingRoomCtrl.threadRun = false;
                     server.leaveWaitingroom(gameUtils.getPlayer());
                 } else server.send("/app/leave/" + gameUtils.getGameID(),
-                            new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
+                        new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " left"));
             }
             server.disconnect();
         }
-        if(client.utils.Config.playerName != null) saveNameToFile();
+        if (client.utils.Config.playerName != null) saveNameToFile();
     }
 
     /**
@@ -331,51 +329,24 @@ public class MainCtrl {
     }
 
     /**
-     * Shows the question screen, sets
-     * active = true
-     * so that the application is aware that a game is active.
-     * Function triggers the progressbar to start decreasing.
+     * Selects a next question to be shown. Then switches to the correct scene and starts the timer.
      */
     public void showQuestion() {
         int value = server.getQuestionType(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
-        switch (value) {
-            case 0: {
-                questionScreenScene.getStylesheets().add(Config.styleSheet);
-                comparisonQuestionCtrl.generateActivity();
-                comparisonQuestionCtrl.updateTracker();
-                gameUtils.startTimer();
-                primaryStage.setScene(questionScreenScene);
-                comparisonQuestionCtrl.activateProgressBar();
-                break;
-            }
-            case 1: {
-                estimateQuestionScene.getStylesheets().add(Config.styleSheet);
-                estimateQuestionCtrl.generateActivity();
-                estimateQuestionCtrl.updateTracker();
-                gameUtils.startTimer();
-                primaryStage.setScene(estimateQuestionScene);
-                estimateQuestionCtrl.activateProgressBar();
-                break;
-            }
-            case 2: {
-                MCQuestionScene.getStylesheets().add(Config.styleSheet);
-                MCQuestionCtrl.generateActivity();
-                MCQuestionCtrl.updateTracker();
-                gameUtils.startTimer();
-                primaryStage.setScene(MCQuestionScene);
-                MCQuestionCtrl.activateProgressBar();
-                break;
-            }
-            case 3:{
-                similarQuestionScene.getStylesheets().add(Config.styleSheet);
-                similarQuestionCtrl.generateActivity();
-                similarQuestionCtrl.updateTracker();
-                gameUtils.startTimer();
-                primaryStage.setScene(similarQuestionScene);
-                similarQuestionCtrl.activateProgressBar();
-                break;
-            }
-        }
+        Pair<Scene, BaseQuestionCtrl> question = List.of(
+                new Pair(comparisonQuestionScene, comparisonQuestionCtrl),
+                new Pair(estimateQuestionScene, estimateQuestionCtrl),
+                new Pair(MCQuestionScene, MCQuestionCtrl),
+                new Pair(similarQuestionScene, similarQuestionCtrl)
+        ).get(value);
+        var questionScene = question.getKey();
+        var questionCtrl = question.getValue();
+        questionScene.getStylesheets().add(Config.styleSheet);
+        questionCtrl.generateActivity();
+        questionCtrl.updateTracker();
+        gameUtils.startTimer();
+        primaryStage.setScene(questionScene);
+        questionCtrl.activateProgressBar();
 
     }
 
@@ -489,7 +460,7 @@ public class MainCtrl {
         secondaryStage.show();
     }
 
-    public Stage getSecondaryStage(){
+    public Stage getSecondaryStage() {
         return secondaryStage;
     }
 

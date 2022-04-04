@@ -40,6 +40,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     }
 
 
+    @Override
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         answer = activity.getEnergyConsumption();

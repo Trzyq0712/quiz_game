@@ -40,7 +40,6 @@ public class HomeScreenCtrl extends BaseCtrl {
     @FXML
     private void showPrompt(Event e) {
         utils.playButtonSound();
-        //gameUtils.resetGame();
         String mode = ((Button) e.getSource()).getText();
         if (mode.equals("Singleplayer")) {
             gameUtils.setGameType(GameUtils.GameType.SinglePlayer);

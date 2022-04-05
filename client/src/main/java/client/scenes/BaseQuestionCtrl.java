@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static commons.Config.*;
+import static commons.Config.timePerQuestion;
 
 
 public abstract class BaseQuestionCtrl extends BaseCtrl {
@@ -29,16 +29,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected int answerButtonId;
     protected long answer;
     protected boolean hasPlayerAnswered;
-    @FXML
-    ImageView hintJoker;
-    @FXML
-    ImageView pointsJoker;
-    @FXML
-    ImageView timeJoker;
-    @FXML
-    Label questionTracker;
-    @FXML
-    Label scoreLabel;
     @FXML
     protected VBox chatbox;
     @FXML
@@ -51,10 +41,18 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     protected Button secondButton;
     @FXML
     protected Button thirdButton;
-
     protected boolean doublePointsActive;
     protected int lastScoredPoints; //this will be doubled if the player activates 2x points.
-
+    @FXML
+    ImageView hintJoker;
+    @FXML
+    ImageView pointsJoker;
+    @FXML
+    ImageView timeJoker;
+    @FXML
+    Label questionTracker;
+    @FXML
+    Label scoreLabel;
 
 
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
@@ -158,9 +156,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.visibilityPointsJoker(false);
         if (hasPlayerAnswered) {
             gameUtils.getPlayer().addPoints(lastScoredPoints);
-            mainCtrl.setAnswersForAnswerReveal(lastScoredPoints*2, false);
+            mainCtrl.setAnswersForAnswerReveal(lastScoredPoints * 2, false);
         } else doublePointsActive = true;
-        if(server.isConnected())
+        if (server.isConnected())
             server.send("/app/notification/" + gameUtils.getGameID(),
                     new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used 2x points joker!"));
     }
@@ -171,9 +169,9 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
 
     @FXML
-    protected void hintClick () {
+    protected void hintClick() {
         utils.playButtonSound();
-        if(server.isConnected())
+        if (server.isConnected())
             server.send("/app/notification/" + gameUtils.getGameID(),
                     new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used hint joker!"));
         mainCtrl.visibilityHintJoker(false);
@@ -193,11 +191,11 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * and disables the player to click on hint joker again
      */
     @FXML
-    protected void estimateHintClick () {
+    protected void estimateHintClick() {
         utils.playButtonSound();
         mainCtrl.visibilityHintJoker(false);
-        int nbOfDigits = (answer+"").length(); //transform the long into a String
-        utils.addNotification("There are "+nbOfDigits+" digits in the answer","green");
+        int nbOfDigits = Long.toString(answer).length();
+        utils.addNotification("There are " + nbOfDigits + " digits in the answer", "green");
     }
 
     /**
@@ -207,12 +205,13 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     private void timeClick() {
         utils.playButtonSound();
         mainCtrl.visibilityTimeJoker(false);
-        server.send("/app/useTimeJoker/" + gameUtils.getGameID() , gameUtils.getPlayer());
+        server.send("/app/useTimeJoker/" + gameUtils.getGameID(), gameUtils.getPlayer());
         utils.addNotification("You used your time joker!", "green");
     }
 
     /**
      * hides all buttons except for the one that was clicked
+     *
      * @param event button that was clicked, so either A, B or C
      */
     @FXML
@@ -227,12 +226,13 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
             i++;
             if (!b.getId().equals(activated.getId())) {
                 b.setVisible(false);
-            } else{
-                buttonNb=i;
+            } else {
+                buttonNb = i;
             }
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
         hasPlayerAnswered = true;
     }
 
+    public abstract void generateActivity();
 }

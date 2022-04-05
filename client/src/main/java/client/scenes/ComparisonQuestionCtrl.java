@@ -45,6 +45,7 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
     /**
      * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
+    @Override
     public void generateActivity() {
         activities = server.get4Activities(gameUtils.getCurrentQuestion(), gameUtils.getGameID())
                 .getListOfActivities();

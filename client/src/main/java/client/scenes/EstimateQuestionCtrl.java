@@ -40,6 +40,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     }
 
 
+    @Override
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
         answer = activity.getEnergyConsumption();
@@ -64,7 +65,8 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
      * Points granted decline in a linear fashion from the correct answer.
      * Max amount of points can be configured in the config file.
      */
-    public void submitGuess(){
+    @FXML
+    private void submitGuess(){
         utils.playButtonSound();
         int points = 0;
         try {
@@ -76,8 +78,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
             if (guess > start && guess < end) {
                 double deviation = Math.abs(guess - center);
                 double fraction = (center - deviation) / center;
-                /*fraction = easeOutSinusoidal(fraction); doing this makes it doable to get 200 points,
-                * but maybe this is not desired because players get the same amount of points more frequently?*/
+                fraction = easeOutSinusoidal(fraction);
                 points = (int) (fraction * maxPointsPerQuestion);
                 if (doublePointsActive) {
                     points *= 2;

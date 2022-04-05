@@ -15,9 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 public class EditActivityCtrl extends BaseCtrl {
     private ActivityBoardUtils actUtils;
@@ -84,13 +85,13 @@ public class EditActivityCtrl extends BaseCtrl {
         File selectedImage = fileChooser.showOpenDialog(mainCtrl.getSecondaryStage());
         imagePathField.setText(selectedImage.getAbsolutePath());
         imagePath = selectedImage.getAbsolutePath();
-
         try {
-            pictureBuffer = Files.readAllBytes(Paths.get(imagePath));
-            imageView.setImage(new Image(imagePath));
+            pictureBuffer = Files.readAllBytes(Path.of(imagePath));
+            imageView.setImage(new Image(new ByteArrayInputStream(pictureBuffer)));
         } catch (Exception ex){
             errorLabel.setText("Can't find image");
             errorLabel.setVisible(true);
+            ex.printStackTrace();
         }
     }
 

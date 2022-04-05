@@ -78,8 +78,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
             if (guess > start && guess < end) {
                 double deviation = Math.abs(guess - center);
                 double fraction = (center - deviation) / center;
-                /*fraction = easeOutSinusoidal(fraction); doing this makes it doable to get 200 points,
-                * but maybe this is not desired because players get the same amount of points more frequently?*/
+                fraction = easeOutSinusoidal(fraction);
                 points = (int) (fraction * maxPointsPerQuestion);
                 if (doublePointsActive) {
                     points *= 2;

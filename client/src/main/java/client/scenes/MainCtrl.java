@@ -294,7 +294,7 @@ public class MainCtrl {
         primaryStage.setTitle(Config.title);
         homeScreenScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(homeScreenScene);
-        homeScreenCtrl.tryConnect();
+        homeScreenCtrl.tryPing();
         restore();
     }
 

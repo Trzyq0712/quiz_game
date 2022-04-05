@@ -69,13 +69,13 @@ public class HomeScreenCtrl extends BaseCtrl {
     }
 
     @FXML
-    public void tryConnect() {
-        ServerUtils.setSERVER(serverField.getText());
+    private void tryConnect() {
         utils.playButtonSound();
         tryPing();
     }
 
-    private void tryPing() {
+    public void tryPing() {
+        ServerUtils.setSERVER(serverField.getText());
         try {
             server.ping();
             connectionLabel.setText("Success");

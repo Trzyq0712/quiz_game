@@ -1,15 +1,24 @@
 package client.scenes;
 
 import client.utils.ApplicationUtils;
+import client.utils.Config;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import jakarta.ws.rs.ProcessingException;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 
 public class HomeScreenCtrl extends BaseCtrl {
+
+    @FXML
+    TextField serverField;
+    @FXML
+    Label connectionLabel;
 
     private final NamePromptCtrl namePromptCtrl;
 
@@ -41,15 +50,8 @@ public class HomeScreenCtrl extends BaseCtrl {
     private void showPrompt(Event e) {
         utils.playButtonSound();
         String mode = ((Button) e.getSource()).getText();
-        if (mode.equals("Singleplayer")) {
-            gameUtils.setGameType(GameUtils.GameType.SinglePlayer);
-            namePromptCtrl.startButton.setPrefWidth(200);
-            namePromptCtrl.startButton.setText("Enter game");
-        } else {
-            gameUtils.setGameType(GameUtils.GameType.MultiPlayer);
-            namePromptCtrl.startButton.setPrefWidth(500);
-            namePromptCtrl.startButton.setText("Enter waiting room");
-        }
+        if (mode.equals("Singleplayer")) gameUtils.setGameType(GameUtils.GameType.SinglePlayer);
+        else gameUtils.setGameType(GameUtils.GameType.MultiPlayer);
         namePromptCtrl.setUp();
         mainCtrl.showNamePromtScene();
     }
@@ -66,4 +68,27 @@ public class HomeScreenCtrl extends BaseCtrl {
         mainCtrl.showInfo();
     }
 
+    @FXML
+    public void tryConnect() {
+        ServerUtils.setSERVER(serverField.getText());
+        utils.playButtonSound();
+        tryPing();
+    }
+
+    private void tryPing() {
+        try {
+            server.ping();
+            connectionLabel.setText("Success");
+            connectionLabel.setStyle(Config.connectionLabelStyle + "green");
+            connectionLabel.setVisible(true);
+        } catch (ProcessingException e) {
+            connectionLabel.setText("Failure");
+            connectionLabel.setStyle(Config.connectionLabelStyle + "red");
+            connectionLabel.setVisible(true);
+        }
+    }
+
+    public void loadServerField() {
+        serverField.setText(commons.Config.server);
+    }
 }

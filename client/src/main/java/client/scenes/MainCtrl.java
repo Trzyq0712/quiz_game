@@ -157,6 +157,7 @@ public class MainCtrl {
             beforeExit();
             Platform.exit();
         });
+        homeScreenCtrl.loadServerField();
         showHome();
         initializeChatBoxes();
         initializeHolders();
@@ -291,6 +292,7 @@ public class MainCtrl {
         primaryStage.setTitle(Config.title);
         homeScreenScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(homeScreenScene);
+        homeScreenCtrl.tryConnect();
         restore();
     }
 

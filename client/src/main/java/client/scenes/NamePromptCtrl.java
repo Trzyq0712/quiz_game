@@ -4,9 +4,7 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Config;
 import commons.Player;
-import jakarta.ws.rs.ProcessingException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,8 +24,6 @@ public class NamePromptCtrl extends BaseCtrl {
     private TextField nameField;
     @FXML
     private Label errorLabel;
-    @FXML
-    private TextField serverField;
 
     @Inject
     public NamePromptCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
@@ -63,7 +59,6 @@ public class NamePromptCtrl extends BaseCtrl {
      */
     public void setUp() {
         nameField.clear();
-        serverField.setText(Config.server);
         errorLabel.setVisible(false);
         nameField.setPromptText("Enter your name...");
         if (client.utils.Config.playerName == null) loadSavedName();
@@ -140,7 +135,6 @@ public class NamePromptCtrl extends BaseCtrl {
     @FXML
     private void confirm() {
         utils.playButtonSound();
-        ServerUtils.setSERVER(serverField.getText()); //sets the server to the user input
         gameUtils.resetGame();
         if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
             mainCtrl.activateSingleplayer();
@@ -151,18 +145,4 @@ public class NamePromptCtrl extends BaseCtrl {
         }
         client.utils.Config.playerName = nameField.getText();
     }
-
-    @FXML
-    private void testConnection() throws InterruptedException {
-        utils.playButtonSound();
-        ServerUtils.setSERVER(serverField.getText());
-        try {
-            server.ping();
-            utils.addNotification("connection successful", "green");
-        } catch (ProcessingException e) {
-            utils.addNotification("connection failed", "red");
-        }
-
-    }
-
 }

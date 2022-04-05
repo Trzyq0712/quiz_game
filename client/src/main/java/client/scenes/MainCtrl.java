@@ -396,7 +396,6 @@ public class MainCtrl {
         for (VBox c : listOfChatBoxes) {
             Platform.runLater(() -> {
                 HBox hbox = new HBox();
-//                Image arg = new Image(ServerUtils.SERVER + "emotes" + path);
                 Image arg = new Image(getClass().getClassLoader().getResource("images" + path).toExternalForm());
                 Label user = new Label(name + ":  ");
                 ImageView emote = new ImageView(arg);

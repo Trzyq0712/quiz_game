@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class PlayerList {
 
-    List<Player> listOfPlayers;
+    public List<Player> listOfPlayers;
 
     public PlayerList(List<Player> listOfPlayers) {
         this.listOfPlayers = listOfPlayers;

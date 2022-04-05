@@ -500,4 +500,8 @@ public class MainCtrl {
         editScreenCtrl.updateLabels();
     }
 
+    public void refresh(){
+        intermediateLeaderboardCtrl.refresh();
+    }
+
 }

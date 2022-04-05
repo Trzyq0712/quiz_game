@@ -54,7 +54,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     Label scoreLabel;
 
-
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(mainCtrl, utils, server, gameUtils);
     }
@@ -157,6 +156,7 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         if (hasPlayerAnswered) {
             gameUtils.getPlayer().addPoints(lastScoredPoints);
             mainCtrl.setAnswersForAnswerReveal(lastScoredPoints * 2, false);
+            mainCtrl.refresh();
         } else doublePointsActive = true;
         if (server.isConnected())
             server.send("/app/notification/" + gameUtils.getGameID(),

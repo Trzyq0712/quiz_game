@@ -77,6 +77,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
      */
     public void activateProgressBar() {
         utils.runProgressBar(pgBarReveal, timeAnswerReveal, () -> {
+            restorePointsLabel();
             if (gameUtils.getCurrentQuestion() < totalQuestions) {
                 mainCtrl.restoreQuestions();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
@@ -92,6 +93,11 @@ public class AnswerRevealCtrl extends BaseCtrl {
                     mainCtrl.showMPFinalLeaderboard();
             }
         }, null);
+    }
+
+    private void restorePointsLabel() {
+        pointsGrantedMC.setText("You got 0 points!");
+        pointsGrantedEstimate.setText("You got 0 points!");
     }
 
     /**

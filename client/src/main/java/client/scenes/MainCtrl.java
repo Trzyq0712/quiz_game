@@ -34,6 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
@@ -190,7 +191,8 @@ public class MainCtrl {
      */
     private void saveNameToFile() {
         try {
-            PrintWriter pw = new PrintWriter(client.utils.Config.nameFile);
+            File f = new File(client.utils.Config.nameFile.toURI());
+            PrintWriter pw = new PrintWriter(f.getAbsolutePath());
             pw.print(client.utils.Config.playerName);
             pw.flush();
         } catch (Exception ex) {

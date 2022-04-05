@@ -72,7 +72,7 @@ public class NamePromptCtrl extends BaseCtrl {
      */
     private void loadSavedName() {
         try {
-            Scanner sc = new Scanner(new File(client.utils.Config.nameFile));
+            Scanner sc = new Scanner(new File(client.utils.Config.nameFile.toURI()));
             if (sc.hasNext()) client.utils.Config.playerName = sc.next();
             else client.utils.Config.playerName = "";
             sc.close();

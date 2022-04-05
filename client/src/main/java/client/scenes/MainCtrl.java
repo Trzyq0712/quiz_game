@@ -307,6 +307,8 @@ public class MainCtrl {
         singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.showPLayAgain();
+        singlePlayerLeaderboardCtrl.refresh();
+        singlePlayerLeaderboardCtrl.indicatePlayerRanking();
     }
 
     /**
@@ -316,6 +318,8 @@ public class MainCtrl {
         singlePlayerLeaderboardScene.getStylesheets().add(Config.styleSheet);
         primaryStage.setScene(singlePlayerLeaderboardScene);
         singlePlayerLeaderboardCtrl.hidePlayAgain();
+        singlePlayerLeaderboardCtrl.refresh();
+        singlePlayerLeaderboardCtrl.hideRankingInfo();
     }
 
     /**
@@ -387,9 +391,6 @@ public class MainCtrl {
         primaryStage.setScene(waitingRoomScene);
     }
 
-    public void refresh() {
-        singlePlayerLeaderboardCtrl.refresh();
-    }
 
     /**
      * Resets the question to 0 and makes jokers and answers visible again.

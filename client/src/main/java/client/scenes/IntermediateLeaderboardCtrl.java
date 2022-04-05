@@ -21,8 +21,9 @@ import javafx.scene.layout.VBox;
 
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import static commons.Config.*;
 
@@ -52,6 +53,9 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     VBox chatbox;
     @FXML
     StackPane chatAndEmoteHolder;
+    @FXML
+    private Label rankInfo;
+    List<Player> players;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -85,16 +89,41 @@ public class IntermediateLeaderboardCtrl extends BaseCtrl {
     }
 
     public void refresh(){
-        var players = server.getPlayers(gameUtils.getGameID()).getListOfPlayers();
-        data = FXCollections.observableList(players);
-        int currentRank = 1;
-        var listOfPlayers = data.stream().sorted().collect(Collectors.toList());
-        for (Player p : listOfPlayers) {
-            p.setRank(currentRank++);
+        players = server.getPlayers(gameUtils.getGameID()).getListOfPlayers();
+        Collections.sort(players,Player.Comparators.SCORE);
+        Collections.reverse(players);
+        for(Player p : players){
+            p.setRank(players.indexOf(p)+1);
         }
-        var result = listOfPlayers.stream()
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-        table.setItems(result);;
+        data = FXCollections.observableList(players);
+        table.setItems(data);
+        indicatePlayerRanking();
     }
 
+    public void indicatePlayerRanking(){
+        Player currentPlayer = gameUtils.getPlayer();
+        int ranking = players.indexOf(currentPlayer)+1;
+        int difference;
+        switch(ranking){
+            case 1:
+                rankInfo.setText("You are first, keep scoring!");
+                break;
+            case 2:
+                int first = players.get(0).getScore();
+                difference = first - currentPlayer.getScore();
+                rankInfo.setText("You are second, " + difference + " more points and you are first!");
+                break;
+            default:
+                if(ranking>=2) {
+                    String namePrevious = players.get(ranking - 2).getPlayerName();
+                    int previousScore = players.get(ranking - 2).getScore();
+                    difference = previousScore - currentPlayer.getScore();
+                    rankInfo.setText("You are number " + ranking
+                            + ", behind " + namePrevious
+                            + " by " + difference + " points");
+                }
+                break;
+        }
+        rankInfo.setVisible(true);
+    }
 }

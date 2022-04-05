@@ -66,12 +66,12 @@ public class GameUtils {
         return player;
     }
 
-    public void setGameID(Long gameID) {
-        this.gameID = gameID;
-    }
-
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setGameID(Long gameID) {
+        this.gameID = gameID;
     }
 
     public int getCurrentQuestion() {

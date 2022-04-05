@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
@@ -18,8 +19,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
@@ -39,7 +41,12 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     @FXML
     public StackPane chatAndEmoteHolder;
 
+    @FXML
+    private Label rankInfo;
+
     NamePromptCtrl promptCtrl;
+
+    List<Player> players;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,7 +58,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
 
     @Inject
     public MPFinalLeaderboardCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils,
-                                  NamePromptCtrl promptCtrl, GameUtils gameUtils){
+                                  NamePromptCtrl promptCtrl, GameUtils gameUtils) {
         super(mainCtrl, utils, server, gameUtils);
         this.promptCtrl = promptCtrl;
     }
@@ -64,7 +71,7 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
     }
 
     @FXML
-    private void emote(Event e){
+    private void emote(Event e) {
         utils.playButtonSound();
         String url = ((ImageView) e.getSource()).getImage().getUrl();
         String path = url.substring(url.lastIndexOf('/'));
@@ -72,17 +79,36 @@ public class MPFinalLeaderboardCtrl extends BaseCtrl {
         server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
-    public void refresh(){
-        var players = server.getPlayers(gameUtils.getGameID()).getListOfPlayers();
-        data = FXCollections.observableList(players);
-        int currentRank = 1;
-        var listOfPlayers = data.stream().sorted().collect(Collectors.toList());
-        for (Player p : listOfPlayers) {
-            p.setRank(currentRank++);
+    public void refresh() {
+        players = server.getPlayers(gameUtils.getGameID()).getListOfPlayers();
+        Collections.sort(players, Player.Comparators.SCORE);
+        Collections.reverse(players);
+        for (Player p : players) {
+            p.setRank(players.indexOf(p) + 1);
         }
-        var result = listOfPlayers.stream()
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-        table.setItems(result);;
+        data = FXCollections.observableList(players);
+        table.setItems(data);
+        indicatePlayerRanking();
+    }
+
+    public void indicatePlayerRanking() {
+        Player currentPlayer = gameUtils.getPlayer();
+        int ranking = players.indexOf(currentPlayer) + 1;
+        switch (ranking) {
+            case 1:
+                rankInfo.setText("Wow, you are the gold medalist!!");
+                break;
+            case 2:
+                rankInfo.setText("Wow, you are second! Nice job!");
+                break;
+            case 3:
+                rankInfo.setText("You are in the top 3!");
+                break;
+            default:
+                rankInfo.setText("You are number " + ranking + "!");
+                break;
+        }
+        rankInfo.setVisible(true);
     }
 
 }

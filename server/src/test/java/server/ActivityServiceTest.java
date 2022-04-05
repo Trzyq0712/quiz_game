@@ -82,4 +82,23 @@ class ActivityServiceTest {
         assertEquals(Optional.empty(), sut.removeActivity(new Activity()));
     }
 
+    @Test
+    void getActivity(){
+        sut.addActivity(act1);
+        assertEquals(act1, sut.getActivity());
+        sut.addActivity(act2);
+        assertTrue(List.of(act1,act2).contains(sut.getActivity()));
+    }
+
+    @Test
+    void updateActivity() {
+        sut.addActivity(act1);
+        act1.setDescription("new");
+        act1.setEnergyConsumption(111L);
+        act1.setPicturePath("/path/new");
+        var activity1 = sut.updateActivity(act1);
+        assertEquals(act1, activity1);
+        var activity2 = sut.updateActivity(act2);
+        assertEquals(null,activity2);
+    }
 }

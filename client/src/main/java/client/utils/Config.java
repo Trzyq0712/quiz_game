@@ -9,7 +9,7 @@ public class Config {
     public static String nameFile = loader.getResource("playerName.txt").toExternalForm().substring(6);
     public static String notificationStyle = "-fx-font-size: 20; -fx-text-fill: ";
     public static int activitiesPerPage = 5;
-    public static double timeReductionPercentage = .5; //percentage by which opponents time will decrease if the time
+    public static double timeReductionPercentage = .3; //percentage by which opponents time will decrease if the time
     public static String playerName;
     public static boolean isWaiting = false;
 }

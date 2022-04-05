@@ -109,6 +109,7 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
 
     public void restoreSubmit() {
         submitButton.setVisible(true);
+        submitButton.setDisable(false);
         textField.setText("");
         errorLabel.setVisible(false);
     }

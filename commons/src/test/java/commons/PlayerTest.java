@@ -23,6 +23,10 @@ class PlayerTest {
         var ps = new Player("Josh", 123);
         assertEquals("Josh", ps.getPlayerName());
         assertEquals(123, ps.getScore());
+        Player p = new Player();
+        assertNotNull(p);
+        Player p1 = new Player("Someone");
+        assertNotNull(p1);
     }
 
     @Test

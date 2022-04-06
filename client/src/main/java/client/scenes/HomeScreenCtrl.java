@@ -5,7 +5,6 @@ import client.utils.Config;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import jakarta.ws.rs.ProcessingException;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -81,7 +80,7 @@ public class HomeScreenCtrl extends BaseCtrl {
             connectionLabel.setText("Success");
             connectionLabel.setStyle(Config.connectionLabelStyle + "green");
             connectionLabel.setVisible(true);
-        } catch (ProcessingException e) {
+        } catch (Exception e) {
             connectionLabel.setText("Failure");
             connectionLabel.setStyle(Config.connectionLabelStyle + "red");
             connectionLabel.setVisible(true);

@@ -142,9 +142,9 @@ public class AnswerRevealCtrl extends BaseCtrl {
                 checkmark3.setImage(checkmark);
                 break;
         }
-        label1.setText(activities.get(0).getEnergyConsumption().toString());
-        label2.setText(activities.get(1).getEnergyConsumption().toString());
-        label3.setText(activities.get(2).getEnergyConsumption().toString());
+        label1.setText(activities.get(0).getEnergyConsumption().toString() + "WH");
+        label2.setText(activities.get(1).getEnergyConsumption().toString() + "WH");
+        label3.setText(activities.get(2).getEnergyConsumption().toString() + "WH");
     }
 
     /**
@@ -174,7 +174,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
      */
     public void setAnswer(Activity activity) {
         setEstimateQuestionFormat(true);
-        estimateAnswer.setText(activity.getEnergyConsumption().toString());
+        estimateAnswer.setText(activity.getEnergyConsumption().toString() + "WH");
     }
 
     /**

@@ -13,9 +13,8 @@ public class Config {
     public static String edit = "Edit activities";
     public static int maxChatMessages = 5;//maximum amount of chatmessages that can be in the chat at once
     public static int maxCharsUsername = 20; //maximum amount of characters a name can contain
-    public static String port = "8080"; //port for server and client
+    public static String port = "8080"; //port for server
     public static String server = "http://localhost:" + port + "/";
     public static int maxPointsPerQuestion = 200;
     public static int maxAmountOfNotifications = 3;
-
 }

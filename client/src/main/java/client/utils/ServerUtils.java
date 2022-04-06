@@ -40,7 +40,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils {
 
-    public static String SERVER = server;
+    public static String SERVER;
     public static String wsSERVER;
 
     public Long requestGameID() {

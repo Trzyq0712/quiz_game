@@ -9,6 +9,7 @@ class ClientInfoTest {
 
     public int currentQuestion;
     public Long gameID;
+    public Player player;
 
     @BeforeEach
     void init(){
@@ -19,6 +20,7 @@ class ClientInfoTest {
     void getCurrentQuestion() {
         ClientInfo c = new ClientInfo(currentQuestion,gameID);
         assertEquals(currentQuestion,c.getCurrentQuestion());
+        player =  new Player("John", 2137);
     }
 
     @Test
@@ -39,5 +41,26 @@ class ClientInfoTest {
         ClientInfo c = new ClientInfo(currentQuestion,gameID);
         c.setGameID(4L);
         assertEquals(4L,c.getGameID());
+    }
+
+    @Test
+    void setCurrentQuestion() {
+        ClientInfo c = new ClientInfo(currentQuestion,gameID);
+        c.setCurrentQuestion(55);
+        assertEquals(55,c.getCurrentQuestion());
+    }
+
+    @Test
+    void getPlayer() {
+        ClientInfo c = new ClientInfo(gameID, player);
+        assertEquals(player, c.getPlayer());
+    }
+
+    @Test
+    void setPlayer() {
+        ClientInfo c = new ClientInfo(gameID, player);
+        Player p1 =  new Player("Martin", 217);
+        c.setPlayer(p1);
+        assertEquals(p1, c.getPlayer());
     }
 }

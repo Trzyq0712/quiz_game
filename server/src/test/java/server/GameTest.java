@@ -1,9 +1,11 @@
 package server;
 
+import commons.Activity;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,12 +15,16 @@ class GameTest {
     Game g;
     Player p1;
     Player p2;
+    HashMap<Integer, Integer> questionTypes;
+    HashMap<Integer, List<Activity>> activities;
 
     @BeforeEach
     public void setup() {
         g = new Game();
         p1 = new Player("Vian",50);
         p2 = new Player("Kuba", 70);
+        questionTypes = new HashMap<>();
+        activities = new HashMap<>();
     }
 
     @Test
@@ -107,7 +113,7 @@ class GameTest {
 
     @Test
     void getGameId(){
-        var expected = 6L;
+        var expected = 8L;
         var actual = g.getGameId();
         assertEquals(expected, actual);
     }
@@ -133,6 +139,15 @@ class GameTest {
     }
 
     @Test
+    void testNotEquals() {
+        g.addAPlayer(p2);
+        g.addAPlayer(p1);
+        Game g1 = new Game();
+        g1.addAPlayer(p2);
+        assertFalse(g.equals(g1));
+    }
+
+    @Test
     void testHashCode() {
         g.addAPlayer(p2);
         g.addAPlayer(p1);
@@ -146,4 +161,37 @@ class GameTest {
         assertNotEquals(g.hashCode(), g2.hashCode());
     }
 
+    @Test
+    void getQuestionTypes() {
+        assertEquals(questionTypes, g.getQuestionTypes());
+    }
+
+    @Test
+    void getActivities() {
+        assertEquals(activities, g.getActivities());
+    }
+
+    @Test
+    void getHashMapOfPlayers() {
+        HashMap<Long, Player> playerList = new HashMap<>();
+        playerList.put(p1.getId(), p1);
+        g.addAPlayer(p1);
+        assertEquals(playerList, g.getHashMapOfPlayers());
+        playerList.put(p2.getId(), p2);
+        g.addAPlayer(p2);
+        assertEquals(playerList, g.getHashMapOfPlayers());
+    }
+
+
+    @Test
+    void testToString() {
+        HashMap<Long, Player> playerList = new HashMap<>();
+        playerList.put(p1.getId(), p1);
+        var id = g.getGameId();
+        g.addAPlayer(p1);
+        String result = "Game " + id + "{" +
+                "players=" + playerList
+                + '}';
+        assertEquals(result, g.toString());
+    }
 }

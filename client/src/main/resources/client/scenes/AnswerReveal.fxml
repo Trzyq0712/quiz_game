@@ -66,9 +66,9 @@
       </ProgressBar>
       <Label id="questionCountLabel" fx:id="questionTracker" layoutX="1450.0" layoutY="900.0" text="Question x/y" />
       <Label id="scoreLabel" fx:id="scoreLabel" layoutX="1450.0" layoutY="960.0" text="Score x/y" />
-      <Label id="label1" fx:id="label1" layoutX="659.0" layoutY="374.0" text="Label" />
-      <Label id="label2" fx:id="label2" layoutX="659.0" layoutY="553.0" text="Label" />
-      <Label id="label3" fx:id="label3" layoutX="659.0" layoutY="742.0" text="Label" />
+      <Label id="label1" fx:id="label1" layoutX="370.0" layoutY="374.0" prefHeight="35.0" prefWidth="376.0" text="Label" />
+      <Label id="label2" fx:id="label2" layoutX="370.0" layoutY="553.0" prefHeight="35.0" prefWidth="376.0" text="Label" />
+      <Label id="label3" fx:id="label3" layoutX="370.0" layoutY="742.0" prefHeight="35.0" prefWidth="376.0" text="Label" />
       <ImageView id="checkmark1" fx:id="checkmark1" fitHeight="75.0" fitWidth="79.0" layoutX="1150.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView id="checkmark2" fx:id="checkmark2" fitHeight="75.0" fitWidth="79.0" layoutX="1151.0" layoutY="533.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView id="checkmark3" fx:id="checkmark3" fitHeight="75.0" fitWidth="79.0" layoutX="1149.0" layoutY="724.0" pickOnBounds="true" preserveRatio="true" />

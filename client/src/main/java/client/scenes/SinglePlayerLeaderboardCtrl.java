@@ -16,6 +16,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -53,7 +55,7 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
         rank.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getRank())));
         player.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPlayerName()));
         score.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getScore())));
-        scoredTime.setCellValueFactory(p -> new SimpleStringProperty(String.valueOf(p.getValue().getTime())));
+        scoredTime.setCellValueFactory(p -> new SimpleStringProperty(convertDate(p.getValue().getTime())));
     }
 
     /**
@@ -116,6 +118,25 @@ public class SinglePlayerLeaderboardCtrl extends BaseCtrl implements Initializab
      */
     public void hidePlayAgain() {
         playAgain.setVisible(false);
+    }
+
+    /**
+     * Converts a timestamp to a string representing how long ago happened.
+     * @param timestamp The timestamp to convert.
+     * @return A human-readable string of when it took place.
+     */
+    private String convertDate(Timestamp timestamp) {
+        Timestamp now = Timestamp.from(Instant.now());
+        long timeDiff = now.getTime() - timestamp.getTime();
+        long minute = 1000 * 60;
+        long hour = minute * 60;
+        long day = hour * 24;
+        long week = day * 7;
+        if (timeDiff >= week) return timeDiff / week + " week(s) ago";
+        if (timeDiff >= day) return timeDiff / day + " day(s) ago";
+        if (timeDiff >= hour) return timeDiff / hour + " hour(s) ago";
+        if (timeDiff >= minute) return timeDiff / minute + " minute(s) ago";
+        return "Just now";
     }
 
 }

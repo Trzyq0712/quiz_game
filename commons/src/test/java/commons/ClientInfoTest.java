@@ -16,6 +16,20 @@ class ClientInfoTest {
         currentQuestion=0;
         gameID = 1L;
     }
+
+    @Test
+    void constructorTest(){
+        ClientInfo c = new ClientInfo(currentQuestion,gameID);
+        assertNotNull(c);
+        ClientInfo c1 = new ClientInfo();
+        assertNotNull(c1);
+        player =  new Player("John", 2137);
+        ClientInfo c2 = new ClientInfo(player);
+        assertNotNull(c2);
+        ClientInfo c3 = new ClientInfo(gameID);
+        assertNotNull(c3);
+    }
+
     @Test
     void getCurrentQuestion() {
         ClientInfo c = new ClientInfo(currentQuestion,gameID);

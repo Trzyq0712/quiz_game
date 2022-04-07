@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ActivityControllerTest {
 
     private ActivityRepository repo;
-    private ActivityService serv;
+    private ActivityService actServ;
     private ActivityController sut;
     private Activity act1;
     private Activity act2;
@@ -28,8 +28,8 @@ class ActivityControllerTest {
     @BeforeEach
     void setup() {
         repo = new MockActivityRepository();
-        serv = new ActivityService(repo);
-        sut = new ActivityController(serv);
+        actServ = new ActivityService(repo);
+        sut = new ActivityController(actServ);
         act1 = new Activity("description", 12L, "path/to/file1");
         act2 = new Activity("a different description", 42L, "path/to/file2");
         /*File picture;
@@ -45,9 +45,9 @@ class ActivityControllerTest {
 
     @Test
     void getActivities() {
-        serv.addActivity(act1);
+        actServ.addActivity(act1);
         assertEquals(ResponseEntity.of(Optional.of(List.of(act1))), sut.getActivities(null));
-        serv.addActivity(act2);
+        actServ.addActivity(act2);
         assertEquals(2, sut.getActivities(null).getBody().size());
         assertEquals(ResponseEntity.of(Optional.of(List.of(act2))), sut.getActivities("different"));
         assertEquals(2, sut.getActivities("description").getBody().size());
@@ -56,15 +56,15 @@ class ActivityControllerTest {
 
     @Test
     void getActivityById() {
-        var act = serv.addActivity(act1);
+        var act = actServ.addActivity(act1);
         assertEquals(act1, sut.getActivityById(act.getId()).getBody());
         assertEquals(HttpStatus.NOT_FOUND, sut.getActivityById(act.getId() + 1).getStatusCode());
     }
 
     @Test
     void deleteActivityById() {
-        serv.addActivity(act1);
-        serv.addActivity(act2);
+        actServ.addActivity(act1);
+        actServ.addActivity(act2);
         assertEquals(ResponseEntity.of(Optional.of(act1)), sut.deleteActivityById(act1.getId()));
         assertEquals(HttpStatus.NOT_FOUND, sut.deleteActivityById(act1.getId()).getStatusCode());
         assertEquals(1, repo.count());
@@ -79,12 +79,37 @@ class ActivityControllerTest {
         assertEquals(2, repo.count());
     }
 
-    /*@Test
+    @Test
+    void getActivity() {
+        sut.addActivity(act2);
+        //size 1, so not random
+        assertEquals(act2, sut.getActivity().getBody());
+    }
+
+    @Test
     void addPostActivity() {
-        sut.addPostActivity(postAct);
-        assertTrue(repo.findAll().contains(postAct.getActivity()));
-        var res = sut.addActivity(postAct.getActivity());
-        assertEquals(ResponseEntity.of(Optional.of(postAct.getActivity())), res);
-        assertEquals(2, repo.count());
-    }*/
+        byte[] b = new byte[5];
+        PostActivity post = new PostActivity(act1,b);
+        assertEquals(act1, sut.addPostActivity(post).getBody());
+        assertTrue(actServ.getAllActivities().contains(act1));
+    }
+
+    @Test
+    void updatePostActivity() {
+        byte[] b = new byte[5];
+        Activity a1 = act1;
+        a1.setEnergyConsumption(5050L);
+        a1.setId(act1.getId());
+        PostActivity post = new PostActivity(a1,b);
+        sut.addActivity(act1);
+        assertEquals(a1, sut.updatePostActivity(post).getBody());
+        assertTrue(actServ.getAllActivities().contains(a1));
+    }
+
+    @Test
+    void deletePostActivity() {
+        sut.addActivity(act1);
+        assertEquals(true, sut.deletePostActivity(act1.getId()).getBody());
+        assertEquals(0, sut.getActivities(null).getBody().size());
+    }
 }

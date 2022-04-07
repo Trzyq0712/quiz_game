@@ -33,4 +33,10 @@ class PostActivityTest {
         PostActivity postActivity2 = new PostActivity(activity, pictureBuffer);
         assertEquals(postActivity2, postActivity);
     }
+
+    @Test
+    void hashTest(){
+        PostActivity postActivity1 = new PostActivity(activity, pictureBuffer);
+        assertEquals(postActivity.hashCode(), postActivity1.hashCode());
+    }
 }

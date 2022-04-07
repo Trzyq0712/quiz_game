@@ -40,24 +40,31 @@ class AnswerTest {
         assertFalse(a.equals(b));
     }
 
-    /*@Test
+    @Test
     void testPoints1(){
         Answer a = new Answer(1,(int) (0.75 * timePerQuestion));
-        int expected = (int) (100 + ((timePerQuestion - a.getTimeToAnswer()) / timePerQuestion) * 100);
+        int expected = 125;
         assertEquals(expected,a.getPoints());
-    }*/
+    }
 
     @Test
     void testPoints2(){
         Answer a = new Answer(1,(int) (0 * timePerQuestion));
-        int expected = (int) (100 + ((timePerQuestion - a.getTimeToAnswer()) / timePerQuestion) * 100);
+        int expected = 200;
         assertEquals(expected,a.getPoints());
     }
 
-    /*@Test
+    @Test
     void testPoints3(){
         Answer a = new Answer(1,(int) (0.5 * timePerQuestion));
-        int expected = (int) (100 + ((timePerQuestion - a.getTimeToAnswer()) / timePerQuestion) * 100);
+        int expected = 150;
         assertEquals(expected,a.getPoints());
-    }*/
+    }
+
+    @Test
+    void testHash(){
+        Answer a = new Answer(1,(int) (0.5 * timePerQuestion));
+        Answer a1 = new Answer(1,(int) (0.5 * timePerQuestion));
+        assertEquals(a.hashCode(), a1.hashCode());
+    }
 }

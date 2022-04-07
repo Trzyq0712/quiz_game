@@ -1,11 +1,12 @@
 package commons;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Comparator;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
@@ -15,23 +16,27 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
  */
 @Table
 @Entity
-public class Player {
+public class Player implements Comparable<Player> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String playerName;
+    private Integer score;
+    private Timestamp time;
+
+    public static Long playerID = 0L;
+
     @Transient
     private int rank;
 
-    private String playerName;
-    private Integer score;
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp time;
-
     @SuppressWarnings("unused")
-    private Player() {
+    Player() {
         // for object mapper
+        //generateId();
+        this.id = new Long(playerID);
+        playerID++;
     }
 
     /**
@@ -43,12 +48,21 @@ public class Player {
     public Player(String playerName, int score) {
         this.playerName = playerName;
         this.score = score;
+        this.id = new Long(playerID);
+        playerID++;
     }
 
     public Player(String playerName) {
         this.playerName = playerName;
         this.score = 0;
+        this.id = new Long(playerID);
+        playerID++;
     }
+
+    /*public void generateId() {
+        this.id = new Long(playerID);
+        playerID++;
+    }*/
 
     /**
      * Updating the score by adding points to it.
@@ -91,7 +105,7 @@ public class Player {
      *
      * @return the score of the player.
      */
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
@@ -113,6 +127,15 @@ public class Player {
         return time;
     }
 
+    /**
+     * Setter for time the player's score was achieved.
+     *
+     * @param time The new time to set.
+     */
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
     public int getRank() {
         return rank;
     }
@@ -126,12 +149,16 @@ public class Player {
      * Compare whether two instances of a Player are equal.
      * All fields have to be equal for equality.
      *
-     * @param obj to be compared with.
+     * @param o to be compared with.
      * @return whether the two objects are equal.
      */
     @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id) && Objects.equals(playerName, player.playerName)
+                && Objects.equals(score, player.score) && Objects.equals(time, player.time);
     }
 
     /**
@@ -153,5 +180,20 @@ public class Player {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public int compareTo(Player o) {
+        return Comparators.SCORE.compare(this,o);
+    }
+
+    public static class Comparators {
+
+        public static Comparator<Player> SCORE = new Comparator<Player>() {
+            @Override
+            public int compare(Player p1, Player p2) {
+                return p1.getScore().compareTo(p2.getScore());
+            }
+        };
     }
 }

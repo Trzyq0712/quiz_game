@@ -52,7 +52,7 @@ public class EditScreenCtrl extends BaseCtrl {
      * Loads the activity browser on page 1
      */
     public void setUp() {
-        actUtils.setUp(mainCtrl, activityGrid, server);
+        actUtils.setUp(mainCtrl, activityGrid, server, utils);
         pageSpinner.setEditable(true);
         pageSpinner.setValueFactory(actUtils.getSpinnerValues());
         actUtils.loadGrid();

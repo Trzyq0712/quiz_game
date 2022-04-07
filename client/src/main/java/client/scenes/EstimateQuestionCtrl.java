@@ -4,16 +4,17 @@ import client.utils.ApplicationUtils;
 import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Activity;
+import commons.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
+
+import java.util.List;
 
 import static commons.Config.*;
 
@@ -25,14 +26,6 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     Label ActivityDescription;
     @FXML
     ImageView questionImage;
-    @FXML
-    Label questionTracker;
-    @FXML
-    Label scoreLabel;
-    @FXML
-    VBox chatbox;
-    @FXML
-    StackPane chatAndEmoteHolder;
     @FXML
     TextField textField;
     @FXML
@@ -47,8 +40,10 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
     }
 
 
+    @Override
     public void generateActivity() {
         activity = server.getSingleActivity(gameUtils.getCurrentQuestion(), gameUtils.getGameID());
+        answer = activity.getEnergyConsumption();
         displayActivity();
         setHasPlayerAnswered(false);
     }
@@ -59,32 +54,40 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         mainCtrl.setAnswersForAnswerReveal(activity);
     }
 
+    @Override
+    public void activateProgressBar() {
+        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal,
+                List.of(submitButton));
+    }
 
     /**
      * Score is calculated in the range from 0 to 2 * the correct answer.
      * Points granted decline in a linear fashion from the correct answer.
      * Max amount of points can be configured in the config file.
      */
-    public void submitGuess(){
+    @FXML
+    private void submitGuess(){
         utils.playButtonSound();
         int points = 0;
         try {
             double start = 0;
-            double center = activity.getEnergyConsumption();
+            double center = answer;
             double end = 2 * center;
             double guess = Double.parseDouble(textField.getText());
             submitButton.setVisible(false);
             if (guess > start && guess < end) {
                 double deviation = Math.abs(guess - center);
                 double fraction = (center - deviation) / center;
-                /*fraction = easeOutSinusoidal(fraction); doing this makes it doable to get 200 points,
-                * but maybe this is not desired because players get the same amount of points more frequently?*/
+                fraction = easeOutSinusoidal(fraction);
                 points = (int) (fraction * maxPointsPerQuestion);
                 if (doublePointsActive) {
                     points *= 2;
                     doublePointsActive = false;
                 }
                 gameUtils.getPlayer().addPoints(points);
+                Long gameID = gameUtils.getGameID();
+                Player player = gameUtils.getPlayer();
+                server.updateScore(gameID, player);
             }
         } catch (Exception e) {
             errorLabel.setText("Please type a number");
@@ -104,9 +107,9 @@ public class EstimateQuestionCtrl extends BaseQuestionCtrl {
         return Math.sin(0.5 * fraction * Math.PI);
     }
 
-
     public void restoreSubmit() {
         submitButton.setVisible(true);
+        submitButton.setDisable(false);
         textField.setText("");
         errorLabel.setVisible(false);
     }

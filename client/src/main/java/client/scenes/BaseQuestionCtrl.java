@@ -5,25 +5,44 @@ import client.utils.GameUtils;
 import client.utils.ServerUtils;
 import commons.Answer;
 import commons.Emote;
+import commons.NotificationMessage;
+import commons.Player;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static commons.Config.*;
+import static commons.Config.timePerQuestion;
 
 
 public abstract class BaseQuestionCtrl extends BaseCtrl {
 
     protected boolean doublePoints;
     protected int answerButtonId;
+    protected long answer;
     protected boolean hasPlayerAnswered;
+    @FXML
+    protected VBox chatbox;
+    @FXML
+    protected StackPane chatAndEmoteHolder;
+    @FXML
+    protected ProgressBar pgBar;
+    @FXML
+    protected Button firstButton;
+    @FXML
+    protected Button secondButton;
+    @FXML
+    protected Button thirdButton;
+    protected boolean doublePointsActive;
+    protected int lastScoredPoints; //this will be doubled if the player activates 2x points.
     @FXML
     ImageView hintJoker;
     @FXML
@@ -34,20 +53,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     Label questionTracker;
     @FXML
     Label scoreLabel;
-
-    @FXML
-    ProgressBar pgBar;
-    @FXML
-    Button firstButton;
-    @FXML
-    Button secondButton;
-    @FXML
-    Button thirdButton;
-
-    protected boolean doublePointsActive;
-    protected int lastScoredPoints; //this will be doubled if the player activates 2x points.
-
-
 
     public BaseQuestionCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
         super(mainCtrl, utils, server, gameUtils);
@@ -75,7 +80,8 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * see activateGenericProgressBar in mainCtrl for more info
      */
     public void activateProgressBar() {
-        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal);
+        utils.runProgressBar(pgBar, timePerQuestion, mainCtrl::showAnswerReveal,
+                List.of(firstButton, secondButton, thirdButton));
     }
 
     public void restoreDoublePoints() {
@@ -88,9 +94,11 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * then all the buttons are visible again for the new question
      */
     public void restoreAnswers() {
-        firstButton.setVisible(true);
-        secondButton.setVisible(true);
-        thirdButton.setVisible(true);
+        List<Button> buttons = List.of(firstButton, secondButton, thirdButton);
+        buttons.forEach(btn -> {
+            btn.setVisible(true);
+            btn.setDisable(false);
+        });
     }
 
     /**
@@ -101,16 +109,6 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.visibilityTimeJoker(true);
         mainCtrl.visibilityHintJoker(true);
         mainCtrl.visibilityPointsJoker(true);
-    }
-
-    /**
-     * Goes to the home screen
-     */
-    public void showHome() {
-        server.disconnect();
-        mainCtrl.showHome();
-        restoreAnswers();
-        restoreJokers();
     }
 
     /**
@@ -128,16 +126,11 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
         mainCtrl.setAnswersForAnswerReveal(earnedPoints, false);
         setHasPlayerAnswered(true);
         gameUtils.getPlayer().addPoints(earnedPoints);
+        Long gameID = gameUtils.getGameID();
+        Player player = gameUtils.getPlayer();
+        server.updateScore(gameID, player);
     }
 
-    /**
-     * Disables the player to click on the time joker
-     */
-    @FXML
-    private void timeClick() {
-        utils.playButtonSound();
-        timeJoker.setVisible(false);
-    }
 
     /**
      * Adds the emote to the chatbox
@@ -145,9 +138,11 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      * @param e - emote
      */
     public void emote(Event e) {
-        String path = ((ImageView) e.getSource()).getImage().getUrl();
+        utils.playButtonSound();
+        String url = ((ImageView) e.getSource()).getImage().getUrl();
+        String path = url.substring(url.lastIndexOf('/'));
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
-        server.send("/app/emote/1", emote);
+        server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
     /**
@@ -157,14 +152,15 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     @FXML
     protected void pointsClick() {
         utils.playButtonSound();
-        pointsJoker.setVisible(false);
         mainCtrl.visibilityPointsJoker(false);
         if (hasPlayerAnswered) {
             gameUtils.getPlayer().addPoints(lastScoredPoints);
-            mainCtrl.setAnswersForAnswerReveal(lastScoredPoints*2, false);
+            mainCtrl.setAnswersForAnswerReveal(lastScoredPoints * 2, false);
+            mainCtrl.refresh();
         } else doublePointsActive = true;
-        utils.addNotification("2x points activated", "green");
-
+        if (server.isConnected())
+            server.send("/app/notification/" + gameUtils.getGameID(),
+                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used 2x points joker!"));
     }
 
     /**
@@ -173,10 +169,12 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
      */
 
     @FXML
-    protected void hintClick () {
+    protected void hintClick() {
         utils.playButtonSound();
-        utils.addNotification("hint activated", "green");
-        hintJoker.setVisible(false);
+        if (server.isConnected())
+            server.send("/app/notification/" + gameUtils.getGameID(),
+                    new NotificationMessage(gameUtils.getPlayer().getPlayerName() + " used hint joker!"));
+        mainCtrl.visibilityHintJoker(false);
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
         List<Button> wrongButtons = new ArrayList<>();
         for (Button b : listOfButtons) {
@@ -189,10 +187,35 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
     }
 
     /**
+     * Gives a hint for the estimate question
+     * and disables the player to click on hint joker again
+     */
+    @FXML
+    protected void estimateHintClick() {
+        utils.playButtonSound();
+        mainCtrl.visibilityHintJoker(false);
+        int nbOfDigits = Long.toString(answer).length();
+        utils.addNotification("There are " + nbOfDigits + " digits in the answer", "green");
+    }
+
+    /**
+     * Reduces the time for all other players in a game and hides the joker so it cannot be used again.
+     */
+    @FXML
+    private void timeClick() {
+        utils.playButtonSound();
+        mainCtrl.visibilityTimeJoker(false);
+        server.send("/app/useTimeJoker/" + gameUtils.getGameID(), gameUtils.getPlayer());
+        utils.addNotification("You used your time joker!", "green");
+    }
+
+    /**
      * hides all buttons except for the one that was clicked
+     *
      * @param event button that was clicked, so either A, B or C
      */
-    public void answerClick(Event event) {
+    @FXML
+    private void answerClick(Event event) {
         utils.playButtonSound();
         long timeToAnswer = gameUtils.stopTimer();
         List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
@@ -203,12 +226,13 @@ public abstract class BaseQuestionCtrl extends BaseCtrl {
             i++;
             if (!b.getId().equals(activated.getId())) {
                 b.setVisible(false);
-            } else{
-                buttonNb=i;
+            } else {
+                buttonNb = i;
             }
         }
         grantPoints(new Answer(buttonNb, timeToAnswer));
         hasPlayerAnswered = true;
     }
 
+    public abstract void generateActivity();
 }

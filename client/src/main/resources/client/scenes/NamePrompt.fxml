@@ -6,7 +6,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
 
 <AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.NamePromptCtrl">
    <children>
@@ -23,13 +22,7 @@
          </image>
       </ImageView>
       <Label id="errorLabel" fx:id="errorLabel" alignment="CENTER" layoutX="562.0" layoutY="761.0" prefWidth="800.0" text="Error label" visible="false" />
-      <StackPane layoutX="-2.0" layoutY="788.0" prefHeight="99.0" prefWidth="1928.0">
-         <children>
-            <Button fx:id="startButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#confirm" prefHeight="82.0" prefWidth="324.0" styleClass="clickable" text="Enter game" wrapText="true" />
-         </children>
-      </StackPane>
-      <TextField fx:id="serverField" layoutX="849.0" layoutY="500.0" prefHeight="81.0" prefWidth="225.0" promptText="http://localhost:/8080/" />
-      <Label alignment="CENTER" layoutX="700.0" layoutY="486.0" prefHeight="109.0" prefWidth="149.0" stylesheets="@../../style.css" text="server:" />
       <Label alignment="CENTER" layoutX="700.0" layoutY="643.0" prefHeight="109.0" prefWidth="149.0" stylesheets="@../../style.css" text="name:" />
+      <Button fx:id="startButton" alignment="CENTER" contentDisplay="CENTER" layoutX="806.0" layoutY="803.0" mnemonicParsing="false" onMouseClicked="#confirm" prefHeight="82.0" prefWidth="324.0" styleClass="clickable" text="Enter game" wrapText="true" />
    </children>
 </AnchorPane>

@@ -84,7 +84,7 @@
 }
 
 #questionLabel {
-    -fx-font-family: "Script MT Bold"; /* feel free to change it to watever you like */
+    -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
     -fx-font-size: 80;
     -fx-alignment: center;
     -fx-text-fill: white;
@@ -165,9 +165,4 @@ VBox Label {/*text within the chatbox*/
     -fx-font-size: 23;
     -fx-text-fill: white;
     -fx-font-family: "Showcard Gothic"; /* feel free to change it to watever you like */
-}
-
-#green {
-    -fx-text-fill: green;
-    -fx-font-size: 20;
 }

@@ -40,7 +40,8 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 public class ServerUtils {
 
-    public static String SERVER = server;
+    public static String SERVER;
+    public static String wsSERVER;
 
     public Long requestGameID() {
         return ClientBuilder.newClient(new ClientConfig()) //
@@ -50,12 +51,20 @@ public class ServerUtils {
                 .get(new GenericType<Long>() {});
     }
 
-    public boolean start() {
+    public String ping() {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/play/start") //
+                .target(SERVER).path("api/connection/ping") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .get(new GenericType<Boolean>() {});
+                .get(new GenericType<String>() {});
+    }
+
+    public Long start(Player player) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("api/play/start/single") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(player, APPLICATION_JSON), Long.class);
     }
 
 
@@ -67,9 +76,9 @@ public class ServerUtils {
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Integer.class);
     }
 
-    public ActivityList get3Activities(int currentQuestion, Long gameID) {
+    public ActivityList get4Activities(int currentQuestion, Long gameID) {
         return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/play/get3Activities") //
+                .target(SERVER).path("/api/play/get4Activities") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), ActivityList.class);
@@ -81,6 +90,30 @@ public class ServerUtils {
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(new ClientInfo(currentQuestion, gameID), APPLICATION_JSON), Activity.class);
+    }
+
+    public Boolean updateScore(Long gameID, Player player) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/updateScore") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(gameID, player), APPLICATION_JSON), Boolean.class);
+    }
+
+    public PlayerList getPlayers(Long gameID) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/play/getPlayers") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(new ClientInfo(gameID), APPLICATION_JSON), PlayerList.class);
+    }
+
+    public Player generatePlayer(String name) {
+        return ClientBuilder.newClient(new ClientConfig()) //
+                .target(SERVER).path("/api/playerscore/generatePlayer") //
+                .request(APPLICATION_JSON) //
+                .accept(APPLICATION_JSON) //
+                .post(Entity.entity(name, APPLICATION_JSON), Player.class);
     }
 
     /*public void startMultiplayer() {
@@ -100,31 +133,31 @@ public class ServerUtils {
     }*/
 
     /**
-     * @param name the name with which the player wants to play singleplayer
+     * @param player the name with which the player wants to play singleplayer
      * @return true if the server accepts
      */
-    public boolean startSingle(String name) {
-        return askConfirmation("api/play/single", name);
+    public boolean startSingle(Player player) {
+        return askConfirmation("api/play/single", player);
     }
 
     /**
-     * @param name the name with which the player wants to join the waiting room
+     * @param player the name with which the player wants to join the waiting room
      * @return true if the server accepts
      */
-    public boolean enterWaitingRoom(String name) {
-        return askConfirmation("api/play/join", name);
+    public boolean enterWaitingRoom(Player player) {
+        return askConfirmation("api/play/join", player);
     }
 
     /**
      * @param path where to send the request
      * @return true if request is ok
      */
-    public boolean askConfirmation(String path, String name){
+    public boolean askConfirmation(String path, Player player){
         return ClientBuilder.newClient(new ClientConfig()) //
                 .target(SERVER).path(path) //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(name, APPLICATION_JSON), Boolean.class);
+                .post(Entity.entity(player, APPLICATION_JSON), Boolean.class);
     }
 
     /**
@@ -150,15 +183,14 @@ public class ServerUtils {
     }
 
     /**
-     * @param players is the list of the visible players for the client
      * @return the updated list of the players when something has changed
      */
-    public List<Player> pollWaitingroom(List<Player> players) {
+    public List<Player> pollWaitingroom() {
         return ClientBuilder.newClient(new ClientConfig()) //F
                 .target(SERVER).path("api/play/waitingroom/poll") //
                 .request(APPLICATION_JSON) //
                 .accept(APPLICATION_JSON) //
-                .post(Entity.entity(players, APPLICATION_JSON), List.class);
+                .get(new GenericType<List<Player>>() {});
     }
 
     /**
@@ -192,17 +224,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .get(new GenericType<String>() {});
     }
-    /**
-     * gets a list of 3 activities from the server
-     * @return a list of 3 activities
-     */
-    /*public List<Activity> get3Activities() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("api/activity/3") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(new GenericType<List<Activity>>() {});
-    }*/
 
 
     /**
@@ -216,14 +237,6 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON) //
                 .post(Entity.entity(activity, APPLICATION_JSON), Activity.class);
     }
-
-    /*public Activity getActivity() {
-        return ClientBuilder.newClient(new ClientConfig()) //
-                .target(SERVER).path("/api/activity/1") //
-                .request(APPLICATION_JSON) //
-                .accept(APPLICATION_JSON) //
-                .get(Activity.class);
-    }*/
 
     /**
      * @return all activities
@@ -262,23 +275,22 @@ public class ServerUtils {
                 .post(Entity.entity(id, APPLICATION_JSON), Boolean.class);
     }
 
-    private StompSession session = connect("ws://localhost:8080/websocket");
+    private StompSession session;
 
-    private StompSession connect(String url){
+    public void connect(){
         var client = new StandardWebSocketClient();
         var stomp = new WebSocketStompClient(client);
         stomp.setMessageConverter(new MappingJackson2MessageConverter());
         try{
-            return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+            session = stomp.connect(wsSERVER, new StompSessionHandlerAdapter() {}).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        throw new IllegalStateException();
     }
 
     public <T> StompSession.Subscription registerForMessages(String dest, Class<T> type ,Consumer<T> consumer){
-        if(!session.isConnected())
-            session = connect("ws://localhost:8080/websocket");
+        if(!isConnected())
+            connect();
         return session.subscribe(dest, new StompFrameHandler(){
             @Override
             public Type getPayloadType(StompHeaders headers) {
@@ -305,7 +317,14 @@ public class ServerUtils {
     }
 
     public boolean isConnected() {
+        if(session == null)
+            return false;
+
         return session.isConnected();
     }
 
+    public static void setSERVER(String url) {
+        SERVER = url;
+        wsSERVER = "ws" + url.substring(4) + "websocket";
+    }
 }

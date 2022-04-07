@@ -23,7 +23,7 @@
                 <Image url="@/images/music.png" />
             </image>
         </ImageView>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="93.0" prefHeight="115.0" prefWidth="1920.0" text="Edit activities" textAlignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="165.0" prefHeight="43.0" prefWidth="1920.0" text="Edit activities" textAlignment="CENTER">
             <font>
                 <Font size="52.0" />
             </font></Label>

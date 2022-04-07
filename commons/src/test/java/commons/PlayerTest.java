@@ -23,17 +23,10 @@ class PlayerTest {
         var ps = new Player("Josh", 123);
         assertEquals("Josh", ps.getPlayerName());
         assertEquals(123, ps.getScore());
-    }
-
-
-    @Test
-    void testEquals() {
-        assertNotEquals(ps1, ps2);
-        assertEquals(ps1, ps1);
-        assertEquals(ps2, ps2);
-        Player p = new Player("Johnny", 5555);
-        assertEquals(p, ps3);
-        assertNotEquals(ps2, ps3);
+        Player p = new Player();
+        assertNotNull(p);
+        Player p1 = new Player("Someone");
+        assertNotNull(p1);
     }
 
     @Test
@@ -54,5 +47,53 @@ class PlayerTest {
         assertTrue(strRepr.contains(Player.class.getSimpleName()));
         assertTrue(strRepr.contains("playerName"));
         assertTrue(strRepr.contains("score"));
+    }
+
+    @Test
+    void addPoints() {
+        ps1.addPoints(3);
+        assertEquals(2140, ps1.getScore());
+    }
+
+    @Test
+    void getId() {
+        ps1.setId(22L);
+        assertEquals(22L, ps1.getId());
+    }
+
+    @Test
+    void setId() {
+        ps1.setId(222L);
+        assertEquals(222L, ps1.getId());
+        ps1.setId(141L);
+        assertEquals(141L, ps1.getId());
+    }
+
+    @Test
+    void getPlayerName() {
+        assertEquals("John", ps1.getPlayerName());
+        assertEquals("Joanna", ps2.getPlayerName());
+        assertEquals("Johnny", ps3.getPlayerName());
+    }
+
+    @Test
+    void getScore() {
+        assertEquals(2137, ps1.getScore());
+    }
+
+    @Test
+    void setScore() {
+        ps1.setScore(2000);
+        assertEquals(2000, ps1.getScore());
+    }
+
+    @Test
+    void testEquals() {
+        assertNotEquals(ps1, ps2);
+        ps1.setId(22L);
+        Player p1 = new Player("John", 2137);
+        p1.setId(22L);
+        assertTrue(ps1.equals(p1));
+        assertEquals(ps1,ps1);
     }
 }

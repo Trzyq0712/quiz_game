@@ -1,13 +1,14 @@
 package server.api;
 
+import commons.Activity;
 import commons.PostActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import commons.Activity;
 import server.ActivityService;
 
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -24,8 +25,7 @@ public class ActivityController extends BaseController {
     private int currentRound = -1; // -1 means there's no game active
     private int currentQuestionType = -1;
     private List<Activity> currentListOfActivities;
-    public String imgPath = getClass().getClassLoader().getResource("static/")
-            .toString().substring(6).replace("%20", " ");
+    private URL imgPath = getClass().getClassLoader().getResource("static");
 
 
     /**
@@ -57,22 +57,22 @@ public class ActivityController extends BaseController {
     }
 
     /**
-     * Endpoint for getting 3 activities
+     * Endpoint for getting 4 activities
      *
-     * @return The list containing 3 activities
+     * @return The list containing 4 activities
      */
-    @GetMapping(path = "3")
-    public ResponseEntity<List<Activity>> get3Activities(){
-         return ResponseEntity.ok(currentListOfActivities);
+    @GetMapping(path = "4")
+    public ResponseEntity<List<Activity>> get4Activities() {
+        return ResponseEntity.ok(currentListOfActivities);
     }
 
 
     @PostMapping(path = "getQuestion")
     public ResponseEntity<Integer> getQuestionType(@RequestBody int round) {
         if (currentRound == -1 || round == currentRound + 1) {//either the first request or a request for a new round
-            currentQuestionType = (int)(Math.random()*3);
+            currentQuestionType = (int) (Math.random() * 4);
             currentRound = round;
-            currentListOfActivities = activityService.get3Activities();
+            currentListOfActivities = activityService.get4Activities();
         }
         return ResponseEntity.ok(currentQuestionType);
     }
@@ -192,9 +192,10 @@ public class ActivityController extends BaseController {
 
             Path pathToFile;
             String fileName;
+            File f = new File(imgPath.toURI());
             do {
                 fileName = new Random().nextInt() + "." + extension;
-                pathToFile = Path.of(imgPath, "activity", "newActivities", fileName);
+                pathToFile = Path.of(f.getAbsolutePath(), "activity", "newActivities", fileName);
             }
             while (new File(pathToFile.toString()).isFile());
 
@@ -209,10 +210,15 @@ public class ActivityController extends BaseController {
     }
 
     public void deleteImageFromServer(Activity activity) {
-        Path pathToFile = Path.of(imgPath, activity.getPicturePath());
-        File toBeDeleted = new File(pathToFile.toString());
-        System.out.println("trying to delete: " + pathToFile);
-        toBeDeleted.delete();
+        try {
+            File f = new File(imgPath.toURI());
+            Path pathToFile = Path.of(f.getAbsolutePath(), "activity", "newActivities", activity.getPicturePath());
+            File toBeDeleted = new File(pathToFile.toString());
+            System.out.println("trying to delete: " + pathToFile);
+            toBeDeleted.delete();
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     /**
@@ -225,7 +231,7 @@ public class ActivityController extends BaseController {
      */
     public boolean overWriteImage(PostActivity postActivity) {
         try {
-            if(postActivity.getPictureBuffer().length == 0)
+            if (postActivity.getPictureBuffer().length == 0)
                 return true;
 
             Activity updatedActivity = postActivity.getActivity();

@@ -10,16 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
-
-
     @FXML
     Label ActivityDescription1;
     @FXML
@@ -34,12 +30,6 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
     @FXML
     ImageView questionImage3;
 
-    @FXML
-    VBox chatbox;
-    @FXML
-    StackPane chatAndEmoteHolder;
-
-
     private List<Activity> activities;
 
     @Inject
@@ -52,41 +42,19 @@ public class ComparisonQuestionCtrl extends BaseQuestionCtrl {
         return activities;
     }
 
-
-    /**
-     * hides all buttons except for the one that was clicked
-     *
-     * @param event button that was clicked, so either A, B or C
-     */
-    /*public void answerClick(Event event) {
-        utils.playButtonSound();
-        long timeToAnswer = gameUtils.stopTimer();
-        setHasPlayerAnswered(true);
-        List<Button> listOfButtons = Arrays.asList(firstButton, secondButton, thirdButton);
-        Button activated = (Button) event.getSource();
-        long i = 0;
-        long buttonNb = 0;
-        for (Button b : listOfButtons) {
-            i++;
-            if (!b.getId().equals(activated.getId())) {
-                b.setVisible(false);
-            } else {
-                buttonNb = i;
-            }
-        }
-        grantPoints(new Answer(buttonNb, timeToAnswer));
-    }*/
-
-
     /**
      * gets 3 activities from the server, calculates the correct answer and displays the activities
      */
+    @Override
     public void generateActivity() {
-        activities = server.get3Activities(gameUtils.getCurrentQuestion(), gameUtils.getGameID()).getListOfActivities();
+        activities = server.get4Activities(gameUtils.getCurrentQuestion(), gameUtils.getGameID())
+                .getListOfActivities();
+        Activity activity = activities.stream().max(Activity.Comparators.ENERGY).get();
+        activities.remove(activity);
         long answer = activities.stream().map(Activity::getEnergyConsumption)
                 .sorted().collect(Collectors.toList()).get(2);
         answerButtonId = activities.stream().map(Activity::getEnergyConsumption)
-                .collect(Collectors.toList()).indexOf(answer) + 1;
+                .collect(Collectors.toList()).indexOf(answer)+1;
         displayActivities();
         setHasPlayerAnswered(false);
     }

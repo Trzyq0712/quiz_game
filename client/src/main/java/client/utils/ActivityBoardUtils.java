@@ -22,11 +22,13 @@ public class ActivityBoardUtils {
     private SpinnerValueFactory.IntegerSpinnerValueFactory spinnerValues;
     private ServerUtils serverUtils;
     private MainCtrl mainCtrl;
+    private ApplicationUtils utils;
 
-    public void setUp(MainCtrl mainCtrl, GridPane activityGrid, ServerUtils serverUtils){
+    public void setUp(MainCtrl mainCtrl, GridPane activityGrid, ServerUtils serverUtils, ApplicationUtils utils) {
         this.mainCtrl = mainCtrl;
         this.activityGrid = activityGrid;
         this.serverUtils = serverUtils;
+        this.utils = utils;
         activityList = serverUtils.getActivities();
         start = 0;
         currentPage = 1;
@@ -112,6 +114,7 @@ public class ActivityBoardUtils {
 
             @Override
             public void handle(MouseEvent event) {
+                utils.playButtonSound();
                 int index = Integer.parseInt(((ImageView) event.getSource()).getId());
                 mainCtrl.editActivity(false, activityList.get(index));
                 event.consume();
@@ -165,6 +168,7 @@ public class ActivityBoardUtils {
 
             @Override
             public void handle(MouseEvent event) {
+                utils.playButtonSound();
                 int index = Integer.parseInt(((ImageView) event.getSource()).getId());
                 if(serverUtils.deletePostActivity(activityList.get(index).getId())){
                     activityList.remove(index);

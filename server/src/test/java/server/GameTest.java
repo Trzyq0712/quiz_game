@@ -1,11 +1,11 @@
 package server;
 
+import commons.Activity;
 import commons.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,12 +15,16 @@ class GameTest {
     Game g;
     Player p1;
     Player p2;
+    HashMap<Integer, Integer> questionTypes;
+    HashMap<Integer, List<Activity>> activities;
 
     @BeforeEach
     public void setup() {
         g = new Game();
         p1 = new Player("Vian",50);
         p2 = new Player("Kuba", 70);
+        questionTypes = new HashMap<>();
+        activities = new HashMap<>();
     }
 
     @Test
@@ -39,42 +43,81 @@ class GameTest {
     }
 
     @Test
-    void removeAPlayerWithId() {
-        g.addAPlayer(p2);
+    void updateScore(){
         g.addAPlayer(p1);
-        g.removeAPlayerWithName(p1.getPlayerName());
-        List<Player> PlayerList = new ArrayList<>();
-        PlayerList.add(p2);
-        assertEquals(g.getPlayers(), PlayerList);
+        p1.setScore(200);
+        g.updateScore(p1);
+        var expected = p1.getScore();
+        Long playerID = p1.getId();
+        var actual = g.getHashMapOfPlayers().get(playerID).getScore();
+        assertEquals(expected, actual);
     }
 
+    @Test
+    void removeAPlayerWithName(){
+        g.addAPlayer(p1);
+        var before = g.getHashMapOfPlayers().keySet().size();
+        g.removeAPlayerWithName(p1.getPlayerName());
+        var expected = before - 1 >= 0 ? before - 1 : 0;
+        var actual = g.getHashMapOfPlayers().keySet().size();
+        assertEquals(expected, actual);
+    }
 
     @Test
-    void removeAll() {
+    void removeAPlayerWithName2(){
+        g.addAPlayer(p1);
+        g.addAPlayer(p2);
+        var before = g.getHashMapOfPlayers().keySet().size();
+        g.removeAPlayerWithName(p2.getPlayerName());
+        var expected = before - 1 >= 0 ? before - 1 : 0;
+        var actual = g.getHashMapOfPlayers().keySet().size();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void removeAll(){
         g.addAPlayer(p1);
         g.addAPlayer(p2);
         g.removeAll();
-        List<Player> PlayerList = new ArrayList<>();
-        assertEquals(g.getPlayers(), PlayerList);
+        var expected = 0;
+        var actual = g.getHashMapOfPlayers().keySet().size();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void getSize() {
+    void getSize(){
         g.addAPlayer(p1);
-        assertTrue(g.getSize()==1);
         g.addAPlayer(p2);
-        assertTrue(g.getSize()==2);
+        var expected = 2;
+        var actual = g.getSize();
+        assertEquals(expected, actual);
     }
 
     @Test
-    void getPlayers() {
+    void getPlayers(){
         g.addAPlayer(p1);
         g.addAPlayer(p2);
-        List<Player> PlayerList = new ArrayList<>();
-        PlayerList.add(p1);
-        PlayerList.add(p2);
-        assertEquals(g.getPlayers(),PlayerList);
+        var expected = List.of(p1, p2);
+        var actual = g.getPlayers();
+        assertEquals(expected, actual);
     }
+
+    @Test
+    void setPlayers(){
+        var list = List.of(p1 ,p2);
+        g.setPlayers(list);
+        var expected = List.of(p1, p2);
+        var actual = g.getPlayers();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void getGameId(){
+        var expected = 8L;
+        var actual = g.getGameId();
+        assertEquals(expected, actual);
+    }
+
 
     @Test
     void getByName() {
@@ -84,19 +127,6 @@ class GameTest {
         assertEquals(p1, ptest);
     }
 
-    @Test
-    void setPlayers() {
-        List<Player> PlayerList = new ArrayList<>();
-        PlayerList.add(p1);
-        PlayerList.add(p2);
-        g.setPlayers(PlayerList);
-        assertEquals(g.getPlayers(),PlayerList);
-    }
-
-//    @Test
-//    void getGameId() {
-//        assertTrue(g.getGameId()==1);
-//    }
 
     @Test
     void testEquals() {
@@ -106,6 +136,15 @@ class GameTest {
         g1.addAPlayer(p2);
         g1.addAPlayer(p1);
         assertTrue(g.equals(g1));
+    }
+
+    @Test
+    void testNotEquals() {
+        g.addAPlayer(p2);
+        g.addAPlayer(p1);
+        Game g1 = new Game();
+        g1.addAPlayer(p2);
+        assertFalse(g.equals(g1));
     }
 
     @Test
@@ -122,14 +161,37 @@ class GameTest {
         assertNotEquals(g.hashCode(), g2.hashCode());
     }
 
-    /*@Test test is not relevant?
-    void testToString() {
-        g.addAPlayer(p2);
+    @Test
+    void getQuestionTypes() {
+        assertEquals(questionTypes, g.getQuestionTypes());
+    }
+
+    @Test
+    void getActivities() {
+        assertEquals(activities, g.getActivities());
+    }
+
+    @Test
+    void getHashMapOfPlayers() {
+        HashMap<Long, Player> playerList = new HashMap<>();
+        playerList.put(p1.getId(), p1);
         g.addAPlayer(p1);
-        List<PlayerScore> playerScoreList = new ArrayList<>();
-        playerScoreList.add(p2);
-        playerScoreList.add(p1);
-        String outcome = "Game 1{players=" + playerScoreList + '}';
-        assertEquals(outcome,g.toString());
-    }*/
+        assertEquals(playerList, g.getHashMapOfPlayers());
+        playerList.put(p2.getId(), p2);
+        g.addAPlayer(p2);
+        assertEquals(playerList, g.getHashMapOfPlayers());
+    }
+
+
+    @Test
+    void testToString() {
+        HashMap<Long, Player> playerList = new HashMap<>();
+        playerList.put(p1.getId(), p1);
+        var id = g.getGameId();
+        g.addAPlayer(p1);
+        String result = "Game " + id + "{" +
+                "players=" + playerList
+                + '}';
+        assertEquals(result, g.toString());
+    }
 }

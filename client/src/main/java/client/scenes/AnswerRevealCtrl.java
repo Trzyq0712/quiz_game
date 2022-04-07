@@ -62,10 +62,14 @@ public class AnswerRevealCtrl extends BaseCtrl {
     @FXML
     StackPane chatAndEmoteHolder;
 
+    protected final SinglePlayerLeaderboardCtrl splCtrl;
+
     @Inject
 
-    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils) {
+    public AnswerRevealCtrl(ServerUtils server, MainCtrl mainCtrl, ApplicationUtils utils, GameUtils gameUtils,
+                            SinglePlayerLeaderboardCtrl splCtrl) {
         super(mainCtrl, utils, server, gameUtils);
+        this.splCtrl = splCtrl;
     }
 
     /**
@@ -73,21 +77,27 @@ public class AnswerRevealCtrl extends BaseCtrl {
      */
     public void activateProgressBar() {
         utils.runProgressBar(pgBarReveal, timeAnswerReveal, () -> {
+            restorePointsLabel();
             if (gameUtils.getCurrentQuestion() < totalQuestions) {
                 mainCtrl.restoreQuestions();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
-                    //gameUtils.startTimer();
                     mainCtrl.showQuestion();
                 } else mainCtrl.showIntermediateLeaderboard();
             } else {
                 mainCtrl.restore();
                 if (gameUtils.getGameType().equals(GameUtils.GameType.SinglePlayer)) {
-                    server.addPlayerToSPLeaderboard(gameUtils.getPlayer());
+                    gameUtils.setPlayer(server.addPlayerToSPLeaderboard(gameUtils.getPlayer()));
+                    splCtrl.refresh();
                     mainCtrl.showSPLeaderboard();
                 } else
                     mainCtrl.showMPFinalLeaderboard();
             }
-        });
+        }, null);
+    }
+
+    private void restorePointsLabel() {
+        pointsGrantedMC.setText("You got 0 points!");
+        pointsGrantedEstimate.setText("You got 0 points!");
     }
 
     /**
@@ -102,9 +112,11 @@ public class AnswerRevealCtrl extends BaseCtrl {
 
 
     public void emote(Event e) {
-        String path = ((ImageView) e.getSource()).getImage().getUrl();
+        utils.playButtonSound();
+        String url = ((ImageView) e.getSource()).getImage().getUrl();
+        String path = url.substring(url.lastIndexOf('/'));
         Emote emote = new Emote(path, gameUtils.getPlayer().getPlayerName());
-        server.send("/app/emote/1", emote);
+        server.send("/app/emote/" + gameUtils.getGameID(), emote);
     }
 
     /**
@@ -130,9 +142,9 @@ public class AnswerRevealCtrl extends BaseCtrl {
                 checkmark3.setImage(checkmark);
                 break;
         }
-        label1.setText(activities.get(0).getEnergyConsumption().toString());
-        label2.setText(activities.get(1).getEnergyConsumption().toString());
-        label3.setText(activities.get(2).getEnergyConsumption().toString());
+        label1.setText(activities.get(0).getEnergyConsumption().toString() + "WH");
+        label2.setText(activities.get(1).getEnergyConsumption().toString() + "WH");
+        label3.setText(activities.get(2).getEnergyConsumption().toString() + "WH");
     }
 
     /**
@@ -162,7 +174,7 @@ public class AnswerRevealCtrl extends BaseCtrl {
      */
     public void setAnswer(Activity activity) {
         setEstimateQuestionFormat(true);
-        estimateAnswer.setText(activity.getEnergyConsumption().toString());
+        estimateAnswer.setText(activity.getEnergyConsumption().toString() + "WH");
     }
 
     /**

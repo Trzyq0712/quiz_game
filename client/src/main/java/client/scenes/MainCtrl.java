@@ -191,10 +191,11 @@ public class MainCtrl {
      */
     private void saveNameToFile() {
         try {
-            File f = new File(client.utils.Config.nameFile.toURI());
+            File f = new File(client.utils.Config.nameFile);
             PrintWriter pw = new PrintWriter(f.getAbsolutePath());
             pw.print(client.utils.Config.playerName);
             pw.flush();
+            pw.close();
         } catch (Exception ex) {
             System.out.println(ex);
         }

@@ -60,4 +60,11 @@ class AnswerTest {
         int expected = 150;
         assertEquals(expected,a.getPoints());
     }
+
+    @Test
+    void testHash(){
+        Answer a = new Answer(1,(int) (0.5 * timePerQuestion));
+        Answer a1 = new Answer(1,(int) (0.5 * timePerQuestion));
+        assertEquals(a.hashCode(), a1.hashCode());
+    }
 }

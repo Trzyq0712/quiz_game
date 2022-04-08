@@ -32,7 +32,7 @@ public class Player implements Comparable<Player> {
     private int rank;
 
     @SuppressWarnings("unused")
-    private Player() {
+    Player() {
         // for object mapper
         //generateId();
         this.id = new Long(playerID);
